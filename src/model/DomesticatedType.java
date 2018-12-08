@@ -1,5 +1,7 @@
 package model;
 
+import java.util.EnumSet;
+
 public enum DomesticatedType {
 
     GUINEA_FOWL(100, ProductType.EGG),
@@ -60,11 +62,19 @@ public enum DomesticatedType {
         }
     }
 
+    public static DomesticatedType getTypeByString(String typeString) {
+        for (DomesticatedType type : EnumSet.allOf(DomesticatedType.class)) {
+            if (type.toString().equals(typeString))
+                return type;
+        }
+        return null;
+    }
+
     public int getBuyPrice() {
         return basePrice;
     }
 
-    public int getSellPrice(){
+    public int getSellPrice() {
         return basePrice / 2;
     }
 

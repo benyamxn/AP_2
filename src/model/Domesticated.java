@@ -4,8 +4,28 @@ import java.util.ArrayList;
 
 public class Domesticated extends Animal {
 
-    Domesticated(Point location) {
+    private DomesticatedType type;
+    private int health, maxHealth;
+    private int eatenAmountOfFood;
+
+    public Domesticated(Point location, DomesticatedType type, int maxHealth, int eatenAmountOfFood) {
         super(location);
+        this.type = type;
+        this.health = maxHealth;
+        this.maxHealth = maxHealth;
+        this.eatenAmountOfFood = eatenAmountOfFood;
+    }
+
+    public Domesticated(Point location) {
+        super(location);
+    }
+
+    public Product produce(){
+        return new Product(type.getProductType());
+    }
+
+    public void eat(){
+        health += Math.ceil((double) maxHealth / 3);
     }
 
     @Override
@@ -37,11 +57,11 @@ public class Domesticated extends Animal {
 
     @Override
     public int getBuyPrice() {
-        return 0;
+        return type.getBuyPrice();
     }
 
     @Override
     public int getSellPrice() {
-        return 0;
+        return type.getSellPrice();
     }
 }
