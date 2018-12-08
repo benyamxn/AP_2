@@ -35,6 +35,12 @@ public class Point {
         this.height += point.height;
     }
 
+    public int getOptimalDistance(Point point) {
+        int widthDifference = Math.abs(width - point.getWidth());
+        int heighDifference = Math.abs(height - point.getHeight());
+        return Math.max(widthDifference, heighDifference);
+    }
+
     @Override
     public boolean equals(Object obj) {
         Point point = (Point) obj;
