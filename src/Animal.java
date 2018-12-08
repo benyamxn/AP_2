@@ -13,14 +13,18 @@ public abstract class Animal {
         return location;
     }
 
-    public abstract void move();
+    public abstract void move(Point cornerPoint);
     public abstract int getBuyPrice();
     public abstract int getSellPrice();
 
-    public void moveToPoint(Point point){
-        Direction direction = selectDirection(point);
+    public void moveWithDirection(Direction direction){
         Point moveVector = direction.getMoveVector();
         location.add(moveVector);
+    }
+
+    public void moveToPoint(Point point){
+        Direction direction = selectDirection(point);
+        moveWithDirection(direction);
     }
 
     private Direction selectDirection(Point point){
