@@ -3,21 +3,48 @@ package model;
 import java.util.ArrayList;
 
 public abstract class Animal {
+    public boolean hasATarget() {
+        return hasATarget;
+    }
+
     private Point location;
+    private Point target;
+
+    public void setHasATarget(boolean hasATarget) {
+        this.hasATarget = hasATarget;
+    }
+
+    private boolean hasATarget;
+
+
+    public Point getTarget() {
+        return target;
+    }
+
+    public void setTarget(Point target) {
+        this.target = target;
+        hasATarget = true;
+    }
 
     Animal(Point location){
         this.location = location;
+        hasATarget = false;
     }
 
-    public void setLocation(Point location) {
-        this.location = location;
-    }
+    public abstract int getBuyPrice();
+    public abstract int getSellPrice();
 
     public Point getLocation() {
         return location;
     }
 
     public void move(Point cornerPoint){
+
+        if (hasATarget) {
+            moveToPoint(target);
+            return;
+        }
+
         ArrayList<Direction> directions = Direction.getAllDirections();
         if (getLocation().getWidth() == 0) {
             directions.remove(Direction.LEFT);
@@ -42,8 +69,19 @@ public abstract class Animal {
         Direction dir = Direction.randomDir((Direction []) directions.toArray());
         moveWithDirection(dir);
     }
-    public abstract int getBuyPrice();
-    public abstract int getSellPrice();
+
+    public void setTarget(ArrayList<Point> possibleTargets){
+        target = possibleTargets.get(0);
+        int distance = Integer.MAX_VALUE;
+        for (Point point : possibleTargets) {
+            int newDistance = getLocation().getOptimalDistance(point);
+            if (distance > newDistance){
+                distance = newDistance;
+                target = point;
+            }
+        }
+        hasATarget = true;
+    }
 
     public void moveWithDirection(Direction direction){
         Point moveVector = direction.getMoveVector();
@@ -85,4 +123,5 @@ public abstract class Animal {
         }
         return direction;
     }
+
 }
