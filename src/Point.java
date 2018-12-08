@@ -27,4 +27,9 @@ public class Point {
         this.width = width;
         this.height = height;
     }
+
+    public void add(Point point) {
+        this.width += point.width;
+        this.height += point.height;
+    }
 }
