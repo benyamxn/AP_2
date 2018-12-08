@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public class Product {
     private static final int DEFAULT_EXPIRATION_TIME = 10;

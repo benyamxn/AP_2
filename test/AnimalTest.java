@@ -1,6 +1,6 @@
-import Model.Animal;
-import Model.Domesticated;
-import Model.Point;
+import model.Animal;
+import model.Domesticated;
+import model.Point;
 import org.junit.Assert;
 import org.junit.Test;
 

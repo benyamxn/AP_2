@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public enum WorkshopType {
     EGG_POWERDER_PLANT(ProductType.EGG, ProductType.DRIED_EGG),

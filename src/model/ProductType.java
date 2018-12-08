@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public enum ProductType {
     EGG(1, 20, 10),
