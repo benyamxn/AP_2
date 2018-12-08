@@ -21,6 +21,4 @@ public class AnimalTest {
         animal.moveToPoint(point);
         Assert.assertEquals(new Point(13, 20), animal.getLocation());
     }
-
-
 }
