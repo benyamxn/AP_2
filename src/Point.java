@@ -27,4 +27,15 @@ public class Point {
         this.width = width;
         this.height = height;
     }
+
+    public void add(Point point) {
+        this.width += point.width;
+        this.height += point.height;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Point point = (Point) obj;
+        return point.getWidth() == width && point.getHeight() == height;
+    }
 }
