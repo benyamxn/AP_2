@@ -1,48 +1,56 @@
-import java.util.ArrayList;
-
 public abstract class Animal {
     private Point location;
 
+    Animal(Point location){
+        this.location = location;
+    }
+
+    public void setLocation(Point location) {
+        this.location = location;
+    }
+
+    public Point getLocation() {
+        return location;
+    }
+
     public abstract void move();
+    public abstract int getBuyPrice();
+    public abstract int getSellPrice();
 
     public void moveToPoint(Point point){
         Direction direction = selectDirection(point);
         Point moveVector = direction.getMoveVector();
-//        location.add(moveVector);
+        location.add(moveVector);
     }
 
     private Direction selectDirection(Point point){
-        ArrayList<Direction> possibleDirectins = new ArrayList<>();
-        possibleDirectins.add(Direction.STATIONARY);
-
+        Direction direction = Direction.STATIONARY;
         if (point.getWidth() > location.getWidth()){
-            possibleDirectins.add(Direction.RIGHT);
             if (point.getHeight() > location.getHeight()) {
-                possibleDirectins.add(Direction.UP);
-                possibleDirectins.add(Direction.UP_RIGHT);
+                direction = Direction.UP_RIGHT;
             }
-            else {
-                possibleDirectins.add(Direction.DOWN);
-                possibleDirectins.add(Direction.DOWN_RIGHT);
+            else if (point.getHeight() < location.getHeight()){
+                direction = Direction.DOWN_RIGHT;
             }
+            else
+                direction = Direction.RIGHT;
         }
         else if (point.getWidth() < location.getWidth()) {
-            possibleDirectins.add(Direction.LEFT);
             if (point.getHeight() > location.getHeight()) {
-                possibleDirectins.add(Direction.UP);
-                possibleDirectins.add(Direction.UP_LEFT);
+                direction = Direction.UP_LEFT;
             }
-            else {
-                possibleDirectins.add(Direction.DOWN);
-                possibleDirectins.add(Direction.DOWN_LEFT);
+            else if (point.getWidth() > location.getWidth()) {
+                direction = Direction.DOWN_LEFT;
             }
+            else
+                direction = Direction.LEFT;
         }
         else {
             if (point.getHeight() > location.getHeight())
-                possibleDirectins.add(Direction.UP);
+                direction = Direction.UP;
             else if (point.getHeight() < location.getHeight())
-                possibleDirectins.add(Direction.DOWN);
+                direction = Direction.DOWN;
         }
-        return Direction.randomDir((Direction[]) possibleDirectins.toArray());
+        return direction;
     }
 }
