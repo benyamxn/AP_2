@@ -6,7 +6,7 @@ public enum DomesticatedType {
 
     GOOSE(100, ProductType.EGG),
     YAK(1000, ProductType.WOOL),
-    BURNEKA(10000, ProductType.MILK),
+    BURENKA(10000, ProductType.MILK),
 
     PENGUIN(100, ProductType.EGG),
     KING_PENGUIN(1000, ProductType.MILK),
@@ -20,6 +20,43 @@ public enum DomesticatedType {
     LAMA(1000, ProductType.WOOL),
     GOAT(10000, ProductType.HORN);
 
+    @Override
+    public String toString() {
+        switch (this) {
+            case GUINEA_FOWL:
+                return "Guinea Fool";
+            case OSTRICH:
+                return "Ostrich";
+            case BUFFALO:
+                return "Buffalo";
+            case GOOSE:
+                return "Goose";
+            case YAK:
+                return "Yak";
+            case BURENKA:
+                return "Burenka";
+            case PENGUIN:
+                return "Penguin";
+            case KING_PENGUIN:
+                return "King Penguin";
+            case Walrus:
+                return "Walrus";
+            case TURKEY:
+                return "Turkey";
+            case SHEEP:
+                return "Sheep";
+            case COW:
+                return "Cow";
+            case CHICKEN:
+                return "Chicken";
+            case LAMA:
+                return "Lama";
+            case GOAT:
+                return "Goat";
+            default:
+                return "";
+        }
+    }
 
     public int getBuyPrice() {
         return basePrice;
