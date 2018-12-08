@@ -1,3 +1,5 @@
+package Model;
+
 public abstract class Animal {
     private Point location;
 

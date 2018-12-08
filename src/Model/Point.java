@@ -1,3 +1,5 @@
+package Model;
+
 public class Point {
     private int width;
     private int height;

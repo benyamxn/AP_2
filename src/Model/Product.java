@@ -1,3 +1,5 @@
+package Model;
+
 public class Product {
     private static final int DEFAULT_EXPIRATION_TIME = 10;
     private ProductType type;

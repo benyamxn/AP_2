@@ -1,3 +1,5 @@
+package Model;
+
 public enum WorkshopType {
     EGG_POWERDER_PLANT(ProductType.EGG, ProductType.DRIED_EGG),
     COOKIE_BAKERY(ProductType.DRIED_EGG, ProductType.COOKIE),

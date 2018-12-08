@@ -1,3 +1,5 @@
+package Model;
+
 public enum DomesticatedType {
 
     GUINEA_FOWL(100, ProductType.EGG),

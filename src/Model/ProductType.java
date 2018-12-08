@@ -1,3 +1,5 @@
+package Model;
+
 public enum ProductType {
     EGG(1, 20, 10),
     WOOL(5, 200, 100),
