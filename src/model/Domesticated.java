@@ -4,14 +4,13 @@ package model;
 public class Domesticated extends Animal {
 
     private DomesticatedType type;
-    private int health, maxHealth;
     private int eatenAmountOfFood;
 
     public Domesticated(Point location, DomesticatedType type, int maxHealth, int eatenAmountOfFood) {
         super(location);
         this.type = type;
-        this.health = maxHealth;
-        this.maxHealth = maxHealth;
+        setMaxHealth(maxHealth);
+        setHealth(maxHealth);
         this.eatenAmountOfFood = eatenAmountOfFood;
     }
 
@@ -24,7 +23,7 @@ public class Domesticated extends Animal {
     }
 
     public void eat(){
-        health += Math.ceil((double) maxHealth / 3);
+        addToHealth((int) Math.ceil((double) getMaxHealth() / 3));
     }
 
     @Override
