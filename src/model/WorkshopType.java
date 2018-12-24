@@ -1,26 +1,29 @@
 package model;
 
 public enum WorkshopType {
-    EGG_POWERDER_PLANT(ProductType.EGG, ProductType.DRIED_EGG),
-    COOKIE_BAKERY(ProductType.DRIED_EGG, ProductType.COOKIE),
-    SPINNERY(ProductType.WOOL, ProductType.SEWING),
-    GRINDING_FACTORY(ProductType.HORN, ProductType.BRIGHT_HORN),
-    WEAVING_FACTORY(ProductType.SEWING, ProductType.FABRIC),
-    MANUFACTORING_PLANT(ProductType.BRIGHT_HORN, ProductType.INTERMEDIATE);
+    EGG_POWERDER_PLANT(ProductType.EGG, ProductType.DRIED_EGG, 200),
+    COOKIE_BAKERY(ProductType.DRIED_EGG, ProductType.COOKIE, 250),
+    SPINNERY(ProductType.WOOL, ProductType.SEWING, 250),
+    GRINDING_FACTORY(ProductType.HORN, ProductType.BRIGHT_HORN, 300),
+    WEAVING_FACTORY(ProductType.SEWING, ProductType.FABRIC, 250),
+    MANUFACTORING_PLANT(ProductType.BRIGHT_HORN, ProductType.INTERMEDIATE, 350);
 
 
     private ProductType[] input;
     private ProductType output;
+    private int price;
 
-    WorkshopType(ProductType input, ProductType output) {
+    WorkshopType(ProductType input, ProductType output, int price) {
         this.input = new ProductType[1];
         this.input[0] = input;
         this.output = output;
+        this.price = price;
     }
 
-    WorkshopType(ProductType output, ProductType... inputs) {
+    WorkshopType(ProductType output, int price, ProductType... inputs) {
         this.input = inputs;
         this.output = output;
+        this.price = price;
     }
 
     public ProductType[] getInput() {
@@ -29,5 +32,9 @@ public enum WorkshopType {
 
     public ProductType getOutput() {
         return output;
+    }
+
+    public int getPrice() {
+        return price;
     }
 }
