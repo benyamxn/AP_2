@@ -5,11 +5,11 @@ import java.util.Random;
 public class Farm {
 
     private static int TURN_TIME = 1;
-    private Map map;
-    private Truck truck;
-    private  Helicopter helicopter;
-    private  Well well;
-
+    private static int CAPACITY = 30;
+    private Map map   = new Map();
+    private Truck truck = new Truck();
+    private  Helicopter helicopter = new Helicopter();
+    private  Well well = new Well(CAPACITY);
     public void placeProduct(ArrayList<Product> products){
 
         for (Product product : products) {

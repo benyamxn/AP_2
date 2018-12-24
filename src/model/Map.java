@@ -11,6 +11,9 @@ public class Map {
     private int height;
     private Cell[][] cells;
     private Warehouse warehouse = new Warehouse();
+    public Map(){
+
+    }
     public Map(int width, int height) {
         this.width = width;
         this.height = height;
@@ -45,8 +48,8 @@ public class Map {
                 cells[i][j].updateAddProducts();
             }
         }
-        ArrayList<Point> catCollectablePoints = new ArrayList<Point>();
-        ArrayList<Point> wildAnimalPoints = new ArrayList<Point>();
+        ArrayList<Point> catCollectablePoints = new ArrayList<>();
+        ArrayList<Point> wildAnimalPoints = new ArrayList<>();
         for(int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 if(cells[i][j].hasACatCollectable()){
@@ -69,6 +72,14 @@ public class Map {
             }
         }
 
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     public int getWidth() {
