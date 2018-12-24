@@ -31,12 +31,12 @@ public enum ProductType {
     SPRUCE_LION(25, 2500, 7000),
     SPRUCE_BROWN_BEAR(25, 2500, 7000),
     SPRUCE_JAGUAR(25, 2500, 7000),
-    SPRUCE_WHITE_BEAR(25, 2500, 7000),
+    SPRUCE_POLAR_BEAR(25, 2500, 7000),
     CAGED_GRIZZLY(20, 80, 80),
     CAGED_LION(20, 150, 150),
     CAGED_BROWN_BEAR(20, 100, 100),
     CAGED_JAGUAR(20, 200, 200),
-    CAGED_WHITE_BEAR(20, 100, 100);
+    CAGED_POLAR_BEAR(20, 100, 100);
 
     private double depotSize;
     private int buyCost;

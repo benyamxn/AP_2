@@ -6,15 +6,14 @@ public class Domesticated extends Animal {
     private DomesticatedType type;
     private int eatenAmountOfFood;
     private int turnsLeftToProduce;
-    private int turnsToProduce;
 
-    public Domesticated(Point location, DomesticatedType type, int maxHealth) {
+    public Domesticated(Point location, DomesticatedType type) {
         super(location);
         this.type = type;
-        setMaxHealth(maxHealth);
-        setHealth(maxHealth);
-        turnsToProduce = type.getTurnToProduce();
-        turnsLeftToProduce = turnsToProduce;
+        setMaxHealth(type.getMaxHealth());
+        setHealth(type.getMaxHealth());
+        turnsLeftToProduce = type.getTurnToProduce();
+        eatenAmountOfFood = 0;
     }
 
     public Domesticated(Point location) {
@@ -23,7 +22,7 @@ public class Domesticated extends Animal {
 
     public Product produce(){
         if (turnsLeftToProduce == 0) {
-            turnsLeftToProduce = turnsToProduce;
+            turnsLeftToProduce = type.getTurnToProduce();
             return new Product(type.getProductType());
         }
         else
@@ -32,6 +31,9 @@ public class Domesticated extends Animal {
 
     public void eat(){
         addToHealth((int) Math.ceil((double) getMaxHealth() / 3));
+        if (getHealth() >= getMaxHealth())
+            setHealth(getMaxHealth());
+        eatenAmountOfFood++;
     }
 
     public void decrementTurnsLeftToProduce(){

@@ -6,6 +6,7 @@ public class Well {
     Well(int capacity){
         this.capacity = capacity;
         remainingWater = capacity;
+        refillPrice = capacity * 40 / 100;
     }
 
     public void upgrade(){
