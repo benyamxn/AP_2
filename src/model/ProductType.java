@@ -19,7 +19,7 @@ public enum ProductType {
     CURD(6, 4000, 2000),
     CHEESE(5, 5000, 2500),
     COLORED_PLUME(2, 300, 150),
-    ARDORNMENT(4, 400, 300),
+    ADORNMENT(4, 400, 300),
     BRIGHT_HORN(5, 3000, 1500),
     INTERMEDIATE(4, 4000, 2000),
     SOUVENIR(3, 5000, 2500),
@@ -48,6 +48,8 @@ public enum ProductType {
         this.saleCost = saleCost;
     }
 
+
+
     public double getDepotSize() {
         return depotSize;
     }
@@ -59,4 +61,93 @@ public enum ProductType {
     public int getSaleCost() {
         return saleCost;
     }
+
+    @Override
+    public String toString() {
+        switch (this){
+            case EGG:
+                return "Egg";
+            case WOOL:
+                return "Wool";
+            case PLUME:
+                return "Plume";
+            case MILK:
+                return "Milk";
+            case HORN:
+                return "Horn";
+            case DRIED_EGG:
+                return "Dried Egg";
+            case TUSK:
+                return "Tusk";
+            case FEATHER:
+                return "Feather";
+            case CAKE:
+                return "Cake";
+            case COOKIE:
+                return "Cookie";
+            case FLOURY_CAKE:
+                return "Floury Cake";
+            case SEWING:
+                return "Sewing";
+            case FABRIC:
+                return "Fabric";
+            case CANIVAL_DRESS:
+                return "Canival Dress";
+            case SOUR_CREAM:
+                return "Sour Cream";
+            case CURD:
+                return "Curd";
+            case CHEESE:
+                return "Cheese";
+            case COLORED_PLUME:
+                return "Colored Plume";
+            case ADORNMENT:
+                return "Adornment";
+            case BRIGHT_HORN:
+                return "Bright Horn";
+            case INTERMEDIATE:
+                return "intermediate";
+            case SOUVENIR:
+                return "Souvenir";
+            case FLOUR:
+                return "Flour";
+            case CHEESE_FERMENT:
+                return "Cheese Ferment";
+            case VARNISH:
+                return "Varnish";
+            case MEGA_PIE:
+                return "Mega Pie";
+            case SPRUCE_GRIZZLY:
+                return "Spruce Grizzly";
+            case SPRUCE_LION:
+                return "Spruce Lion";
+            case SPRUCE_BROWN_BEAR:
+                return "Spruce Brown Bear";
+            case SPRUCE_JAGUAR:
+                return "Spruce Jaguar";
+            case SPRUCE_POLAR_BEAR:
+                return "Spruce Polar Bear";
+            case CAGED_GRIZZLY:
+                return "Caged Grizzly";
+            case CAGED_LION:
+                return "Caged Lion";
+            case CAGED_BROWN_BEAR:
+                return "Caged Brown Bear";
+            case CAGED_JAGUAR:
+                return "Caged Jaguar";
+            case CAGED_POLAR_BEAR:
+                return "Caged Polar Bear";
+                default:
+                    return "";
+        }
+    }
+
+    public static ProductType getTypeByString(String typeString) {
+        for (ProductType type : ProductType.values()) {
+            if (type.toString().toLowerCase().equals(typeString.toLowerCase()))
+                return type;
+        }
+        return null;
+    }
+
 }

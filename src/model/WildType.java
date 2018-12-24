@@ -34,4 +34,30 @@ public enum WildType {
                     return null;
         }
     }
+
+    @Override
+    public String toString() {
+        switch (this){
+            case BROWN_BEAR:
+                return "Bear";
+            case LION:
+                return "Lion";
+            case GRIZZLY:
+                return "Grizzly";
+            case JAGUAR:
+                return "Jaguar";
+            case POLAR_BEAR:
+                return "Polar Bear";
+                default:
+                    return "";
+        }
+    }
+
+    public static WildType getTypeByString(String typeString) {
+        for (WildType type : WildType.values()) {
+            if (type.toString().toLowerCase().equals(typeString.toLowerCase()))
+                return type;
+        }
+        return null;
+    }
 }

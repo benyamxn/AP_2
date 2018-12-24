@@ -10,4 +10,9 @@ public class DomesticatedTypeTest {
         DomesticatedType animalType = DomesticatedType.getTypeByString(type);
         Assert.assertEquals(DomesticatedType.KING_PENGUIN, animalType);
     }
+
+    @Test
+    public void testToString(){
+        Assert.assertEquals("Chicken", DomesticatedType.CHICKEN.toString());
+    }
 }
