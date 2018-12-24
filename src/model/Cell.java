@@ -76,19 +76,26 @@ public class Cell {
     }
 
     public void updateDomesticatedAnimals() {
-        Iterator<Animal> iterator = animals.iterator();
-        while (iterator.hasNext()) {
-            Animal animal = iterator.next();
-            if (animal instanceof Domesticated) {
-                ((Domesticated) animal).decrementTurnsLeftToProduce();
-                if (grassLevel > 0) {
-                    eatGrass();
-                    ((Domesticated) animal).eat();
-                } else if (((Domesticated) animal).getHealth() < 0) {
-                    iterator.remove();
+        if (!hasAWildAnimal()) {
+            Iterator<Animal> iterator = animals.iterator();
+            while (iterator.hasNext()) {
+                Animal animal = iterator.next();
+                if (animal instanceof Domesticated) {
+                    ((Domesticated) animal).decrementTurnsLeftToProduce();
+                    if (grassLevel > 0) {
+                        eatGrass();
+                        ((Domesticated) animal).eat();
+                    } else if (((Domesticated) animal).getHealth() < 0) {
+                        iterator.remove();
+                    }
                 }
             }
-        }
+        } else {
+            Iterator<Animal> iterator = animals.iterator();
+            while (iterator.hasNext()) {
+                iterator.remove();
+            }
+        } // TODO: decide about here
     }
 
     public void updateWildAnimals() {
