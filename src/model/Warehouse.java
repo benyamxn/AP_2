@@ -28,6 +28,11 @@ public class Warehouse {
         capacity -= productType.getDepotSize();
     }
 
+    public void addProduct(ArrayList<ProductType> productTypes) {
+        contents.addAll(productTypes);
+    }
+
+
     public void addProduct(ProductType productType) {
         contents.add(productType);
         capacity -= productType.getDepotSize();
