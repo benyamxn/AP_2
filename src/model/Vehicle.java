@@ -14,7 +14,7 @@ public abstract class Vehicle {
     protected int level = 1;
     protected int estimatedTimeOfArrival;
     protected int arrivalTime;
-
+    protected boolean onTravel = false;
 
     public abstract int getUpgradeCost();
 
@@ -38,7 +38,12 @@ public abstract class Vehicle {
 
 
     public void startTravel() {
-        setEstimatedTimeOfArrival(arrivalTime);
+
+        if(! onTravel) {
+            setEstimatedTimeOfArrival(arrivalTime);
+            onTravel = true;
+        }
+
     }
 
 
@@ -58,12 +63,13 @@ public abstract class Vehicle {
     }
 
     public boolean hasArrived() {
-
         if (estimatedTimeOfArrival <= 0) {
             return true;
         }
         return false;
     }
 
-
+    public boolean isOnTravel() {
+        return onTravel;
+    }
 }
