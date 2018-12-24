@@ -131,7 +131,7 @@ public class Cell {
 
     public boolean hasACatCollectable() {
         for (Product product : products) {
-            if(!product.getType().name().startsWith("CASED"))
+            if(!product.getType().name().startsWith("CAGED"))
                 return true;
         }
         return false;
