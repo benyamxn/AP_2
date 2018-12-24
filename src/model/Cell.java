@@ -137,4 +137,24 @@ public class Cell {
         return false;
     }
 
+    public Cat[] getCats() {
+        LinkedList<Cat> temp = new LinkedList<>();
+        Cat[] cats = new Cat[0];
+        for (Animal animal : animals) {
+            if (animal instanceof Cat)
+                temp.add(((Cat) animal));
+        }
+        return temp.toArray(cats);
+    }
+
+    public Dog[] getDogs() {
+        LinkedList<Dog> temp = new LinkedList<>();
+        Dog[] dogs = new Dog[0];
+        for (Animal animal : animals) {
+            if (animal instanceof Dog)
+                temp.add(((Dog) animal));
+        }
+        return temp.toArray(dogs);
+    }
+
 }
