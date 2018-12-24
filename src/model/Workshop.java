@@ -1,5 +1,11 @@
 package model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.*;
+import java.util.Arrays;
+
 public class Workshop {
     private static final int INITIAL_PRODUCTION_TYPE = 8;
     private ProductType[] input;
@@ -12,6 +18,14 @@ public class Workshop {
     private int price;
     private WorkshopType type;
     private String name;
+
+    public static Workshop readFromJson(String path) throws IOException {
+        Reader reader = new FileReader(path);
+        Gson gson = new GsonBuilder().create();
+        Workshop workshop = gson.fromJson(reader, Workshop.class);
+        reader.close();
+        return workshop;
+    }
 
     public Workshop(WorkshopType type) {
         this.type = type;
@@ -73,7 +87,30 @@ public class Workshop {
         price = getUpgradePrice();
     }
 
+    public void saveToJson(String path) throws IOException {
+        Writer writer = new FileWriter(path);
+        Gson gson = new GsonBuilder().create();
+        gson.toJson(this, writer);
+        writer.close();
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Workshop)) return false;
 
+        Workshop workshop = (Workshop) o;
 
+        if (numberOfInputs != workshop.numberOfInputs) return false;
+        if (numberOfOutputs != workshop.numberOfOutputs) return false;
+        if (productionTime != workshop.productionTime) return false;
+        if (timeLeftToProduction != workshop.timeLeftToProduction) return false;
+        if (level != workshop.level) return false;
+        if (price != workshop.price) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (!Arrays.equals(input, workshop.input)) return false;
+        if (output != workshop.output) return false;
+        if (type != workshop.type) return false;
+        return name.equals(workshop.name);
+    }
 }
