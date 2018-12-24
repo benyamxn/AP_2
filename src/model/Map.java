@@ -46,14 +46,28 @@ public class Map {
             }
         }
         ArrayList<Point> catCollectablePoints = new ArrayList<Point>();
+        ArrayList<Point> wildAnimalPoints = new ArrayList<Point>();
+        for(int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if(cells[i][j].hasACatCollectable()){
+                    catCollectablePoints.add(cells[i][j].getCoordinate());
+                }
+                if(cells[i][j].hasAWildAnimal()){
+                    wildAnimalPoints.add(cells[i][j].getCoordinate());
+                }
+            }
+        }
 
-        //TODO:set points for cats and dogs
-//        for(int i = 0; i < width; i++) {
-//            for (int j = 0; j < height; j++) {
-//
-//            }
-//        }
-
+        for(int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                for (Cat cat : cells[i][j].getCats()) {
+                    cat.setTarget(catCollectablePoints);
+                }
+                for (Dog dog : cells[i][j].getDogs()) {
+                    dog.setTarget(wildAnimalPoints);
+                }
+            }
+        }
 
     }
 
