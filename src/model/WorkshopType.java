@@ -22,4 +22,12 @@ public enum WorkshopType {
         this.input = inputs;
         this.output = output;
     }
+
+    public ProductType[] getInput() {
+        return input;
+    }
+
+    public ProductType getOutput() {
+        return output;
+    }
 }
