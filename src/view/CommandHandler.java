@@ -45,6 +45,9 @@ public class CommandHandler {
             return  new Request(RequestType.START,parameter[1]);
         }
         else if(command.matches(UPGRADE)){
+
+            //TODO
+            //upgrade workshop_name
             RequestType temp = getUpgradeType(parameter[1]);
             if(temp == RequestType.UPGRADE_VEHICLE){
                 return new Request(temp,VehicleType.valueOf(parameter[1].toUpperCase()));
