@@ -157,4 +157,16 @@ public class Cell {
         return temp.toArray(dogs);
     }
 
+    public void addAnimal(Animal animal) {
+        animals.add(animal);
+    }
+    public void removeAnimal(Animal animal) {
+        animals.remove(animal);
+    }
+    public Animal[] getAnimals() {
+        Animal[] animals = new Animal[this.animals.size()];
+        return this.animals.toArray(animals);
+    }
+
+
 }
