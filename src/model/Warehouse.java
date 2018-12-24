@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Warehouse {
     private static final int INITIAL_CAPACITY = 100;
@@ -28,8 +29,8 @@ public class Warehouse {
         capacity -= productType.getDepotSize();
     }
 
-    public void addProduct(ArrayList<ProductType> productTypes) {
-        contents.addAll(productTypes);
+    public void addProduct(ProductType[] productTypes) {
+        contents.addAll(Arrays.asList(productTypes));
     }
 
 
