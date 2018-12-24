@@ -4,25 +4,25 @@ import java.util.EnumSet;
 
 public enum DomesticatedType {
 
-    GUINEA_FOWL(100, ProductType.EGG),
-    OSTRICH(1000, ProductType.FEATHER),
-    BUFFALO(10000, ProductType.HORN),
+    GUINEA_FOWL(100, ProductType.EGG, 6),
+    OSTRICH(1000, ProductType.FEATHER, 8),
+    BUFFALO(10000, ProductType.HORN, 10),
 
-    GOOSE(100, ProductType.EGG),
-    YAK(1000, ProductType.WOOL),
-    BURENKA(10000, ProductType.MILK),
+    GOOSE(100, ProductType.EGG, 6),
+    YAK(1000, ProductType.WOOL, 8),
+    BURENKA(10000, ProductType.MILK, 10),
 
-    PENGUIN(100, ProductType.EGG),
-    KING_PENGUIN(1000, ProductType.MILK),
-    Walrus(10000, ProductType.TUSK),
+    PENGUIN(100, ProductType.EGG, 6),
+    KING_PENGUIN(1000, ProductType.MILK, 8),
+    Walrus(10000, ProductType.TUSK, 10),
 
-    TURKEY(100, ProductType.EGG),
-    SHEEP(1000, ProductType.WOOL),
-    COW(10000, ProductType.MILK),
+    TURKEY(100, ProductType.EGG, 6),
+    SHEEP(1000, ProductType.WOOL, 8),
+    COW(10000, ProductType.MILK, 10),
 
-    CHICKEN(100, ProductType.EGG),
-    LAMA(1000, ProductType.WOOL),
-    GOAT(10000, ProductType.HORN);
+    CHICKEN(100, ProductType.EGG, 6),
+    LAMA(1000, ProductType.WOOL, 8),
+    GOAT(10000, ProductType.HORN, 10);
 
     @Override
     public String toString() {
@@ -84,10 +84,15 @@ public enum DomesticatedType {
 
     private int basePrice;
     private ProductType productType;
+    private int turnToProduce;
 
-    DomesticatedType(int basePrice, ProductType productType) {
+    DomesticatedType(int basePrice, ProductType productType,int turnToProduce) {
         this.productType = productType;
         this.basePrice = basePrice;
+        this.turnToProduce = turnToProduce;
     }
 
+    public int getTurnToProduce() {
+        return turnToProduce;
+    }
 }
