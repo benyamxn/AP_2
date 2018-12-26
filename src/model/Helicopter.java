@@ -1,10 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Helicopter extends Vehicle {
-
-
 
     private static final int UPGRADECOST = 100;
 
@@ -17,27 +16,20 @@ public class Helicopter extends Vehicle {
     @Override
     public  int getProductsPrice(){
         int price = 0;
-        for (ProductType content : contents) {
-
-           price += content.getBuyCost();
+        for (Map.Entry<ProductType, Integer> content : contents.entrySet()) {
+            price += content.getKey().getBuyCost() * content.getValue();
         }
         return price;
     }
 
 
     public ArrayList<Product> receiveProducts(){
-
         ArrayList<Product> receive = new ArrayList<>();
-        for (ProductType content : contents) {
-            Product temp  = new Product(content);
-            receive.add(temp);
+        for (Map.Entry<ProductType, Integer> content : contents.entrySet()) {
+            for (Integer i = 0; i < content.getValue(); i++) {
+                receive.add(new Product(content.getKey()));
+            }
         }
-
         return receive;
     }
-
-
-
-
-
 }
