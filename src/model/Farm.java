@@ -55,8 +55,18 @@ public class Farm {
         if(helicopter.isOnTravel())
                  helicopter.decreaseEstimatedTimeOfArrival(TURN_TIME);
         map.updateMap();
-
     }
 
 
+    public Well getWell() {
+        return well;
+    }
+
+    public Truck getTruck() {
+        return truck;
+    }
+
+    public Helicopter getHelicopter() {
+        return helicopter;
+    }
 }
