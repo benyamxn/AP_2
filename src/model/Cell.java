@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -49,7 +50,8 @@ public class Cell {
                 iterator.remove();
             // TODO: check this
         }
-        return new ProductType[0];
+        return new ArrayList<ProductType>().toArray(new ProductType[0]);
+        // TODO: check this
     }
 
     public ProductType[] removeProducts() {
