@@ -26,7 +26,7 @@ public class CommandHandler {
         String[] parameter = command.split(" ");
 
         if(command.matches(BUY)){
-            return  new Request(RequestType.BUY_ANIMAL,Integer.parseInt(parameter[1]));
+            return  new Request(RequestType.BUY_ANIMAL, parameter[1]);
         }
         else if(command.matches(PICKUP)){
             return  new Request(RequestType.PICKUP,Integer.parseInt(parameter[1]) , Integer.parseInt(parameter[2]));
