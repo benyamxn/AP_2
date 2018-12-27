@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Cat extends Animal implements Upgradable {
 
-    private boolean smart;
+    private static boolean smart;
     private static final int  BUY_PRICE = 2500;
     private static final int  SELL_PRICE = 1250;
     private static final int  UPGRADE_PRICE = 1000;
