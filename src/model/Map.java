@@ -105,6 +105,11 @@ public class Map {
     }
 
     public void plant(Point point){
-        cells[point.getWidth()][point.getHeight()].growGrass();
+        for(int i = point.getWidth() - 1 ; i < point.getWidth() + 2; i++){
+            for(int j = point.getHeight() - 1; i < point.getHeight() + 2; j++){
+                if(i >= 0 && j >= 0 && i < width && j < height )
+                    cells[i][j].growGrass();
+            }
+        }
     }
 }
