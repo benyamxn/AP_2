@@ -1,5 +1,6 @@
 package model;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.Map;
 
@@ -30,9 +31,20 @@ public class Warehouse {
     }
 
     public void addProduct(ProductType[] productTypes) {
-        contents.addAll(Arrays.asList(productTypes));
+        for (ProductType productType : productTypes) {
+            addProduct(productType);
+        }
     }
 
+    public void addProduct(LinkedList<ProductType> productTypes) {
+        for (ProductType productType : productTypes) {
+            addProduct(productType);
+        }
+    }
+
+    public void addProduct(HashMap<ProductType, Integer> quantities) {
+        addProduct(unwrapQuantities(quantities));
+    }
 
     public void addProduct(ProductType productType) {
         contents.add(productType);
@@ -89,6 +101,6 @@ public class Warehouse {
     }
 
     public void removeProducts(HashMap<ProductType, Integer> quantities) {
-        contents.removeAll(unwrapQuantities(quantities));
+        removeProducts(unwrapQuantities(quantities).toArray(new ProductType[0]));
     }
 }

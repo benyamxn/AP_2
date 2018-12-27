@@ -151,4 +151,19 @@ public class Game {
        return  farm.getCell(point);
     }
 
+    public void clear(VehicleType vehicleType) throws VehicleOnTripException, NotEnoughCapacityException {
+        Vehicle vehicle = getFarm().getVehicleByName(vehicleType);
+        if (vehicle instanceof Helicopter) {
+            if (vehicle.isOnTravel())
+                throw new VehicleOnTripException();
+            money += vehicle.getProductsPrice();
+            vehicle.finishTravel();
+            return;
+        }
+        Warehouse warehouse = getFarm().getWarehouse();
+        if (warehouse.getCapacity() < vehicle.getProductsSize())
+            throw new NotEnoughCapacityException();
+        warehouse.addProduct(vehicle.empty());
+    }
+
 }

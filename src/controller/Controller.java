@@ -9,7 +9,7 @@ import java.io.*;
 
 public class Controller {
     private Game game;
-    public void pickup(Point point) {
+    public void pickup(Point point) throws NotEnoughCapacityException {
         game.getFarm().pickup(point);
     }
 
@@ -94,6 +94,10 @@ public class Controller {
 
     public void loadProducts(VehicleType vehicleType,ProductType productType, int number) throws VehicleOnTripException, MoneyNotEnoughException, NotEnoughCapacityException, NotEnoughItemsException {
         game.addProductToVehicle(game.getFarm().getVehicleByName(vehicleType),productType,number);
+    }
+
+    public void clear(VehicleType vehicleType) {
+
     }
 
 

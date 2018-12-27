@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Vehicle {
 
@@ -69,7 +70,7 @@ public abstract class Vehicle {
     }
 
     public void finishTravel(){
-        contents = null;
+        contents = new HashMap<>();
         onTravel = false;
     }
 
@@ -83,6 +84,20 @@ public abstract class Vehicle {
         } else {
             contents.put(productType, number);
         }
+    }
+
+    public double getProductsSize() {
+        double size = 0;
+        for (Map.Entry<ProductType, Integer> productTypeIntegerEntry : contents.entrySet()) {
+            size += productTypeIntegerEntry.getKey().getDepotSize() * productTypeIntegerEntry.getValue();
+        }
+        return size;
+    }
+
+    public HashMap<ProductType, Integer> empty() {
+        HashMap<ProductType, Integer> temp = contents;
+        finishTravel();
+        return temp;
     }
 
 }
