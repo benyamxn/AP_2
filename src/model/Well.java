@@ -1,25 +1,28 @@
 package model;
 
-public class Well {
-    private int level = 0, refillPrice, capacity, remainingWater;
+public class Well implements Upgradable {
+    private int level = 1, refillPrice, capacity, remainingWater;
 
     Well(int capacity){
         this.capacity = capacity;
         remainingWater = capacity;
         refillPrice = capacity * 40 / 100;
     }
-
+    @Override
     public void upgrade(){
         level++;
-        //TODO
         refillPrice -= 10;
         capacity += level * 20;
     }
 
-    public int getUpgradeCost(){
-        //TODO
-
+    @Override
+    public int getUpgradePrice() {
         return 100*level + 150;
+    }
+
+    @Override
+    public boolean canUpgrade() {
+        return level < 5;
     }
 
     public void refill(){

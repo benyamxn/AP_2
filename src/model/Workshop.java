@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 import java.io.*;
 import java.util.Arrays;
 
-public class Workshop {
+public class Workshop implements Upgradable {
     private static final int INITIAL_PRODUCTION_TYPE = 8;
     private ProductType[] input;
     private ProductType output;
@@ -79,15 +79,17 @@ public class Workshop {
         }
         return productTypes;
     }
-
+    @Override
     public int getUpgradePrice() {
        return price * 2 - 50;
     }
 
+    @Override
     public boolean canUpgrade() {
         return level < 5;
     }
 
+    @Override
     public void upgrade() {
         level++;
         numberOfInputs++;
