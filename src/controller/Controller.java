@@ -1,8 +1,11 @@
 package controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import model.*;
-import model.exception.MoneyNotEnoughException;
-import model.exception.NameNotFoundException;
+import model.exception.*;
+
+import java.io.*;
 
 public class Controller {
     private Game game;
@@ -68,7 +71,30 @@ public class Controller {
         }
     }
 
+    public void saveGame(String address) throws IOException {
+        Writer writer = new FileWriter(address);
+        Gson gson = new GsonBuilder().create();
+        gson.toJson(game, writer);
+        writer.close();
+    }
+    public void loadGame(String address) throws IOException {
+        Reader reader = new FileReader(address);
+        Gson gson = new GsonBuilder().create();
+        game = gson.fromJson(reader, Game.class);
+        reader.close();
+    }
 
+    public void loadWorkshop(String address) throws IOException {
+        game.getFarm().setCustomWorkshop(6, Workshop.readFromJson(address));
+    }
+
+    public void saveWorkshop(int number, String address) throws IOException {
+        game.getFarm().getCustomWorkshop(number).saveToJson(address);
+    }
+
+    public void loadProducts(VehicleType vehicleType,ProductType productType, int number) throws VehicleOnTripException, MoneyNotEnoughException, NotEnoughCapacityException, NotEnoughItemsException {
+        game.addProductToVehicle(game.getFarm().getVehicleByName(vehicleType),productType,number);
+    }
 
 
 }
