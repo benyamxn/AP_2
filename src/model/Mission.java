@@ -1,14 +1,17 @@
 package model;
-import java.util.Comparator;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-public class Misson implements  Comparable<Misson> {
+public class Mission implements  Comparable<Mission> {
 
     private int moneyGoal;
     private int timeGoal;
     private  Map<ProductType,Integer>  productsGoal = new HashMap<>();
 
-    Misson(int moneyGoal,int timeGoal,Map productsGoal ){
+    Mission(int moneyGoal, int timeGoal, Map productsGoal ){
         this.moneyGoal = moneyGoal;
         this.timeGoal = timeGoal;
         this.productsGoal = productsGoal;
@@ -31,7 +34,7 @@ public class Misson implements  Comparable<Misson> {
     }
 
     @Override
-    public int compareTo(Misson second){
+    public int compareTo(Mission second){
         if(this.getTimeGoal() <= second.getTimeGoal() ){
             if(this.getMoneyGoal() >= second.getMoneyGoal()){
                 for (Map.Entry<ProductType, Integer> entry : productsGoal.entrySet()){
@@ -43,6 +46,21 @@ public class Misson implements  Comparable<Misson> {
             }
         }
         return 0;
+    }
+
+    public void saveToJson(String path) throws IOException {
+        Writer writer = new FileWriter(path);
+        Gson gson = new GsonBuilder().create();
+        gson.toJson(this, writer);
+        writer.close();
+    }
+
+    public static Mission loadFromJson(String path) throws IOException {
+        Reader reader = new FileReader(path);
+        Gson gson = new GsonBuilder().create();
+        Mission mission = gson.fromJson(reader, Mission.class);
+        reader.close();
+        return mission;
     }
 
 }
