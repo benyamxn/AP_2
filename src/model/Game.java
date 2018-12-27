@@ -120,6 +120,14 @@ public class Game {
 
     }
 
+    public int getMoney() {
+        return money;
+    }
+
+    public void decreaseMoney(int number) {
+        money -= number;
+    }
+
     public int getTime() {
         return time;
     }
