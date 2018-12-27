@@ -1,5 +1,7 @@
 package model;
 
+import model.exception.NameNotFoundException;
+
 import java.util.ArrayList;
 import java.util.Random;
 public class Farm {
@@ -86,4 +88,19 @@ public class Farm {
     public Helicopter getHelicopter() {
         return helicopter;
     }
+
+    public void pickup(Point point){
+        warehouse.addProduct(map.getCell(point).removeProducts());
+    }
+
+    public Workshop getWorkshopByName(String name) throws NameNotFoundException {
+
+        for (Workshop workshop : workshops) {
+            if(workshop.getName().equals(name)){
+                return workshop;
+            }
+        }
+        throw new NameNotFoundException(name);
+    }
+
 }
