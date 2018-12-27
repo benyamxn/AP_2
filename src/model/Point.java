@@ -46,4 +46,9 @@ public class Point {
         Point point = (Point) obj;
         return point.getWidth() == width && point.getHeight() == height;
     }
+
+    @Override
+    public String toString() {
+        return "[" + getWidth() + ", " + getHeight() + "]";
+    }
 }

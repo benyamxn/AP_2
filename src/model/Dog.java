@@ -1,8 +1,5 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 public class Dog extends Animal {
 
     Dog(Point location) {
@@ -17,5 +14,10 @@ public class Dog extends Animal {
     @Override
     public int getSellPrice() {
         return 1300;
+    }
+
+    @Override
+    public String toString() {
+        return "Dog";
     }
 }

@@ -139,4 +139,12 @@ public abstract class Animal {
         return hasATarget;
     }
 
+    public String getStatus(){
+        String answer = this.toString() + ":\n";
+        answer += "Health: " + getHealth();
+        answer += "Location: " + location.toString();
+
+        return answer;
+    }
+
 }

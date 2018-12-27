@@ -43,6 +43,11 @@ public class Domesticated extends Animal {
     }
 
     @Override
+    public String toString() {
+        return type.toString();
+    }
+
+    @Override
     public void move(Point cornerPoint) {
         super.move(cornerPoint);
     }

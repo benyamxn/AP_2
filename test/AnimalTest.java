@@ -5,7 +5,7 @@ import org.junit.Test;
 public class AnimalTest {
 
     @Test
-    public void testMoveUpRight(){
+    public void testMoveUpRight() {
         Point point = new Point(20, 34);
         Point animalLocation = new Point(14, 20);
         Animal animal = new Domesticated(animalLocation);
@@ -14,7 +14,7 @@ public class AnimalTest {
     }
 
     @Test
-    public void testMoveLeft(){
+    public void testMoveLeft() {
         Point point = new Point(20, 34);
         Point animalLocation = new Point(14, 20);
         Animal animal = new Domesticated(animalLocation);

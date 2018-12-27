@@ -29,7 +29,6 @@ public class CommandHandler {
             return  new Request(RequestType.BUY_ANIMAL,Integer.parseInt(parameter[1]));
         }
         else if(command.matches(PICKUP)){
-
             return  new Request(RequestType.PICKUP,Integer.parseInt(parameter[1]) , Integer.parseInt(parameter[2]));
         }
         else if(command.matches(CAGE)){

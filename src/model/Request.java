@@ -17,7 +17,7 @@ public class Request {
 
     public Request(RequestType requestType, int pointX, int pointY) {
         this.requestType = requestType;
-        this.point = new Point(pointX,pointY);
+        this.point = new Point(pointX, pointY);
     }
 
     public Request(RequestType requestType, int count) {

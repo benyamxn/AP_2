@@ -85,7 +85,7 @@ public enum DomesticatedType {
     private int turnToProduce;
     private int maxHealth;
 
-    DomesticatedType(int basePrice, ProductType productType,int turnToProduce, int maxHealth) {
+    DomesticatedType(int basePrice, ProductType productType, int turnToProduce, int maxHealth) {
         this.productType = productType;
         this.basePrice = basePrice;
         this.turnToProduce = turnToProduce;

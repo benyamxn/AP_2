@@ -34,4 +34,9 @@ public class Cat extends Animal {
     public int getSellPrice() {
         return 1250;
     }
+
+    @Override
+    public String toString() {
+        return "Cat";
+    }
 }

@@ -49,4 +49,9 @@ public class Wild extends Animal {
     public void setCagedLevel(int cagedLevel) {
         this.cagedLevel = cagedLevel;
     }
+
+    @Override
+    public String toString() {
+        return type.toString();
+    }
 }
