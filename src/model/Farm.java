@@ -8,10 +8,12 @@ public class Farm {
     private static int CAPACITY = 30;
     private Map map   = new Map();
     private Truck truck = new Truck();
+    private Workshop[] workshops= new Workshop[7];
+    private Warehouse warehouse = new Warehouse();
     private  Helicopter helicopter = new Helicopter();
     private  Well well = new Well(CAPACITY);
-    public void placeProduct(ArrayList<Product> products){
 
+    public void placeProduct(ArrayList<Product> products){
         for (Product product : products) {
             Point point = getRandomPoint();
             map.getCell(point).addProduct(product);
@@ -54,9 +56,24 @@ public class Farm {
                  truck.decreaseEstimatedTimeOfArrival(TURN_TIME);
         if(helicopter.isOnTravel())
                  helicopter.decreaseEstimatedTimeOfArrival(TURN_TIME);
-        map.updateMap();
+        for (Workshop workshop : workshops) {
+            if(workshop.isOnProduction()){
+                if(workshop.isProductionEnded()){
+                    map.getCell(workshop.getProductionPoint()).addProduct(workshop.produce());
+                }
+            }
+        }
+        warehouse.addProduct(map.updateMap());
     }
 
+    public void startWorkshop(Workshop workshop){
+        if(! workshop.isProductionEnded()){
+            if(warehouse.hasProducts(workshop.getNeededProducts())){
+                workshop.startProduction();
+                warehouse.removeProducts(workshop.getNeededProducts());
+            }
+        }
+    }
 
     public Well getWell() {
         return well;
