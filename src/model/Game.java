@@ -17,17 +17,17 @@ public class Game {
     private static int BASE_TIME = 12;
     private int money = 0;
     private int time = 0;
-    private Misson misson;
+    private Mission mission;
     private Map<ProductType,Integer> products = new HashMap<>();
     private Farm farm = new Farm();
     private String playerName = "Guest";
     private ProductType[] marketProducts;
 
-    public Game(Misson misson) {
-        this.misson = misson;
+    public Game(Mission mission) {
+        this.mission = mission;
     }
-    public Game(Misson misson , String playerName){
-        this.misson = misson;
+    public Game(Mission mission, String playerName){
+        this.mission = mission;
         this.playerName = playerName;
     }
 
@@ -73,9 +73,9 @@ public class Game {
 
     }
 
-    public boolean checkMisson(){
-        Misson temp = new Misson(money,time,products);
-        if(temp.compareTo(misson) == 1){
+    public boolean checkMission(){
+        Mission temp = new Mission(money,time,products);
+        if(temp.compareTo(mission) == 1){
             return true;
         }
         return false;
@@ -166,12 +166,15 @@ public class Game {
         warehouse.addProduct(vehicle.empty());
     }
 
-    public void goVehicle(VehicleType vehicleType) throws VehicleOnTripException {
-        Vehicle vehicle = getFarm().getVehicleByName(vehicleType);
-        if (vehicle.isOnTravel()) {
-            throw new VehicleOnTripException();
-        }
-        vehicle.startTravel();
+    public Mission getMission() {
+        return mission;
     }
 
+    public void setMission(Mission mission) {
+        this.mission = mission;
+    }
+
+    public void setFarm(Farm farm) {
+        this.farm = farm;
+    }
 }
