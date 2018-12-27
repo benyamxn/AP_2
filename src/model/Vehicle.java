@@ -104,16 +104,16 @@ public abstract class Vehicle implements Upgradable {
     }
 
     public String getStatus(){
-        String status = this.toString() + ":\n" + "\tLevel:" + level + "\n";
+        String status = this.toString() + ":\n" + "\tLevel: " + level + "\n";
         if (onTravel)
-            status += "Is travelling";
+            status += "\tIs travelling";
         else
-            status += "Is not travelling";
-        status += "Contents:\n";
+            status += "\tIs not travelling";
+        status += "\n\tContents:\n";
         for (Map.Entry<ProductType, Integer> content : contents.entrySet()) {
-            status += content.getKey().toString() + "(" + content.getValue() + ")\n";
+            status += "\t" + content.getKey().toString() + "(" + content.getValue() + ")\n";
         }
-        status += "Time left to arrive: " + estimatedTimeOfArrival + " of " + arrivalTime + "\n";
+        status += "\tTime left to arrive: " + estimatedTimeOfArrival + " of " + arrivalTime + "\n";
         return status;
     }
 }

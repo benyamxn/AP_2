@@ -9,7 +9,7 @@ public class Wild extends Animal {
         super(location);
     }
 
-    Wild(Point location, WildType type){
+    public Wild(Point location, WildType type){
         super(location);
         this.type = type;
     }
