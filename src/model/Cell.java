@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -34,6 +35,10 @@ public class Cell {
 
     public void addProduct(Product product) {
         products.add(product);
+    }
+
+    public void addProduct(Product[] products) {
+        this.products.addAll(Arrays.asList(products));
     }
 
     public ProductType[] updateRemoveProducts() {
