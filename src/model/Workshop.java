@@ -133,4 +133,12 @@ public class Workshop {
     public boolean isOnProduction() {
         return onProduction;
     }
+
+    public WorkshopType getType() {
+        return type;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
