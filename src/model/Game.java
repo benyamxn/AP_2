@@ -31,6 +31,11 @@ public class Game {
         this.playerName = playerName;
     }
 
+    public Game(int money, Mission mission) {
+        this.money = money;
+        this.mission = mission;
+    }
+
     public void loadMarketProducts(String path) throws IOException {
         Reader reader = new FileReader(path);
         Gson gson = new GsonBuilder().create();

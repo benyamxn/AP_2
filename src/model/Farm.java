@@ -10,7 +10,7 @@ public class Farm {
     private static int TURN_TIME = 1;
     private static final int WELL_DEFAULT_CAPACITY = 30;
     private String name;
-    private Map map   = new Map();
+    private Map map   = new Map(30, 30);
     private Workshop[] workshops= new Workshop[7];
     private transient Truck truck = new Truck();
     private transient Warehouse warehouse = new Warehouse();

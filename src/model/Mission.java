@@ -11,7 +11,7 @@ public class Mission implements  Comparable<Mission> {
     private int timeGoal;
     private  Map<ProductType,Integer>  productsGoal = new HashMap<>();
 
-    Mission(int moneyGoal, int timeGoal, Map productsGoal ){
+    public Mission(int moneyGoal, int timeGoal, Map productsGoal ){
         this.moneyGoal = moneyGoal;
         this.timeGoal = timeGoal;
         this.productsGoal = productsGoal;
