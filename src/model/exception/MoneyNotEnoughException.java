@@ -1,6 +1,6 @@
 package model.exception;
 
-public class MoneyNotEnoughException extends RuntimeException {
+public class MoneyNotEnoughException extends Exception {
 
     public MoneyNotEnoughException() { }
     public MoneyNotEnoughException(String s) {

@@ -1,6 +1,6 @@
 package model.exception;
 
-public class NotEnoughCapacityException extends  RuntimeException{
+public class NotEnoughCapacityException extends  Exception{
 
     public NotEnoughCapacityException() {
     }
