@@ -72,16 +72,10 @@ public class Controller {
     }
 
     public void saveGame(String address) throws IOException {
-        Writer writer = new FileWriter(address);
-        Gson gson = new GsonBuilder().create();
-        gson.toJson(game, writer);
-        writer.close();
+        saveObject(address, game);
     }
     public void loadGame(String address) throws IOException {
-        Reader reader = new FileReader(address);
-        Gson gson = new GsonBuilder().create();
-        game = gson.fromJson(reader, Game.class);
-        reader.close();
+        game = ((Game) getObjectFromJson(address, Game.class));
     }
 
     public void loadWorkshop(String address) throws IOException {
@@ -96,8 +90,48 @@ public class Controller {
         game.addProductToVehicle(game.getFarm().getVehicleByName(vehicleType),productType,number);
     }
 
-    public void clear(VehicleType vehicleType) {
+    public void clear(VehicleType vehicleType) throws VehicleOnTripException, NotEnoughCapacityException {
+        game.clear(vehicleType);
+    }
 
+    public void goVehicle(VehicleType vehicleType) throws VehicleOnTripException {
+        Vehicle vehicle = game.getFarm().getVehicleByName(vehicleType);
+        if (vehicle.isOnTravel()) {
+            throw new VehicleOnTripException();
+        }
+        vehicle.startTravel();
+    }
+
+    public void loadMission(String path) throws IOException {
+        game.setMission(Mission.loadFromJson(path));
+    }
+
+    public void saveMission(String path) throws IOException {
+        game.getMission().saveToJson(path);
+    }
+
+    public void loadCustom(String path) throws IOException {
+        game.setFarm((Farm) getObjectFromJson(path,Farm.class));
+    }
+
+    public void saveCustom(String path) throws IOException {
+        saveObject(path, game.getFarm());
+    }
+
+    public Object getObjectFromJson(String path, Class temp) throws IOException {
+        Reader reader = new FileReader(path);
+        Gson gson = new GsonBuilder().create();
+        Object output = gson.fromJson(reader, temp);
+        reader.close();
+        return output;
+
+    }
+
+    public void saveObject(String path, Object object) throws IOException {
+        Writer writer = new FileWriter(path);
+        Gson gson = new GsonBuilder().create();
+        gson.toJson(object, writer);
+        writer.close();
     }
 
 
