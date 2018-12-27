@@ -7,12 +7,16 @@ public class StatusHandlerTest {
     @Test
     public void testMapStatus(){
         Map map = new Map(3, 3);
-        Cell[][] cells = new Cell[3][3];
-        cells[0][0].addAnimal(new Domesticated(cells[0][0].getCoordinate(), DomesticatedType.CHICKEN));
-        cells[2][0].addProduct(new Product(ProductType.MILK));
-        cells[1][1].addAnimal(new Wild(cells[1][1].getCoordinate(), WildType.LION));
-        cells[1][1].addProduct(new Product(ProductType.CAKE));
-        map.setCells(cells);
+        Point point = new Point(0, 0);
+        map.getCell(point).addAnimal(new Domesticated(point, DomesticatedType.CHICKEN));
+
+        point = new Point(2, 0);
+        map.getCell(point).addProduct(new Product(ProductType.MILK));
+
+        point = new Point(1, 1);
+        map.getCell(point).addAnimal(new Wild(point, WildType.LION));
+        map.getCell(point).addProduct(new Product(ProductType.CAKE));
+
 
         System.out.println(map.getStatus());
     }
