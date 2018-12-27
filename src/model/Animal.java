@@ -49,7 +49,7 @@ public abstract class Animal {
             directions.remove(Direction.UP_RIGHT);
             directions.remove(Direction.UP_LEFT);
         }
-        Direction dir = Direction.randomDir((Direction[]) directions.toArray());
+        Direction dir = Direction.randomDir(directions.toArray(new Direction[0]));
         moveWithDirection(dir);
     }
 

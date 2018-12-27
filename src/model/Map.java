@@ -38,15 +38,18 @@ public class Map {
         for(int i = 0; i < width; i++){
             for(int j = 0; j < height; j++){
                 for (Animal animal : cells[i][j].getAnimals()) {
-                        animal.move(cornerPoint);
-                        mapAnimals.add(animal);
+                    animal.move(cornerPoint);
+                    mapAnimals.add(animal);
                 }
-                cells[i][j].setAnimals(null);
+                cells[i][j].setAnimals(new LinkedList<>());
             }
         }
 
         for (Animal animal : mapAnimals) {
-            cells[animal.getLocation().getWidth()][animal.getLocation().getHeight()].addAnimal(animal);
+            if (animal != null) {
+                cells[animal.getLocation().getWidth()][animal.getLocation().getHeight()].addAnimal(animal);
+            }
+
         }
         List<ProductType> newProduct = new LinkedList<>();
         for(int i = 0; i < width; i++) {
@@ -108,7 +111,7 @@ public class Map {
 
     public void plant(Point point){
         for(int i = point.getWidth() - 1 ; i < point.getWidth() + 2; i++){
-            for(int j = point.getHeight() - 1; i < point.getHeight() + 2; j++){
+            for(int j = point.getHeight() - 1; j < point.getHeight() + 2; j++){
                 if(i >= 0 && j >= 0 && i < width && j < height )
                     cells[i][j].growGrass();
             }

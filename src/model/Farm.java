@@ -19,6 +19,13 @@ public class Farm {
 
     public Farm() {
         name = "Default";
+        workshops[0] = new Workshop(WorkshopType.EGG_POWDER_PLANT, new Point(0, 0));
+        workshops[1] = new Workshop(WorkshopType.COOKIE_BAKERY, new Point(0, 29));
+        workshops[2] = new Workshop(WorkshopType.GRINDING_FACTORY, new Point(29, 0));
+        workshops[3] = new Workshop(WorkshopType.MANUFACTURING_PLANT, new Point(29, 29));
+        workshops[4] = new Workshop(WorkshopType.SPINNERY, new Point(15, 15));
+        workshops[5] = new Workshop(WorkshopType.WEAVING_FACTORY, new Point(1, 1));
+        workshops[6] = new Workshop(WorkshopType.EGG_POWDER_PLANT, new Point(2, 2));
     }
 
     public Farm(String name) {
