@@ -40,7 +40,7 @@ public abstract class Vehicle {
 
 
     public void startTravel() {
-        if(! onTravel) {
+        if(!onTravel) {
             setEstimatedTimeOfArrival(arrivalTime);
             onTravel = true;
         }

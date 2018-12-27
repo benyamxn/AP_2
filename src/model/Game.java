@@ -166,4 +166,12 @@ public class Game {
         warehouse.addProduct(vehicle.empty());
     }
 
+    public void goVehicle(VehicleType vehicleType) throws VehicleOnTripException {
+        Vehicle vehicle = getFarm().getVehicleByName(vehicleType);
+        if (vehicle.isOnTravel()) {
+            throw new VehicleOnTripException();
+        }
+        vehicle.startTravel();
+    }
+
 }
