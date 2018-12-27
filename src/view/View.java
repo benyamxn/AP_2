@@ -11,4 +11,9 @@ public class View {
     public Request getRequest(){
        return commandHandler.getRequest(scanner.nextLine());
     }
+
+    public void println(String str){
+        System.out.println(str);
+    }
+
 }
