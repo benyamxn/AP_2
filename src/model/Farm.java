@@ -103,4 +103,11 @@ public class Farm {
         throw new NameNotFoundException(name);
     }
 
+    public Map getMap() {
+        return map;
+    }
+
+    public Cell getCell(Point point){
+        return map.getCell(point);
+    }
 }

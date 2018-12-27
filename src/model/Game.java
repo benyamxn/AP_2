@@ -123,4 +123,13 @@ public class Game {
     public int getTime() {
         return time;
     }
+
+    public Farm getFarm() {
+        return farm;
+    }
+
+    public Cell getCell(Point point){
+       return  farm.getCell(point);
+    }
+
 }
