@@ -65,7 +65,7 @@ public class Farm {
                 }
             }
         }
-        warehouse.addProduct(map.updateMap());
+        warehouse.addProduct(map.updateMap(warehouse.getCapacity()));
     }
 
     public void startWorkshop(Workshop workshop){
@@ -109,5 +109,25 @@ public class Farm {
 
     public Cell getCell(Point point){
         return map.getCell(point);
+    }
+
+    public void setCustomWorkshop(int number, Workshop workshop) {
+        workshops[number] = workshop;
+    }
+
+    public Workshop getCustomWorkshop(int number) {
+       return workshops[number];
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public Vehicle getVehicleByName(VehicleType vehicleType){
+        if(vehicleType.equals(VehicleType.TRUCK)){
+            return truck;
+        }
+        return helicopter;
+
     }
 }
