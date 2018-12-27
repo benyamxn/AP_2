@@ -15,13 +15,25 @@ public class Main {
             Request request = view.getRequest();
             try {
                 handleRequest(request);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (MoneyNotEnoughException e) {
+                view.println("Money Not Enough");
+            } catch (MaxLevelException e) {
+                view.println("The selected unit cannot upgrade more");
+            } catch (NameNotFoundException e) {
+                view.println("The inputted name is not valid");
+            } catch (VehicleOnTripException e) {
+                view.println("The selected vehicle is on trip");
+            } catch (NotEnoughCapacityException e) {
+                view.println("There isn't enough space in warehouse");
+            } catch (NotEnoughItemsException e) {
+                view.println("There isn't enough items in the warehouse");
+            } catch (IOException e) {
+                view.println("File not found");
             }
         }
     }
 
-    public static void  handleRequest(Request request) throws NameNotFoundException, MoneyNotEnoughException, IOException, VehicleOnTripException, NotEnoughCapacityException, NotEnoughItemsException {
+    public static void  handleRequest(Request request) throws MaxLevelException, NameNotFoundException, MoneyNotEnoughException, IOException, VehicleOnTripException, NotEnoughCapacityException, NotEnoughItemsException {
 
         RequestType requestType = request.getRequestType();
         switch (requestType) {

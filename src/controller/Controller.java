@@ -6,10 +6,12 @@ import model.*;
 import model.exception.*;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Controller {
-    private Game game;
+    Mission mission = new Mission(1000, 1000, new HashMap());
+    private Game game = new Game(7500, mission);
     private LinkedList<Farm> farms = new LinkedList<>();
     public void pickup(Point point) throws NotEnoughCapacityException {
         game.getFarm().pickup(point);
@@ -142,14 +144,16 @@ public class Controller {
         writer.close();
     }
 
-    public void upgrade(Upgradable upgradable) throws MoneyNotEnoughException {
+    public void upgrade(Upgradable upgradable) throws MoneyNotEnoughException, MaxLevelException {
        if(upgradable.canUpgrade()){
            if(game.getMoney() < upgradable.getUpgradePrice()){
                throw new MoneyNotEnoughException();
            }
            game.decreaseMoney(upgradable.getUpgradePrice());
            upgradable.upgrade();
+           return;
        }
+       throw new MaxLevelException();
     }
 
     public void runMap(String name){
