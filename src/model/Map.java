@@ -53,7 +53,8 @@ public class Map {
                 cells[i][j].updateWildAnimals();
                 cells[i][j].updateDomesticatedAnimals();
                 cells[i][j].updateAddProducts();
-                newProduct.addAll(Arrays.asList(cells[i][j].updateRemoveProducts(warehouseCapacity)));
+                if (warehouseCapacity >= cells[i][j].calculateDepotSize())
+                    newProduct.addAll(Arrays.asList(cells[i][j].updateRemoveProducts()));
             }
         }
         ArrayList<Point> catCollectablePoints = new ArrayList<>();

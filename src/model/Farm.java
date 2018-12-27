@@ -1,6 +1,7 @@
 package model;
 
 import model.exception.NameNotFoundException;
+import model.exception.NotEnoughCapacityException;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -89,7 +90,10 @@ public class Farm {
         return helicopter;
     }
 
-    public void pickup(Point point){
+    public void pickup(Point point) throws NotEnoughCapacityException {
+        Cell cell = map.getCell(point);
+        if (warehouse.getCapacity() < cell.calculateDepotSize())
+            throw new NotEnoughCapacityException();
         warehouse.addProduct(map.getCell(point).removeProducts());
     }
 

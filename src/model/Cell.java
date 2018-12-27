@@ -32,6 +32,13 @@ public class Cell {
         if (grassLevel < 0)
             grassLevel = 0;
     }
+    public double calculateDepotSize() {
+        double size = 0;
+        for (Product product : products) {
+            size += product.getType().getDepotSize();
+        }
+        return size;
+    }
 
     public void addProduct(Product product) {
         products.add(product);
