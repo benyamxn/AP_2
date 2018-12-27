@@ -14,8 +14,7 @@ public class Helicopter extends Vehicle {
     }
 
     @Override
-    public int getUpgradeCost(){
-
+    public int getUpgradePrice(){
             return UPGRADECOST * (int) Math.pow(2,level)  + 200 - 50 * (level);
     }
 

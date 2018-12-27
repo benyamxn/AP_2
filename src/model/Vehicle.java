@@ -1,10 +1,9 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Vehicle {
+public abstract class Vehicle implements Upgradable {
 
     private static final int A = 30;
     private static final int B = 30;
@@ -18,24 +17,28 @@ public abstract class Vehicle {
     protected int arrivalTime;
     protected boolean onTravel = false;
     protected VehicleType vehicleType;
-    public abstract int getUpgradeCost();
 
-    public void upgrade() {
-        level++;
+    @Override
+    public abstract int getUpgradePrice();
+
+    @Override
+    public  boolean canUpgrade(){
+        return level < 5;
     }
+
+    @Override
+    public void upgrade() { level++; }
+
 
     public abstract int getProductsPrice();
 
 
     public double getCapacity() {
-
         return A * level * level + B * level + C;
     }
 
     public int getEstimatedTimeOfArrival() {
-
         return estimatedTimeOfArrival;
-
     }
 
 
