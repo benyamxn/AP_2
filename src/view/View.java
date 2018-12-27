@@ -5,9 +5,9 @@ import model.Request;
 import java.util.Scanner;
 
 public class View {
-    private Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
     private CommandHandler commandHandler = new CommandHandler();
-
+    private StatusHandler statusHandler = new StatusHandler();
     public Request getRequest(){
        return commandHandler.getRequest(scanner.nextLine());
     }
@@ -16,4 +16,7 @@ public class View {
         System.out.println(str);
     }
 
+    public StatusHandler getStatusHandler() {
+        return statusHandler;
+    }
 }
