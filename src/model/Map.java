@@ -16,6 +16,7 @@ public class Map {
     public Map(int width, int height) {
         this.width = width;
         this.height = height;
+        cells = new Cell[width][height];
         constructCells();
     }
 
