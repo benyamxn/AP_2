@@ -129,4 +129,8 @@ public class Workshop {
         if (onProduction != workshop.onProduction) return false;
         return name.equals(workshop.name);
     }
+
+    public boolean isOnProduction() {
+        return onProduction;
+    }
 }
