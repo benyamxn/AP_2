@@ -7,6 +7,12 @@ public class Helicopter extends Vehicle {
 
     private static final int UPGRADECOST = 100;
 
+
+    public Helicopter() {
+        super();
+        vehicleType = VehicleType.HELICOPTER;
+    }
+
     @Override
     public int getUpgradeCost(){
 

@@ -16,6 +16,7 @@ public abstract class Vehicle {
     protected int estimatedTimeOfArrival;
     protected int arrivalTime;
     protected boolean onTravel = false;
+    protected VehicleType vehicleType;
     public abstract int getUpgradeCost();
 
     public void upgrade() {
@@ -37,9 +38,8 @@ public abstract class Vehicle {
     }
 
 
-    public void startTravel(HashMap<ProductType,Integer> productTypes) {
+    public void startTravel() {
         if(! onTravel) {
-            this.contents = productTypes;
             setEstimatedTimeOfArrival(arrivalTime);
             onTravel = true;
         }
@@ -76,4 +76,13 @@ public abstract class Vehicle {
     public boolean isOnTravel() {
         return onTravel;
     }
+
+    public void addProduct(ProductType productType, int number){
+        if (contents.get(productType) != null) {
+            contents.put(productType,contents.get(productType) + number);
+        } else {
+            contents.put(productType, number);
+        }
+    }
+
 }

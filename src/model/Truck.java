@@ -11,6 +11,11 @@ public class Truck extends Vehicle {
     private static final  int C = 30 ;
     private final static int upgradeCost = 50;
 
+    public Truck() {
+        super();
+        vehicleType = VehicleType.TRUCK;
+    }
+
     @Override
     public int getProductsPrice(){
 
