@@ -7,7 +7,7 @@ public class Cat extends Animal {
 
     private boolean smart;
 
-    Cat(Point location) {
+    public Cat(Point location) {
         super(location);
         smart = false;
     }

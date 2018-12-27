@@ -2,7 +2,7 @@ package model;
 
 public class Dog extends Animal {
 
-    Dog(Point location) {
+    public Dog(Point location) {
         super(location);
     }
 
