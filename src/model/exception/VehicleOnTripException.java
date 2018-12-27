@@ -1,6 +1,6 @@
 package model.exception;
 
-public class VehicleOnTripException  extends RuntimeException{
+public class VehicleOnTripException  extends Exception{
 
     public VehicleOnTripException() {
     }

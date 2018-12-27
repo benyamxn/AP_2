@@ -1,6 +1,6 @@
 package model.exception;
 
-public class NameNotFoundException extends RuntimeException {
+public class NameNotFoundException extends Exception {
     public NameNotFoundException() {
     }
     public NameNotFoundException(String s) {
