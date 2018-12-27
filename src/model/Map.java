@@ -1,16 +1,15 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Map {
-
-
-    //TODO Workshop
 
     private int width;
     private int height;
     private Cell[][] cells;
-    private Warehouse warehouse = new Warehouse();
     public Map(){
 
     }
@@ -32,20 +31,29 @@ public class Map {
         }
     }
 
-    public void  updateMap(){
+    public ProductType[]  updateMap(){
+        LinkedList<Animal> mapAnimals  = new LinkedList<>();
         Point cornerPoint = new Point(width,height);
         for(int i = 0; i < width; i++){
             for(int j = 0; j < height; j++){
                 for (Animal animal : cells[i][j].getAnimals()) {
                         animal.move(cornerPoint);
+                        mapAnimals.add(animal);
                 }
+                cells[i][j].setAnimals(null);
             }
         }
+
+        for (Animal animal : mapAnimals) {
+            cells[animal.getLocation().getWidth()][animal.getLocation().getHeight()].addAnimal(animal);
+        }
+        List<ProductType> newProduct = new LinkedList<>();
         for(int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 cells[i][j].updateWildAnimals();
                 cells[i][j].updateDomesticatedAnimals();
                 cells[i][j].updateAddProducts();
+                newProduct.addAll(Arrays.asList(cells[i][j].updateRemoveProducts()));
             }
         }
         ArrayList<Point> catCollectablePoints = new ArrayList<>();
@@ -72,6 +80,7 @@ public class Map {
             }
         }
 
+        return newProduct.toArray(new ProductType[newProduct.size()]);
     }
 
     public void setWidth(int width) {
