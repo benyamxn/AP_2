@@ -182,5 +182,7 @@ public class Cell {
         return this.animals.toArray(animals);
     }
 
-
+    public void setAnimals(LinkedList<Animal> animals) {
+        this.animals = animals;
+    }
 }
