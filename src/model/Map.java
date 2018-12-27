@@ -31,7 +31,7 @@ public class Map {
         }
     }
 
-    public ProductType[]  updateMap(){
+    public ProductType[]  updateMap(double  warehouseCapacity){
         LinkedList<Animal> mapAnimals  = new LinkedList<>();
         Point cornerPoint = new Point(width,height);
         for(int i = 0; i < width; i++){
@@ -53,7 +53,7 @@ public class Map {
                 cells[i][j].updateWildAnimals();
                 cells[i][j].updateDomesticatedAnimals();
                 cells[i][j].updateAddProducts();
-                newProduct.addAll(Arrays.asList(cells[i][j].updateRemoveProducts()));
+                newProduct.addAll(Arrays.asList(cells[i][j].updateRemoveProducts(warehouseCapacity)));
             }
         }
         ArrayList<Point> catCollectablePoints = new ArrayList<>();

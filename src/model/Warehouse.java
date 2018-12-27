@@ -8,7 +8,7 @@ public class Warehouse {
     private static final int BASE_UPGRADE_COST = 100;
     private LinkedList<ProductType> contents = new LinkedList<>();
     private int level = 1;
-    private int capacity = INITIAL_CAPACITY;
+    private double capacity = INITIAL_CAPACITY;
 
     public void upgrade() {
         level++;
@@ -61,7 +61,7 @@ public class Warehouse {
         return (capacity >= product.getType().getDepotSize());
     }
 
-    public int getCapacity() {
+    public double getCapacity() {
         return capacity;
     }
 
