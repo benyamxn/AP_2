@@ -10,10 +10,10 @@ import java.util.Map;
 
 public class Game {
 
+    private static int BASE_TIME = 12;
     private int money = 0;
     private int time = 0;
     private Misson misson;
-
     private Map<ProductType,Integer> products = new HashMap<>();
     private Farm farm = new Farm();
     private String playerName = "Guest";
@@ -27,7 +27,7 @@ public class Game {
     }
 
     public void updateGame(){
-        //TODO set time
+        time += BASE_TIME;
         farm.updateFarm();
         Truck truck = farm.getTruck();
         if(truck.isOnTravel()){
@@ -98,4 +98,7 @@ public class Game {
 
     }
 
+    public int getTime() {
+        return time;
+    }
 }
