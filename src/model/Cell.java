@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -35,6 +37,10 @@ public class Cell {
         products.add(product);
     }
 
+    public void addProduct(Product[] products) {
+        this.products.addAll(Arrays.asList(products));
+    }
+
     public ProductType[] updateRemoveProducts() {
         for (Animal animal : animals) {
             if (animal instanceof Cat) {
@@ -49,7 +55,8 @@ public class Cell {
                 iterator.remove();
             // TODO: check this
         }
-        return new ProductType[0];
+        return new ArrayList<ProductType>().toArray(new ProductType[0]);
+        // TODO: check this
     }
 
     public ProductType[] removeProducts() {
@@ -175,5 +182,7 @@ public class Cell {
         return this.animals.toArray(animals);
     }
 
-
+    public void setAnimals(LinkedList<Animal> animals) {
+        this.animals = animals;
+    }
 }

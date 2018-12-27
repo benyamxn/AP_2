@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class Vehicle {
 
@@ -10,12 +11,11 @@ public abstract class Vehicle {
     private static final int TIME = 10;
     private static final int BASETIME = 70;
 
-    protected ArrayList<ProductType> contents = new ArrayList<>();
+    protected HashMap<ProductType,Integer> contents = new HashMap<>();
     protected int level = 1;
     protected int estimatedTimeOfArrival;
     protected int arrivalTime;
     protected boolean onTravel = false;
-
     public abstract int getUpgradeCost();
 
     public void upgrade() {
@@ -25,7 +25,7 @@ public abstract class Vehicle {
     public abstract int getProductsPrice();
 
 
-    public int getCapacity() {
+    public double getCapacity() {
 
         return A * level * level + B * level + C;
     }
@@ -37,13 +37,12 @@ public abstract class Vehicle {
     }
 
 
-    public void startTravel() {
-
+    public void startTravel(HashMap<ProductType,Integer> productTypes) {
         if(! onTravel) {
+            this.contents = productTypes;
             setEstimatedTimeOfArrival(arrivalTime);
             onTravel = true;
         }
-
     }
 
 
@@ -67,6 +66,11 @@ public abstract class Vehicle {
             return true;
         }
         return false;
+    }
+
+    public void finishTravel(){
+        contents = null;
+        onTravel = false;
     }
 
     public boolean isOnTravel() {

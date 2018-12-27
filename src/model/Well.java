@@ -25,4 +25,16 @@ public class Well {
     public void refill(){
         remainingWater = capacity;
     }
+
+    public int getRefillPrice() {
+        return refillPrice;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public int getRemainingWater() {
+        return remainingWater;
+    }
 }

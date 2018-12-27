@@ -1,12 +1,12 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
+import java.util.Map;
 
 public class Warehouse {
     private static final int INITIAL_CAPACITY = 100;
     private static final int BASE_UPGRADE_COST = 100;
-    private ArrayList<ProductType> contents = new ArrayList<>();
+    private LinkedList<ProductType> contents = new LinkedList<>();
     private int level = 1;
     private int capacity = INITIAL_CAPACITY;
 
@@ -65,4 +65,30 @@ public class Warehouse {
         return capacity;
     }
 
+    public boolean hasProducts(ProductType[] productTypes) {
+        return contents.containsAll(Arrays.asList(productTypes));
+    }
+
+    public boolean hasProducts(ArrayList<ProductType> productTypes) {
+        return contents.containsAll(productTypes);
+    }
+
+    public boolean hasProducts(HashMap<ProductType, Integer> quantities) {
+        return contents.containsAll(unwrapQuantities(quantities));
+    }
+
+    private static LinkedList<ProductType> unwrapQuantities(HashMap<ProductType, Integer> quantities) {
+        LinkedList<ProductType> productTypes = new LinkedList<>();
+        for (Map.Entry<ProductType, Integer> entry : quantities.entrySet()) {
+            ProductType temp = entry.getKey();
+            for (Integer i = 0; i < entry.getValue(); i++) {
+                productTypes.add(temp);
+            }
+        }
+        return productTypes;
+    }
+
+    public void removeProducts(HashMap<ProductType, Integer> quantities) {
+        contents.removeAll(unwrapQuantities(quantities));
+    }
 }

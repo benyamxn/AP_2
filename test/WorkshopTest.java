@@ -1,5 +1,6 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import model.Point;
 import model.Workshop;
 import model.WorkshopType;
 import org.junit.Test;
@@ -12,7 +13,7 @@ import static junit.framework.TestCase.fail;
 public class WorkshopTest {
     @Test
     public void testJson() {
-        Workshop workshop = new Workshop(WorkshopType.EGG_POWERDER_PLANT);
+        Workshop workshop = new Workshop(WorkshopType.EGG_POWERDER_PLANT, new Point(0,0));
         workshop.upgrade();
         try {
             workshop.saveToJson("test.json");

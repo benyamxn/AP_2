@@ -16,8 +16,12 @@ public class Workshop {
     private int timeLeftToProduction;
     private int level = 1;
     private int price;
+    private boolean onProduction = false;
     private WorkshopType type;
     private String name;
+    private Point productionPoint;
+
+
 
     public static Workshop readFromJson(String path) throws IOException {
         Reader reader = new FileReader(path);
@@ -27,12 +31,13 @@ public class Workshop {
         return workshop;
     }
 
-    public Workshop(WorkshopType type) {
+    public Workshop(WorkshopType type, Point point) {
         this.type = type;
         input = type.getInput();
         output = type.getOutput();
         name = type.name();
         price = type.getPrice();
+        productionPoint = point;
     }
 
     public Product[] produce() {
@@ -44,6 +49,7 @@ public class Workshop {
     }
 
     public void startProduction() {
+        onProduction = true;
         timeLeftToProduction = productionTime;
     }
 
@@ -55,6 +61,15 @@ public class Workshop {
 
     public boolean isProductionEnded() {
         return timeLeftToProduction == 0;
+    }
+
+    public Point getProductionPoint() {
+        return productionPoint;
+    }
+
+    public void endProduction() {
+        onProduction = false;
+        timeLeftToProduction = 0;
     }
 
     public ProductType[] getNeededProducts() {
@@ -111,6 +126,19 @@ public class Workshop {
         if (!Arrays.equals(input, workshop.input)) return false;
         if (output != workshop.output) return false;
         if (type != workshop.type) return false;
+        if (onProduction != workshop.onProduction) return false;
         return name.equals(workshop.name);
+    }
+
+    public boolean isOnProduction() {
+        return onProduction;
+    }
+
+    public WorkshopType getType() {
+        return type;
+    }
+
+    public String getName() {
+        return name;
     }
 }
