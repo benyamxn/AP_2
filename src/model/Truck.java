@@ -27,7 +27,8 @@ public class Truck extends Vehicle {
     }
 
     @Override
-    public int getUpgradeCost(){
+    public int getUpgradePrice(){
+
         return upgradeCost * (int) Math.pow(2,level) + 200 - 50 * (level);
     }
 

@@ -1,22 +1,28 @@
 package model;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.Map;
 
-public class Warehouse {
+public class Warehouse implements Upgradable {
     private static final int INITIAL_CAPACITY = 100;
     private static final int BASE_UPGRADE_COST = 100;
     private LinkedList<ProductType> contents = new LinkedList<>();
     private int level = 1;
     private double capacity = INITIAL_CAPACITY;
 
+    @Override
     public void upgrade() {
         level++;
         capacity += getTotalCapacity(level) - getTotalCapacity(level - 1);
     }
 
-    public int getUpgradeCost() {
+    @Override
+    public boolean canUpgrade() {
+        return canUpgrade();
+    }
+
+    @Override
+    public int getUpgradePrice() {
         return BASE_UPGRADE_COST * (int) Math.pow(2, level) + 150 - 50 * (level - 1);
     }
 

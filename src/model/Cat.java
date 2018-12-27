@@ -3,10 +3,12 @@ package model;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Cat extends Animal {
+public class Cat extends Animal implements Upgradable {
 
-    private boolean smart;
-
+    private static boolean smart;
+    private static final int  BUY_PRICE = 2500;
+    private static final int  SELL_PRICE = 1250;
+    private static final int  UPGRADE_PRICE = 1000;
     public Cat(Point location) {
         super(location);
         smart = false;
@@ -26,13 +28,26 @@ public class Cat extends Animal {
     }
 
     @Override
-    public int getBuyPrice() {
-        return 2500;
+    public void upgrade() {
+        smart = true;
     }
 
     @Override
+    public int getUpgradePrice() {
+        return UPGRADE_PRICE;
+    }
+
+    @Override
+    public boolean canUpgrade() {
+        return !smart;
+    }
+
+    @Override
+    public int getBuyPrice() { return BUY_PRICE; }
+
+    @Override
     public int getSellPrice() {
-        return 1250;
+        return SELL_PRICE;
     }
 
     @Override

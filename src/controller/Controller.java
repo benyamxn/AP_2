@@ -6,9 +6,11 @@ import model.*;
 import model.exception.*;
 
 import java.io.*;
+import java.util.LinkedList;
 
 public class Controller {
     private Game game;
+    private LinkedList<Farm> farms = new LinkedList<>();
     public void pickup(Point point) throws NotEnoughCapacityException {
         game.getFarm().pickup(point);
     }
@@ -111,7 +113,13 @@ public class Controller {
     }
 
     public void loadCustom(String path) throws IOException {
-        game.setFarm((Farm) getObjectFromJson(path,Farm.class));
+        File dir = new File(path);
+        File[] directoryListing = dir.listFiles();
+        if(directoryListing != null){
+            for (File file : directoryListing) {
+               farms.add((Farm) getObjectFromJson(file.getPath(),Farm.class));
+            }
+        }
     }
 
     public void saveCustom(String path) throws IOException {
@@ -132,6 +140,25 @@ public class Controller {
         Gson gson = new GsonBuilder().create();
         gson.toJson(object, writer);
         writer.close();
+    }
+
+    public void upgrade(Upgradable upgradable) throws MoneyNotEnoughException {
+       if(upgradable.canUpgrade()){
+           if(game.getMoney() < upgradable.getUpgradePrice()){
+               throw new MoneyNotEnoughException();
+           }
+           game.decreaseMoney(upgradable.getUpgradePrice());
+           upgradable.upgrade();
+       }
+    }
+
+    public void runMap(String name){
+        for (Farm farm : farms) {
+            if(name.equals(farm.getName())){
+                game.setFarm(farm);
+                return;
+            }
+        }
     }
 
 

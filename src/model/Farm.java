@@ -9,12 +9,21 @@ public class Farm {
 
     private static int TURN_TIME = 1;
     private static final int WELL_DEFAULT_CAPACITY = 30;
+    private String name;
     private Map map   = new Map();
     private Workshop[] workshops= new Workshop[7];
     private transient Truck truck = new Truck();
     private transient Warehouse warehouse = new Warehouse();
     private transient Helicopter helicopter = new Helicopter();
     private transient Well well = new Well(WELL_DEFAULT_CAPACITY);
+
+    public Farm() {
+        name = "Default";
+    }
+
+    public Farm(String name) {
+        this.name = name;
+    }
 
     public void placeProduct(ArrayList<Product> products){
         for (Product product : products) {
@@ -133,5 +142,9 @@ public class Farm {
         }
         return helicopter;
 
+    }
+
+    public String getName() {
+        return name;
     }
 }
