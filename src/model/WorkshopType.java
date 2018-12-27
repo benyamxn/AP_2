@@ -1,12 +1,12 @@
 package model;
 
 public enum WorkshopType {
-    EGG_POWERDER_PLANT(ProductType.EGG, ProductType.DRIED_EGG, 200),
+    EGG_POWDER_PLANT(ProductType.EGG, ProductType.DRIED_EGG, 200),
     COOKIE_BAKERY(ProductType.DRIED_EGG, ProductType.COOKIE, 250),
     SPINNERY(ProductType.WOOL, ProductType.SEWING, 250),
     GRINDING_FACTORY(ProductType.HORN, ProductType.BRIGHT_HORN, 300),
     WEAVING_FACTORY(ProductType.SEWING, ProductType.FABRIC, 250),
-    MANUFACTORING_PLANT(ProductType.BRIGHT_HORN, ProductType.INTERMEDIATE, 350);
+    MANUFACTURING_PLANT(ProductType.BRIGHT_HORN, ProductType.INTERMEDIATE, 350);
 
 
     private ProductType[] input;
@@ -36,5 +36,27 @@ public enum WorkshopType {
 
     public int getPrice() {
         return price;
+    }
+
+
+    @Override
+    public String toString() {
+        switch (this){
+
+            case EGG_POWDER_PLANT:
+                return "Egg Powder Plant";
+            case COOKIE_BAKERY:
+                return "Cookie Bakery";
+            case SPINNERY:
+                return "Spinnery";
+            case GRINDING_FACTORY:
+                return "Grinding Factory";
+            case WEAVING_FACTORY:
+                return "Weaving Factory";
+            case MANUFACTURING_PLANT:
+                return "Manufacturing Plant";
+                default:
+                    return "";
+        }
     }
 }

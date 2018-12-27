@@ -177,4 +177,19 @@ public class Game {
     public void setFarm(Farm farm) {
         this.farm = farm;
     }
+
+    public String getStatus() {
+        String status = "Game:\n";
+        status += "\tTime Passed: " + time + "\n";
+        status += "\tMoney: " + money;
+        status += "Mission: \n";
+        Map<ProductType, Integer> goals = mission.getProductsGoal();
+        for (Map.Entry<ProductType, Integer> entry : products.entrySet()) {
+            ProductType productType = entry.getKey();
+            if (!goals.containsKey(productType))
+                continue;
+            status += productType.toString() + " : " + entry.getValue() + " out of " + goals.get(productType) + "\n";
+        }
+        return status;
+    }
 }

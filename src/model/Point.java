@@ -49,6 +49,6 @@ public class Point {
 
     @Override
     public String toString() {
-        return "[" + getWidth() + ", " + getHeight() + "]";
+        return "[" + width + ", " + height + "]";
     }
 }

@@ -189,6 +189,21 @@ public class Cell {
         return this.animals.toArray(animals);
     }
 
+    @Override
+    public String toString() {
+        if (!animals.isEmpty()){
+            if (!products.isEmpty())
+                return "&";
+            else
+                return "$";
+        }
+        else if (!products.isEmpty()) {
+            return "^";
+        }
+        else
+            return "*";
+    }
+
     public void setAnimals(LinkedList<Animal> animals) {
         this.animals = animals;
     }

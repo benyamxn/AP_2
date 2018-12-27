@@ -28,6 +28,10 @@ public class Helicopter extends Vehicle {
         return price;
     }
 
+    @Override
+    public String toString() {
+        return "Helicopter";
+    }
 
     public ArrayList<Product> receiveProducts(){
         ArrayList<Product> receive = new ArrayList<>();

@@ -103,4 +103,10 @@ public class Warehouse {
     public void removeProducts(HashMap<ProductType, Integer> quantities) {
         removeProducts(unwrapQuantities(quantities).toArray(new ProductType[0]));
     }
+
+    public String getStatus() {
+        return  "Warehouse:\n" + "\tLevel: " + level +
+                "\tEmpty Space: " + capacity + "/ " + getTotalCapacity(level)
+                + "\tNumber of contents: " + contents.size();
+    }
 }

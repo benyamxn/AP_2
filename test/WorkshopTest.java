@@ -13,7 +13,7 @@ import static junit.framework.TestCase.fail;
 public class WorkshopTest {
     @Test
     public void testJson() {
-        Workshop workshop = new Workshop(WorkshopType.EGG_POWERDER_PLANT, new Point(0,0));
+        Workshop workshop = new Workshop(WorkshopType.EGG_POWDER_PLANT, new Point(0, 0));
         workshop.upgrade();
         try {
             workshop.saveToJson("test.json");

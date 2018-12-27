@@ -19,8 +19,12 @@ public class Product {
         this.type = type;
     }
 
-
     public ProductType getType() {
         return type;
+    }
+
+    @Override
+    public String toString() {
+        return type.toString();
     }
 }

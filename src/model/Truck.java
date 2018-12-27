@@ -28,7 +28,11 @@ public class Truck extends Vehicle {
 
     @Override
     public int getUpgradeCost(){
-
         return upgradeCost * (int) Math.pow(2,level) + 200 - 50 * (level);
+    }
+
+    @Override
+    public String toString() {
+        return "Truck";
     }
 }

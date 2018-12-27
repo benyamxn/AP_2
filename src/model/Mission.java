@@ -63,4 +63,11 @@ public class Mission implements  Comparable<Mission> {
         return mission;
     }
 
+    public String getStatus() {
+        String status = "Mission Goals:\n" + "Time Goal: " + timeGoal + "\n" + "Money Goal: " + moneyGoal + "\n";
+        for (Map.Entry<ProductType, Integer> entry : productsGoal.entrySet()){
+            status += entry.getKey().toString() + " Goal: " + entry.getValue() + "\n";
+        }
+        return status;
+    }
 }

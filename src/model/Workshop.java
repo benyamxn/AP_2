@@ -130,6 +130,11 @@ public class Workshop {
         return name.equals(workshop.name);
     }
 
+    @Override
+    public String toString() {
+        return type.toString();
+    }
+
     public boolean isOnProduction() {
         return onProduction;
     }
@@ -140,5 +145,14 @@ public class Workshop {
 
     public String getName() {
         return name;
+    }
+
+    public String getStatus() {
+        String status = "Workshop (" + this.toString() + "):\n" + "Requirements:\n";
+        for (ProductType productType : input) {
+            status += productType.toString() + "\n";
+        }
+        status += "Output:\n" + output + "\n";
+        return status;
     }
 }

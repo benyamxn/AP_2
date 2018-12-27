@@ -113,4 +113,17 @@ public class Map {
             }
         }
     }
+
+    public String getStatus() {
+        String status = "Map:\n" + "'*': Contains nothing\t'^':Contains Only Products\t'$'" +
+                ":Contains Only Animals\t'&'Contains both animals and products\n";
+        for (int x = 0; x < width; x++){
+            for (int y = 0; y < height; y++){
+                status += cells[x][y].toString();
+                if (x == width - 1)
+                    status += "\n";
+            }
+        }
+        return status;
+    }
 }
