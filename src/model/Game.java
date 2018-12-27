@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import model.exception.MoneyNotEnoughException;
 import model.exception.NotEnoughCapacityException;
+import model.exception.NotEnoughItemsException;
 import model.exception.VehicleOnTripException;
 
 import java.io.*;
@@ -90,33 +91,43 @@ public class Game {
         }
     }
 
-    public void moveVehicle(Vehicle vehicle,HashMap<ProductType,Integer> products) throws VehicleOnTripException,NotEnoughCapacityException,MoneyNotEnoughException {
+    public void addProductToVehicle(Vehicle vehicle, ProductType productType, int number) throws VehicleOnTripException, NotEnoughCapacityException, NotEnoughItemsException, MoneyNotEnoughException {
+        if(vehicle.onTravel) {
+            throw new VehicleOnTripException();
+        }
+
+        double capacity = number * productType.getDepotSize();
+        if(capacity > vehicle.getCapacity()) {
+            throw new NotEnoughCapacityException();
+        }
+        HashMap<ProductType,Integer> products = new HashMap<>();
+        products.put(productType, number);
+        if(vehicle instanceof Truck) {
+            Warehouse warehouse = farm.getWarehouse();
+            if (warehouse.hasProducts(products)) {
+                warehouse.removeProducts(products);
+                vehicle.addProduct(productType, number);
+                return;
+            } else {
+                throw new NotEnoughItemsException();
+            }
+        }
+
+        if( number * productType.getBuyCost() > money) {
+            throw new MoneyNotEnoughException();
+        }
+        else {
+            money -= number * productType.getBuyCost();
+            vehicle.addProduct(productType, number);
+        }
+    }
+
+    public void moveVehicle(Vehicle vehicle) throws VehicleOnTripException,NotEnoughCapacityException,MoneyNotEnoughException, NotEnoughItemsException {
 
         if(vehicle.onTravel){
             throw new VehicleOnTripException();
         }
-        else{
-            double capacity = 0;
-            for (Map.Entry<ProductType, Integer> product : products.entrySet()) {
-               capacity += product.getKey().getDepotSize() * product.getValue();
-            }
-            if(capacity > vehicle.getCapacity()){
-                throw new NotEnoughCapacityException();
-            }
-            else{
-                if(vehicle instanceof Helicopter){
-                    Helicopter temp  = new Helicopter();
-                    temp.startTravel(products);
-                    if(temp.getProductsPrice() > money){
-                        throw new MoneyNotEnoughException();
-                    }
-                    else{
-                        money -= temp.getProductsPrice();
-                    }
-                }
-                vehicle.startTravel(products);
-            }
-        }
+        vehicle.startTravel();
 
     }
 
