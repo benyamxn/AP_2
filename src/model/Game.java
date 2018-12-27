@@ -1,9 +1,12 @@
 package model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import model.exception.MoneyNotEnoughException;
 import model.exception.NotEnoughCapacityException;
 import model.exception.VehicleOnTripException;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +20,7 @@ public class Game {
     private Map<ProductType,Integer> products = new HashMap<>();
     private Farm farm = new Farm();
     private String playerName = "Guest";
+    private ProductType[] marketProducts;
 
     public Game(Misson misson) {
         this.misson = misson;
@@ -24,6 +28,24 @@ public class Game {
     public Game(Misson misson , String playerName){
         this.misson = misson;
         this.playerName = playerName;
+    }
+
+    public void loadMarketProducts(String path) throws IOException {
+        Reader reader = new FileReader(path);
+        Gson gson = new GsonBuilder().create();
+        marketProducts = gson.fromJson(reader, ProductType[].class);
+        reader.close();
+    }
+
+    public void saveMarketProducts(String path) throws IOException {
+        Writer writer = new FileWriter(path);
+        Gson gson = new GsonBuilder().create();
+        gson.toJson(marketProducts, writer);
+        writer.close();
+    }
+
+    public void setMarketProducts(ProductType... marketProducts) {
+        this.marketProducts = marketProducts;
     }
 
     public void updateGame(){
