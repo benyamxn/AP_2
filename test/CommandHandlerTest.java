@@ -1,5 +1,6 @@
 import model.Request;
 import model.RequestType;
+import model.exception.RequestNotFoundException;
 import org.junit.Assert;
 import org.junit.Test;
 import view.CommandHandler;
@@ -7,7 +8,7 @@ import view.CommandHandler;
 public class CommandHandlerTest {
     CommandHandler commandHandler = new CommandHandler();
     @Test
-    public void getRequestTest() {
+    public void getRequestTest() throws RequestNotFoundException {
         Request request =  commandHandler.getRequest("print levels");
         Assert.assertEquals(request.getRequestType(), RequestType.PRINT_LEVELS);
     }

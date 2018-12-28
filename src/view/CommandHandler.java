@@ -2,6 +2,8 @@ package view;
 import model.Request;
 import model.RequestType;
 import model.VehicleType;
+import model.exception.RequestNotFoundException;
+
 public class CommandHandler {
 
     private static final String BUY = "buy (.*)";
@@ -22,7 +24,7 @@ public class CommandHandler {
     private static final String GO = "(.*) go";
 
 
-    public  Request getRequest(String command){
+    public  Request getRequest(String command) throws RequestNotFoundException {
         String[] parameter = command.split(" ");
 
         if(command.matches(BUY)){
@@ -82,7 +84,7 @@ public class CommandHandler {
         else if(command.matches(GO)){
             return new Request(RequestType.VEHICLE_GO, VehicleType.valueOf(parameter[0].toUpperCase()));
         }
-        return null;
+        throw new RequestNotFoundException();
     }
 
 

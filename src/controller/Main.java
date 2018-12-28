@@ -12,8 +12,9 @@ public class Main {
     public static void main(String[] args) {
 
         while(true) {
-            Request request = view.getRequest();
+
             try {
+                Request request = view.getRequest();
                 handleRequest(request);
             } catch (MoneyNotEnoughException e) {
                 view.println("Money Not Enough");
@@ -29,6 +30,8 @@ public class Main {
                 view.println("There isn't enough items in the warehouse");
             } catch (IOException e) {
                 view.println("File not found");
+            } catch (RequestNotFoundException e) {
+                view.println("Request not found");
             }
         }
     }
