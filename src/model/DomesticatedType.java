@@ -1,7 +1,5 @@
 package model;
 
-import model.exception.NameNotFoundException;
-
 public enum DomesticatedType {
 
     GUINEA_FOWL(100, ProductType.EGG, 6, 75),
@@ -63,9 +61,8 @@ public enum DomesticatedType {
     }
 
     public static DomesticatedType getTypeByString(String typeString) {
-        String str = typeString.replace("_", " ").toLowerCase();
         for (DomesticatedType type : DomesticatedType.values()) {
-            if (type.toString().toLowerCase().equals(str))
+            if (type.toString().toLowerCase().equals(typeString.toLowerCase()))
                 return type;
         }
         return null;

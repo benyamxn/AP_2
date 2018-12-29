@@ -109,13 +109,22 @@ public class Map {
         return cells[point.getWidth()][point.getHeight()];
     }
 
-    public void plant(Point point){
+
+    public void plant(List<Cell> cells){
+        for (Cell cell : cells) {
+            cell.eatGrass();
+        }
+    }
+    public LinkedList<Cell > getCellsForPlant(Point point){
+        LinkedList<Cell> cellLinkedList = new LinkedList<>();
         for(int i = point.getWidth() - 1 ; i < point.getWidth() + 2; i++){
             for(int j = point.getHeight() - 1; j < point.getHeight() + 2; j++){
-                if(i >= 0 && j >= 0 && i < width && j < height )
-                    cells[i][j].growGrass();
+                if(i >= 0 && j >= 0 && i < width && j < height ){
+                    cellLinkedList.add(cells[i][j]);
+                }
             }
         }
+        return cellLinkedList;
     }
 
     public Point getCornerPoint(){

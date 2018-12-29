@@ -21,8 +21,8 @@ public class Controller {
         game.getCell(point).cage();
     }
 
-    public void plant(Point point) {
-        game.getFarm().getMap().plant(point);
+    public void plant(Point point) throws NotEnoughWaterException {
+        game.getFarm().plant(point);
     }
 
     public void well() throws MoneyNotEnoughException {

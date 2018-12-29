@@ -40,11 +40,13 @@ public class Main {
                 view.println("Request not found");
             } catch (ItemNotForSaleException e){
                 view.println("Item is not available in market");
+            } catch (NotEnoughWaterException e) {
+                view.println("There isn't enough water in Well");
             }
         }
     }
 
-    public static void  handleRequest(Request request) throws MaxLevelException, NameNotFoundException, MoneyNotEnoughException, IOException, VehicleOnTripException, NotEnoughCapacityException, NotEnoughItemsException, ItemNotForSaleException {
+    public static void  handleRequest(Request request) throws MaxLevelException, NameNotFoundException, MoneyNotEnoughException, IOException, VehicleOnTripException, NotEnoughCapacityException, NotEnoughItemsException, ItemNotForSaleException, NotEnoughWaterException {
 
         RequestType requestType = request.getRequestType();
         switch (requestType) {
