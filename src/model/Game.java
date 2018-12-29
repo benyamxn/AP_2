@@ -82,10 +82,9 @@ public class Game {
         if(newProducts != null){
             farm.placeProduct(newProducts);
         }
-
     }
 
-    public boolean checkMission(){
+    public boolean isFinished(){
         Mission temp = new Mission(money,time,products);
         if(temp.compareTo(mission) == 1){
             return true;
@@ -198,10 +197,11 @@ public class Game {
 
     public String getStatus() {
         String status = "Game:\n";
-        status += "\tTurns Passed: " + time / BASE_TIME + "\n";
+        status += "\tTime Passed: " + time + "\n";
         status += "\tMoney: " + money + "\n";
         status += "\tMission: \n";
         Map<ProductType, Integer> goals = mission.getProductsGoal();
+        status += "\tTime Goal: " + mission.getTimeGoal() + "\n";
         for (Map.Entry<ProductType, Integer> entry : products.entrySet()) {
             ProductType productType = entry.getKey();
             if (!goals.containsKey(productType))
