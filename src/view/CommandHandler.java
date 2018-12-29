@@ -69,7 +69,16 @@ public class CommandHandler {
         }
         else if(command.matches(PRINT)){
             String temp = "PRINT_";
-            return new Request(RequestType.valueOf(temp.concat(parameter[1]).toUpperCase()));
+            try{
+                if(parameter[1].toLowerCase().trim().equals("truck")
+                        || parameter[1].toLowerCase().trim().equals("helicopter") ){
+                    return new Request(RequestType.PRINT_VEHICLE,VehicleType.valueOf(parameter[1].toUpperCase()));
+                }
+                return new Request(RequestType.valueOf(temp.concat(parameter[1]).toUpperCase()));
+            }
+            catch (Exception e){
+                throw new RequestNotFoundException();
+            }
         }
         else if(command.matches(TURN)){
             return  new Request(RequestType.TURN,Integer.parseInt(parameter[1]));
