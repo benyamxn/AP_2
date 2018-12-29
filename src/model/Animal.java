@@ -46,7 +46,7 @@ public abstract class Animal {
             directions.remove(Direction.DOWN_LEFT);
             directions.remove(Direction.UP_LEFT);
         }
-        if (getLocation().getWidth() == cornerPoint.getWidth()) {
+        if (getLocation().getWidth() == cornerPoint.getWidth() - 1) {
             directions.remove(Direction.RIGHT);
             directions.remove(Direction.DOWN_RIGHT);
             directions.remove(Direction.UP_RIGHT);
@@ -56,7 +56,7 @@ public abstract class Animal {
             directions.remove(Direction.DOWN);
             directions.remove(Direction.DOWN_RIGHT);
         }
-        if (getLocation().getHeight() == cornerPoint.getHeight()) {
+        if (getLocation().getHeight() == cornerPoint.getHeight() - 1) {
             directions.remove(Direction.UP);
             directions.remove(Direction.UP_RIGHT);
             directions.remove(Direction.UP_LEFT);
