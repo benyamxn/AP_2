@@ -14,7 +14,7 @@ public abstract class Vehicle implements Upgradable {
     protected HashMap<ProductType,Integer> contents = new HashMap<>();
     protected int level = 1;
     protected int estimatedTimeOfArrival;
-    protected int arrivalTime;
+    protected int arrivalTime = BASETIME;
     protected boolean onTravel = false;
     protected VehicleType vehicleType;
 
