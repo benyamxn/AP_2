@@ -9,12 +9,27 @@ import static junit.framework.TestCase.fail;
 
 public class ControllerTest {
     @Test
-    public void testJson() {
+    public void testSaveGame() {
         Controller controller = new Controller();
         try {
             controller.saveGame("gameData/savedGames/game.json");
         } catch (IOException e) {
             fail();
         }
+    }
+
+    @Test
+    public void testSaveFarm() {
+        Controller controller = new Controller();
+        try {
+            controller.saveCustom("gameData/savedMaps/map1.json");
+        } catch (IOException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testSaveMission() {
+        Controller controller = new Controller();
     }
 }
