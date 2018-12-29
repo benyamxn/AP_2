@@ -5,9 +5,9 @@ import java.util.List;
 
 public class Domesticated extends Animal {
 
-    private static final int HUNGRYNESS = 3;
+    private static final int HUNGRINESS = 3;
+    private static final int APPETITE = 3;
     private DomesticatedType type;
-    private int eatenAmountOfFood;
     private int turnsLeftToProduce;
 
     public Domesticated(Point location, DomesticatedType type) {
@@ -16,7 +16,6 @@ public class Domesticated extends Animal {
         setMaxHealth(type.getMaxHealth());
         setHealth(type.getMaxHealth());
         turnsLeftToProduce = type.getTurnsToProduce();
-        eatenAmountOfFood = 0;
     }
 
     public Domesticated(Point location) {
@@ -40,7 +39,6 @@ public class Domesticated extends Animal {
         addToHealth((int) Math.ceil((double) getMaxHealth() / 3));
         if (getHealth() >= getMaxHealth())
             setHealth(getMaxHealth());
-        eatenAmountOfFood++;
     }
 
     public void decrementTurnsLeftToProduce(){
@@ -50,16 +48,21 @@ public class Domesticated extends Animal {
     }
 
     public boolean isHungry(){
-        return getMaxHealth() > HUNGRYNESS * getHealth();
+        return getMaxHealth() > APPETITE * getHealth();
     }
 
     @Override
     public void move(Point cornerPoint) {
+        reduceHealth();
         // Assuming that map calls this method when the location of the animal does not contain any grass
         if (isHungry())
             moveToPoint(getTarget());
         else
             super.move(cornerPoint);
+    }
+
+    private void reduceHealth() {
+        setHealth(getHealth() - getMaxHealth() / HUNGRINESS);
     }
 
     @Override

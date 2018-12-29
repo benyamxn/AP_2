@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -136,6 +135,17 @@ public class Map {
         return cellLinkedList;
     }
 
+    private int[] getNumberOfEachAnimal(){
+        int[] ans = new int[4];
+        for (Cell[] cell : cells) {
+            for (Cell cell1 : cell) {
+                for (int i = 0; i < 4; i++)
+                    ans[i] += cell1.getNumberOfEachAnimal()[i];
+            }
+        }
+        return ans;
+    }
+
     public Point getCornerPoint(){
         return new Point(width, height);
     }
@@ -151,6 +161,9 @@ public class Map {
                     status += "\n";
             }
         }
+        int[] numberOfAnimals = getNumberOfEachAnimal();
+        status += "\n# of Domesticated Animals: " + numberOfAnimals[0] + "\t# of Wild Animals: " + numberOfAnimals[3] +
+                "\t# of Dogs: " + numberOfAnimals[1] + "\t# of Cats: " + numberOfAnimals[2] + "\n";
         return status;
     }
 }
