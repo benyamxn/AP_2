@@ -6,9 +6,7 @@ import model.exception.*;
 
 import java.io.*;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 import java.util.Map;
 
 public class Game {
@@ -62,6 +60,12 @@ public class Game {
     }
 
     public void updateGame(){
+        Random random = new Random();
+        if(random.nextInt(15) % 15 == 0){
+            for (int i = 0; i < random.nextInt(3) + 1; i++) {
+               farm.placeAnimal(WildType.GRIZZLY);
+            }
+        }
         time += BASE_TIME;
         farm.updateFarm();
         Truck truck = farm.getTruck();
