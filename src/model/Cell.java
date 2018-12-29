@@ -189,6 +189,10 @@ public class Cell {
         return this.animals.toArray(animals);
     }
 
+    public boolean hasGrass() {
+        return grassLevel > 0;
+    }
+
     @Override
     public String toString() {
         String str;
