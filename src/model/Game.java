@@ -21,12 +21,20 @@ public class Game {
     private Map<ProductType,Integer> products = new HashMap<>();
     private Farm farm = new Farm();
     private String playerName = "Guest";
-    private ProductType[] marketProducts;
+    private ProductType[] marketProducts = {ProductType.EGG, ProductType.WOOL, ProductType.MILK};
+
+
 
     public Game(Mission mission) {
         this.mission = mission;
     }
     public Game(Mission mission, String playerName){
+        this.mission = mission;
+        this.playerName = playerName;
+    }
+
+    public Game(int money, Mission mission, String playerName) {
+        this.money = money;
         this.mission = mission;
         this.playerName = playerName;
     }
@@ -183,6 +191,11 @@ public class Game {
         this.farm = farm;
     }
 
+
+    public ProductType[] getMarketProducts() {
+        return marketProducts;
+    }
+
     public String getStatus() {
         String status = "Game:\n";
         status += "\tTime Passed: " + time + "\n";
@@ -197,4 +210,6 @@ public class Game {
         }
         return status;
     }
+
+
 }

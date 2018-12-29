@@ -1,6 +1,6 @@
 package model.exception;
 
-public class RequestNotFoundException extends  Exception{
+public class RequestNotFoundException extends  Exception {
 
     public RequestNotFoundException() {
     }

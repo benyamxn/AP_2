@@ -5,6 +5,8 @@ import model.exception.*;
 import view.View;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class Main {
     private static Controller controller = new Controller();
@@ -108,6 +110,9 @@ public class Main {
                 break;
             case TURN:
                 controller.turn(request.getCount());
+                break;
+            case PRINT_MARKET_PRODUCTS:
+                view.println(Arrays.asList(controller.getGame().getMarketProducts()).toString());
                 break;
             case ADD_ITEM_TO_VEHICLE:
                 controller.loadProducts(request.getVehicleType(), ProductType.getTypeByString(request.getParameter()), request.getCount());

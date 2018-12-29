@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Controller {
-    Mission mission = new Mission(1000, 1000, new HashMap());
-    private Game game = new Game(7500, mission);
+    Mission mission = new Mission(30000, 1000, new HashMap());
+    private Game game = new Game(20000, mission, "tester");
     private LinkedList<Farm> farms = new LinkedList<>();
     public void pickup(Point point) throws NotEnoughCapacityException {
         game.getFarm().pickup(point);
