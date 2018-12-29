@@ -96,7 +96,7 @@ public class Cell {
                 Animal animal = iterator.next();
                 if (animal instanceof Domesticated) {
                     ((Domesticated) animal).decrementTurnsLeftToProduce();
-                    if (grassLevel > 0) {
+                    if (grassLevel > 0 && ((Domesticated) animal).canEat()) {
                         eatGrass();
                         ((Domesticated) animal).eat();
                     } else if (((Domesticated) animal).getHealth() < 0) {
@@ -187,6 +187,15 @@ public class Cell {
     public Animal[] getAnimals() {
         Animal[] animals = new Animal[this.animals.size()];
         return this.animals.toArray(animals);
+    }
+
+    public Domesticated[] getDomesticatedAnimals() {
+        LinkedList<Domesticated> domesticatedAnimals = new LinkedList<>();
+        for (Animal animal : animals) {
+            if (animal instanceof Domesticated)
+                domesticatedAnimals.add(((Domesticated) animal));
+        }
+        return domesticatedAnimals.toArray(new Domesticated[0]);
     }
 
     public boolean hasGrass() {
