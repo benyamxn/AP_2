@@ -27,7 +27,6 @@ public abstract class Animal {
             moveToPoint(target);
             return;
         }
-
         ArrayList<Direction> directions = Direction.getAllDirections();
         if (getLocation().getWidth() == 0) {
             directions.remove(Direction.LEFT);
@@ -54,6 +53,9 @@ public abstract class Animal {
     }
 
     public void setTarget(ArrayList<Point> possibleTargets) {
+        if(possibleTargets.isEmpty()) {
+            return;
+        }
         target = possibleTargets.get(0);
         int distance = Integer.MAX_VALUE;
         for (Point point : possibleTargets) {
