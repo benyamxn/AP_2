@@ -1,10 +1,11 @@
 package model;
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Domesticated extends Animal {
 
+    private static final int HUNGRY_LEVEL = 3;
     private DomesticatedType type;
     private int eatenAmountOfFood;
     private int turnsLeftToProduce;
@@ -48,16 +49,21 @@ public class Domesticated extends Animal {
             turnsLeftToProduce = 0;
     }
 
-    @Override
-    public void move(Point cornerPoint) {
-        if (!canEat()) {
-            super.move(cornerPoint);
-        }
-//        else if()
+    public boolean isHungry(){
+        return getMaxHealth() > 3 * getHealth();
     }
 
     @Override
-    public void setTarget(ArrayList<Point> plants, Point cornerPoint) {
+    public void move(Point cornerPoint) {
+        // Assuming that map calls this method when the location of the animal does not contain any grass
+        if (isHungry())
+            moveToPoint(getTarget());
+        else
+            super.move(cornerPoint);
+    }
+
+    @Override
+    public void setTarget(List<Point> plants, Point cornerPoint) {
         if (getHealth() < getMaxHealth() / 3)
             super.setTarget(plants, cornerPoint);
     }

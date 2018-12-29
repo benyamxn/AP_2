@@ -28,7 +28,7 @@ public enum DomesticatedType {
     public String toString() {
         switch (this) {
             case GUINEA_FOWL:
-                return "Guinea Fool";
+                return "Guinea Fowl";
             case OSTRICH:
                 return "Ostrich";
             case BUFFALO:

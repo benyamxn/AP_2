@@ -1,6 +1,6 @@
 package model;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Cat extends Animal implements Upgradable {
@@ -15,7 +15,7 @@ public class Cat extends Animal implements Upgradable {
     }
 
     @Override
-    public void setTarget(ArrayList<Point> possibleTargets, Point cornerPoint) {
+    public void setTarget(List<Point> possibleTargets, Point cornerPoint) {
         if (smart) {
             super.setTarget(possibleTargets, cornerPoint);
         }

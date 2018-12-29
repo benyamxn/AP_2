@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Animal {
     private int health, maxHealth;
@@ -63,9 +64,10 @@ public abstract class Animal {
         return directions;
     }
 
-    public void setTarget(ArrayList<Point> possibleTargets, Point cornerPoint) {
+    public void setTarget(List<Point> possibleTargets, Point cornerPoint) {
         if(possibleTargets.isEmpty()) {
             setRandomTarget(cornerPoint);
+            hasATarget = false;         // so that the next time it moves normally.
             return;
         }
         target = possibleTargets.get(0);
@@ -155,6 +157,10 @@ public abstract class Animal {
 
     public void setHasATarget(boolean hasATarget) {
         this.hasATarget = hasATarget;
+    }
+
+    public void reachedTarget(){
+        hasATarget = false;
     }
 
     public boolean hasATarget() {
