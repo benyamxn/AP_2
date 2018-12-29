@@ -100,23 +100,24 @@ public class Cell {
                         eatGrass();
                         ((Domesticated) animal).eat();
                     } else if (((Domesticated) animal).getHealth() < 0) {
-
                         iterator.remove();
                     }
                 }
             }
         } else {
-            animals.clear();
-        } // TODO: decide about here
+            animals.removeAll(Arrays.asList(getDomesticatedAnimals()));
+        }
     }
 
     public void updateWildAnimals() {
         boolean hasDog = false;
+        boolean hasWild = hasAWildAnimal();
         Iterator<Animal> iterator = animals.iterator();
         while (iterator.hasNext()) {
             if (iterator.next() instanceof Dog) {
                 hasDog = true;
-                iterator.remove();
+                if (hasWild)
+                    iterator.remove();
             }
         }
         if (hasDog) {

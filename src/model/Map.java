@@ -135,7 +135,7 @@ public class Map {
         return cellLinkedList;
     }
 
-    private int[] getNumberOfEachAnimal(){
+    public int[] getNumberOfEachAnimal(){
         int[] ans = new int[4];
         for (Cell[] cell : cells) {
             for (Cell cell1 : cell) {

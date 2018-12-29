@@ -12,6 +12,7 @@ import java.util.Map;
 public class Game {
 
     private static int BASE_TIME = 12;
+    private static int WILD_NUMBER = 12;
     private int money = 0;
     private int time = 0;
     private Mission mission;
@@ -62,8 +63,10 @@ public class Game {
     public void updateGame(){
         Random random = new Random();
         if(random.nextInt(15) % 15 == 0){
-            for (int i = 0; i < random.nextInt(3) + 1; i++) {
-                farm.placeAnimal(WildType.GRIZZLY);
+            if ((farm.getMap().getNumberOfEachAnimal()[3] < WILD_NUMBER )) {
+                for (int i = 0; i < random.nextInt(3) + 1; i++) {
+                    farm.placeAnimal(WildType.GRIZZLY);
+                }
             }
         }
         time += BASE_TIME;
