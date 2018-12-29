@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +41,7 @@ public class ControllerTest {
     @Test
     public void testSaveMission() {
         Controller controller = new Controller();
+        controller.getGame().setMission(new Mission(20000, 360, new EnumMap<>(ProductType.class)));
         try {
             controller.saveMission("gameData/savedMissions/mission1.json");
             controller.loadMission("gameData/savedMissions/mission1.json");
