@@ -6,8 +6,8 @@ public enum WorkshopType {
     SPINNERY(ProductType.WOOL, ProductType.SEWING, 250),
     GRINDING_FACTORY(ProductType.HORN, ProductType.BRIGHT_HORN, 300),
     WEAVING_FACTORY(ProductType.SEWING, ProductType.FABRIC, 250),
-    MANUFACTURING_PLANT(ProductType.BRIGHT_HORN, ProductType.INTERMEDIATE, 350);
-
+    MANUFACTURING_PLANT(ProductType.BRIGHT_HORN, ProductType.INTERMEDIATE, 350),
+    CUSTOM();
 
     private ProductType[] input;
     private ProductType output;
@@ -24,6 +24,9 @@ public enum WorkshopType {
         this.input = inputs;
         this.output = output;
         this.price = price;
+    }
+
+    WorkshopType() {
     }
 
     public ProductType[] getInput() {

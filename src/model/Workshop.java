@@ -134,7 +134,7 @@ public class Workshop implements Upgradable {
 
     @Override
     public String toString() {
-        return type.toString();
+        return name;
     }
 
     public boolean isOnProduction() {
