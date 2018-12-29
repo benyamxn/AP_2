@@ -186,8 +186,8 @@ public class Game {
     public String getStatus() {
         String status = "Game:\n";
         status += "\tTime Passed: " + time + "\n";
-        status += "\tMoney: " + money;
-        status += "Mission: \n";
+        status += "\tMoney: " + money + "\n";
+        status += "\tMission: \n";
         Map<ProductType, Integer> goals = mission.getProductsGoal();
         for (Map.Entry<ProductType, Integer> entry : products.entrySet()) {
             ProductType productType = entry.getKey();
