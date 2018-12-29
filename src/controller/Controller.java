@@ -29,7 +29,7 @@ public class Controller {
         game.well();
     }
 
-    public void startWorkshop(String name) throws NameNotFoundException {
+    public void startWorkshop(String name) throws NameNotFoundException, NotEnoughItemsException {
         Farm farm = game.getFarm();
         farm.startWorkshop(farm.getWorkshopByName(name));
     }

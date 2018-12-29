@@ -2,6 +2,7 @@ package model;
 
 import model.exception.NameNotFoundException;
 import model.exception.NotEnoughCapacityException;
+import model.exception.NotEnoughItemsException;
 import model.exception.NotEnoughWaterException;
 
 import java.util.ArrayList;
@@ -81,17 +82,21 @@ public class Farm {
             if(workshop.isOnProduction()){
                 if(workshop.isProductionEnded()){
                     map.getCell(workshop.getProductionPoint()).addProduct(workshop.produce());
+                    workshop.setOnProduction(false);
                 }
             }
+            workshop.decrementTimeLeft();
         }
         warehouse.addProduct(map.updateMap(warehouse.getCapacity()));
     }
 
-    public void startWorkshop(Workshop workshop){
-        if(! workshop.isProductionEnded()){
+    public void startWorkshop(Workshop workshop) throws NotEnoughItemsException {
+        if(workshop.isProductionEnded()){
             if(warehouse.hasProducts(workshop.getNeededProducts())){
                 workshop.startProduction();
                 warehouse.removeProducts(workshop.getNeededProducts());
+            } else {
+                throw new NotEnoughItemsException();
             }
         }
     }
@@ -168,4 +173,6 @@ public class Farm {
     public String getName() {
         return name;
     }
+
+
 }

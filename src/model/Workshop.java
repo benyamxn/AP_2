@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.Arrays;
 
 public class Workshop implements Upgradable {
-    private static final int INITIAL_PRODUCTION_TYPE = 8;
+    private static final int INITIAL_PRODUCTION_TYPE = 7;
     private ProductType[] input;
     private ProductType output;
     private int numberOfInputs = 1;
@@ -156,5 +156,9 @@ public class Workshop implements Upgradable {
         }
         status += "Output:\n" + output + "\n";
         return status;
+    }
+
+    public void setOnProduction(boolean onProduction) {
+        this.onProduction = onProduction;
     }
 }
