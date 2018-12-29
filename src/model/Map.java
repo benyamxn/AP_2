@@ -33,6 +33,31 @@ public class Map {
     }
 
     public ProductType[]  updateMap(double  warehouseCapacity){
+
+        ArrayList<Point> catCollectablePoints = new ArrayList<>();
+        ArrayList<Point> wildAnimalPoints = new ArrayList<>();
+        for(int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if(cells[i][j].hasACatCollectable()){
+                    catCollectablePoints.add(cells[i][j].getCoordinate());
+                }
+                if(cells[i][j].hasAWildAnimal()){
+                    wildAnimalPoints.add(cells[i][j].getCoordinate());
+                }
+            }
+        }
+
+        for(int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                for (Cat cat : cells[i][j].getCats()) {
+                    cat.setTarget(catCollectablePoints, getCornerPoint());
+                }
+                for (Dog dog : cells[i][j].getDogs()) {
+                    dog.setTarget(wildAnimalPoints, getCornerPoint());
+                }
+            }
+        }
+
         LinkedList<Animal> mapAnimals  = new LinkedList<>();
         for(int i = 0; i < width; i++){
             for(int j = 0; j < height; j++){
@@ -60,30 +85,6 @@ public class Map {
                     newProduct.addAll(Arrays.asList(cells[i][j].updateRemoveProducts()));
             }
         }
-        ArrayList<Point> catCollectablePoints = new ArrayList<>();
-        ArrayList<Point> wildAnimalPoints = new ArrayList<>();
-        for(int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                if(cells[i][j].hasACatCollectable()){
-                    catCollectablePoints.add(cells[i][j].getCoordinate());
-                }
-                if(cells[i][j].hasAWildAnimal()){
-                    wildAnimalPoints.add(cells[i][j].getCoordinate());
-                }
-            }
-        }
-
-        for(int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                for (Cat cat : cells[i][j].getCats()) {
-                    cat.setTarget(catCollectablePoints, getCornerPoint());
-                }
-                for (Dog dog : cells[i][j].getDogs()) {
-                    dog.setTarget(wildAnimalPoints, getCornerPoint());
-                }
-            }
-        }
-
         return newProduct.toArray(new ProductType[newProduct.size()]);
     }
 
