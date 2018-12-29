@@ -5,7 +5,6 @@ import model.exception.*;
 import view.View;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class Main {
@@ -16,8 +15,13 @@ public class Main {
         while(true) {
 
             try {
+                if(controller.getGame().isFinished()){
+                    view.println("Mission accomplished!");
+                    return;
+                }
                 Request request = view.getRequest();
                 handleRequest(request);
+
             } catch (MoneyNotEnoughException e) {
                 view.println("Money Not Enough");
             } catch (MaxLevelException e) {
