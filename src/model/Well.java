@@ -2,6 +2,8 @@ package model;
 
 public class Well implements Upgradable {
     private int level = 1, refillPrice, capacity, remainingWater;
+    private static final int WATER_CONSUMPTION = 9;
+
 
     Well(int capacity){
         this.capacity = capacity;
@@ -23,6 +25,22 @@ public class Well implements Upgradable {
     @Override
     public boolean canUpgrade() {
         return level < 5;
+    }
+
+    public void reduceWater(int numberOfCells){
+        remainingWater -= numberOfCells;
+    }
+
+    public void reduceWater(){
+        remainingWater -= WATER_CONSUMPTION;
+    }
+
+    public boolean hasEnoughWater(int numberOfCells){
+        return remainingWater >= numberOfCells;
+    }
+
+    public boolean hasEnoughWater(){
+        return remainingWater >= WATER_CONSUMPTION;
     }
 
     public void refill(){

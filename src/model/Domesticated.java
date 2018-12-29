@@ -1,6 +1,8 @@
 package model;
 
 
+import java.util.ArrayList;
+
 public class Domesticated extends Animal {
 
     private DomesticatedType type;
@@ -44,6 +46,20 @@ public class Domesticated extends Animal {
         turnsLeftToProduce--;
         if (turnsLeftToProduce < 0)
             turnsLeftToProduce = 0;
+    }
+
+    @Override
+    public void move(Point cornerPoint) {
+        if (!canEat()) {
+            super.move(cornerPoint);
+        }
+//        else if()
+    }
+
+    @Override
+    public void setTarget(ArrayList<Point> plants, Point cornerPoint) {
+        if (getHealth() < getMaxHealth() / 3)
+            super.setTarget(plants, cornerPoint);
     }
 
     @Override
