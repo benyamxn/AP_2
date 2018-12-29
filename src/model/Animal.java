@@ -83,7 +83,7 @@ public abstract class Animal {
     public void setRandomTarget(Point cornerPoint){
         ArrayList<Direction> directions = getPossibleDirections(cornerPoint);
         Direction dir = Direction.randomDir(directions.toArray(new Direction[0]));
-        Point newTarget = target;
+        Point newTarget = location;
         newTarget.add(dir.getMoveVector());
         setTarget(newTarget);
     }
