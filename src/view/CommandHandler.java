@@ -25,7 +25,7 @@ public class CommandHandler {
 
 
     public  Request getRequest(String command) throws RequestNotFoundException {
-        String[] parameter = command.split(" ");
+        String[] parameter = command.split("\\s+");
 
         if(command.matches(BUY)){
             return  new Request(RequestType.BUY_ANIMAL, parameter[1]);
@@ -69,12 +69,13 @@ public class CommandHandler {
         }
         else if(command.matches(PRINT)){
             String temp = "PRINT_";
-            try{
-                if(parameter[1].toLowerCase().trim().equals("truck")
-                        || parameter[1].toLowerCase().trim().equals("helicopter") ){
-                    return new Request(RequestType.PRINT_VEHICLE,VehicleType.valueOf(parameter[1].toUpperCase()));
+            try {
+                if (parameter[1].toLowerCase().trim().equals("truck")
+                        || parameter[1].toLowerCase().trim().equals("helicopter")) {
+                    return new Request(RequestType.PRINT_VEHICLE, VehicleType.valueOf(parameter[1].toUpperCase()));
                 }
-                return new Request(RequestType.valueOf(temp.concat(parameter[1]).toUpperCase()));
+                if (!parameter[1].toLowerCase().trim().equals("vehicle"))
+                    return new Request(RequestType.valueOf(temp.concat(parameter[1]).toUpperCase()));
             }
             catch (Exception e){
                 throw new RequestNotFoundException();
