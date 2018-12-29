@@ -12,7 +12,7 @@ public class CommandHandler {
     private static final String PLANT = "plant (\\d+) (\\d+)";
     private static final String WELL = "well";
     private static final String START = "start (.*)";
-    private static final String  UPGRADE = "upgrade (.*)";
+    private static final String UPGRADE = "upgrade (.*)";
     private static final String LOAD_CUSTOM = "load custom (.*)";
     private static final String RUN = "run (.*)";
     private static final String SAVE_GAME = "save game (.*)";
