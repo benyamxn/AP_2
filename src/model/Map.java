@@ -34,8 +34,9 @@ public class Map {
 
     public ProductType[]  updateMap(double  warehouseCapacity){
 
-        ArrayList<Point> catCollectablePoints = new ArrayList<>();
-        ArrayList<Point> wildAnimalPoints = new ArrayList<>();
+        LinkedList<Point> catCollectablePoints = new LinkedList<>();
+        LinkedList<Point> wildAnimalPoints = new LinkedList<>();
+        LinkedList<Point> grassPoints  = new LinkedList<>();
         for(int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 if(cells[i][j].hasACatCollectable()){
@@ -43,6 +44,9 @@ public class Map {
                 }
                 if(cells[i][j].hasAWildAnimal()){
                     wildAnimalPoints.add(cells[i][j].getCoordinate());
+                }
+                if(cells[i][j].hasGrass()){
+                    grassPoints.add(cells[i][j].getCoordinate());
                 }
             }
         }
@@ -55,6 +59,9 @@ public class Map {
                 for (Dog dog : cells[i][j].getDogs()) {
                     dog.setTarget(wildAnimalPoints, getCornerPoint());
                 }
+                for (Domesticated domesticatedAnimal : cells[i][j].getDomesticatedAnimals()) {
+                    domesticatedAnimal.setTarget(grassPoints,getCornerPoint());
+                }
             }
         }
 
@@ -62,6 +69,8 @@ public class Map {
         for(int i = 0; i < width; i++){
             for(int j = 0; j < height; j++){
                 for (Animal animal : cells[i][j].getAnimals()) {
+                    if(cells[i][j].hasGrass() && animal instanceof Domesticated)
+                        continue;
                     animal.move(getCornerPoint());
                     mapAnimals.add(animal);
                 }
