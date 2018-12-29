@@ -121,7 +121,7 @@ public class Map {
 
     public void plant(List<Cell> cells){
         for (Cell cell : cells) {
-            cell.eatGrass();
+            cell.growGrass();
         }
     }
     public LinkedList<Cell > getCellsForPlant(Point point){
