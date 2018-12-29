@@ -72,6 +72,8 @@ public class Main {
                 controller.upgrade(controller.getGame().getFarm().getWorkshopByName(request.getParameter()));
                 break;
             case UPGRADE_CAT:
+                if(Cat.isSmart())
+                    throw new MaxLevelException();
                 controller.upgrade(new Cat(new Point(9, 9)));
                 break;
             case UPGRADE_WELL:

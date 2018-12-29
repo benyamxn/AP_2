@@ -58,4 +58,8 @@ public class Cat extends Animal implements Upgradable {
     public String toString() {
         return "Cat";
     }
+
+    public static boolean isSmart() {
+        return smart;
+    }
 }
