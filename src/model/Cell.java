@@ -100,15 +100,13 @@ public class Cell {
                         eatGrass();
                         ((Domesticated) animal).eat();
                     } else if (((Domesticated) animal).getHealth() < 0) {
+
                         iterator.remove();
                     }
                 }
             }
         } else {
-            Iterator<Animal> iterator = animals.iterator();
-            while (iterator.hasNext()) {
-                iterator.remove();
-            }
+            animals.clear();
         } // TODO: decide about here
     }
 
@@ -219,6 +217,20 @@ public class Cell {
         if (str.equals("*") && grassLevel > 0)
             str = String.valueOf(grassLevel);
         return str;
+    }
+
+    public int[] getNumberOfEachAnimal() {
+        int counter[] = {0, 0, 0, 0};
+        for (Animal animal : animals) {
+            if (animal instanceof Domesticated)
+                counter[0]++;
+            if (animal instanceof Dog)
+                counter[1]++;
+            if (animal instanceof Cat)
+                counter[2]++;
+        }
+        counter[3] = animals.size() - counter[0] - counter[1] - counter[2];
+        return counter;
     }
 
     public void setAnimals(LinkedList<Animal> animals) {
