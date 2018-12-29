@@ -27,18 +27,20 @@ public class Main {
             } catch (VehicleOnTripException e) {
                 view.println("The selected vehicle is already travelling");
             } catch (NotEnoughCapacityException e) {
-                view.println("There isn't enough space in warehouse");
+                view.println("There isn't enough space in the vehicle");
             } catch (NotEnoughItemsException e) {
                 view.println("There isn't enough items in the warehouse");
             } catch (IOException e) {
                 view.println("File not found");
             } catch (RequestNotFoundException e) {
                 view.println("Request not found");
+            } catch (ItemNotForSaleException e){
+                view.println("Item is not available in market");
             }
         }
     }
 
-    public static void  handleRequest(Request request) throws MaxLevelException, NameNotFoundException, MoneyNotEnoughException, IOException, VehicleOnTripException, NotEnoughCapacityException, NotEnoughItemsException {
+    public static void  handleRequest(Request request) throws MaxLevelException, NameNotFoundException, MoneyNotEnoughException, IOException, VehicleOnTripException, NotEnoughCapacityException, NotEnoughItemsException, ItemNotForSaleException {
 
         RequestType requestType = request.getRequestType();
         switch (requestType) {

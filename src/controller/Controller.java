@@ -90,7 +90,7 @@ public class Controller {
         game.getFarm().getCustomWorkshop(number).saveToJson(address);
     }
 
-    public void loadProducts(VehicleType vehicleType,ProductType productType, int number) throws VehicleOnTripException, MoneyNotEnoughException, NotEnoughCapacityException, NotEnoughItemsException {
+    public void loadProducts(VehicleType vehicleType,ProductType productType, int number) throws VehicleOnTripException, MoneyNotEnoughException, NotEnoughCapacityException, NotEnoughItemsException, ItemNotForSaleException {
         game.addProductToVehicle(game.getFarm().getVehicleByName(vehicleType),productType,number);
     }
 

@@ -2,13 +2,12 @@ package model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import model.exception.MoneyNotEnoughException;
-import model.exception.NotEnoughCapacityException;
-import model.exception.NotEnoughItemsException;
-import model.exception.VehicleOnTripException;
+import model.exception.*;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -104,18 +103,20 @@ public class Game {
         }
     }
 
-    public void addProductToVehicle(Vehicle vehicle, ProductType productType, int number) throws VehicleOnTripException, NotEnoughCapacityException, NotEnoughItemsException, MoneyNotEnoughException {
-        if(vehicle.onTravel) {
+    public void addProductToVehicle(Vehicle vehicle, ProductType productType, int number) throws VehicleOnTripException, NotEnoughCapacityException, NotEnoughItemsException, MoneyNotEnoughException, ItemNotForSaleException {
+        if (vehicle.onTravel) {
             throw new VehicleOnTripException();
         }
-
+        if (vehicle instanceof Helicopter && !Arrays.asList(marketProducts).contains(productType)) {
+            throw new ItemNotForSaleException();
+        }
         double capacity = number * productType.getDepotSize();
-        if(capacity > vehicle.getCapacity()) {
+        if (capacity > vehicle.getCapacity()) {
             throw new NotEnoughCapacityException();
         }
-        HashMap<ProductType,Integer> products = new HashMap<>();
+        HashMap<ProductType, Integer> products = new HashMap<>();
         products.put(productType, number);
-        if(vehicle instanceof Truck) {
+        if (vehicle instanceof Truck) {
             Warehouse warehouse = farm.getWarehouse();
             if (warehouse.hasProducts(products)) {
                 warehouse.removeProducts(products);
@@ -126,10 +127,9 @@ public class Game {
             }
         }
 
-        if( number * productType.getBuyCost() > money) {
+        if (number * productType.getBuyCost() > money) {
             throw new MoneyNotEnoughException();
-        }
-        else {
+        } else {
             money -= number * productType.getBuyCost();
             vehicle.addProduct(productType, number);
         }
