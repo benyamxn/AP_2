@@ -7,7 +7,7 @@ import model.exception.RequestNotFoundException;
 public class CommandHandler {
 
     private static final String BUY = "buy (.*)";
-    private static final String PICKUP = "pick up (\\d+) (\\d+)";
+    private static final String PICKUP = "pickup (\\d+) (\\d+)";
     private static final String CAGE =  "cage (\\d+) (\\d+)";
     private static final String PLANT = "plant (\\d+) (\\d+)";
     private static final String WELL = "well";

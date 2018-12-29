@@ -113,6 +113,16 @@ public class Farm {
         warehouse.addProduct(map.getCell(point).removeProducts());
     }
 
+    public void plant(Point point){
+
+        if(well.getRemainingWater() > 0){
+            map.plant(point);
+        } else {
+
+        }
+
+    }
+
     public Workshop getWorkshopByName(String name) throws NameNotFoundException {
 
         for (Workshop workshop : workshops) {
