@@ -82,18 +82,18 @@ public enum DomesticatedType {
 
     private int basePrice;
     private ProductType productType;
-    private int turnToProduce;
+    private int turnsToProduce;
     private int maxHealth;
 
-    DomesticatedType(int basePrice, ProductType productType,int turnToProduce, int maxHealth) {
+    DomesticatedType(int basePrice, ProductType productType, int turnsToProduce, int maxHealth) {
         this.productType = productType;
         this.basePrice = basePrice;
-        this.turnToProduce = turnToProduce;
+        this.turnsToProduce = turnsToProduce;
         this.maxHealth = maxHealth;
     }
 
-    public int getTurnToProduce() {
-        return turnToProduce;
+    public int getTurnsToProduce() {
+        return turnsToProduce;
     }
 
     public int getMaxHealth() {

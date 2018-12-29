@@ -27,72 +27,60 @@ public class CommandHandler {
     public  Request getRequest(String command) throws RequestNotFoundException {
         String[] parameter = command.split("\\s+");
 
-        if(command.matches(BUY)){
-            return  new Request(RequestType.BUY_ANIMAL, parameter[1]);
-        }
-        else if(command.matches(PICKUP)){
-            return  new Request(RequestType.PICKUP,Integer.parseInt(parameter[1]) , Integer.parseInt(parameter[2]));
-        }
-        else if(command.matches(CAGE)){
-            return  new Request(RequestType.CAGE,Integer.parseInt(parameter[1]) , Integer.parseInt(parameter[2]));
-        }
-        else if(command.matches(PLANT)){
-            return  new Request(RequestType.PLANT,Integer.parseInt(parameter[1]) , Integer.parseInt(parameter[2]));
-        }
-        else if(command.matches(WELL)){
-            return  new Request(RequestType.WELL);
-        }
-        else if(command.matches(START)){
-            return  new Request(RequestType.START,parameter[1]);
-        }
-        else if(command.matches(UPGRADE)){
-            RequestType temp = getUpgradeType(parameter[1]);
-            if(temp == RequestType.UPGRADE_VEHICLE){
-                return new Request(temp,VehicleType.valueOf(parameter[1].toUpperCase()));
-            }
-            else if(temp == RequestType.UPGRADE_WORKSHOP) {
-                return new Request(temp, parameter[1]);
-            }
-            return new Request(temp);
-        }
-        else if(command.matches(LOAD_CUSTOM)){
-            return new Request(RequestType.LOAD_CUSTOM,parameter[1]);
-        }
-        else if(command.matches(LOAD_GAME)){
-            return new Request(RequestType.LOAD_GAME,parameter[1]);
-        }
-        else if(command.matches(RUN)){
-            return new Request(RequestType.RUN,parameter[1]);
-        }
-        else if(command.matches(SAVE_GAME)){
-            return new Request(RequestType.SAVE_GAME,parameter[1]);
-        }
-        else if(command.matches(PRINT)){
-            String temp = "PRINT_";
-            try {
-                if (parameter[1].toLowerCase().trim().equals("truck")
-                        || parameter[1].toLowerCase().trim().equals("helicopter")) {
-                    return new Request(RequestType.PRINT_VEHICLE, VehicleType.valueOf(parameter[1].toUpperCase()));
+        try {
+            if (command.matches(BUY)) {
+                return new Request(RequestType.BUY_ANIMAL, parameter[1]);
+            } else if (command.matches(PICKUP)) {
+                return new Request(RequestType.PICKUP, Integer.parseInt(parameter[1]), Integer.parseInt(parameter[2]));
+            } else if (command.matches(CAGE)) {
+                return new Request(RequestType.CAGE, Integer.parseInt(parameter[1]), Integer.parseInt(parameter[2]));
+            } else if (command.matches(PLANT)) {
+                return new Request(RequestType.PLANT, Integer.parseInt(parameter[1]), Integer.parseInt(parameter[2]));
+            } else if (command.matches(WELL)) {
+                return new Request(RequestType.WELL);
+            } else if (command.matches(START)) {
+                return new Request(RequestType.START, parameter[1]);
+            } else if (command.matches(UPGRADE)) {
+                RequestType temp = getUpgradeType(parameter[1]);
+                if (temp == RequestType.UPGRADE_VEHICLE) {
+                    return new Request(temp, VehicleType.valueOf(parameter[1].toUpperCase()));
+                } else if (temp == RequestType.UPGRADE_WORKSHOP) {
+                    return new Request(temp, parameter[1]);
                 }
-                if (!parameter[1].toLowerCase().trim().equals("vehicle"))
-                    return new Request(RequestType.valueOf(temp.concat(parameter[1]).toUpperCase()));
+                return new Request(temp);
+            } else if (command.matches(LOAD_CUSTOM)) {
+                return new Request(RequestType.LOAD_CUSTOM, parameter[1]);
+            } else if (command.matches(LOAD_GAME)) {
+                return new Request(RequestType.LOAD_GAME, parameter[1]);
+            } else if (command.matches(RUN)) {
+                return new Request(RequestType.RUN, parameter[1]);
+            } else if (command.matches(SAVE_GAME)) {
+                return new Request(RequestType.SAVE_GAME, parameter[1]);
+            } else if (command.matches(PRINT)) {
+                String temp = "PRINT_";
+                try {
+                    if (parameter[1].toLowerCase().trim().equals("truck")
+                            || parameter[1].toLowerCase().trim().equals("helicopter")) {
+                        return new Request(RequestType.PRINT_VEHICLE, VehicleType.valueOf(parameter[1].toUpperCase()));
+                    }
+                    if (!parameter[1].toLowerCase().trim().equals("vehicle"))
+                        return new Request(RequestType.valueOf(temp.concat(parameter[1]).toUpperCase()));
+                } catch (Exception e) {
+                    throw new RequestNotFoundException();
+                }
+            } else if (command.matches(TURN)) {
+                return new Request(RequestType.TURN, Integer.parseInt(parameter[1]));
+            } else if (command.matches(ADD)) {
+                return new Request(RequestType.ADD_ITEM_TO_VEHICLE, parameter[2], Integer.parseInt(parameter[3])
+                        , VehicleType.valueOf(parameter[0].toUpperCase()));
+            } else if (command.matches(CLEAR)) {
+                return new Request(RequestType.CLEAR_VEHICLE, VehicleType.valueOf(parameter[0].toUpperCase()));
+            } else if (command.matches(GO)) {
+                return new Request(RequestType.VEHICLE_GO, VehicleType.valueOf(parameter[0].toUpperCase()));
             }
-            catch (Exception e){
-                throw new RequestNotFoundException();
-            }
         }
-        else if(command.matches(TURN)){
-            return  new Request(RequestType.TURN,Integer.parseInt(parameter[1]));
-        }
-        else if(command.matches(ADD)){
-            return  new Request(RequestType.ADD_ITEM_TO_VEHICLE,parameter[2],Integer.parseInt(parameter[3])
-                                                                            ,VehicleType.valueOf(parameter[0].toUpperCase()));
-        }
-        else if(command.matches(CLEAR)){
-            return new Request(RequestType.CLEAR_VEHICLE, VehicleType.valueOf(parameter[0].toUpperCase()));
-        }
-        else if(command.matches(GO)){
-            return new Request(RequestType.VEHICLE_GO, VehicleType.valueOf(parameter[0].toUpperCase()));
+        catch (Exception e){
+            throw new RequestNotFoundException();
         }
         throw new RequestNotFoundException();
     }

@@ -109,9 +109,15 @@ public abstract class Vehicle implements Upgradable {
             status += "\tIs travelling";
         else
             status += "\tIs not travelling";
-        status += "\n\tContents:\n";
-        for (Map.Entry<ProductType, Integer> content : contents.entrySet()) {
-            status += "\t" + content.getKey().toString() + " -> " + content.getValue() + "\n";
+        status += "\n\tContents:";
+        if (contents.isEmpty()){
+            status += "\tNone\n";
+        }
+        else {
+            status += "\n";
+            for (Map.Entry<ProductType, Integer> content : contents.entrySet()) {
+                status += "\t" + content.getKey().toString() + " -> " + content.getValue() + "\n";
+            }
         }
         status += "\tTime left to arrive: " + estimatedTimeOfArrival + " of " + arrivalTime + "\n";
         return status;

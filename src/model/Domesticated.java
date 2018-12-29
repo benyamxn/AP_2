@@ -12,7 +12,7 @@ public class Domesticated extends Animal {
         this.type = type;
         setMaxHealth(type.getMaxHealth());
         setHealth(type.getMaxHealth());
-        turnsLeftToProduce = type.getTurnToProduce();
+        turnsLeftToProduce = type.getTurnsToProduce();
         eatenAmountOfFood = 0;
     }
 
@@ -22,7 +22,7 @@ public class Domesticated extends Animal {
 
     public Product produce(){
         if (turnsLeftToProduce == 0) {
-            turnsLeftToProduce = type.getTurnToProduce();
+            turnsLeftToProduce = type.getTurnsToProduce();
             return new Product(type.getProductType());
         }
         else
@@ -45,11 +45,6 @@ public class Domesticated extends Animal {
     @Override
     public String toString() {
         return type.toString();
-    }
-
-    @Override
-    public void move(Point cornerPoint) {
-        super.move(cornerPoint);
     }
 
     @Override
