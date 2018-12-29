@@ -111,7 +111,7 @@ public abstract class Vehicle implements Upgradable {
             status += "\tIs not travelling";
         status += "\n\tContents:\n";
         for (Map.Entry<ProductType, Integer> content : contents.entrySet()) {
-            status += "\t" + content.getKey().toString() + "(" + content.getValue() + ")\n";
+            status += "\t" + content.getKey().toString() + " -> " + content.getValue() + "\n";
         }
         status += "\tTime left to arrive: " + estimatedTimeOfArrival + " of " + arrivalTime + "\n";
         return status;

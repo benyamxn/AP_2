@@ -24,6 +24,7 @@ public class StatusHandlerTest {
     @Test
     public void testTruckStatus(){
         Truck truck = new Truck();
+        truck.upgrade();
         truck.addProduct(ProductType.CAGED_LION, 3);
         truck.addProduct(ProductType.COOKIE, 5);
         truck.startTravel();

@@ -34,11 +34,10 @@ public class Map {
 
     public ProductType[]  updateMap(double  warehouseCapacity){
         LinkedList<Animal> mapAnimals  = new LinkedList<>();
-        Point cornerPoint = new Point(width,height);
         for(int i = 0; i < width; i++){
             for(int j = 0; j < height; j++){
                 for (Animal animal : cells[i][j].getAnimals()) {
-                    animal.move(cornerPoint);
+                    animal.move(getCornerPoint());
                     mapAnimals.add(animal);
                 }
                 cells[i][j].setAnimals(new LinkedList<>());
@@ -77,10 +76,10 @@ public class Map {
         for(int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 for (Cat cat : cells[i][j].getCats()) {
-                    cat.setTarget(catCollectablePoints);
+                    cat.setTarget(catCollectablePoints, getCornerPoint());
                 }
                 for (Dog dog : cells[i][j].getDogs()) {
-                    dog.setTarget(wildAnimalPoints);
+                    dog.setTarget(wildAnimalPoints, getCornerPoint());
                 }
             }
         }
@@ -116,6 +115,10 @@ public class Map {
                     cells[i][j].growGrass();
             }
         }
+    }
+
+    public Point getCornerPoint(){
+        return new Point(width, height);
     }
 
     public String getStatus() {

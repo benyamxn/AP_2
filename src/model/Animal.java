@@ -27,6 +27,18 @@ public abstract class Animal {
             moveToPoint(target);
             return;
         }
+
+        ArrayList<Direction> possibleDirections = getPossibleDirections(cornerPoint);
+
+        moveRandom(possibleDirections);
+    }
+
+    public void moveRandom(ArrayList<Direction> directions){
+        Direction dir = Direction.randomDir(directions.toArray(new Direction[0]));
+        moveWithDirection(dir);
+    }
+
+    private ArrayList<Direction> getPossibleDirections(Point cornerPoint){
         ArrayList<Direction> directions = Direction.getAllDirections();
         if (getLocation().getWidth() == 0) {
             directions.remove(Direction.LEFT);
@@ -48,12 +60,12 @@ public abstract class Animal {
             directions.remove(Direction.UP_RIGHT);
             directions.remove(Direction.UP_LEFT);
         }
-        Direction dir = Direction.randomDir(directions.toArray(new Direction[0]));
-        moveWithDirection(dir);
+        return directions;
     }
 
-    public void setTarget(ArrayList<Point> possibleTargets) {
+    public void setTarget(ArrayList<Point> possibleTargets, Point cornerPoint) {
         if(possibleTargets.isEmpty()) {
+            setRandomTarget(cornerPoint);
             return;
         }
         target = possibleTargets.get(0);
@@ -66,6 +78,14 @@ public abstract class Animal {
             }
         }
         hasATarget = true;
+    }
+
+    public void setRandomTarget(Point cornerPoint){
+        ArrayList<Direction> directions = getPossibleDirections(cornerPoint);
+        Direction dir = Direction.randomDir(directions.toArray(new Direction[0]));
+        Point newTarget = target;
+        newTarget.add(dir.getMoveVector());
+        setTarget(newTarget);
     }
 
     public void moveWithDirection(Direction direction) {
