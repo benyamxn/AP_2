@@ -191,17 +191,21 @@ public class Cell {
 
     @Override
     public String toString() {
+        String str;
         if (!animals.isEmpty()){
             if (!products.isEmpty())
-                return "&";
+                str = "&";
             else
-                return "$";
+                str = "$";
         }
         else if (!products.isEmpty()) {
-            return "^";
+            str = "^";
         }
         else
-            return "*";
+            str = "*";
+        if (str.equals("*") && grassLevel > 0)
+            str = String.valueOf(grassLevel);
+        return str;
     }
 
     public void setAnimals(LinkedList<Animal> animals) {

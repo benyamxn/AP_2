@@ -124,7 +124,7 @@ public class Map {
 
     public String getStatus() {
         String status = "Map:\n" + "\t*: Contains nothing\t^: Contains Only Products\t$" +
-                ": Contains Only Animals\t&: Contains both animals and products\n\n";
+                ": Contains Only Animals\t&: Contains both animals and products\tNumber: Level of existing Grass (if any)\n\n";
         for (int y = 0; y < height; y++){
             for (int x = 0; x < width; x++){
 
