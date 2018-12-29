@@ -31,5 +31,10 @@ public class ControllerTest {
     @Test
     public void testSaveMission() {
         Controller controller = new Controller();
+        try {
+            controller.saveMission("gameData/savedMissions/mission1.json");
+        } catch (IOException e) {
+            fail();
+        }
     }
 }

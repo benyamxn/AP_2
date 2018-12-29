@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Controller {
-    Mission mission = new Mission(30000, 1000, new HashMap());
+    Mission mission = new Mission(30000, 1000);
     private Game game = new Game(20000, mission, "tester");
     private LinkedList<Farm> farms = new LinkedList<>();
     public void pickup(Point point) throws NotEnoughCapacityException {
