@@ -15,15 +15,15 @@ public class Cat extends Animal implements Upgradable {
     }
 
     @Override
-    public void setTarget(ArrayList<Point> possibleTargets) {
+    public void setTarget(ArrayList<Point> possibleTargets, Point cornerPoint) {
         if (smart) {
-            super.setTarget(possibleTargets);
-            return;
+            super.setTarget(possibleTargets, cornerPoint);
         }
         if (!hasATarget()) {
             Random randomTarget = new Random();
-            if (possibleTargets.size() == 0)
-                setTarget(getLocation());
+            if (possibleTargets.isEmpty()) {
+                setRandomTarget(cornerPoint);
+            }
             else {
                 int targetIndex = randomTarget.nextInt(possibleTargets.size());
                 setTarget(possibleTargets.get(targetIndex));

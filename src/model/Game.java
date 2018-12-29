@@ -198,7 +198,7 @@ public class Game {
 
     public String getStatus() {
         String status = "Game:\n";
-        status += "\tTime Passed: " + time + "\n";
+        status += "\tTurns Passed: " + time / BASE_TIME + "\n";
         status += "\tMoney: " + money + "\n";
         status += "\tMission: \n";
         Map<ProductType, Integer> goals = mission.getProductsGoal();

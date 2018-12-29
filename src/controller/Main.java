@@ -21,11 +21,11 @@ public class Main {
             } catch (MoneyNotEnoughException e) {
                 view.println("Money Not Enough");
             } catch (MaxLevelException e) {
-                view.println("The selected unit cannot upgrade more");
+                view.println("The selected unit cannot upgrade any further");
             } catch (NameNotFoundException e) {
                 view.println("The inputted name is not valid");
             } catch (VehicleOnTripException e) {
-                view.println("The selected vehicle is on trip");
+                view.println("The selected vehicle is already travelling");
             } catch (NotEnoughCapacityException e) {
                 view.println("There isn't enough space in warehouse");
             } catch (NotEnoughItemsException e) {
