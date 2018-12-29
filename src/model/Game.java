@@ -63,7 +63,7 @@ public class Game {
         Random random = new Random();
         if(random.nextInt(15) % 15 == 0){
             for (int i = 0; i < random.nextInt(3) + 1; i++) {
-               farm.placeAnimal(WildType.GRIZZLY);
+                farm.placeAnimal(WildType.GRIZZLY);
             }
         }
         time += BASE_TIME;
