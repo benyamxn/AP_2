@@ -16,7 +16,8 @@ public class Game {
     private int money = 0;
     private int time = 0;
     private Mission mission;
-    private Map<ProductType,Integer> products = new HashMap<>();
+    private transient EnumMap<ProductType,Integer> products = new EnumMap<>(ProductType.class);
+    private LinkedList<ProductType> productsSpare = new LinkedList<>();
     private Farm farm = new Farm();
     private String playerName = "Guest";
     private ProductType[] marketProducts = {ProductType.EGG, ProductType.WOOL, ProductType.MILK};
@@ -218,5 +219,33 @@ public class Game {
         return status;
     }
 
+
+    public void saveToJson(String path) throws IOException {
+
+        Writer writer = new FileWriter(path);
+        Gson gson = new GsonBuilder().create();
+        for (Map.Entry<ProductType, Integer>  temp : products.entrySet()) {
+            for (Integer i = 0; i < temp.getValue(); i++) {
+                productsSpare.add(temp.getKey());
+            }
+        }
+        gson.toJson(this, writer);
+        writer.close();
+
+    }
+    public static Game loadFromJson(String path) throws IOException {
+        Reader reader = new FileReader(path);
+        Gson gson = new GsonBuilder().create();
+        Game output = gson.fromJson(reader, Game.class);
+        reader.close();
+        output.products = new EnumMap<>(ProductType.class);
+        for (ProductType productType : output.productsSpare) {
+            if(output.products.containsKey(productType))
+                output.products.put(productType,output.products.get(productType) + 1);
+            else
+                output.products.put(productType, 1);
+        }
+        return output;
+    }
 
 }

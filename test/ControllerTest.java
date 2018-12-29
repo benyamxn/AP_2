@@ -1,9 +1,17 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import controller.Controller;
 import model.Game;
 import model.Mission;
+import model.ProductType;
 import org.junit.Test;
 
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.fail;
 
@@ -13,6 +21,7 @@ public class ControllerTest {
         Controller controller = new Controller();
         try {
             controller.saveGame("gameData/savedGames/game.json");
+            controller.loadGame("gameData/savedGames/game.json");
         } catch (IOException e) {
             fail();
         }
@@ -33,6 +42,7 @@ public class ControllerTest {
         Controller controller = new Controller();
         try {
             controller.saveMission("gameData/savedMissions/mission1.json");
+            controller.loadMission("gameData/savedMissions/mission1.json");
         } catch (IOException e) {
             fail();
         }

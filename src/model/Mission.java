@@ -3,13 +3,17 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.*;
+import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 public class Mission implements  Comparable<Mission> {
 
     private int moneyGoal;
     private int timeGoal;
-    private  Map<ProductType,Integer>  productsGoal = new HashMap<>();
+    private transient EnumMap<ProductType,Integer> productsGoal = new EnumMap<>(ProductType.class);
+    private LinkedList<ProductType> productGoalSpare = new LinkedList<>();
+
 
     public Mission(int moneyGoal, int timeGoal) {
         this.moneyGoal = moneyGoal;
@@ -18,7 +22,7 @@ public class Mission implements  Comparable<Mission> {
         productsGoal.put(ProductType.DRIED_EGG, 5);
     }
 
-    public Mission(int moneyGoal, int timeGoal, Map productsGoal ){
+    public Mission(int moneyGoal, int timeGoal, EnumMap<ProductType,Integer> productsGoal ){
         this.moneyGoal = moneyGoal;
         this.timeGoal = timeGoal;
         this.productsGoal = productsGoal;
@@ -56,6 +60,11 @@ public class Mission implements  Comparable<Mission> {
     }
 
     public void saveToJson(String path) throws IOException {
+        for (Map.Entry<ProductType, Integer> productTypeIntegerEntry : productsGoal.entrySet()) {
+            for (Integer i = 0; i < productTypeIntegerEntry.getValue(); i++) {
+                productGoalSpare.add(productTypeIntegerEntry.getKey());
+            }
+        }
         Writer writer = new FileWriter(path);
         Gson gson = new GsonBuilder().create();
         gson.toJson(this, writer);
@@ -67,6 +76,13 @@ public class Mission implements  Comparable<Mission> {
         Gson gson = new GsonBuilder().create();
         Mission mission = gson.fromJson(reader, Mission.class);
         reader.close();
+        mission.productsGoal = new EnumMap<>(ProductType.class);
+        for (ProductType productType : mission.productGoalSpare) {
+            if(mission.productsGoal.containsKey(productType))
+                mission.productsGoal.put(productType,mission.productsGoal.get(productType) + 1);
+            else
+                mission.productsGoal.put(productType,1);
+        }
         return mission;
     }
 

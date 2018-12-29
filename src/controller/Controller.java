@@ -79,6 +79,7 @@ public class Controller {
         saveObject(address, game);
     }
     public void loadGame(String address) throws IOException {
+        System.out.println(address);
         game = ((Game) getObjectFromJson(address, Game.class));
     }
 
