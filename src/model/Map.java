@@ -110,7 +110,7 @@ public class Map {
     }
 
 
-    public void plant(ArrayList<Cell> cells){
+    public void plant(List<Cell> cells){
         for (Cell cell : cells) {
             cell.eatGrass();
         }
@@ -124,6 +124,7 @@ public class Map {
                 }
             }
         }
+        return cellLinkedList;
     }
 
     public Point getCornerPoint(){

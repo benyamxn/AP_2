@@ -2,8 +2,10 @@ package model;
 
 import model.exception.NameNotFoundException;
 import model.exception.NotEnoughCapacityException;
+import model.exception.NotEnoughWaterException;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 public class Farm {
 
@@ -113,12 +115,14 @@ public class Farm {
         warehouse.addProduct(map.getCell(point).removeProducts());
     }
 
-    public void plant(Point point){
+    public void plant(Point point) throws NotEnoughWaterException {
 
-        if(well.getRemainingWater() > 0){
-            map.plant(point);
+        LinkedList<Cell> cells = map.getCellsForPlant(point);
+        if(well.hasEnoughWater(cells.size())){
+            map.plant(cells);
+            well.reduceWater(cells.size());
         } else {
-
+            throw new NotEnoughWaterException();
         }
 
     }
