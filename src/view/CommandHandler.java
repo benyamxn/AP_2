@@ -49,13 +49,13 @@ public class CommandHandler {
                 }
                 return new Request(temp);
             } else if (command.matches(LOAD_CUSTOM)) {
-                return new Request(RequestType.LOAD_CUSTOM, parameter[1]);
+                return new Request(RequestType.LOAD_CUSTOM, parameter[2]);
             } else if (command.matches(LOAD_GAME)) {
-                return new Request(RequestType.LOAD_GAME, parameter[1]);
+                return new Request(RequestType.LOAD_GAME, parameter[2]);
             } else if (command.matches(RUN)) {
                 return new Request(RequestType.RUN, parameter[1]);
             } else if (command.matches(SAVE_GAME)) {
-                return new Request(RequestType.SAVE_GAME, parameter[1]);
+                return new Request(RequestType.SAVE_GAME, parameter[2]);
             } else if (command.matches(PRINT)) {
                 String temp = "PRINT_";
                 try {
