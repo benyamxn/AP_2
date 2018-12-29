@@ -1,4 +1,6 @@
 package model;
+import com.gilecode.yagson.YaGson;
+import com.gilecode.yagson.YaGsonBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -11,9 +13,7 @@ public class Mission implements  Comparable<Mission> {
 
     private int moneyGoal;
     private int timeGoal;
-    private transient EnumMap<ProductType,Integer> productsGoal = new EnumMap<>(ProductType.class);
-    private LinkedList<ProductType> productGoalSpare = new LinkedList<>();
-
+    private  EnumMap<ProductType,Integer> productsGoal = new EnumMap<>(ProductType.class);
 
     public Mission(int moneyGoal, int timeGoal) {
         this.moneyGoal = moneyGoal;
@@ -60,29 +60,18 @@ public class Mission implements  Comparable<Mission> {
     }
 
     public void saveToJson(String path) throws IOException {
-        for (Map.Entry<ProductType, Integer> productTypeIntegerEntry : productsGoal.entrySet()) {
-            for (Integer i = 0; i < productTypeIntegerEntry.getValue(); i++) {
-                productGoalSpare.add(productTypeIntegerEntry.getKey());
-            }
-        }
+
         Writer writer = new FileWriter(path);
-        Gson gson = new GsonBuilder().create();
+        YaGson gson = new YaGsonBuilder().create();
         gson.toJson(this, writer);
         writer.close();
     }
 
     public static Mission loadFromJson(String path) throws IOException {
         Reader reader = new FileReader(path);
-        Gson gson = new GsonBuilder().create();
+        YaGson gson = new YaGsonBuilder().create();
         Mission mission = gson.fromJson(reader, Mission.class);
         reader.close();
-        mission.productsGoal = new EnumMap<>(ProductType.class);
-        for (ProductType productType : mission.productGoalSpare) {
-            if(mission.productsGoal.containsKey(productType))
-                mission.productsGoal.put(productType,mission.productsGoal.get(productType) + 1);
-            else
-                mission.productsGoal.put(productType,1);
-        }
         return mission;
     }
 

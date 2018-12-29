@@ -76,11 +76,10 @@ public class Controller {
     }
 
     public void saveGame(String address) throws IOException {
-        saveObject(address, game);
+        game.saveToJson(address);
     }
     public void loadGame(String address) throws IOException {
-        System.out.println(address);
-        game = ((Game) getObjectFromJson(address, Game.class));
+        game = Game.loadFromJson(address);
     }
 
     public void loadWorkshop(String address) throws IOException {

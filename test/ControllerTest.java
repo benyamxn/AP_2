@@ -21,8 +21,8 @@ public class ControllerTest {
     public void testSaveGame() {
         Controller controller = new Controller();
         try {
-            controller.saveGame("gameData/savedGames/game.json");
-            controller.loadGame("gameData/savedGames/game.json");
+            controller.saveGame("gameData/savedGames/game2.json");
+            controller.loadGame("gameData/savedGames/game2.json");
         } catch (IOException e) {
             fail();
         }
@@ -49,4 +49,5 @@ public class ControllerTest {
             fail();
         }
     }
+
 }
