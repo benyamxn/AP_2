@@ -1,0 +1,1 @@
+{"input":["DRIED_EGG"],"output":"COOKIE","numberOfInputs":1,"numberOfOutputs":1,"productionTime":8,"timeLeftToProduction":0,"level":1,"price":250,"onProduction":false,"type":"COOKIE_BAKERY","name":"COOKIE_BAKERY","productionPoint":{"width":20,"height":10}}
