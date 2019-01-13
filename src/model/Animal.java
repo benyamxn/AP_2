@@ -12,6 +12,7 @@ public abstract class Animal {
     private Point target;
     private boolean hasATarget;
     private transient AnimalGUI animalGUI;
+    private Direction direction;
 
     Animal(Point location) {
         this.location = location;
@@ -105,9 +106,9 @@ public abstract class Animal {
         moveWithDirection(direction);
     }
 
-
     private Direction selectDirection(Point point) {
-        return Direction.getOrientationByTarget(location, point);
+        direction = Direction.getOrientationByTarget(location, point);
+        return direction;
     }
 
     public int getHealth() {
@@ -157,5 +158,9 @@ public abstract class Animal {
         answer += "Location: " + location.toString();
 
         return answer;
+    }
+
+    public Direction getDirection() {
+        return direction;
     }
 }
