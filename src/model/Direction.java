@@ -6,9 +6,9 @@ import java.util.Random;
 public enum Direction {
     LEFT, RIGHT, UP, DOWN, UP_RIGHT, UP_LEFT, DOWN_RIGHT, DOWN_LEFT, STATIONARY;
 
-    public Point getMoveVector(){
+    public Point getMoveVector() {
         Point moveVector;
-        switch (this){
+        switch (this) {
             case LEFT:
                 moveVector = new Point(-1, 0);
                 break;
@@ -40,12 +40,37 @@ public enum Direction {
         return moveVector;
     }
 
-    public static Direction randomDir(Direction[] directions){
+    public static Direction getOrientationByTarget (Point location, Point target){
+        Direction direction = Direction.STATIONARY;
+        if (target.getWidth() > location.getWidth()) {
+            if (target.getHeight() > location.getHeight()) {
+                direction = Direction.UP_RIGHT;
+            } else if (target.getHeight() < location.getHeight()) {
+                direction = Direction.DOWN_RIGHT;
+            } else
+                direction = Direction.RIGHT;
+        } else if (target.getWidth() < location.getWidth()) {
+            if (target.getHeight() > location.getHeight()) {
+                direction = Direction.UP_LEFT;
+            } else if (target.getWidth() > location.getWidth()) {
+                direction = Direction.DOWN_LEFT;
+            } else
+                direction = Direction.LEFT;
+        } else {
+            if (target.getHeight() > location.getHeight())
+                direction = Direction.UP;
+            else if (target.getHeight() < location.getHeight())
+                direction = Direction.DOWN;
+        }
+        return direction;
+    }
+
+    public static Direction randomDir(Direction[] directions) {
         Random rand = new Random();
         return directions[rand.nextInt(directions.length)];
     }
 
-    public static ArrayList<Direction> getAllDirections(){
+    public static ArrayList<Direction> getAllDirections() {
         ArrayList<Direction> answer = new ArrayList<>();
         answer.add(LEFT);
         answer.add(RIGHT);

@@ -102,28 +102,7 @@ public abstract class Animal {
 
 
     private Direction selectDirection(Point point) {
-        Direction direction = Direction.STATIONARY;
-        if (point.getWidth() > location.getWidth()) {
-            if (point.getHeight() > location.getHeight()) {
-                direction = Direction.UP_RIGHT;
-            } else if (point.getHeight() < location.getHeight()) {
-                direction = Direction.DOWN_RIGHT;
-            } else
-                direction = Direction.RIGHT;
-        } else if (point.getWidth() < location.getWidth()) {
-            if (point.getHeight() > location.getHeight()) {
-                direction = Direction.UP_LEFT;
-            } else if (point.getWidth() > location.getWidth()) {
-                direction = Direction.DOWN_LEFT;
-            } else
-                direction = Direction.LEFT;
-        } else {
-            if (point.getHeight() > location.getHeight())
-                direction = Direction.UP;
-            else if (point.getHeight() < location.getHeight())
-                direction = Direction.DOWN;
-        }
-        return direction;
+        return Direction.getOrientationByTarget(location, point);
     }
 
     public int getHealth() {
