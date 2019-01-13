@@ -3,8 +3,8 @@ package GUI;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -12,6 +12,7 @@ public class MainMenu {
     public void render() {
         double width = MainStage.getInstance().getWidth();
         double height = MainStage.getInstance().getHeight();
+        Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 40);
         AnchorPane pane = new AnchorPane();
         pane.setId("mainMenuPane");
         VBox menuBox = new VBox();
@@ -23,11 +24,15 @@ public class MainMenu {
         pane.setRightAnchor(menuBox, 100.0);
         pane.setLeftAnchor(menuBox, width - 300);
         pane.getChildren().add(menuBox);
+        Label titleLabel = new Label("Friendly  Farm");
+        titleLabel.setId("titleLabel");
+        pane.setTopAnchor(titleLabel, 80.0);
+        pane.setLeftAnchor(titleLabel, 100.0);
+        pane.getChildren().add(titleLabel);
         createButtons(menuBox);
         MainStage.getInstance().getScene().getStylesheets().add(getClass().
                 getResource("CSS/mainMenu.css").toExternalForm());
         MainStage.getInstance().pushStack(pane);
-
     }
 
 
