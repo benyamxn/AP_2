@@ -1,5 +1,8 @@
 package model;
 
+import GUI.AnimalGUI;
+import GUI.MainStage;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,10 +11,12 @@ public abstract class Animal {
     private Point location;
     private Point target;
     private boolean hasATarget;
+    private transient AnimalGUI animalGUI;
 
     Animal(Point location) {
         this.location = location;
         hasATarget = false;
+        animalGUI  = new AnimalGUI(this);
     }
 
     public abstract int getBuyPrice();
