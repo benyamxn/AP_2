@@ -19,8 +19,9 @@ public class MainMenu {
         menuBox.setAlignment(Pos.CENTER);
         menuBox.setSpacing(10);
         menuBox.setId("menuBox");
-        pane.setBottomAnchor(menuBox, height / 3);
-        pane.setTopAnchor(menuBox, height / 3);
+        double anchor = (400 > height / 3)? height / 2 - 200: height / 3;
+        pane.setBottomAnchor(menuBox, anchor);
+        pane.setTopAnchor(menuBox, anchor);
         pane.setRightAnchor(menuBox, 100.0);
         pane.setLeftAnchor(menuBox, width - 300);
         pane.getChildren().add(menuBox);
@@ -43,11 +44,11 @@ public class MainMenu {
         Button settingsButton = new Button("Settings");
         Button aboutButton = new Button("About");
         Button exitButton = new Button("Exit");
-        VBox.setMargin(newGameButton, new Insets(20, 20, 20, 20));
-        VBox.setMargin(loadGameButton, new Insets(20, 20, 20, 20));
-        VBox.setMargin(settingsButton, new Insets(20, 20, 20, 20));
-        VBox.setMargin(aboutButton, new Insets(20, 20, 20, 20));
-        VBox.setMargin(exitButton, new Insets(20, 20, 20, 20));
+        VBox.setMargin(newGameButton, new Insets(10, 20, 10, 20));
+        VBox.setMargin(loadGameButton, new Insets(10, 20, 10, 20));
+        VBox.setMargin(settingsButton, new Insets(10, 20, 10, 20));
+        VBox.setMargin(aboutButton, new Insets(10, 20, 10, 20));
+        VBox.setMargin(exitButton, new Insets(10, 20, 10, 20));
         vBox.getChildren().addAll(newGameButton, loadGameButton, settingsButton, aboutButton, exitButton);
     }
 }
