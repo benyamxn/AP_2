@@ -70,6 +70,7 @@ public enum Direction {
         return directions[rand.nextInt(directions.length)];
     }
 
+
     public static ArrayList<Direction> getAllDirections() {
         ArrayList<Direction> answer = new ArrayList<>();
         answer.add(LEFT);
@@ -82,5 +83,40 @@ public enum Direction {
         answer.add(DOWN_RIGHT);
 //        answer.add(STATIONARY);
         return answer;
+    }
+
+    @Override
+    public String toString() {
+        String str = "";
+        switch (this){
+            case LEFT:
+                str = "left";
+                break;
+            case RIGHT:
+                str = "right";
+                break;
+            case UP:
+                str = "up";
+                break;
+            case DOWN:
+                str = "down";
+                break;
+            case UP_RIGHT:
+                str = "up right";
+                break;
+            case UP_LEFT:
+                str = "up left";
+                break;
+            case DOWN_RIGHT:
+                str = "down right";
+                break;
+            case DOWN_LEFT:
+                str = "down left";
+                break;
+            case STATIONARY:
+                str = "stationary";
+                break;
+        }
+        return str;
     }
 }

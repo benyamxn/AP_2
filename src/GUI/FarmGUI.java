@@ -22,7 +22,7 @@ public class FarmGUI {
     private static final double endX = 605.0 / 800;
     private static final double endY = 480.0 / 600;
     private Image image;
-    private AnchorPane anchorPane = new AnchorPane();
+    private static AnchorPane anchorPane = new AnchorPane();
     private CellGUI[][] cellGUIs = new CellGUI[30][30];
     private WorkshopGUI[] workshopGUIS = new WorkshopGUI[7];
     private Farm farm;
@@ -113,7 +113,7 @@ public class FarmGUI {
         return null;
     }
 
-    private double[] getPointForCell(int i, int j) {
+    public static double[] getPointForCell(int i, int j) {
         double width = anchorPane.getBoundsInParent().getWidth();
         double height = anchorPane.getBoundsInParent().getHeight();
         double mapWidth = endX * width - startX * width;

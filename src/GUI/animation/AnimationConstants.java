@@ -149,7 +149,7 @@ public class AnimationConstants {
     public static final int[] WORKSHOP = getConstants("workshop");
 
 
-    private static int[] getConstants(String animalName) {
+    public static int[] getConstants(String animalName) {
 
         numberOfFrames = 24;
 
