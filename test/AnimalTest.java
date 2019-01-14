@@ -14,6 +14,13 @@ public class AnimalTest {
     }
 
     @Test
+    public void testToString() {
+        Animal animal = new Domesticated(new Point(0, 10) , DomesticatedType.OSTRICH);
+        System.out.println(animal.toString());
+        Assert.assertEquals("Chicken", animal.toString());
+    }
+
+    @Test
     public void testMoveLeft() {
         Point point = new Point(20, 34);
         Point animalLocation = new Point(14, 20);
