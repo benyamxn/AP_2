@@ -12,6 +12,8 @@ public class Cat extends Animal implements Upgradable {
     public Cat(Point location) {
         super(location);
         smart = false;
+        animalGUI.initImages();
+
     }
 
     @Override

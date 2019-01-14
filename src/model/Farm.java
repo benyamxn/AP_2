@@ -1,5 +1,6 @@
 package model;
 
+import GUI.FarmGUI;
 import model.exception.NameNotFoundException;
 import model.exception.NotEnoughCapacityException;
 import model.exception.NotEnoughItemsException;
@@ -19,7 +20,7 @@ public class Farm {
     private transient Warehouse warehouse = new Warehouse();
     private transient Helicopter helicopter = new Helicopter();
     private transient Well well = new Well(WELL_DEFAULT_CAPACITY);
-
+    private transient FarmGUI farmGUI;
     public Farm() {
         name = "Default";
         workshops[0] = new Workshop(WorkshopType.EGG_POWDER_PLANT, new Point(0, 0));
@@ -29,6 +30,10 @@ public class Farm {
         workshops[4] = new Workshop(WorkshopType.SPINNERY, new Point(15, 15));
         workshops[5] = new Workshop(WorkshopType.WEAVING_FACTORY, new Point(1, 1));
         workshops[6] = new Workshop(WorkshopType.EGG_POWDER_PLANT, new Point(2, 2));
+    }
+
+    public void setFarmGUI(FarmGUI farmGUI) {
+        this.farmGUI = farmGUI;
     }
 
     public Farm(String name) {
@@ -42,31 +47,39 @@ public class Farm {
         }
     }
 
-    public  void placeAnimal(WildType wildType ){
-
+    public  Animal placeAnimal(WildType wildType){
         Point point = getRandomPoint();
         Animal newWild = new Wild(point,wildType);
         map.getCell(point).addAnimal(newWild);
+        farmGUI.relocateAnimalGUI(newWild.getAnimalGUI());
+        return newWild;
     }
 
-    public  void placeAnimal(DomesticatedType DomesticatedType ){
+    public Animal placeAnimal(DomesticatedType DomesticatedType ){
 
         Point point = getRandomPoint();
         Animal newDomesticated = new Domesticated(point,DomesticatedType);
         map.getCell(point).addAnimal(newDomesticated);
+        farmGUI.relocateAnimalGUI(newDomesticated.getAnimalGUI());
+        return newDomesticated;
     }
 
-    public  void placeAnimal(Dog dog){
+    public  Animal placeAnimal(Dog dog){
         Point point = getRandomPoint();
         Animal newDog = new Dog(point);
         map.getCell(point).addAnimal(newDog);
+        farmGUI.relocateAnimalGUI(newDog.getAnimalGUI());
+        return  newDog;
     }
 
-    public  void placeAnimal(Cat cat){
+    public  Animal placeAnimal(Cat cat){
         Point point = getRandomPoint();
         Animal newCat = new Cat(point);
         map.getCell(point).addAnimal(newCat);
+        farmGUI.relocateAnimalGUI(newCat.getAnimalGUI());
+        return newCat;
     }
+
 
     public Point getRandomPoint(){
         Random random  = new Random();

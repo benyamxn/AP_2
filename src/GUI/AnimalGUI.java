@@ -4,16 +4,17 @@ import GUI.animation.AnimationConstants;
 import GUI.animation.SpriteAnimation;
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.util.Duration;
-import model.Animal;
-import model.Direction;
-import model.Point;
+import model.*;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -27,29 +28,51 @@ public class AnimalGUI {
     private int[][] constants = new int[7][2];
     private int imageIndex = -1;
 
-    public AnimalGUI(Animal animal) {
+    public AnimalGUI(Animal animal)  {
         this.animal = animal;
-        Path cur = Paths.get(System.getProperty("user.dir"));
-        Path filePath = Paths.get(cur.toString(), "res", "animals", animal.toString());
-        image[0] = new Image(Paths.get(filePath.toString(), "up.png").toString());
-        constants[0] = AnimationConstants.getConstants(animal.toString() + " up");
-        image[1] = new Image(Paths.get(filePath.toString(), "up_left.png").toString());
-        constants[1] = AnimationConstants.getConstants(animal.toString() + " up");
-        image[2] = new Image(Paths.get(filePath.toString(), "left.png").toString());
-        constants[2] = AnimationConstants.getConstants(animal.toString() + " left");
-        image[3] = new Image(Paths.get(filePath.toString(), "down_left.png").toString());
-        constants[3] = AnimationConstants.getConstants(animal.toString() + " down left");
-        image[4] = new Image(Paths.get(filePath.toString(), "down.png").toString());
-        constants[4] = AnimationConstants.getConstants(animal.toString() + " down");
-        if (new File(Paths.get(filePath.toString(), "eat.png").toString()).exists()) {
-            image[5] = new Image(Paths.get(filePath.toString(), "eat.png").toString());
-            constants[5] = AnimationConstants.getConstants(animal.toString() + " eat");
-        }
-        if (new File(Paths.get(filePath.toString(), "death.png").toString()).exists()) {
-            image[6] = new Image(Paths.get(filePath.toString(), "death.png").toString());
-            constants[6] = AnimationConstants.getConstants(animal.toString() + " death");
-        }
+    }
 
+    public Animal getAnimal() {
+        return animal;
+    }
+
+    public void initImages() {
+        try {
+            Path cur = Paths.get(System.getProperty("user.dir"));
+            Path filePath = Paths.get(cur.toString(), "res","Textures", "Animals",animal.toString());
+            image[0] = new Image(new FileInputStream(Paths.get(filePath.toString(), "up.png").toString()));
+            constants[0] = AnimationConstants.getConstants(animal.toString() + " up");
+            image[1] = new Image(new FileInputStream(Paths.get(filePath.toString(), "up_left.png").toString()));
+            constants[1] = AnimationConstants.getConstants(animal.toString() + " up");
+            image[2] = new Image(new FileInputStream(Paths.get(filePath.toString(), "left.png").toString()));
+            constants[2] = AnimationConstants.getConstants(animal.toString() + " left");
+            image[3] = new Image(new FileInputStream(Paths.get(filePath.toString(), "down_left.png").toString()));
+            constants[3] = AnimationConstants.getConstants(animal.toString() + " down left");
+            image[4] = new Image(new FileInputStream(Paths.get(filePath.toString(), "down.png").toString()));
+            constants[4] = AnimationConstants.getConstants(animal.toString() + " down");
+            if (new File(Paths.get(filePath.toString(), "eat.png").toString()).exists()) {
+                image[5] = new Image(new FileInputStream(Paths.get(filePath.toString(), "eat.png").toString()));
+                constants[5] = AnimationConstants.getConstants(animal.toString() + " eat");
+            } else {
+               image[5] = image[0];
+            }
+
+            if (new File(Paths.get(filePath.toString(), "death.png").toString()).exists()) {
+                image[6] = new Image(new FileInputStream(Paths.get(filePath.toString(), "death.png").toString()));
+                constants[6] = AnimationConstants.getConstants(animal.toString() + " death");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        imageView = createImageView();
+        int temp = (int) Math.ceil(1.0 * constants[imageIndex][1] / constants[imageIndex][0]);
+        System.out.println(imageIndex);
+        double height =  imageView.getImage().getHeight() / temp;
+        imageView.setViewport(new Rectangle2D(0,0,image[imageIndex].getWidth() / constants[imageIndex][0],
+                height));
+        System.out.println(constants[imageIndex][0] + ":" + height);
+////
+//        imageView.setViewport(new Rectangle2D(0,0,500,500));
     }
 
     private ImageView createImageView(){
@@ -80,8 +103,11 @@ public class AnimalGUI {
                 imageIndex = 3;
                 break;
             case STATIONARY:
-                if (animal.getHealth() > 0)
+                if (animal.getHealth() > 0) {
                     imageIndex = 5;
+                    if(animal instanceof Cat || animal instanceof Dog)
+                        imageIndex = 0;
+                }
                 else
                     imageIndex = 6;
                 break;
@@ -98,18 +124,25 @@ public class AnimalGUI {
         double width = imageView.getImage().getWidth();
     }
 
-    public void move (double difWidth, double difHeight){
+    public void move (){
+        double difWidth = FarmGUI.cellWidth;
+        double difHeight = FarmGUI.cellHeight;
         int width =  (int) imageView.getImage().getWidth() / constants[imageIndex][0];
+        System.out.println(imageIndex);
         int temp = (int) Math.ceil(1.0 * constants[imageIndex][1] / constants[imageIndex][0]);
         int height = (int) imageView.getImage().getHeight() / temp;
         Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0, width, height);
         animation.play();
-        double[] moveTo = FarmGUI.getPointForCell(animal.getLocation().getWidth(), animal.getLocation().getHeight());
+        double[] lineTo = FarmGUI.getPointForCell(animal.getLocation().getWidth(), animal.getLocation().getHeight());
         Point moveVector = animal.getDirection().getMoveVector();
-        double[] lineTo = {difWidth * moveVector.getWidth(), difHeight * moveVector.getHeight()};
+        double[] moveTo = {lineTo[0] - moveVector.getWidth() * difWidth ,  lineTo[1] - moveVector.getHeight() * difHeight };
         javafx.scene.shape.Path path = new javafx.scene.shape.Path(new MoveTo(moveTo[0], moveTo[1]), new LineTo(lineTo[0], lineTo[1]));
-        PathTransition pathTransition = new PathTransition(Duration.millis(DURATION * WALK), path, imageView);
+//        PathTransition pathTransition = new PathTransition(Duration.millis(DURATION * WALK), path, imageView);
+        PathTransition pathTransition = new PathTransition(Duration.millis(1000), path, imageView);
         pathTransition.play();
     }
 
+    public ImageView getImageView() {
+        return imageView;
+    }
 }

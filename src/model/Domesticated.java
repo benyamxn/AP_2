@@ -16,6 +16,7 @@ public class Domesticated extends Animal {
         setMaxHealth(type.getMaxHealth());
         setHealth(type.getMaxHealth());
         turnsLeftToProduce = type.getTurnsToProduce();
+        animalGUI.initImages();
     }
 
     public Domesticated(Point location) {

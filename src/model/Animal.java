@@ -3,20 +3,22 @@ package model;
 import GUI.AnimalGUI;
 import GUI.MainStage;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Animal {
-    private int health, maxHealth;
+    private int health, maxHealth = 100;
     private Point location;
     private Point target;
     private boolean hasATarget;
-    private transient AnimalGUI animalGUI;
-    private Direction direction;
+    protected transient AnimalGUI animalGUI;
+    private Direction direction = Direction.STATIONARY;
 
     Animal(Point location) {
         this.location = location;
         hasATarget = false;
+        health = maxHealth;
         animalGUI  = new AnimalGUI(this);
     }
 
@@ -32,12 +34,14 @@ public abstract class Animal {
 
         if (hasATarget) {
             moveToPoint(target);
+            animalGUI.move();
             return;
         }
 
         ArrayList<Direction> possibleDirections = getPossibleDirections(cornerPoint);
 
         moveRandom(possibleDirections);
+        animalGUI.move();
     }
 
     public void moveRandom(ArrayList<Direction> directions){
@@ -162,5 +166,9 @@ public abstract class Animal {
 
     public Direction getDirection() {
         return direction;
+    }
+
+    public AnimalGUI getAnimalGUI() {
+        return animalGUI;
     }
 }

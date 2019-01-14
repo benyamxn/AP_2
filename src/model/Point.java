@@ -31,8 +31,13 @@ public class Point {
     }
 
     public void add(Point point) {
-        this.width += point.width;
-        this.height += point.height;
+        width += point.width;
+        height += point.height;
+    }
+
+    public void sub(Point point) {
+        width -= point.width;
+        height -= point.height;
     }
 
     public int getOptimalDistance(Point point) {

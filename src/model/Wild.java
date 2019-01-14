@@ -12,6 +12,7 @@ public class Wild extends Animal {
     public Wild(Point location, WildType type){
         super(location);
         this.type = type;
+        animalGUI.initImages();
     }
 
     @Override

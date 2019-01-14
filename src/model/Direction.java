@@ -81,7 +81,7 @@ public enum Direction {
         answer.add(UP_LEFT);
         answer.add(DOWN_LEFT);
         answer.add(DOWN_RIGHT);
-//        answer.add(STATIONARY);
+        answer.add(STATIONARY);
         return answer;
     }
 

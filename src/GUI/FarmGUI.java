@@ -17,6 +17,8 @@ import java.util.LinkedList;
 
 public class FarmGUI {
 
+    public static double cellWidth;
+    public static double cellHeight;
     private static final double startX = 185.0 / 800;
     private static final double startY = 200.0 / 600;
     private static final double endX = 605.0 / 800;
@@ -28,6 +30,7 @@ public class FarmGUI {
     private Farm farm;
     private Game game;
     FarmGUI(Game game) throws FileNotFoundException, MoneyNotEnoughException {
+        game.getFarm().setFarmGUI(this);
         MainStage.getInstance().pushStack(anchorPane);
         this.game = game;
         farm = game.getFarm();
@@ -52,8 +55,12 @@ public class FarmGUI {
                 placeProduct(new Product(ProductType.EGG), 10 + i, 10 + i1);
             }
         }
-
-
+        cellWidth = (endX - startX) * image.getWidth() / 30;
+        cellHeight = (endY - startY) * image.getHeight() / 30;
+        Animal animal = farm.placeAnimal(new Cat(new Point(0,0)));
+        anchorPane.getChildren().add(animal.getAnimalGUI().getImageView());
+        game.updateGame();
+        game.updateGame();
     }
 
     public void render() {
@@ -80,7 +87,7 @@ public class FarmGUI {
                             cellGUIs[cell1.getCoordinate().getWidth()][cell1.getCoordinate().getHeight()].growGrass(grassLevels[i]);
                         }
                     } catch (NotEnoughWaterException e) {
-                        e.printStackTrace();
+                        System.out.println(e.getMessage());
                     }
                 }
                 else{
@@ -88,7 +95,7 @@ public class FarmGUI {
                         farm.pickup(cell.getCoordinate());
                     } catch (NotEnoughCapacityException e) {
                        //TODO...
-                        e.printStackTrace();
+                        System.out.println(e.getMessage());
                     }
                 }
             }
@@ -100,7 +107,7 @@ public class FarmGUI {
     }
 
 
-    private CellGUI getCellByEvent(double x, double y){
+    private CellGUI getCellByEvent(double x, double y) {
         double width = anchorPane.getBoundsInParent().getWidth();
         double height = anchorPane.getBoundsInParent().getHeight();
         if( x >= startX * width  &&  x <= endX * width && y >= startY * height && y <= endY * height ){
@@ -129,5 +136,10 @@ public class FarmGUI {
         anchorPane.getChildren().add(productGUI.getImageView());
     }
 
+    public void relocateAnimalGUI(AnimalGUI animalGUI) {
+        Point location = animalGUI.getAnimal().getLocation();
+        double[] pointForCell = getPointForCell(location.getWidth(), location.getHeight());
+        animalGUI.getImageView().relocate(pointForCell[0], pointForCell[1]);
+    }
 
 }
