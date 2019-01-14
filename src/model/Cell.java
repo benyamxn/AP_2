@@ -64,10 +64,8 @@ public class Cell {
             temp.decreaseTimeLeftToExpire(1);
             if(temp.isExpired())
                 iterator.remove();
-            // TODO: check this
         }
         return new ArrayList<ProductType>().toArray(new ProductType[0]);
-        // TODO: check this
     }
 
     public ProductType[] removeProducts() {
@@ -244,5 +242,9 @@ public class Cell {
 
     public int getGrassLevel() {
         return grassLevel;
+    }
+
+    public boolean hasProduct(){
+        return !products.isEmpty();
     }
 }

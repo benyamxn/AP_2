@@ -49,4 +49,8 @@ public class CellGUI {
                 (before % columns) * width,(before / columns) * height,width,height);
         animation.play();
     }
+
+    public Cell getCell() {
+        return cell;
+    }
 }
