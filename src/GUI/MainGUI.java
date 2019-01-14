@@ -7,7 +7,7 @@ public class MainGUI extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         MainStage.getInstance().setStage(primaryStage);
+        new MainMenu().render();
         primaryStage.show();
-
     }
 }
