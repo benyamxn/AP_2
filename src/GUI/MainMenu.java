@@ -7,6 +7,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import model.Farm;
+import model.Game;
+import model.Mission;
+import model.exception.MoneyNotEnoughException;
 
 import java.io.FileNotFoundException;
 
@@ -46,8 +50,8 @@ public class MainMenu {
         Button exitButton = new Button("Exit");
         newGameButton.setOnMouseClicked(event -> {
             try {
-                new FarmGUI().render();
-            } catch (FileNotFoundException e) {
+                new FarmGUI(new Game(2000,new Mission(1000,1000))).render();
+            } catch (FileNotFoundException | MoneyNotEnoughException e) {
                 e.printStackTrace();
             }
         });

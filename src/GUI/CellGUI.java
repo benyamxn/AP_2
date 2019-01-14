@@ -11,6 +11,8 @@ import javafx.util.Duration;
 import model.Cell;
 import model.Domesticated;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 
 
@@ -19,14 +21,22 @@ public class CellGUI {
 
     private  static final double DURATION = 100;
     private static int columns = AnimationConstants.GRASS[0];
-    private static Image grassImage = new Image(Paths.get(System.getProperty("user.dir"),"res","Textures","Grass","grass1.png").toString());
-    private ImageView imageView;
+    private static Image grassImage;
+
+    static {
+        try {
+            grassImage = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir").toString(),"res","Textures","Grass","grass1.png").toString()));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private ImageView imageView = new ImageView(grassImage);
     private static int width = (int) grassImage.getWidth() / columns;
     private static int height = (int) grassImage.getHeight() / columns;
     private Cell cell;
     public CellGUI(Cell cell) {
         this.cell = cell;
-        imageView = new ImageView();
     }
 
     public void render(){
