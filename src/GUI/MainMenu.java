@@ -12,7 +12,7 @@ public class MainMenu {
     public void render() {
         double width = MainStage.getInstance().getWidth();
         double height = MainStage.getInstance().getHeight();
-        Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 40);
+        Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 42);
         AnchorPane pane = new AnchorPane();
         pane.setId("mainMenuPane");
         VBox menuBox = new VBox();
@@ -35,8 +35,6 @@ public class MainMenu {
                 getResource("CSS/mainMenu.css").toExternalForm());
         MainStage.getInstance().pushStack(pane);
     }
-
-
 
     private void createButtons(VBox vBox) {
         Button newGameButton = new Button("New Game");
