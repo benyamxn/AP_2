@@ -23,7 +23,6 @@ public class ProductGUI {
                 ,"Products", product.getType().toString().replace(" ", "") + ".png").toString()));
         imageView = new ImageView(image);
         imageView.setFitWidth(image.getWidth() * scale);
-        System.out.println(image.getWidth() * scale);
         imageView.setPreserveRatio(true);
         imageView.setOpacity(1);
         // TODO: remove dead products in farm updating function
