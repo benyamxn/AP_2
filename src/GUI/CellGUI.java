@@ -63,7 +63,6 @@ public class CellGUI {
             final Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), 4, columns,
                     (before % columns) * width, (before / columns) * height, width, height);
             animation.play();
-//            imageView.setOpacity(1);
         }
 
     }

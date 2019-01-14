@@ -161,4 +161,8 @@ public class Workshop implements Upgradable {
     public void setOnProduction(boolean onProduction) {
         this.onProduction = onProduction;
     }
+
+    public int getLevel() {
+        return level;
+    }
 }

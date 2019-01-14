@@ -129,7 +129,6 @@ public class Farm {
         } else {
             throw new NotEnoughWaterException();
         }
-
     }
 
     public Workshop getWorkshopByName(String name) throws NameNotFoundException {
@@ -174,5 +173,7 @@ public class Farm {
         return name;
     }
 
-
+    public Workshop[] getWorkshops() {
+        return workshops;
+    }
 }

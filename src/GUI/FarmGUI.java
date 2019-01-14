@@ -10,21 +10,24 @@ import model.Game;
 import model.Point;
 import model.exception.MoneyNotEnoughException;
 import model.exception.NotEnoughCapacityException;
+import model.exception.NotEnoughWaterException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.LinkedList;
 
 public class FarmGUI {
 
-    private static final double startX = 220.0 / 800 - 20.0 / 800;
-    private static final double startY = 195.0 / 600 - 20.0 / 600;
-    private static final double endX = 595.0 / 800;
-    private static final double endY = 450.0 / 600;
+    private static final double startX = 185.0 / 800;
+    private static final double startY = 200.0 / 600;
+    private static final double endX = 605.0 / 800;
+    private static final double endY = 480.0 / 600;
     private Image image;
     private AnchorPane anchorPane = new AnchorPane();
     private CellGUI[][] cellGUIs = new CellGUI[30][30];
+    private WorkshopGUI[] workshopGUIS = new WorkshopGUI[7];
     private Farm farm;
     private Game game;
     FarmGUI(Game game) throws FileNotFoundException, MoneyNotEnoughException {
@@ -41,6 +44,11 @@ public class FarmGUI {
                 cellGUIs[i][j].getImageView().relocate(getPointForCell(i, j)[0],getPointForCell(i, j)[1]);
             }
         }
+        for(int i = 0; i < 1; i++){
+            workshopGUIS[i] = new WorkshopGUI(farm.getWorkshops()[i],true);
+            anchorPane.getChildren().add(workshopGUIS[i].getImageView());
+            workshopGUIS[i].getImageView().relocate(1200,300);
+        }
         game.well();
 
 
@@ -54,8 +62,17 @@ public class FarmGUI {
             CellGUI cellGUI = getCellByEvent(event.getX(), event.getY());
             if(cellGUI != null){
                 Cell cell = cellGUI.getCell();
-                if(!cell.hasProduct())
-                      cellGUI.growGrass();
+                if(!cell.hasProduct()) {
+                    try {
+                        LinkedList<Cell> cells =(LinkedList<Cell>) farm.getMap().getCellsForPlant(cellGUI.getCell().getCoordinate()).clone();
+                        farm.plant(cell.getCoordinate());
+                        for (Cell cell1 : cells) {
+                            cellGUIs[cell1.getCoordinate().getWidth()][cell1.getCoordinate().getHeight()].growGrass();
+                        }
+                    } catch (NotEnoughWaterException e) {
+                        e.printStackTrace();
+                    }
+                }
                 else{
                     try {
                         farm.pickup(cell.getCoordinate());
@@ -76,10 +93,10 @@ public class FarmGUI {
     private CellGUI getCellByEvent(double x, double y){
         double width = anchorPane.getBoundsInParent().getWidth();
         double height = anchorPane.getBoundsInParent().getHeight();
-        if( x > startX * width  &&  x <= endX * width && y > startY * height && y < endY * height ){
-            double mapWidth = (endX - startX) * width;
-            double mapHeight = (endY - startY) * height;
-            int cellWidth = (int) ((x - startX * width) / mapWidth * 30.0 );
+        if( x >= startX * width  &&  x <= endX * width && y >= startY * height && y <= endY * height ){
+            double mapWidth = endX * width - startX * width;
+            double mapHeight = endY * height - startY * height;
+            int cellWidth = (int) ((x - startX * width) / mapWidth * 30.0);
             int cellHeight = (int) ((y - startY * height) / mapHeight * 30.0);
             return cellGUIs[cellWidth][cellHeight];
         }
@@ -89,11 +106,11 @@ public class FarmGUI {
     private double[] getPointForCell(int i, int j) {
         double width = anchorPane.getBoundsInParent().getWidth();
         double height = anchorPane.getBoundsInParent().getHeight();
-        double mapWidth = endX * width- startX * width;
+        double mapWidth = endX * width - startX * width;
         double mapHeight = endY * height - startY * height;
         double cellWidth = (startX * width + i * mapWidth / 30);
         double cellHeight = (startY * height + j * mapHeight / 30);
-        return new double[]{cellWidth, cellHeight - 20.0 / 600 * height};
+        return new double[]{cellWidth, cellHeight};
     }
 
 

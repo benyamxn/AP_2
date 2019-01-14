@@ -47,15 +47,15 @@ public enum WorkshopType {
         switch (this){
 
             case EGG_POWDER_PLANT:
-                return "Egg Powder Plant";
+                return "DriedEggs (Egg Powder Plant)";
             case COOKIE_BAKERY:
-                return "Cookie Bakery";
+                return "Cake (Cookie Bakery)";
             case SPINNERY:
-                return "Spinnery";
+                return "Spinnery (Spinnery)";
             case GRINDING_FACTORY:
                 return "Grinding Factory";
             case WEAVING_FACTORY:
-                return "Weaving Factory";
+                return "Weaving (Weaving Factory)";
             case MANUFACTURING_PLANT:
                 return "Manufacturing Plant";
                 default:

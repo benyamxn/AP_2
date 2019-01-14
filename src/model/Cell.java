@@ -247,4 +247,8 @@ public class Cell {
     public boolean hasProduct(){
         return !products.isEmpty();
     }
+
+    public boolean canGrow(){
+        return grassLevel < 4 * GRASS_GROWING_RATE;
+    }
 }
