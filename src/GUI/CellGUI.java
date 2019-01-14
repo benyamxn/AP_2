@@ -19,7 +19,7 @@ import java.nio.file.Paths;
 
 public class CellGUI {
 
-    private  static final double DURATION = 100;
+    private  static final double DURATION = 300;
     private static int columns = AnimationConstants.GRASS[0];
     private static Image grassImage;
 
@@ -35,8 +35,12 @@ public class CellGUI {
     private static int width = (int) grassImage.getWidth() / columns;
     private static int height = (int) grassImage.getHeight() / columns;
     private Cell cell;
+
     public CellGUI(Cell cell) {
         this.cell = cell;
+        imageView.setOpacity(1);
+        if (cell.getGrassLevel() == 0)
+            imageView.setOpacity(0);
     }
 
     public void render(){
@@ -44,7 +48,7 @@ public class CellGUI {
         final int x = (index % columns) * width;
         final int y = (index / columns) * height;
         imageView.setViewport(new Rectangle2D(x, y, width, height));
-        imageView.setOpacity(1);
+
     }
 
     public ImageView getImageView() {
@@ -55,9 +59,13 @@ public class CellGUI {
         int before = cell.getGrassLevel();
         cell.growGrass();
         int after = cell.getGrassLevel();
-        final Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION),4 , columns,
-                (before % columns) * width,(before / columns) * height,width,height);
-        animation.play();
+        if(before != after) {
+            final Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), 4, columns,
+                    (before % columns) * width, (before / columns) * height, width, height);
+            animation.play();
+//            imageView.setOpacity(1);
+        }
+
     }
 
     public Cell getCell() {
