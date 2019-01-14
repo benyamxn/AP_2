@@ -21,6 +21,7 @@ public class MainStage {
         scene = new Scene(new Group());
         stage.setTitle("Friendly Farm");
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.setFullScreen(true);
         stage.setResizable(false);
         stage.fullScreenExitKeyProperty().setValue(KeyCombination.NO_MATCH);

@@ -14,7 +14,7 @@ public enum ProductType {
     FLOURY_CAKE(6, 400, 200),
     SEWING(3, 300, 150),
     FABRIC(6, 400, 300),
-    CANIVAL_DRESS(8, 1400, 1300),
+    CARNIVAL_DRESS(8, 1400, 1300),
     SOUR_CREAM(8, 3000, 1500),
     CURD(6, 4000, 2000),
     CHEESE(5, 5000, 2500),
@@ -91,8 +91,8 @@ public enum ProductType {
                 return "Sewing";
             case FABRIC:
                 return "Fabric";
-            case CANIVAL_DRESS:
-                return "Canival Dress";
+            case CARNIVAL_DRESS:
+                return "Carnival Dress";
             case SOUR_CREAM:
                 return "Sour Cream";
             case CURD:

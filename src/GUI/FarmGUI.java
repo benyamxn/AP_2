@@ -4,10 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import model.Cell;
-import model.Farm;
-import model.Game;
-import model.Point;
+import model.*;
 import model.exception.MoneyNotEnoughException;
 import model.exception.NotEnoughCapacityException;
 import model.exception.NotEnoughWaterException;
@@ -50,6 +47,13 @@ public class FarmGUI {
             workshopGUIS[i].getImageView().relocate(1200,300);
         }
         game.well();
+        for (int i = 0; i < 3; i++) {
+            for (int i1 = 0; i1 < 3; i1++) {
+                placeProduct(new Product(ProductType.EGG), 10 + i, 10 + i1);
+            }
+        }
+
+
     }
 
     public void render() {
@@ -117,6 +121,12 @@ public class FarmGUI {
         double cellWidth = (startX * width + i * mapWidth / 30);
         double cellHeight = (startY * height + j * mapHeight / 30);
         return new double[]{cellWidth, cellHeight};
+    }
+
+    private void placeProduct(Product product, int x, int y) throws FileNotFoundException {
+        ProductGUI productGUI = new ProductGUI(product, 1);
+        productGUI.getImageView().relocate(getPointForCell(x, y)[0], getPointForCell(x, y)[1]);
+        anchorPane.getChildren().add(productGUI.getImageView());
     }
 
 
