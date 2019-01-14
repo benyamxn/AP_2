@@ -10,7 +10,7 @@ public class Cell {
     private LinkedList<Animal> animals = new LinkedList<>();
     private LinkedList<Product> products = new LinkedList<>();
     private int grassLevel = 0;
-    private static final int GRASS_GROWING_RATE = 1;
+    private static final int GRASS_GROWING_RATE = 4;
 
     public Cell() {
     }
@@ -25,6 +25,10 @@ public class Cell {
 
     public void growGrass() {
         grassLevel += GRASS_GROWING_RATE;
+
+        if(grassLevel > GRASS_GROWING_RATE * 4){
+            grassLevel = GRASS_GROWING_RATE * 4;
+        }
     }
 
     public void eatGrass() {
@@ -236,5 +240,9 @@ public class Cell {
 
     public void setAnimals(LinkedList<Animal> animals) {
         this.animals = animals;
+    }
+
+    public int getGrassLevel() {
+        return grassLevel;
     }
 }

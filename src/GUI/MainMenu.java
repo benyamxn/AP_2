@@ -8,6 +8,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+import java.io.FileNotFoundException;
+
 public class MainMenu {
     public void render() {
         double width = MainStage.getInstance().getWidth();
@@ -42,6 +44,13 @@ public class MainMenu {
         Button settingsButton = new Button("Settings");
         Button aboutButton = new Button("About");
         Button exitButton = new Button("Exit");
+        newGameButton.setOnMouseClicked(event -> {
+            try {
+                new FarmGUI().render();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
         VBox.setMargin(newGameButton, new Insets(10, 20, 10, 20));
         VBox.setMargin(loadGameButton, new Insets(10, 20, 10, 20));
         VBox.setMargin(settingsButton, new Insets(10, 20, 10, 20));

@@ -1,5 +1,6 @@
 package GUI;
 
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -15,22 +16,33 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FarmGUI {
-    private Image image;
 
+    private Image image;
+    private StackPane stackPane = new StackPane();
+    private CellGUI[][] cellGUIs = new CellGUI[30][30];
     FarmGUI() throws FileNotFoundException {
         Path cur = Paths.get(System.getProperty("user.dir"));
-        Path filePath = Paths.get(cur.toString(), "res", "map", "farm.png");
+        Path filePath = Paths.get(cur.toString(), "res", "backgrounds", "back.png");
         image = new Image(new FileInputStream(filePath.toString()));
     }
 
     public void render() {
         ImageView imageView = new ImageView(image);
+        stackPane.setId("farmPane");
 
-        StackPane stackPane = new StackPane();
-        stackPane.setStyle("-fx-background-image: url(" + image.getUrl() + ")" );
-        Group root = new Group();
-        root.getChildren().add(stackPane);
-        MainStage.getInstance().pushStack(root);
+//
+//        stackPane.setOnMouseClicked(e);
+        MainStage.getInstance().getScene().getStylesheets().add(getClass().
+                getResource("CSS/farm.css").toExternalForm());
+        MainStage.getInstance().pushStack(stackPane);
+
+
     }
+//
+//    public CellGUI getCellByEvent(double x, double y){
+//
+//        if( x >  && )
+//
+//    }
 
 }
