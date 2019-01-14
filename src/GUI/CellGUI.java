@@ -55,16 +55,13 @@ public class CellGUI {
         return imageView;
     }
 
-    public void growGrass(){
-        int before = cell.getGrassLevel();
-        cell.growGrass();
+    public void growGrass(int before){
         int after = cell.getGrassLevel();
         if(before != after) {
             final Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), 4, columns,
                     (before % columns) * width, (before / columns) * height, width, height);
             animation.play();
         }
-
     }
 
     public Cell getCell() {

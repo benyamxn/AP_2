@@ -50,8 +50,6 @@ public class FarmGUI {
             workshopGUIS[i].getImageView().relocate(1200,300);
         }
         game.well();
-
-
     }
 
     public void render() {
@@ -64,10 +62,18 @@ public class FarmGUI {
                 Cell cell = cellGUI.getCell();
                 if(!cell.hasProduct()) {
                     try {
-                        LinkedList<Cell> cells =(LinkedList<Cell>) farm.getMap().getCellsForPlant(cellGUI.getCell().getCoordinate()).clone();
+                        int[] grassLevels = new int[9];
+
+                        LinkedList<Cell> cellsToPlant = farm.getMap().getCellsForPlant(cellGUI.getCell().getCoordinate());
+                        for (int i = 0; i < cellsToPlant.size(); i++) {
+                            grassLevels[i] = cellsToPlant.get(i).getGrassLevel();
+                        }
+
                         farm.plant(cell.getCoordinate());
-                        for (Cell cell1 : cells) {
-                            cellGUIs[cell1.getCoordinate().getWidth()][cell1.getCoordinate().getHeight()].growGrass();
+
+                        for (int i = 0; i < cellsToPlant.size(); i++) {
+                            Cell cell1 = cellsToPlant.get(i);
+                            cellGUIs[cell1.getCoordinate().getWidth()][cell1.getCoordinate().getHeight()].growGrass(grassLevels[i]);
                         }
                     } catch (NotEnoughWaterException e) {
                         e.printStackTrace();
@@ -77,7 +83,7 @@ public class FarmGUI {
                     try {
                         farm.pickup(cell.getCoordinate());
                     } catch (NotEnoughCapacityException e) {
-                       //TODO....
+                       //TODO...
                         e.printStackTrace();
                     }
                 }
