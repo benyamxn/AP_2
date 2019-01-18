@@ -39,7 +39,6 @@ public abstract class Animal {
         }
 
         ArrayList<Direction> possibleDirections = getPossibleDirections(cornerPoint);
-
         moveRandom(possibleDirections);
         animalGUI.move();
     }

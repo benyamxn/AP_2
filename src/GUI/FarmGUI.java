@@ -1,11 +1,12 @@
 package GUI;
 
+import controller.Controller;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import model.*;
 import model.exception.MoneyNotEnoughException;
+import model.exception.NameNotFoundException;
 import model.exception.NotEnoughCapacityException;
 import model.exception.NotEnoughWaterException;
 
@@ -27,12 +28,14 @@ public class FarmGUI {
     private static AnchorPane anchorPane = new AnchorPane();
     private CellGUI[][] cellGUIs = new CellGUI[30][30];
     private WorkshopGUI[] workshopGUIS = new WorkshopGUI[7];
+    private Controller controller;
     private Farm farm;
     private Game game;
-    FarmGUI(Game game) throws FileNotFoundException, MoneyNotEnoughException {
+    FarmGUI(Controller controller) throws FileNotFoundException, MoneyNotEnoughException {
+        this.controller = controller;
+        game = controller.getGame();
         game.getFarm().setFarmGUI(this);
         MainStage.getInstance().pushStack(anchorPane);
-        this.game = game;
         farm = game.getFarm();
         Path cur = Paths.get(System.getProperty("user.dir"));
         Path filePath = Paths.get(cur.toString(), "res", "backgrounds", "back.png");
@@ -55,10 +58,14 @@ public class FarmGUI {
                 placeProduct(new Product(ProductType.EGG), 10 + i, 10 + i1);
             }
         }
+
+        game.getGameStatus().addToRoot(anchorPane);
+        game.getGameStatus().relocate(2 * MainStage.getInstance().getWidth() / 3, 10);
+
         cellWidth = (endX - startX) * image.getWidth() / 30;
         cellHeight = (endY - startY) * image.getHeight() / 30;
-        Animal animal = farm.placeAnimal(new Cat(new Point(0,0)));
-        anchorPane.getChildren().add(animal.getAnimalGUI().getImageView());
+        farm.placeAnimal(new Cat(new Point(0,0)));
+        renderAnimalBuyingButtons();
         game.updateGame();
         game.updateGame();
     }
@@ -140,6 +147,39 @@ public class FarmGUI {
         Point location = animalGUI.getAnimal().getLocation();
         double[] pointForCell = getPointForCell(location.getWidth(), location.getHeight());
         animalGUI.getImageView().relocate(pointForCell[0], pointForCell[1]);
+        anchorPane.getChildren().add(animalGUI.getImageView());
+    }
+
+    private void renderAnimalBuyingButtons() {
+        double startX = 10;
+        double startY = 10;
+        int radius = 50;
+        double marginDistance = 10;
+        Point dummyPoint = new Point(0, 0);
+        // TODO: handle constants here.
+        AnimalBuyButton[] animalBuyButtons = new AnimalBuyButton[5];
+        for (int i = 0; i < 3; i++) {
+            animalBuyButtons[i] = new AnimalBuyButton(radius, new Domesticated(dummyPoint, farm.getDomesticatedAnimals()[i]));
+        }
+        animalBuyButtons[3] = new AnimalBuyButton(radius, new Cat(dummyPoint));
+        animalBuyButtons[4] = new AnimalBuyButton(radius, new Dog(dummyPoint));
+        for (int i = 0; i < 5; i++) {
+            animalBuyButtons[i].addToRoot(anchorPane);
+            animalBuyButtons[i].relocateInRoot(startX, startY);
+            startX += 2 * radius + marginDistance;
+            final String animalName = animalBuyButtons[i].getAnimal().toString();
+            animalBuyButtons[i].setOnClick(event -> {
+                try {
+                    controller.buyAnimal(animalName);
+                } catch (NameNotFoundException e) {
+                    e.printStackTrace();
+                } catch (MoneyNotEnoughException e) {
+                    e.printStackTrace();
+                    // TODO: Handle this.
+                }
+
+            });
+        }
     }
 
 }

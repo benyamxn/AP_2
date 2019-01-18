@@ -127,15 +127,25 @@ public class AnimalGUI {
     public void move (){
         double difWidth = FarmGUI.cellWidth;
         double difHeight = FarmGUI.cellHeight;
-        int width =  (int) imageView.getImage().getWidth() / constants[imageIndex][0];
+        int width = 0;
+        try {
+            width = (int) imageView.getImage().getWidth() / constants[imageIndex][0];
+        } catch (ArithmeticException e) {
+            e.printStackTrace();
+            System.out.println(imageIndex);
+            System.out.println("Here is the error");
+        }
         System.out.println(imageIndex);
         int temp = (int) Math.ceil(1.0 * constants[imageIndex][1] / constants[imageIndex][0]);
         int height = (int) imageView.getImage().getHeight() / temp;
         Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0, width, height);
         animation.play();
         double[] lineTo = FarmGUI.getPointForCell(animal.getLocation().getWidth(), animal.getLocation().getHeight());
+        System.out.println(animal.getDirection());
         Point moveVector = animal.getDirection().getMoveVector();
         double[] moveTo = {lineTo[0] - moveVector.getWidth() * difWidth ,  lineTo[1] - moveVector.getHeight() * difHeight };
+        System.out.println( moveVector.getWidth() + " --- " + moveVector.getHeight());
+        System.out.println("Coordinates: " +moveTo[0] +":" + moveTo[1] +"---" + lineTo[0] + ":" + lineTo[1]);
         javafx.scene.shape.Path path = new javafx.scene.shape.Path(new MoveTo(moveTo[0], moveTo[1]), new LineTo(lineTo[0], lineTo[1]));
 //        PathTransition pathTransition = new PathTransition(Duration.millis(DURATION * WALK), path, imageView);
         PathTransition pathTransition = new PathTransition(Duration.millis(1000), path, imageView);

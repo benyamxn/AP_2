@@ -1,5 +1,6 @@
 package GUI;
 
+import controller.Controller;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -50,7 +51,7 @@ public class MainMenu {
         Button exitButton = new Button("Exit");
         newGameButton.setOnMouseClicked(event -> {
             try {
-                new FarmGUI(new Game(2000,new Mission(1000,1000))).render();
+                new FarmGUI(new Controller()).render();
             } catch (FileNotFoundException | MoneyNotEnoughException e) {
                 e.printStackTrace();
             }

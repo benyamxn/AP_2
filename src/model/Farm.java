@@ -21,6 +21,12 @@ public class Farm {
     private transient Helicopter helicopter = new Helicopter();
     private transient Well well = new Well(WELL_DEFAULT_CAPACITY);
     private transient FarmGUI farmGUI;
+    private DomesticatedType[] domesticatedAnimals = {DomesticatedType.GUINEA_FOWL, DomesticatedType.OSTRICH, DomesticatedType.BUFFALO};
+
+    public DomesticatedType[] getDomesticatedAnimals() {
+        return domesticatedAnimals;
+    }
+
     public Farm() {
         name = "Default";
         workshops[0] = new Workshop(WorkshopType.EGG_POWDER_PLANT, new Point(0, 0));
