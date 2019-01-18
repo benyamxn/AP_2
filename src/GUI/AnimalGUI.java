@@ -23,7 +23,7 @@ public class AnimalGUI {
     private Image[] image = new Image[7];
     private Animal animal;
     private ImageView imageView;
-    private static double DURATION = 2000;
+    private static double DURATION = 1000;
     private static final int WALK = 2;
     private int[][] constants = new int[7][2];
     private int imageIndex = -1;
@@ -66,11 +66,11 @@ public class AnimalGUI {
         }
         imageView = createImageView();
         int temp = (int) Math.ceil(1.0 * constants[imageIndex][1] / constants[imageIndex][0]);
-//        System.out.println(imageIndex);
+        System.out.println(imageIndex);
         double height =  imageView.getImage().getHeight() / temp;
         imageView.setViewport(new Rectangle2D(0,0,image[imageIndex].getWidth() / constants[imageIndex][0],
                 height));
-//        System.out.println(constants[imageIndex][0] + ":" + height);
+        System.out.println(constants[imageIndex][0] + ":" + height);
 ////
 //        imageView.setViewport(new Rectangle2D(0,0,500,500));
     }
@@ -105,7 +105,7 @@ public class AnimalGUI {
             case STATIONARY:
                 if (animal.getHealth() > 0) {
                     imageIndex = 5;
-                    if(animal instanceof Cat || animal instanceof Dog || animal instanceof Wild)
+                    if(animal instanceof Cat || animal instanceof Dog)
                         imageIndex = 0;
                 }
                 else
@@ -127,29 +127,33 @@ public class AnimalGUI {
     public void move (){
         double difWidth = FarmGUI.cellWidth;
         double difHeight = FarmGUI.cellHeight;
+        imageView = createImageView();
+        System.out.println("salam " + animal.getDirection());
         int width = 0;
         try {
             width = (int) imageView.getImage().getWidth() / constants[imageIndex][0];
         } catch (ArithmeticException e) {
-            e.printStackTrace();
             System.out.println(imageIndex);
+            System.out.println(animal.getStatus());
             System.out.println("Here is the error");
         }
-        System.out.println(imageIndex);
-        int temp = (int) Math.ceil(1.0 * constants[imageIndex][1] / constants[imageIndex][0]);
-        int height = (int) imageView.getImage().getHeight() / temp;
-        Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0, width, height);
-        animation.play();
-        double[] lineTo = FarmGUI.getPointForCell(animal.getLocation().getWidth(), animal.getLocation().getHeight());
-        System.out.println(animal.getDirection());
-        Point moveVector = animal.getDirection().getMoveVector();
-        double[] moveTo = {lineTo[0] - moveVector.getWidth() * difWidth ,  lineTo[1] - moveVector.getHeight() * difHeight };
-//        javafx.scene.shape.Path path = new javafx.scene.shape.Path(new MoveTo(moveTo[0], moveTo[1]), new LineTo(lineTo[0], lineTo[1]));
-        javafx.scene.shape.Path path = new javafx.scene.shape.Path(new MoveTo(200, 200), new LineTo(200, 10));
+
+        if(!( animal instanceof Wild) ){
+            System.out.println("mohammad");
+            int temp = (int) Math.ceil(1.0 * constants[imageIndex][1] / constants[imageIndex][0]);
+            int height = (int) imageView.getImage().getHeight() / temp;
+            Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0, width, height);
+            animation.play();
+            double[] lineTo = FarmGUI.getPointForCell(animal.getLocation().getWidth(), animal.getLocation().getHeight());
+            Point moveVector = animal.getDirection().getMoveVector();
+            double[] moveTo = {lineTo[0] - moveVector.getWidth() * difWidth, lineTo[1] - moveVector.getHeight() * difHeight};
+            System.out.println("path is" + lineTo[0] + " " + lineTo[1] + " : " + moveTo[0] + " " + moveTo[1]);
+//            javafx.scene.shape.Path path = new javafx.scene.shape.Path(new MoveTo(moveTo[0], moveTo[1]), new LineTo(lineTo[0], lineTo[1]));
+            javafx.scene.shape.Path path = new javafx.scene.shape.Path(new MoveTo(100,300), new LineTo(200,100));
 //        PathTransition pathTransition = new PathTransition(Duration.millis(DURATION * WALK), path, imageView);
-        PathTransition pathTransition = new PathTransition(Duration.millis(1000), path, imageView);
-        pathTransition.play();
-        imageView = createImageView();
+            PathTransition pathTransition = new PathTransition(Duration.millis(1000), path, imageView);
+            pathTransition.play();
+        }
     }
 
     public ImageView getImageView() {

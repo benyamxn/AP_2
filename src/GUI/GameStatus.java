@@ -55,4 +55,8 @@ public class GameStatus {
     public void relocate(double x, double y) {
         rectangle.relocate(x, y);
     }
+
+    public int getTurns() {
+        return turns;
+    }
 }
