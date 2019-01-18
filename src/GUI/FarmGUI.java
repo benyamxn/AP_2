@@ -57,6 +57,8 @@ public class FarmGUI {
         farm.placeAnimal(new Cat(new Point(0,0)));
         renderAnimalBuyingButtons();
         createWellGUI();
+        createTruckGUI();
+        createHelicopterGUI();
         createGameUpdater();
     }
 
@@ -219,6 +221,18 @@ public class FarmGUI {
 
             });
         }
+    }
+
+    private void createTruckGUI() {
+        VehicleGUI truckGUI = new VehicleGUI(farm.getTruck(), (int) (MainStage.getInstance().getWidth() / 10));
+        truckGUI.relocate(MainStage.getInstance().getWidth() / 5, MainStage.getInstance().getHeight() * 0.7);
+        truckGUI.addToRoot(anchorPane);
+    }
+
+    private void createHelicopterGUI() {
+        VehicleGUI HelicopterGUI = new VehicleGUI(farm.getHelicopter(), (int) (MainStage.getInstance().getWidth() / 10));
+        HelicopterGUI.relocate(MainStage.getInstance().getWidth() * 0.7, MainStage.getInstance().getHeight() * 0.7);
+        HelicopterGUI.addToRoot(anchorPane);
     }
 
 }

@@ -122,4 +122,12 @@ public abstract class Vehicle implements Upgradable {
         status += "\tTime left to arrive: " + estimatedTimeOfArrival + " of " + arrivalTime + "\n";
         return status;
     }
+
+    public VehicleType getVehicleType() {
+        return vehicleType;
+    }
+
+    public int getLevel() {
+        return level;
+    }
 }
