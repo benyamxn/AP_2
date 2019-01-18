@@ -4,6 +4,7 @@ import controller.Controller;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import model.*;
 import model.exception.MoneyNotEnoughException;
 import model.exception.NameNotFoundException;
@@ -31,11 +32,10 @@ public class FarmGUI {
     private Controller controller;
     private Farm farm;
     private Game game;
-    FarmGUI(Controller controller) throws FileNotFoundException, MoneyNotEnoughException {
-        this.controller = controller;
-        game = controller.getGame();
+    FarmGUI(Game game) throws FileNotFoundException, MoneyNotEnoughException {
         game.getFarm().setFarmGUI(this);
         MainStage.getInstance().pushStack(anchorPane);
+        this.game = game;
         farm = game.getFarm();
         createWellGUI();
         Path cur = Paths.get(System.getProperty("user.dir"));
@@ -67,6 +67,9 @@ public class FarmGUI {
         cellHeight = (endY - startY) * image.getHeight() / 30;
         farm.placeAnimal(new Cat(new Point(0,0)));
         renderAnimalBuyingButtons();
+        Animal animal = farm.placeAnimal(new Cat(new Point(0,0)));
+        anchorPane.getChildren().add(animal.getAnimalGUI().getImageView());
+        animal.getAnimalGUI().getImageView().relocate(500,500);
         game.updateGame();
         game.updateGame();
     }
@@ -83,6 +86,7 @@ public class FarmGUI {
         ImageView imageView = new ImageView(image);
         anchorPane.setId("farmPane");
         anchorPane.setOnMouseClicked(event -> {
+            game.updateGame();
             CellGUI cellGUI = getCellByEvent(event.getX(), event.getY());
             if(cellGUI != null){
                 Cell cell = cellGUI.getCell();

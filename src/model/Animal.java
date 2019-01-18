@@ -45,6 +45,7 @@ public abstract class Animal {
 
     public void moveRandom(ArrayList<Direction> directions){
         Direction dir = Direction.randomDir(directions.toArray(new Direction[0]));
+        direction = dir;
         moveWithDirection(dir);
     }
 
