@@ -1,5 +1,6 @@
 package model;
 
+import GUI.GameStatus;
 import com.gilecode.yagson.YaGson;
 import com.gilecode.yagson.YaGsonBuilder;
 import com.google.gson.Gson;
@@ -22,26 +23,44 @@ public class Game {
     private Farm farm = new Farm();
     private String playerName = "Guest";
     private ProductType[] marketProducts = {ProductType.EGG, ProductType.WOOL, ProductType.MILK};
+    private GameStatus gameStatus;
+    private int turns = 0;
 
+    public int getTurns() {
+        return turns;
+    }
 
+    public void setTurns(int turns) {
+        this.turns = turns;
+        gameStatus.setTurns(turns);
+    }
+
+    public GameStatus getGameStatus() {
+        return gameStatus;
+    }
 
     public Game(Mission mission) {
         this.mission = mission;
+        gameStatus = new GameStatus(money);
     }
+
     public Game(Mission mission, String playerName){
         this.mission = mission;
         this.playerName = playerName;
+        gameStatus = new GameStatus(money);
     }
 
     public Game(int money, Mission mission, String playerName) {
         this.money = money;
         this.mission = mission;
         this.playerName = playerName;
+        gameStatus = new GameStatus(money);
     }
 
     public Game(int money, Mission mission) {
         this.money = money;
         this.mission = mission;
+        gameStatus = new GameStatus(money);
     }
 
     public void loadMarketProducts(String path) throws IOException {
@@ -76,7 +95,7 @@ public class Game {
         Truck truck = farm.getTruck();
         if(truck.isOnTravel()){
             if(truck.hasArrived()){
-                money += truck.getProductsPrice();
+                increaseMoney(truck.getProductsPrice());
                 truck.finishTravel();
             }
         }
@@ -91,6 +110,7 @@ public class Game {
         if(newProducts != null){
             farm.placeProduct(newProducts);
         }
+        setTurns(turns + 1);
     }
 
     public boolean isFinished(){
@@ -103,7 +123,7 @@ public class Game {
 
     public void well() throws MoneyNotEnoughException {
         if( money >= farm.getWell().getRefillPrice()) {
-            money -= farm.getWell().getRefillPrice();
+            decreaseMoney(farm.getWell().getRefillPrice());
             farm.getWell().refill();
         }
         else{
@@ -138,13 +158,12 @@ public class Game {
         if (number * productType.getBuyCost() > money) {
             throw new MoneyNotEnoughException();
         } else {
-            money -= number * productType.getBuyCost();
+            decreaseMoney(number * productType.getBuyCost());
             vehicle.addProduct(productType, number);
         }
     }
 
     public void moveVehicle(Vehicle vehicle) throws VehicleOnTripException,NotEnoughCapacityException,MoneyNotEnoughException, NotEnoughItemsException {
-
         if(vehicle.onTravel){
             throw new VehicleOnTripException();
         }
@@ -158,6 +177,7 @@ public class Game {
 
     public void decreaseMoney(int number) {
         money -= number;
+        gameStatus.setMoney(money);
     }
 
     public int getTime() {
@@ -177,7 +197,7 @@ public class Game {
         if (vehicle instanceof Helicopter) {
             if (vehicle.isOnTravel())
                 throw new VehicleOnTripException();
-            money += vehicle.getProductsPrice();
+            increaseMoney(vehicle.getProductsPrice());
             vehicle.finishTravel();
             return;
         }
@@ -199,7 +219,6 @@ public class Game {
         this.farm = farm;
     }
 
-
     public ProductType[] getMarketProducts() {
         return marketProducts;
     }
@@ -220,7 +239,6 @@ public class Game {
         return status;
     }
 
-
     public void saveToJson(String path) throws IOException {
 
         Writer writer = new FileWriter(path);
@@ -229,6 +247,7 @@ public class Game {
         writer.close();
 
     }
+
     public static Game loadFromJson(String path) throws IOException {
         Reader reader = new FileReader(path);
         YaGson gson = new YaGsonBuilder().create();
@@ -236,6 +255,11 @@ public class Game {
         reader.close();
         output.products = new EnumMap<>(ProductType.class);
         return output;
+    }
+
+    public void increaseMoney(int amount) {
+        money += amount;
+        gameStatus.setMoney(money);
     }
 
 }
