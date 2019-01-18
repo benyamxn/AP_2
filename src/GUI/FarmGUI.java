@@ -1,6 +1,7 @@
 package GUI;
 
 import controller.Controller;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -15,6 +16,8 @@ import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class FarmGUI {
 
@@ -31,15 +34,57 @@ public class FarmGUI {
     private Controller controller;
     private Farm farm;
     private Game game;
+    private Timer gameUpdater;
     FarmGUI(Controller controller) throws FileNotFoundException, MoneyNotEnoughException {
         this.controller = controller;
         game = controller.getGame();
         game.getFarm().setFarmGUI(this);
         MainStage.getInstance().pushStack(anchorPane);
         farm = game.getFarm();
+        loadBackground();
+        createCellsGUI();
+        for(int i = 0; i < 1; i++){
+            workshopGUIS[i] = new WorkshopGUI(farm.getWorkshops()[i],true);
+            anchorPane.getChildren().add(workshopGUIS[i].getImageView());
+            workshopGUIS[i].getImageView().relocate(1200,300);
+        }
+        for (int i = 0; i < 3; i++) {
+            for (int i1 = 0; i1 < 3; i1++) {
+                placeProduct(new Product(ProductType.EGG), 10 + i, 10 + i1);
+            }
+        }
+        createGameStatus();
+        farm.placeAnimal(new Cat(new Point(0,0)));
+        renderAnimalBuyingButtons();
+        createWellGUI();
+        createGameUpdater();
+    }
+
+    private void createGameUpdater() {
+        gameUpdater = new Timer(true);
+        gameUpdater.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("here");
+                Platform.runLater(() -> game.updateGame());
+            }
+        }, 0, 2000);
+    }
+
+    private void loadBackground() throws FileNotFoundException {
         Path cur = Paths.get(System.getProperty("user.dir"));
         Path filePath = Paths.get(cur.toString(), "res", "backgrounds", "back.png");
         image = new Image(new FileInputStream(filePath.toString()));
+        cellWidth = (endX - startX) * image.getWidth() / 30;
+        cellHeight = (endY - startY) * image.getHeight() / 30;
+    }
+
+    private void createGameStatus() {
+        game.getGameStatus().addToRoot(anchorPane);
+        game.getGameStatus().relocate(2 * MainStage.getInstance().getWidth() / 3, 10);
+    }
+
+    private void createCellsGUI() {
         for (int i = 0; i < 30; i++) {
             for (int j = 0; j < 30; j++){
                 cellGUIs[i][j] = new CellGUI(farm.getCell(new Point(i,j)));
@@ -47,28 +92,6 @@ public class FarmGUI {
                 cellGUIs[i][j].getImageView().relocate(getPointForCell(i, j)[0],getPointForCell(i, j)[1]);
             }
         }
-        for(int i = 0; i < 1; i++){
-            workshopGUIS[i] = new WorkshopGUI(farm.getWorkshops()[i],true);
-            anchorPane.getChildren().add(workshopGUIS[i].getImageView());
-            workshopGUIS[i].getImageView().relocate(1200,300);
-        }
-//        game.well();
-        for (int i = 0; i < 3; i++) {
-            for (int i1 = 0; i1 < 3; i1++) {
-                placeProduct(new Product(ProductType.EGG), 10 + i, 10 + i1);
-            }
-        }
-
-        game.getGameStatus().addToRoot(anchorPane);
-        game.getGameStatus().relocate(2 * MainStage.getInstance().getWidth() / 3, 10);
-
-        cellWidth = (endX - startX) * image.getWidth() / 30;
-        cellHeight = (endY - startY) * image.getHeight() / 30;
-        farm.placeAnimal(new Cat(new Point(0,0)));
-        renderAnimalBuyingButtons();
-        createWellGUI();
-        game.updateGame();
-        game.updateGame();
     }
 
     private void createWellGUI() {
