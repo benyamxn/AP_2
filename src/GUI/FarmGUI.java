@@ -37,7 +37,6 @@ public class FarmGUI {
         game.getFarm().setFarmGUI(this);
         MainStage.getInstance().pushStack(anchorPane);
         farm = game.getFarm();
-        createWellGUI();
         Path cur = Paths.get(System.getProperty("user.dir"));
         Path filePath = Paths.get(cur.toString(), "res", "backgrounds", "back.png");
         image = new Image(new FileInputStream(filePath.toString()));
@@ -53,7 +52,7 @@ public class FarmGUI {
             anchorPane.getChildren().add(workshopGUIS[i].getImageView());
             workshopGUIS[i].getImageView().relocate(1200,300);
         }
-        game.well();
+//        game.well();
         for (int i = 0; i < 3; i++) {
             for (int i1 = 0; i1 < 3; i1++) {
                 placeProduct(new Product(ProductType.EGG), 10 + i, 10 + i1);
@@ -67,6 +66,7 @@ public class FarmGUI {
         cellHeight = (endY - startY) * image.getHeight() / 30;
         farm.placeAnimal(new Cat(new Point(0,0)));
         renderAnimalBuyingButtons();
+//        createWellGUI();
         game.updateGame();
         game.updateGame();
     }
