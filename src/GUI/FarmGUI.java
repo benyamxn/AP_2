@@ -1,10 +1,10 @@
 package GUI;
 
 import controller.Controller;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import model.*;
 import model.exception.MoneyNotEnoughException;
 import model.exception.NameNotFoundException;
@@ -16,6 +16,8 @@ import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class FarmGUI {
 

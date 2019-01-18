@@ -45,7 +45,7 @@ public abstract class Animal {
 
     public void moveRandom(ArrayList<Direction> directions){
         Direction dir = Direction.randomDir(directions.toArray(new Direction[0]));
-        this.direction = dir;
+        direction = dir;
         moveWithDirection(dir);
     }
 
@@ -107,7 +107,6 @@ public abstract class Animal {
 
     public void moveToPoint(Point point) {
         Direction direction = selectDirection(point);
-        this.direction = direction;
         moveWithDirection(direction);
     }
 
