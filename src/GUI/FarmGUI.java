@@ -66,16 +66,24 @@ public class FarmGUI {
         cellHeight = (endY - startY) * image.getHeight() / 30;
         farm.placeAnimal(new Cat(new Point(0,0)));
         renderAnimalBuyingButtons();
-//        createWellGUI();
+        createWellGUI();
         game.updateGame();
         game.updateGame();
     }
 
     private void createWellGUI() {
-        WellGUI wellGUI = new WellGUI(game.getFarm().getWell(), (int) (MainStage.getInstance().getWidth() / 5));
+        WellGUI wellGUI = new WellGUI(game.getFarm().getWell(), (int) (MainStage.getInstance().getWidth() / 8));
         game.getFarm().getWell().setWellGUI(wellGUI);
         wellGUI.addToRoot(anchorPane);
-        wellGUI.relocate(100, 3 * MainStage.getInstance().getWidth() / 5);
+        wellGUI.relocate(2.4 * MainStage.getInstance().getWidth() / 5, 3 * MainStage.getInstance().getHeight() / 40);
+        wellGUI.setOnClick(event -> {
+            try {
+                game.well();
+            } catch (MoneyNotEnoughException e) {
+                e.printStackTrace();
+                // TODO: Handle this
+            }
+        });
     }
 
     public void render() {

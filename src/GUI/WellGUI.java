@@ -3,9 +3,11 @@ package GUI;
 import GUI.animation.AnimationConstants;
 import GUI.animation.SpriteAnimation;
 import javafx.animation.Animation;
+import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import model.Well;
@@ -15,7 +17,7 @@ import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 
 public class WellGUI {
-    private int duration;
+    private int duration = 1000;
     private Well well;
     private Image image;
     private ImageView imageView;
@@ -24,11 +26,16 @@ public class WellGUI {
     private int columns = AnimationConstants.WELL[0];
     private int count = AnimationConstants.WELL[1];
     private int frameWidth;
+    private int cycleCount = 8;
 
 
     public void refill() {
         Animation animation = new SpriteAnimation(imageView, Duration.millis(duration), count, columns,
                 0, 0,width, height);
+        animation.setCycleCount(cycleCount);
+        animation.setOnFinished(event -> {
+            well.setRemainingWater(well.getCapacity());
+        });
         animation.play();
     }
 
@@ -65,5 +72,9 @@ public class WellGUI {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setOnClick(EventHandler<? super MouseEvent> eventHandler) {
+        imageView.setOnMouseClicked(eventHandler);
     }
 }

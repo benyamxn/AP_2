@@ -52,7 +52,6 @@ public class Well implements Upgradable {
     }
 
     public void refill(){
-        remainingWater = capacity;
         wellGUI.refill();
     }
 
@@ -77,5 +76,9 @@ public class Well implements Upgradable {
 
     public int getLevel() {
         return level;
+    }
+
+    public void setRemainingWater(int remainingWater) {
+        this.remainingWater = remainingWater;
     }
 }
