@@ -15,47 +15,24 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 
-public class AnimalBuyButton {
-    private int radius;
+public class AnimalBuyButton extends FarmButton{
     private Animal animal;
-    private Circle circle;
-    private Rectangle rectangle;
-    private Label priceLabel;
 
     public AnimalBuyButton(int radius, Animal animal) {
-        this.radius = radius;
+        super(radius);
         this.animal = animal;
-        circle = new Circle(radius);
-        rectangle = new Rectangle(2 * radius, radius / 2.0, Color.GOLD);
         try {
             Image image = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures",
                     "AnimalBuyButtons",animal.toString()+ ".png").toString()));
-            circle.setFill(new ImagePattern(image));
-            priceLabel = new Label(Integer.toString(animal.getBuyPrice()));
+            getCircle().setFill(new ImagePattern(image));
+            setPriceLabel(new Label(Integer.toString(animal.getBuyPrice())));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
     }
 
-    public void addToRoot(Pane parent) {
-        parent.getChildren().addAll(circle, rectangle, priceLabel);
-    }
-
-    public void relocateInRoot(double x, double y) {
-        circle.relocate(x, y);
-        rectangle.relocate(x, y + 2 * radius);
-        priceLabel.relocate(x, y + 2 * radius);
-    }
-
     public Animal getAnimal() {
         return animal;
-    }
-
-    public void setOnClick(EventHandler<? super MouseEvent> eventHandler) {
-        circle.setOnMouseClicked(eventHandler);
-        rectangle.setOnMouseClicked(eventHandler);
-        priceLabel.setOnMouseClicked(eventHandler);
-        // TODO: is the line above necessary?
     }
 }
