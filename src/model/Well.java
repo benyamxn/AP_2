@@ -1,8 +1,11 @@
 package model;
 
+import GUI.WellGUI;
+
 public class Well implements Upgradable {
     private int level = 1, refillPrice, capacity, remainingWater;
     private static final int WATER_CONSUMPTION = 9;
+    WellGUI wellGUI;
 
 
     Well(int capacity){
@@ -15,6 +18,11 @@ public class Well implements Upgradable {
         level++;
         refillPrice -= 10;
         capacity += level * 20;
+        wellGUI.upgrade();
+    }
+
+    public void setWellGUI(WellGUI wellGUI) {
+        this.wellGUI = wellGUI;
     }
 
     @Override
@@ -45,6 +53,7 @@ public class Well implements Upgradable {
 
     public void refill(){
         remainingWater = capacity;
+        wellGUI.refill();
     }
 
     public int getRefillPrice() {
@@ -64,5 +73,9 @@ public class Well implements Upgradable {
         status += "\tLevel: " + level + "\n";
         status += "\tRemaining Water: " + remainingWater + " of " + capacity + "\n";
         return status;
+    }
+
+    public int getLevel() {
+        return level;
     }
 }

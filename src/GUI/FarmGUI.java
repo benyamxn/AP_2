@@ -37,6 +37,7 @@ public class FarmGUI {
         game.getFarm().setFarmGUI(this);
         MainStage.getInstance().pushStack(anchorPane);
         farm = game.getFarm();
+        createWellGUI();
         Path cur = Paths.get(System.getProperty("user.dir"));
         Path filePath = Paths.get(cur.toString(), "res", "backgrounds", "back.png");
         image = new Image(new FileInputStream(filePath.toString()));
@@ -68,6 +69,13 @@ public class FarmGUI {
         renderAnimalBuyingButtons();
         game.updateGame();
         game.updateGame();
+    }
+
+    private void createWellGUI() {
+        WellGUI wellGUI = new WellGUI(game.getFarm().getWell(), (int) (MainStage.getInstance().getWidth() / 5));
+        game.getFarm().getWell().setWellGUI(wellGUI);
+        wellGUI.addToRoot(anchorPane);
+        wellGUI.relocate(100, 3 * MainStage.getInstance().getWidth() / 5);
     }
 
     public void render() {
