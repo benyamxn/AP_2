@@ -23,7 +23,7 @@ public class AnimalGUI {
     private Image[] image = new Image[7];
     private Animal animal;
     private ImageView imageView;
-    private static double DURATION = 1000;
+    private static double DURATION = 2000;
     private static final int WALK = 2;
     private int[][] constants = new int[7][2];
     private int imageIndex = -1;
@@ -66,11 +66,11 @@ public class AnimalGUI {
         }
         imageView = createImageView();
         int temp = (int) Math.ceil(1.0 * constants[imageIndex][1] / constants[imageIndex][0]);
-        System.out.println(imageIndex);
+//        System.out.println(imageIndex);
         double height =  imageView.getImage().getHeight() / temp;
         imageView.setViewport(new Rectangle2D(0,0,image[imageIndex].getWidth() / constants[imageIndex][0],
                 height));
-        System.out.println(constants[imageIndex][0] + ":" + height);
+//        System.out.println(constants[imageIndex][0] + ":" + height);
 ////
 //        imageView.setViewport(new Rectangle2D(0,0,500,500));
     }
@@ -105,7 +105,7 @@ public class AnimalGUI {
             case STATIONARY:
                 if (animal.getHealth() > 0) {
                     imageIndex = 5;
-                    if(animal instanceof Cat || animal instanceof Dog)
+                    if(animal instanceof Cat || animal instanceof Dog || animal instanceof Wild)
                         imageIndex = 0;
                 }
                 else
@@ -144,12 +144,12 @@ public class AnimalGUI {
         System.out.println(animal.getDirection());
         Point moveVector = animal.getDirection().getMoveVector();
         double[] moveTo = {lineTo[0] - moveVector.getWidth() * difWidth ,  lineTo[1] - moveVector.getHeight() * difHeight };
-        System.out.println( moveVector.getWidth() + " --- " + moveVector.getHeight());
-        System.out.println("Coordinates: " +moveTo[0] +":" + moveTo[1] +"---" + lineTo[0] + ":" + lineTo[1]);
-        javafx.scene.shape.Path path = new javafx.scene.shape.Path(new MoveTo(moveTo[0], moveTo[1]), new LineTo(lineTo[0], lineTo[1]));
+//        javafx.scene.shape.Path path = new javafx.scene.shape.Path(new MoveTo(moveTo[0], moveTo[1]), new LineTo(lineTo[0], lineTo[1]));
+        javafx.scene.shape.Path path = new javafx.scene.shape.Path(new MoveTo(200, 200), new LineTo(200, 10));
 //        PathTransition pathTransition = new PathTransition(Duration.millis(DURATION * WALK), path, imageView);
         PathTransition pathTransition = new PathTransition(Duration.millis(1000), path, imageView);
         pathTransition.play();
+        imageView = createImageView();
     }
 
     public ImageView getImageView() {
