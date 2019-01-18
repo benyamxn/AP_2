@@ -114,7 +114,6 @@ public class FarmGUI {
         ImageView imageView = new ImageView(image);
         anchorPane.setId("farmPane");
         anchorPane.setOnMouseClicked(event -> {
-            game.updateGame();
             CellGUI cellGUI = getCellByEvent(event.getX(), event.getY());
             if(cellGUI != null){
                 Cell cell = cellGUI.getCell();

@@ -22,8 +22,8 @@ public class AnimalGUI {
 
     private Image[] image = new Image[7];
     private Animal animal;
-    private ImageView imageView  = new ImageView();
-    private static double DURATION = 1000;
+    private ImageView imageView;
+    private static double DURATION = 2000;
     private static final int WALK = 2;
     private int[][] constants = new int[7][2];
     private int imageIndex = -1;
@@ -54,7 +54,7 @@ public class AnimalGUI {
                 image[5] = new Image(new FileInputStream(Paths.get(filePath.toString(), "eat.png").toString()));
                 constants[5] = AnimationConstants.getConstants(animal.toString() + " eat");
             } else {
-               image[5] = image[0];
+                image[5] = image[0];
             }
 
             if (new File(Paths.get(filePath.toString(), "death.png").toString()).exists()) {
@@ -66,11 +66,11 @@ public class AnimalGUI {
         }
         imageView = createImageView();
         int temp = (int) Math.ceil(1.0 * constants[imageIndex][1] / constants[imageIndex][0]);
-        System.out.println(imageIndex);
+//        System.out.println(imageIndex);
         double height =  imageView.getImage().getHeight() / temp;
         imageView.setViewport(new Rectangle2D(0,0,image[imageIndex].getWidth() / constants[imageIndex][0],
                 height));
-        System.out.println(constants[imageIndex][0] + ":" + height);
+//        System.out.println(constants[imageIndex][0] + ":" + height);
 ////
 //        imageView.setViewport(new Rectangle2D(0,0,500,500));
     }
@@ -84,24 +84,20 @@ public class AnimalGUI {
                 break;
             case RIGHT:
                 rotate = true;
-                imageIndex = 2;
                 break;
             case UP:
                 imageIndex = 0;
                 break;
             case DOWN:
-                imageIndex = 4;
                 break;
             case UP_RIGHT:
                 rotate = true;
-                imageIndex = 1;
                 break;
             case UP_LEFT:
                 imageIndex = 1;
                 break;
             case DOWN_RIGHT:
                 rotate = true;
-                imageIndex = 3;
                 break;
             case DOWN_LEFT:
                 imageIndex = 3;
@@ -109,16 +105,16 @@ public class AnimalGUI {
             case STATIONARY:
                 if (animal.getHealth() > 0) {
                     imageIndex = 5;
-                    if(animal instanceof Cat || animal instanceof Dog)
+                    if(animal instanceof Cat || animal instanceof Dog || animal instanceof Wild)
                         imageIndex = 0;
                 }
                 else
                     imageIndex = 6;
                 break;
         }
-        imageView.setImage(image[imageIndex]);
+        ImageView imageView = new ImageView(image[imageIndex]);
         if (rotate)
-            imageView.setScaleX(-1);
+            imageView.setScaleY(-1);
         return imageView;
     }
 
@@ -128,38 +124,32 @@ public class AnimalGUI {
         double width = imageView.getImage().getWidth();
     }
 
-    public void move () {
-        if(animal instanceof Wild)
-            return;
+    public void move (){
         double difWidth = FarmGUI.cellWidth;
         double difHeight = FarmGUI.cellHeight;
-        createImageView();
         int width = 0;
         try {
             width = (int) imageView.getImage().getWidth() / constants[imageIndex][0];
         } catch (ArithmeticException e) {
+            e.printStackTrace();
             System.out.println(imageIndex);
-            System.out.println(animal.getStatus());
             System.out.println("Here is the error");
-            return;
         }
-        System.out.println("ok ");
-        System.out.println(animal.getDirection().toString() + animal.toString() + imageIndex);
+        System.out.println(imageIndex);
         int temp = (int) Math.ceil(1.0 * constants[imageIndex][1] / constants[imageIndex][0]);
         int height = (int) imageView.getImage().getHeight() / temp;
         Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0, width, height);
-
-        double[] des = FarmGUI.getPointForCell(animal.getLocation().getWidth(), animal.getLocation().getHeight());
-        Point moveVector = animal.getDirection().getMoveVector();
-        double[] lineTo = { moveVector.getWidth() * difWidth, moveVector.getHeight() * difHeight};
-        System.out.println(lineTo[0]  + " L " + lineTo[1]);
-        javafx.scene.shape.Path path = new javafx.scene.shape.Path(new MoveTo(0,0), new LineTo(lineTo[0], lineTo[1]));
-
-        PathTransition pathTransition = new PathTransition(Duration.millis(DURATION ), path, imageView);
-        pathTransition.play();
         animation.play();
-
-//        imageView.relocate(des[0],des[1]);
+        double[] lineTo = FarmGUI.getPointForCell(animal.getLocation().getWidth(), animal.getLocation().getHeight());
+        System.out.println(animal.getDirection());
+        Point moveVector = animal.getDirection().getMoveVector();
+        double[] moveTo = {lineTo[0] - moveVector.getWidth() * difWidth ,  lineTo[1] - moveVector.getHeight() * difHeight };
+//        javafx.scene.shape.Path path = new javafx.scene.shape.Path(new MoveTo(moveTo[0], moveTo[1]), new LineTo(lineTo[0], lineTo[1]));
+        javafx.scene.shape.Path path = new javafx.scene.shape.Path(new MoveTo(200, 200), new LineTo(200, 10));
+//        PathTransition pathTransition = new PathTransition(Duration.millis(DURATION * WALK), path, imageView);
+        PathTransition pathTransition = new PathTransition(Duration.millis(1000), path, imageView);
+        pathTransition.play();
+        imageView = createImageView();
     }
 
     public ImageView getImageView() {
