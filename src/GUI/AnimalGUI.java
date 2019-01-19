@@ -17,12 +17,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 public class AnimalGUI {
 
     private Image[] image = new Image[7];
     private Animal animal;
-    private ImageView imageView;
+    private ImageView imageView  = new ImageView();
     private static double DURATION = 2000;
     private static final int WALK = 2;
     private int[][] constants = new int[7][2];
@@ -43,7 +44,7 @@ public class AnimalGUI {
             image[0] = new Image(new FileInputStream(Paths.get(filePath.toString(), "up.png").toString()));
             constants[0] = AnimationConstants.getConstants(animal.toString() + " up");
             image[1] = new Image(new FileInputStream(Paths.get(filePath.toString(), "up_left.png").toString()));
-            constants[1] = AnimationConstants.getConstants(animal.toString() + " up");
+            constants[1] = AnimationConstants.getConstants(animal.toString() + " up left");
             image[2] = new Image(new FileInputStream(Paths.get(filePath.toString(), "left.png").toString()));
             constants[2] = AnimationConstants.getConstants(animal.toString() + " left");
             image[3] = new Image(new FileInputStream(Paths.get(filePath.toString(), "down_left.png").toString()));
@@ -54,7 +55,13 @@ public class AnimalGUI {
                 image[5] = new Image(new FileInputStream(Paths.get(filePath.toString(), "eat.png").toString()));
                 constants[5] = AnimationConstants.getConstants(animal.toString() + " eat");
             } else {
-                image[5] = image[0];
+                if(new File(Paths.get(filePath.toString(), "caged.png").toString()).exists()){
+                    image[5] = new Image(new FileInputStream(Paths.get(filePath.toString(), "caged.png").toString()));
+                    image[5] = image[0];
+                }
+                else {
+                    image[5] = image[0];
+                }
             }
 
             if (new File(Paths.get(filePath.toString(), "death.png").toString()).exists()) {
@@ -64,18 +71,23 @@ public class AnimalGUI {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        imageView = createImageView();
+        setImageView();
         int temp = (int) Math.ceil(1.0 * constants[imageIndex][1] / constants[imageIndex][0]);
 //        System.out.println(imageIndex);
         double height =  imageView.getImage().getHeight() / temp;
         imageView.setViewport(new Rectangle2D(0,0,image[imageIndex].getWidth() / constants[imageIndex][0],
                 height));
+
+
+
+
+
 //        System.out.println(constants[imageIndex][0] + ":" + height);
 ////
 //        imageView.setViewport(new Rectangle2D(0,0,500,500));
     }
 
-    private ImageView createImageView(){
+    private ImageView setImageView(){
         Direction dir = animal.getDirection();
         boolean rotate = false;
         switch (dir){
@@ -84,20 +96,24 @@ public class AnimalGUI {
                 break;
             case RIGHT:
                 rotate = true;
+                imageIndex = 2;
                 break;
             case UP:
                 imageIndex = 0;
                 break;
             case DOWN:
+                imageIndex = 4;
                 break;
             case UP_RIGHT:
                 rotate = true;
+                imageIndex = 1;
                 break;
             case UP_LEFT:
                 imageIndex = 1;
                 break;
             case DOWN_RIGHT:
                 rotate = true;
+                imageIndex = 3;
                 break;
             case DOWN_LEFT:
                 imageIndex = 3;
@@ -112,47 +128,67 @@ public class AnimalGUI {
                     imageIndex = 6;
                 break;
         }
-        ImageView imageView = new ImageView(image[imageIndex]);
+        imageView.setImage(image[imageIndex]);
         if (rotate)
-            imageView.setScaleY(-1);
+            imageView.setScaleX(-1);
         return imageView;
     }
 
     public void render(){
-        imageView = createImageView();
+        imageView = setImageView();
         double height = imageView.getImage().getHeight();
         double width = imageView.getImage().getWidth();
     }
 
     public void move (){
+        setImageView();
         double difWidth = FarmGUI.cellWidth;
         double difHeight = FarmGUI.cellHeight;
-        int width = 0;
-        try {
-            width = (int) imageView.getImage().getWidth() / constants[imageIndex][0];
-        } catch (ArithmeticException e) {
-            e.printStackTrace();
-            System.out.println(imageIndex);
-            System.out.println("Here is the error");
-        }
-        System.out.println(imageIndex);
-        int temp = (int) Math.ceil(1.0 * constants[imageIndex][1] / constants[imageIndex][0]);
-        int height = (int) imageView.getImage().getHeight() / temp;
-        Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0, width, height);
-        animation.play();
-        double[] lineTo = FarmGUI.getPointForCell(animal.getLocation().getWidth(), animal.getLocation().getHeight());
-        System.out.println(animal.getDirection());
+       int width = 0;
+//        try {
+//            width = (int) imageView.getImage().getWidth() / constants[imageIndex][0];
+//        } catch (ArithmeticException e) {
+//            e.printStackTrace();
+//            System.out.println(imageIndex);
+//            System.out.println("Here is the error");
+//            return;
+//        }
+//        int temp = (int) Math.ceil(1.0 * constants[imageIndex][1] / constants[imageIndex][0]);
+//        int height = (int) imageView.getImage().getHeight() / temp;
+//        Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0, width, height);
+//        animation.play();
+
+
         Point moveVector = animal.getDirection().getMoveVector();
-        double[] moveTo = {lineTo[0] - moveVector.getWidth() * difWidth ,  lineTo[1] - moveVector.getHeight() * difHeight };
+        System.out.println(animal.getDirection().toString());
+        double[] lineTo = FarmGUI.getPointForCell(animal.getLocation().getWidth(), animal.getLocation().getHeight());
+//
+//        System.out.println( animal.toString() + imageView.getLayoutX() + "  linne to  " + lineTo[0]);
+//        System.out.println(lineTo[0] + " :::::: " + imageView.getLayoutX());
+
+
+
+//        double[] moveTo = { lineTo[0] - moveVector.getWidth() * difWidth , lineTo[1] - moveVector.getHeight() * difHeight };
+//
+//        System.out.println(Arrays.toString(lineTo) + " " + Arrays.toString(moveTo));
+//
 //        javafx.scene.shape.Path path = new javafx.scene.shape.Path(new MoveTo(moveTo[0], moveTo[1]), new LineTo(lineTo[0], lineTo[1]));
-        javafx.scene.shape.Path path = new javafx.scene.shape.Path(new MoveTo(200, 200), new LineTo(200, 10));
 //        PathTransition pathTransition = new PathTransition(Duration.millis(DURATION * WALK), path, imageView);
-        PathTransition pathTransition = new PathTransition(Duration.millis(1000), path, imageView);
-        pathTransition.play();
-        imageView = createImageView();
+//        pathTransition.play();
+
+//        pathTransition.setOnFinished(event -> {
+
+            imageView.relocate( lineTo[0],  lineTo[1] );
+//        });
+
+
     }
 
     public ImageView getImageView() {
         return imageView;
+    }
+
+    public void relocate(double x, double y){
+        imageView.relocate(x,y);
     }
 }

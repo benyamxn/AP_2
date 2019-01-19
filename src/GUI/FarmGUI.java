@@ -60,6 +60,8 @@ public class FarmGUI {
         createTruckGUI();
         createHelicopterGUI();
         createGameUpdater();
+        cellWidth = (endX - startX) * anchorPane.getWidth() / 30;
+        cellHeight = (endY - startY) * anchorPane.getHeight() / 30;
     }
 
     private void createGameUpdater() {
@@ -77,8 +79,6 @@ public class FarmGUI {
         Path cur = Paths.get(System.getProperty("user.dir"));
         Path filePath = Paths.get(cur.toString(), "res", "backgrounds", "back.png");
         image = new Image(new FileInputStream(filePath.toString()));
-        cellWidth = (endX - startX) * image.getWidth() / 30;
-        cellHeight = (endY - startY) * image.getHeight() / 30;
     }
 
     private void createGameStatus() {
