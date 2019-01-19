@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import model.Cell;
 import model.Domesticated;
+import model.Product;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,7 +20,7 @@ import java.nio.file.Paths;
 
 public class CellGUI {
 
-    private  static final double DURATION = 2000;
+    private  static final double DURATION = 4000;
     private static int columns = AnimationConstants.GRASS[0];
     private static Image grassImage;
     private static Image battleImage;
@@ -75,13 +76,13 @@ public class CellGUI {
     public void battle() {
         System.out.println(imageView.getLayoutX());
         imageView.setVisible(false);
-        int[] size = new int[]{(int) battleImage.getWidth() / 5, (int) battleImage.getHeight() / 4};
+        double[] size = new double[]{ battleImage.getWidth() / 5,  battleImage.getHeight() / 4};
         ImageView temp = new ImageView();
         temp.setImage(battleImage);
+        temp.setViewport(new Rectangle2D(0, 0, size[0], size[1]));
         temp.relocate(location[0],location[1]);
-        System.out.println(temp.getLayoutX());
         FarmGUI.anchorPane.getChildren().add(temp);
-        Animation animation = new SpriteAnimation(temp, Duration.millis(DURATION), 5, 4, 0, 0, size[0], size[1]);
+        Animation animation = new SpriteAnimation(temp, Duration.millis(DURATION), 5, 4, 0, 0, (int)size[0],(int) size[1]);
         animation.play();
         animation.setOnFinished(event -> {
             FarmGUI.anchorPane.getChildren().remove(temp);
@@ -91,5 +92,16 @@ public class CellGUI {
 
     public void setLocation(double[] location) {
         this.location = location;
+    }
+
+    public void placeProduct(Product product)  {
+        System.out.println("salam");
+        ProductGUI productGUI = new ProductGUI(product, 1);
+        productGUI.getImageView().relocate(location[0], location[1]);
+        FarmGUI.anchorPane.getChildren().add(productGUI.getImageView());
+    }
+
+    public void removeProduct(Product product){
+       FarmGUI.anchorPane.getChildren().remove(product.getProductGUI().getImageView());
     }
 }

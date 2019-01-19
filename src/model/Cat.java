@@ -23,7 +23,8 @@ public class Cat extends Animal implements Upgradable {
         if (!hasATarget()) {
             Random randomTarget = new Random();
             if (possibleTargets.isEmpty()) {
-                setRandomTarget(cornerPoint);
+                return;
+                //setRandomTarget(cornerPoint);
             }
             else {
                 int targetIndex = randomTarget.nextInt(possibleTargets.size());

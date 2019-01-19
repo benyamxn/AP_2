@@ -31,7 +31,6 @@ public abstract class Animal {
     }
 
     public void move(Point cornerPoint) {
-
         if (hasATarget) {
             moveToPoint(target);
             animalGUI.move();

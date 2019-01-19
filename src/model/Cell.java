@@ -81,6 +81,7 @@ public class Cell {
         ProductType[] temp = new ProductType[products.size()];
         int counter = 0;
         for (Product product : products) {
+            cellGUI.removeProduct(product);
             temp[counter] = product.getType();
             counter++;
         }
@@ -94,6 +95,7 @@ public class Cell {
                 Domesticated domesticated = (Domesticated) animal;
                 Product temp = domesticated.produce();
                 if (temp != null) {
+                    cellGUI.placeProduct(temp);
                     products.add(temp);
                 }
             }

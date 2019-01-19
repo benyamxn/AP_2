@@ -17,10 +17,16 @@ public class ProductGUI {
         return imageView;
     }
 
-    public ProductGUI(Product product, double scale) throws FileNotFoundException {
+    public ProductGUI(Product product, double scale) {
         this.product = product;
-        image = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures"
-                ,"Products", product.getType().toString().replace(" ", "") + ".png").toString()));
+        product.setProductGUI(this);
+        try {
+            image = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures"
+                    ,"Products", product.getType().toString().replace(" ", "") + ".png").toString()));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ;
         imageView = new ImageView(image);
         imageView.setFitWidth(image.getWidth() * scale);
         imageView.setPreserveRatio(true);

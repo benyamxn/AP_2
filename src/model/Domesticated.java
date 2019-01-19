@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Domesticated extends Animal {
 
-    private static final int HUNGRINESS = 3;
+    private static final int HUNGRINESS = 10;
     private static final int APPETITE = 3;
     private DomesticatedType type;
     private int turnsLeftToProduce;
@@ -50,7 +50,7 @@ public class Domesticated extends Animal {
     }
 
     public boolean isHungry(){
-        return getMaxHealth() > APPETITE * getHealth();
+        return 2 * getMaxHealth() > APPETITE * getHealth();
     }
 
     @Override

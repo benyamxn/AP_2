@@ -74,18 +74,9 @@ public class AnimalGUI {
         }
         setImageView();
         int temp = (int) Math.ceil(1.0 * constants[imageIndex][1] / constants[imageIndex][0]);
-//        System.out.println(imageIndex);
         double height =  imageView.getImage().getHeight() / temp;
         imageView.setViewport(new Rectangle2D(0,0,image[imageIndex].getWidth() / constants[imageIndex][0],
                 height));
-
-
-
-
-
-//        System.out.println(constants[imageIndex][0] + ":" + height);
-////
-//        imageView.setViewport(new Rectangle2D(0,0,500,500));
     }
 
     private ImageView setImageView(){
@@ -144,6 +135,9 @@ public class AnimalGUI {
     public void move (){
         if(animal.getDirection().equals(Direction.STATIONARY))
             return;
+        if(animal instanceof Cat){
+            animal.toString();
+        }
         setImageView();
         double difWidth = FarmGUI.cellWidth;
         double difHeight = FarmGUI.cellHeight;
@@ -153,9 +147,8 @@ public class AnimalGUI {
         Point moveVector = animal.getDirection().getMoveVector();
         TranslateTransition translateTransition = new TranslateTransition(Duration.millis(DURATION),imageView);
         translateTransition.setByX(moveVector.getWidth() * difWidth);
-        translateTransition.setByY(-moveVector.getHeight() * difHeight);
+        translateTransition.setByY(-1 * moveVector.getHeight() * difHeight);
         translateTransition.play();
-
     }
 
     public ImageView getImageView() {
