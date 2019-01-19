@@ -227,6 +227,9 @@ public class FarmGUI {
 
     private void createTruckGUI() {
         VehicleGUI truckGUI = new VehicleGUI(farm.getTruck(), (int) (MainStage.getInstance().getWidth() / 10));
+        truckGUI.setOnClick(event -> {
+            new TruckMenu(game);
+        });
         truckGUI.relocate(MainStage.getInstance().getWidth() / 5, MainStage.getInstance().getHeight() * 0.7);
         truckGUI.addToRoot(anchorPane);
     }

@@ -63,6 +63,18 @@ public class Warehouse implements Upgradable {
         return productList;
     }
 
+    public EnumMap<ProductType, Integer> getProductMap() {
+        EnumMap<ProductType, Integer> map = new EnumMap<>(ProductType.class);
+        for (ProductType content : contents) {
+            Integer count = map.get(content);
+            if (count == null)
+                count = 0;
+            count = count + 1;
+            map.put(content, count);
+        }
+        return map;
+    }
+
     public ProductType[] removeProducts(ProductType[] productTypes) {
         for (ProductType productType : productTypes) {
             contents.remove(productType);

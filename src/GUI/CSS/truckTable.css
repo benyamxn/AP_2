@@ -1,0 +1,233 @@
+/*.background {*/
+    /*-fx-background-color: orange;*/
+/*}*/
+
+/*.label {*/
+    /*-fx-font-size: 11pt;*/
+    /*-fx-font-family: "Segoe UI Semibold";*/
+    /*-fx-text-fill: white;*/
+    /*-fx-opacity: 0.6;*/
+/*}*/
+
+/*.label-bright {*/
+    /*-fx-font-size: 11pt;*/
+    /*-fx-font-family: "Segoe UI Semibold";*/
+    /*-fx-text-fill: white;*/
+    /*-fx-opacity: 1;*/
+/*}*/
+
+/*.label-header {*/
+    /*-fx-font-size: 32pt;*/
+    /*-fx-font-family: "Segoe UI Light";*/
+    /*-fx-text-fill: white;*/
+    /*-fx-opacity: 1;*/
+/*}*/
+
+/*.table-view {*/
+    /*-fx-base: red;*/
+    /*-fx-control-inner-background: pink;*/
+    /*-fx-control-inner-image: url("../../backgrounds/menuWood.jpg");*/
+    /*-fx-background-color: orange;*/
+    /*-fx-table-cell-border-color: transparent;*/
+    /*-fx-table-header-border-color: transparent;*/
+    /*-fx-padding: 5;*/
+/*}*/
+
+/*.table-view .column-header-background {*/
+    /*-fx-background-color: transparent;*/
+/*}*/
+
+/*.table-view .column-header, .table-view .filler {*/
+    /*-fx-size: 35;*/
+    /*-fx-border-width: 0 0 1 0;*/
+    /*-fx-background-color: transparent;*/
+    /*-fx-border-color:*/
+            /*transparent*/
+            /*transparent*/
+            /*derive(-fx-base, 80%)*/
+            /*transparent;*/
+    /*-fx-border-insets: 0 10 1 0;*/
+/*}*/
+
+/*.table-view .column-header .label {*/
+    /*-fx-font-size: 10pt;*/
+    /*-fx-font-family: "Spicy Rice";*/
+    /*-fx-text-fill: white;*/
+    /*-fx-alignment: center;*/
+    /*-fx-opacity: 1;*/
+/*}*/
+
+/*.table-view:focused .table-row-cell:filled:focused:selected {*/
+    /*-fx-background-color: -fx-focus-color;*/
+/*}*/
+
+/*.split-pane:horizontal > .split-pane-divider {*/
+    /*-fx-border-color: transparent #1d1d1d transparent #1d1d1d;*/
+    /*-fx-background-color: transparent, derive(#1d1d1d,20%);*/
+/*}*/
+
+/*.split-pane {*/
+    /*-fx-padding: 1 0 0 0;*/
+/*}*/
+
+/*.menu-bar {*/
+    /*!*-fx-background-color: derive(#1d1d1d,20%);*!*/
+    /*-fx-background-color: red;*/
+/*}*/
+
+/*.context-menu {*/
+    /*!*-fx-background-color: derive(#1d1d1d,50%);*!*/
+    /*-fx-background-color: red;*/
+/*}*/
+
+/*.menu-bar .label {*/
+    /*-fx-font-size: 14pt;*/
+    /*-fx-font-family: "Segoe UI Light";*/
+    /*-fx-text-fill: white;*/
+    /*-fx-opacity: 0.9;*/
+/*}*/
+
+/*.menu .left-container {*/
+    /*-fx-background-image: url("backgrounds/menuTexture.png");*/
+/*}*/
+
+/*.text-field {*/
+    /*-fx-font-size: 12pt;*/
+    /*-fx-font-family: "Segoe UI Semibold";*/
+/*}*/
+
+/*.button {*/
+    /*-fx-padding: 5 22 5 22;*/
+    /*-fx-border-color: #e2e2e2;*/
+    /*-fx-border-width: 2;*/
+    /*-fx-background-radius: 0;*/
+    /*!*-fx-background-color: #1d1d1d;*!*/
+    /*-fx-background-color: yellow;*/
+    /*-fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;*/
+    /*-fx-font-size: 11pt;*/
+    /*-fx-text-fill: #d8d8d8;*/
+    /*-fx-background-insets: 0 0 0 0, 0, 1, 2;*/
+/*}*/
+
+/*.button:hover {*/
+    /*-fx-background-color: #3a3a3a;*/
+/*}*/
+
+/*.button:pressed, .button:default:hover:pressed {*/
+    /*-fx-background-color: white;*/
+    /*-fx-text-fill: #1d1d1d;*/
+/*}*/
+
+/*.button:focused {*/
+    /*-fx-border-color: white, white;*/
+    /*-fx-border-width: 1, 1;*/
+    /*-fx-border-style: solid, segments(1, 1);*/
+    /*-fx-border-radius: 0, 0;*/
+    /*-fx-border-insets: 1 1 1 1, 0;*/
+/*}*/
+
+/*.button:disabled, .button:default:disabled {*/
+    /*-fx-opacity: 0.4;*/
+    /*!*-fx-background-color: #1d1d1d;*!*/
+    /*-fx-text-fill: white;*/
+    /*-fx-background-color: red;*/
+/*}*/
+
+/*.button:default {*/
+    /*-fx-background-color: -fx-focus-color;*/
+    /*-fx-text-fill: #ffffff;*/
+/*}*/
+
+/*.button:default:hover {*/
+    /*-fx-background-color: derive(-fx-focus-color,30%);*/
+/*}*/
+
+.table-view .column-header,
+.table-view .column-header-background .filler {
+    -fx-background-color: #a99006;
+    -fx-text-fill: Black;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    -fx-font-family: 'Spicy Rice';
+    /*-fx-background-image: url("../../backgrounds/menuTexture.png");*/
+
+}
+.table-view .column-header .label{
+    -fx-text-fill: Black;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-font-family: 'Spicy Rice';
+    -fx-text-alignment: center;
+}
+.table-view .cell{
+    -fx-cell-size: 35;
+    -fx-background-color: rgba(169, 144, 6, 0);
+    -fx-border-color: #a99006;
+    -fx-text-fill: Black;
+    -fx-alignment: center;
+    -fx-font-family: 'Spicy Rice';
+
+}
+.table-row-cell:selected {
+    -fx-background-color: transparent;
+    -fx-text-background-color: #a99006;
+}
+
+/* scroll bar starts here */
+
+/* The increment and decrement button CSS class of scrollbar */
+.table-view .increment-button ,.table-view .decrement-button {
+    -fx-background-color:transparent;
+    -fx-background-radius: 2em;
+
+
+}
+
+/* The main scrollbar **track** CSS class  */
+.table-view .scroll-bar:horizontal .track,
+.table-view .scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color:derive( #a99006,80%);
+
+    -fx-background-radius: 2em;
+    -fx-border-radius:2em;
+    -fx-font-family: 'Spicy Rice';
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.table-view .scroll-bar:horizontal .thumb,
+.table-view .scroll-bar:vertical .thumb {
+    -fx-background-color:derive( #a99006,90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+    -fx-font-family: 'Spicy Rice';
+
+}
+
+.removeBtn {
+    -fx-background-color: red;
+    -fx-background: linear-gradient(to bottom, #d8be52, #a77d33 9%, #5f3f1d 93%, #1c140d);
+    -fx-font-size: 15px;
+    -fx-text-fill: White;
+    -fx-font-family: 'Spicy Rice';
+}
+
+.addBtn {
+    -fx-background-color: blue;
+    -fx-background: linear-gradient(to bottom, #d8be52, #a77d33 9%, #5f3f1d 93%, #1c140d);
+    -fx-font-size: 15px;
+    -fx-text-fill: White;
+    -fx-font-family: 'Spicy Rice';
+}
+
+.truckMenuBtn {
+    -fx-background-color: #d8be52;
+    -fx-background: linear-gradient(to bottom, #d8be52, #a77d33 9%, #5f3f1d 93%, #1c140d);
+    -fx-font-size: 20px;
+    -fx-font-family: 'Spicy Rice';
+}
+
+.vehicleMenu {
+    -fx-background-image: url("../../backgrounds/menuTexture.png");
+    -fx-background-repeat: repeat;
+}
