@@ -19,13 +19,16 @@ import java.nio.file.Paths;
 
 public class CellGUI {
 
-    private  static final double DURATION = 300;
+    private  static final double DURATION = 2000;
     private static int columns = AnimationConstants.GRASS[0];
     private static Image grassImage;
+    private static Image battleImage;
+    private double[] location;
 
     static {
         try {
             grassImage = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir").toString(),"res","Textures","Grass","grass1.png").toString()));
+            battleImage = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir").toString(),"res","Textures","Animals","battle_1.png").toString()));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -38,6 +41,7 @@ public class CellGUI {
 
     public CellGUI(Cell cell) {
         this.cell = cell;
+        cell.setCellGUI(this);
         imageView.setOpacity(1);
         if (cell.getGrassLevel() == 0)
             imageView.setOpacity(0);
@@ -66,5 +70,27 @@ public class CellGUI {
 
     public Cell getCell() {
         return cell;
+    }
+
+    public void battle() {
+
+        imageView.setVisible(false);
+        System.out.println("battle start");
+        int[] size = new int[]{(int) battleImage.getWidth() / 5, (int) battleImage.getHeight() / 4};
+        ImageView temp = new ImageView();
+        temp.setImage(battleImage);
+        System.out.println(location[0] + " " + location[1]);
+        temp.relocate(location[0],location[1]);
+        FarmGUI.anchorPane.getChildren().add(temp);
+        Animation animation = new SpriteAnimation(temp, Duration.millis(DURATION), 5, 4, 0, 0, size[0], size[1]);
+        animation.play();
+        animation.setOnFinished(event -> {
+            FarmGUI.anchorPane.getChildren().remove(temp);
+            imageView.setVisible(true);
+        });
+    }
+
+    public void setLocation(double[] location) {
+        this.location = location;
     }
 }

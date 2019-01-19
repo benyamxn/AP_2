@@ -37,6 +37,7 @@ public class Domesticated extends Animal {
     }
 
     public void eat(){
+        animalGUI.eat();
         addToHealth((int) Math.ceil((double) getMaxHealth() / 3));
         if (getHealth() >= getMaxHealth())
             setHealth(getMaxHealth());

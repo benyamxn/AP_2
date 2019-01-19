@@ -1,5 +1,7 @@
 package model;
 
+import GUI.CellGUI;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -10,7 +12,14 @@ public class Cell {
     private LinkedList<Animal> animals = new LinkedList<>();
     private LinkedList<Product> products = new LinkedList<>();
     private int grassLevel = 0;
+    private CellGUI cellGUI;
+
+    public void setCellGUI(CellGUI cellGUI) {
+        this.cellGUI = cellGUI;
+    }
+
     private static final int GRASS_GROWING_RATE = 4;
+
 
     public Cell() {
     }
@@ -102,11 +111,13 @@ public class Cell {
                         eatGrass();
                         ((Domesticated) animal).eat();
                     } else if (((Domesticated) animal).getHealth() < 0) {
+                        deleteFromGUI(animal);
                         iterator.remove();
                     }
                 }
             }
         } else {
+            deleteFromGUI(getDomesticatedAnimals());
             animals.removeAll(Arrays.asList(getDomesticatedAnimals()));
         }
     }
@@ -115,15 +126,37 @@ public class Cell {
         boolean hasDog = false;
         boolean hasWild = hasAWildAnimal();
         Iterator<Animal> iterator = animals.iterator();
+        Animal temp;
         while (iterator.hasNext()) {
-            if (iterator.next() instanceof Dog) {
+            if ((temp = iterator.next()) instanceof Dog) {
                 hasDog = true;
-                if (hasWild)
+                if (hasWild) {
+                    deleteFromGUI(temp);
                     iterator.remove();
+                }
             }
         }
+        if(hasWild && hasDog){
+            cellGUI.battle();
+        }
         if (hasDog) {
+            for (Animal animal : animals) {
+                if(animal instanceof Wild ){
+                    deleteFromGUI(animal);
+                }
+            }
             animals.removeIf(animal -> (animal instanceof Wild));
+        }
+    }
+
+    public void deleteFromGUI(Animal animal){
+        deleteFromGUI(new Animal[]{animal});
+    }
+
+    public void deleteFromGUI(Animal[] animals){
+
+        for (Animal animal : animals) {
+            animal.getAnimalGUI().dead();
         }
     }
 

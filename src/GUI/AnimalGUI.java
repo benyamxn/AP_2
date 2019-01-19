@@ -141,10 +141,11 @@ public class AnimalGUI {
     }
 
     public void move (){
+        imageView.setVisible(false);
         setImageView();
         double difWidth = FarmGUI.cellWidth;
         double difHeight = FarmGUI.cellHeight;
-       int width = 0;
+//       int width = 0;
 //        try {
 //            width = (int) imageView.getImage().getWidth() / constants[imageIndex][0];
 //        } catch (ArithmeticException e) {
@@ -155,33 +156,24 @@ public class AnimalGUI {
 //        }
 //        int temp = (int) Math.ceil(1.0 * constants[imageIndex][1] / constants[imageIndex][0]);
 //        int height = (int) imageView.getImage().getHeight() / temp;
-//        Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0, width, height);
-//        animation.play();
 
+        int[] size  = getSizeOfFrame();
+        imageView.setVisible(true);
+        Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
+        animation.play();
 
+        if(animal.getDirection().equals(Direction.STATIONARY))
+            return;
         Point moveVector = animal.getDirection().getMoveVector();
-        System.out.println(animal.getDirection().toString());
         double[] lineTo = FarmGUI.getPointForCell(animal.getLocation().getWidth(), animal.getLocation().getHeight());
-//
-//        System.out.println( animal.toString() + imageView.getLayoutX() + "  linne to  " + lineTo[0]);
-//        System.out.println(lineTo[0] + " :::::: " + imageView.getLayoutX());
+        double[] moveTo = { lineTo[0] - moveVector.getWidth() * difWidth , lineTo[1] + moveVector.getHeight() * difHeight };
+        javafx.scene.shape.Path path = new javafx.scene.shape.Path(new MoveTo(0,0), new LineTo( lineTo[0] - moveTo[0],lineTo[1] - moveTo[1]));
+        PathTransition pathTransition = new PathTransition(Duration.millis(DURATION), path, imageView);
+        pathTransition.play();
 
-
-
-//        double[] moveTo = { lineTo[0] - moveVector.getWidth() * difWidth , lineTo[1] - moveVector.getHeight() * difHeight };
-//
-//        System.out.println(Arrays.toString(lineTo) + " " + Arrays.toString(moveTo));
-//
-//        javafx.scene.shape.Path path = new javafx.scene.shape.Path(new MoveTo(moveTo[0], moveTo[1]), new LineTo(lineTo[0], lineTo[1]));
-//        PathTransition pathTransition = new PathTransition(Duration.millis(DURATION * WALK), path, imageView);
-//        pathTransition.play();
-
-//        pathTransition.setOnFinished(event -> {
-
-            imageView.relocate( lineTo[0],  lineTo[1] );
-//        });
-
-
+        pathTransition.setOnFinished(event -> {
+            relocate( lineTo[0], lineTo[1]);
+        });
     }
 
     public ImageView getImageView() {
@@ -190,5 +182,51 @@ public class AnimalGUI {
 
     public void relocate(double x, double y){
         imageView.relocate(x,y);
+    }
+
+    public void dead(){
+        if(animal instanceof Dog || animal instanceof Wild){
+            animal = null;
+            FarmGUI.anchorPane.getChildren().remove(imageView);
+            return;
+        }
+        imageIndex = 6;
+        imageView.setImage(image[imageIndex]);
+        int[] size = getSizeOfFrame();
+        Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
+        animation.play();
+        animation.setOnFinished(event ->{
+            animal = null;
+            FarmGUI.anchorPane.getChildren().remove(imageView);
+        });
+    }
+
+    public void setAnimal(Animal animal) {
+        this.animal = animal;
+    }
+
+
+    public void eat(){
+        imageIndex = 5;
+        imageView.setImage(image[imageIndex]);
+        int[] size = getSizeOfFrame();
+        Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
+        animation.play();
+    }
+
+
+    public int[] getSizeOfFrame(){
+        int width = 0;
+        try {
+            width = (int) imageView.getImage().getWidth() / constants[imageIndex][0];
+        } catch (ArithmeticException e) {
+            e.printStackTrace();
+            System.out.println(imageIndex);
+            System.out.println("Here is the error");
+        }
+        int temp = (int) Math.ceil(1.0 * constants[imageIndex][1] / constants[imageIndex][0]);
+        int height = (int) imageView.getImage().getHeight() / temp;
+
+        return new int[]{width,height};
     }
 }

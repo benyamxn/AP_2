@@ -28,7 +28,7 @@ public class FarmGUI {
     private static final double endX = 605.0 / 800;
     private static final double endY = 480.0 / 600;
     private Image image;
-    private static AnchorPane anchorPane = new AnchorPane();
+    public static AnchorPane anchorPane = new AnchorPane();
     private CellGUI[][] cellGUIs = new CellGUI[30][30];
     private WorkshopGUI[] workshopGUIS = new WorkshopGUI[7];
     private Controller controller;
@@ -91,7 +91,9 @@ public class FarmGUI {
             for (int j = 0; j < 30; j++){
                 cellGUIs[i][j] = new CellGUI(farm.getCell(new Point(i,j)));
                 anchorPane.getChildren().add(cellGUIs[i][j].getImageView());
+                double[] location = getPointForCell(i,j);
                 cellGUIs[i][j].getImageView().relocate(getPointForCell(i, j)[0],getPointForCell(i, j)[1]);
+                cellGUIs[i][j].setLocation(getPointForCell(i,j));
             }
         }
     }
