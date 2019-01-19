@@ -4,6 +4,7 @@ import GUI.animation.AnimationConstants;
 import GUI.animation.SpriteAnimation;
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
+import javafx.animation.TranslateTransition;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,7 +25,7 @@ public class AnimalGUI {
     private Image[] image = new Image[7];
     private Animal animal;
     private ImageView imageView  = new ImageView();
-    private static double DURATION = 2000;
+    private static double DURATION = 1900;
     private static final int WALK = 2;
     private int[][] constants = new int[7][2];
     private int imageIndex = -1;
@@ -141,39 +142,20 @@ public class AnimalGUI {
     }
 
     public void move (){
-        imageView.setVisible(false);
+        if(animal.getDirection().equals(Direction.STATIONARY))
+            return;
         setImageView();
         double difWidth = FarmGUI.cellWidth;
         double difHeight = FarmGUI.cellHeight;
-//       int width = 0;
-//        try {
-//            width = (int) imageView.getImage().getWidth() / constants[imageIndex][0];
-//        } catch (ArithmeticException e) {
-//            e.printStackTrace();
-//            System.out.println(imageIndex);
-//            System.out.println("Here is the error");
-//            return;
-//        }
-//        int temp = (int) Math.ceil(1.0 * constants[imageIndex][1] / constants[imageIndex][0]);
-//        int height = (int) imageView.getImage().getHeight() / temp;
-
         int[] size  = getSizeOfFrame();
-        imageView.setVisible(true);
         Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
         animation.play();
-
-        if(animal.getDirection().equals(Direction.STATIONARY))
-            return;
         Point moveVector = animal.getDirection().getMoveVector();
-        double[] lineTo = FarmGUI.getPointForCell(animal.getLocation().getWidth(), animal.getLocation().getHeight());
-        double[] moveTo = { lineTo[0] - moveVector.getWidth() * difWidth , lineTo[1] + moveVector.getHeight() * difHeight };
-        javafx.scene.shape.Path path = new javafx.scene.shape.Path(new MoveTo(0,0), new LineTo( lineTo[0] - moveTo[0],lineTo[1] - moveTo[1]));
-        PathTransition pathTransition = new PathTransition(Duration.millis(DURATION), path, imageView);
-        pathTransition.play();
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(DURATION),imageView);
+        translateTransition.setByX(moveVector.getWidth() * difWidth);
+        translateTransition.setByY(-moveVector.getHeight() * difHeight);
+        translateTransition.play();
 
-        pathTransition.setOnFinished(event -> {
-            relocate( lineTo[0], lineTo[1]);
-        });
     }
 
     public ImageView getImageView() {

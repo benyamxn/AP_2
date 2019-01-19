@@ -73,12 +73,13 @@ public class CellGUI {
     }
 
     public void battle() {
-
+        System.out.println(imageView.getLayoutX());
         imageView.setVisible(false);
         int[] size = new int[]{(int) battleImage.getWidth() / 5, (int) battleImage.getHeight() / 4};
         ImageView temp = new ImageView();
         temp.setImage(battleImage);
         temp.relocate(location[0],location[1]);
+        System.out.println(temp.getLayoutX());
         FarmGUI.anchorPane.getChildren().add(temp);
         Animation animation = new SpriteAnimation(temp, Duration.millis(DURATION), 5, 4, 0, 0, size[0], size[1]);
         animation.play();
