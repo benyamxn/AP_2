@@ -26,7 +26,10 @@ public class TruckMenuTable {
     private double height;
     private final TableView<ItemRow> table = new TableView<>();
     private final ObservableList<ItemRow> observableList = FXCollections.observableArrayList();
-
+    private Label moneyLabel = new Label("");
+    private Label totalCapacityLabel = new Label("");
+    private Label remainedCapacityLabel = new Label("");
+    private VBox statusBox;
     public TruckMenuTable(Game game, double width, double height) {
         this.game = game;
         this.width = width;
@@ -41,8 +44,9 @@ public class TruckMenuTable {
         createCountColumn();
         createDepotSizeColumn();
         createPriceColumn();
-        addButtonsToTable();
-
+        createButtonsColumn();
+        createTruckCount();
+        createStatusBox();
         table.setEditable(false);
         MainStage.getInstance().getScene().getStylesheets().add(getClass().
                 getResource("CSS/truckTable.css").toExternalForm());
@@ -54,7 +58,7 @@ public class TruckMenuTable {
         columnProduct.setResizable(false);
         columnProduct.setSortable(false);
         columnProduct.setReorderable(false);
-        columnProduct.setPrefWidth(0.41 * width);
+        columnProduct.setPrefWidth(0.31 * width);
         table.getColumns().add(columnProduct);
     }
 
@@ -98,7 +102,7 @@ public class TruckMenuTable {
         observableList.addAll(new ItemRow(ProductType.EGG, 3), new ItemRow(ProductType.WOOL, 4));
     }
 
-    private void addButtonsToTable() {
+    private void createButtonsColumn() {
         TableColumn<ItemRow, Void> buttonColumn = new TableColumn("Button Column");
 
         Callback<TableColumn<ItemRow, Void>, TableCell<ItemRow, Void>> cellFactory = new Callback<>() {
@@ -176,6 +180,15 @@ public class TruckMenuTable {
 
     }
 
+    private void createTruckCount() {
+        TableColumn<ItemRow, Label> columnCount = new TableColumn<>("Truck\nCount");
+        columnCount.setCellValueFactory(new PropertyValueFactory<>("truckCount"));
+        columnCount.setResizable(false);
+        columnCount.setReorderable(false);
+        columnCount.setPrefWidth(0.1 * width);
+        table.getColumns().add(columnCount);
+    }
+
     public class ItemRow {
         private ProductType productType;
         private Label productTypeName;
@@ -183,6 +196,15 @@ public class TruckMenuTable {
         private Image image;
         private ImageView imageView;
         private HBox descriptionBox;
+        private int truckCount = 0;
+
+        public int getTruckCount() {
+            return truckCount;
+        }
+
+        public void setTruckCount(int truckCount) {
+            this.truckCount = truckCount;
+        }
 
         public ItemRow(ProductType productType, int count) {
             this.productType = productType;
@@ -256,5 +278,59 @@ public class TruckMenuTable {
 
     public void addToRoot(Pane pane) {
         pane.getChildren().add(table);
+    }
+
+    private void createStatusBox() {
+        statusBox = new VBox();
+        statusBox.setSpacing(10);
+        statusBox.getChildren().addAll(createMoneyLabel(), createTotalCapacityLabel(), createRemainedCapacityLabel());
+        statusBox.setAlignment(Pos.CENTER);
+    }
+
+    private HBox createMoneyLabel() {
+        HBox moneyBox = new HBox();
+        moneyBox.setSpacing(10);
+        Label desc = new Label("Total Money:");
+        desc.getStyleClass().add("statusLabel");
+        try {
+            Image coin = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures",
+                    "coin.png").toString()));
+            ImageView imageView = new ImageView(coin);
+            imageView.setFitWidth(40);
+            imageView.setPreserveRatio(true);
+            moneyBox.getChildren().addAll(desc, moneyLabel, imageView);
+            moneyLabel.getStyleClass().add("statusLabel");
+            moneyBox.setAlignment(Pos.CENTER_LEFT);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            return moneyBox;
+        }
+    }
+
+    private HBox createTotalCapacityLabel() {
+        HBox box = new HBox();
+        box.setSpacing(10);
+        Label desc = new Label("Total Capacity:");
+        totalCapacityLabel.getStyleClass().add("statusLabel");
+        desc.getStyleClass().add("statusLabel");
+        box.getChildren().addAll(desc, totalCapacityLabel);
+        box.setAlignment(Pos.CENTER_LEFT);
+        return box;
+    }
+
+    private HBox createRemainedCapacityLabel() {
+        HBox box = new HBox();
+        box.setSpacing(10);
+        Label desc = new Label("Remained Capacity:");
+        desc.getStyleClass().add("statusLabel");
+        box.getChildren().addAll(desc, remainedCapacityLabel);
+        remainedCapacityLabel.getStyleClass().add("statusLabel");
+        box.setAlignment(Pos.CENTER_LEFT);
+        return box;
+    }
+
+    public VBox getStatusBox() {
+        return statusBox;
     }
 }
