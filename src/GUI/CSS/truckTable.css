@@ -231,3 +231,9 @@
     -fx-background-image: url("../../backgrounds/menuTexture.png");
     -fx-background-repeat: repeat;
 }
+
+.statusLabel {
+    -fx-font-family: 'Spicy Rice';
+    -fx-font-size: 40;
+    -fx-text-fill: White;
+}

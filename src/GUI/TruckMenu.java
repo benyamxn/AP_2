@@ -21,8 +21,12 @@ public class TruckMenu {
         table.relocate(20, 20);
         table.addToRoot(pane);
         createButtons();
+        renderStatus();
         MainStage.getInstance().pushStack(pane);
-
+    }
+    private void renderStatus() {
+        pane.getChildren().add(table.getStatusBox());
+        table.getStatusBox().relocate(totalWidth * 0.6, totalHeight * 0.4);
     }
 
     private void createButtons() {
