@@ -1,6 +1,10 @@
 package GUI;
 
 import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class MainGUI extends Application {
@@ -9,6 +13,7 @@ public class MainGUI extends Application {
         MainStage.getInstance().setStage(primaryStage);
         new MainMenu().render();
         primaryStage.setFullScreen(true);
+        primaryStage.setResizable(true);
         primaryStage.show();
     }
 }

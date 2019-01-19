@@ -117,6 +117,8 @@ public class Cell {
                 }
             }
         } else {
+            if(getDomesticatedAnimals().length > 0)
+                    cellGUI.battle();
             deleteFromGUI(getDomesticatedAnimals());
             animals.removeAll(Arrays.asList(getDomesticatedAnimals()));
         }

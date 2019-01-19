@@ -75,11 +75,9 @@ public class CellGUI {
     public void battle() {
 
         imageView.setVisible(false);
-        System.out.println("battle start");
         int[] size = new int[]{(int) battleImage.getWidth() / 5, (int) battleImage.getHeight() / 4};
         ImageView temp = new ImageView();
         temp.setImage(battleImage);
-        System.out.println(location[0] + " " + location[1]);
         temp.relocate(location[0],location[1]);
         FarmGUI.anchorPane.getChildren().add(temp);
         Animation animation = new SpriteAnimation(temp, Duration.millis(DURATION), 5, 4, 0, 0, size[0], size[1]);

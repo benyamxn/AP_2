@@ -35,7 +35,9 @@ public class FarmGUI {
     private Farm farm;
     private Game game;
     private Timer gameUpdater;
+    private static double[] size;
     FarmGUI(Controller controller) throws FileNotFoundException, MoneyNotEnoughException {
+        size = new double[]{MainStage.getInstance().getWidth(), MainStage.getInstance().getHeight()};
         this.controller = controller;
         game = controller.getGame();
         game.getFarm().setFarmGUI(this);
@@ -60,8 +62,9 @@ public class FarmGUI {
         createTruckGUI();
         createHelicopterGUI();
         createGameUpdater();
-        cellWidth = (endX - startX) * anchorPane.getWidth() / 30;
-        cellHeight = (endY - startY) * anchorPane.getHeight() / 30;
+
+        cellWidth = (endX - startX) * size[0] / 30;
+        cellHeight = (endY - startY) * size[1] / 30;
     }
 
     private void createGameUpdater() {
@@ -92,8 +95,8 @@ public class FarmGUI {
                 cellGUIs[i][j] = new CellGUI(farm.getCell(new Point(i,j)));
                 anchorPane.getChildren().add(cellGUIs[i][j].getImageView());
                 double[] location = getPointForCell(i,j);
-                cellGUIs[i][j].getImageView().relocate(getPointForCell(i, j)[0],getPointForCell(i, j)[1]);
-                cellGUIs[i][j].setLocation(getPointForCell(i,j));
+                cellGUIs[i][j].getImageView().relocate(location[0],location[1]);
+                cellGUIs[i][j].setLocation(location);
             }
         }
     }
@@ -158,8 +161,8 @@ public class FarmGUI {
 
 
     private CellGUI getCellByEvent(double x, double y) {
-        double width = anchorPane.getBoundsInParent().getWidth();
-        double height = anchorPane.getBoundsInParent().getHeight();
+        double width = size[0];
+        double height = size[1];
         if( x >= startX * width  &&  x <= endX * width && y >= startY * height && y <= endY * height ){
             double mapWidth = endX * width - startX * width;
             double mapHeight = endY * height - startY * height;
@@ -171,8 +174,8 @@ public class FarmGUI {
     }
 
     public static double[] getPointForCell(int i, int j) {
-        double width = anchorPane.getBoundsInParent().getWidth();
-        double height = anchorPane.getBoundsInParent().getHeight();
+        double width = size[0];
+        double height = size[1];
         double mapWidth = endX * width - startX * width;
         double mapHeight = endY * height - startY * height;
         double cellWidth = (startX * width + i * mapWidth / 30);
@@ -230,13 +233,13 @@ public class FarmGUI {
         truckGUI.setOnClick(event -> {
             new TruckMenu(game);
         });
-        truckGUI.relocate(MainStage.getInstance().getWidth() / 5, MainStage.getInstance().getHeight() * 0.7);
+        truckGUI.relocate(MainStage.getInstance().getWidth() / 5, MainStage.getInstance().getHeight() * 0.85);
         truckGUI.addToRoot(anchorPane);
     }
 
     private void createHelicopterGUI() {
         VehicleGUI HelicopterGUI = new VehicleGUI(farm.getHelicopter(), (int) (MainStage.getInstance().getWidth() / 10));
-        HelicopterGUI.relocate(MainStage.getInstance().getWidth() * 0.7, MainStage.getInstance().getHeight() * 0.7);
+        HelicopterGUI.relocate(MainStage.getInstance().getWidth() * 0.7, MainStage.getInstance().getHeight() * 0.85);
         HelicopterGUI.addToRoot(anchorPane);
     }
 
