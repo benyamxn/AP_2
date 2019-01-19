@@ -62,6 +62,7 @@ public class FarmGUI {
         createTruckGUI();
         createHelicopterGUI();
         createGameUpdater();
+//        createFarmCityView();
 
         cellWidth = (endX - startX) * size[0] / 30;
         cellHeight = (endY - startY) * size[1] / 30;
@@ -241,6 +242,12 @@ public class FarmGUI {
         VehicleGUI HelicopterGUI = new VehicleGUI(farm.getHelicopter(), (int) (MainStage.getInstance().getWidth() / 10));
         HelicopterGUI.relocate(MainStage.getInstance().getWidth() * 0.7, MainStage.getInstance().getHeight() * 0.85);
         HelicopterGUI.addToRoot(anchorPane);
+    }
+
+    private void createFarmCityView() {
+        FarmCityView farmCityView = new FarmCityView(game, MainStage.getInstance().getWidth() * 0.2);
+        farmCityView.relocate(MainStage.getInstance().getWidth() * 0.8, 0);
+        farmCityView.addToRoot(anchorPane);
     }
 
 }
