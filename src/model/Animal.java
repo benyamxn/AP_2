@@ -43,9 +43,8 @@ public abstract class Animal {
     }
 
     public void moveRandom(ArrayList<Direction> directions){
-        Direction dir = Direction.randomDir(directions.toArray(new Direction[0]));
-        direction = dir;
-        moveWithDirection(dir);
+        direction = Direction.randomDir(directions.toArray(new Direction[0]));
+        moveWithDirection(direction);
     }
 
     private ArrayList<Direction> getPossibleDirections(Point cornerPoint){
@@ -93,9 +92,9 @@ public abstract class Animal {
 
     public void setRandomTarget(Point cornerPoint){
         ArrayList<Direction> directions = getPossibleDirections(cornerPoint);
-        Direction dir = Direction.randomDir(directions.toArray(new Direction[0]));
+        direction = Direction.randomDir(directions.toArray(new Direction[0]));
         Point newTarget = location;
-        newTarget.add(dir.getMoveVector());
+        newTarget.add(direction.getMoveVector());
         setTarget(newTarget);
     }
 
