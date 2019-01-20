@@ -6,12 +6,14 @@ import javafx.animation.Animation;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import model.Game;
 
@@ -20,7 +22,7 @@ import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 
 public class FarmCityView {
-    private AnchorPane root;
+    private Group root;
     private Image image;
     private ImageView imageView;
     private Game game;
@@ -30,10 +32,9 @@ public class FarmCityView {
 
 
     public FarmCityView(Game game, double width) {
-        root = new AnchorPane();
+        root = new Group();
         this.game = game;
         this.width = width;
-
         try {
             image = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","backgrounds",
                     "cityFarm.jpg").toString()));
@@ -41,6 +42,7 @@ public class FarmCityView {
             imageView.setFitWidth(width);
             imageView.setPreserveRatio(true);
             imageView.setOnMouseClicked(event -> {
+                System.out.println("that");
                 runTruck(100);
                 runHelicopter();
             });
@@ -52,7 +54,7 @@ public class FarmCityView {
 
 
     public void relocate(double x, double y) {
-        root.relocate(x, y);
+        imageView.relocate(x, y);
     }
 
     public void addToRoot(Pane pane) {
@@ -63,7 +65,6 @@ public class FarmCityView {
         Image vehicleImage;
         double vehicleHeight, imageHeight;
         imageHeight = image.getHeight() * (width / image.getWidth());
-        System.out.println(imageHeight);
         double duration = game.getFarm().getTruck().getArrivalTime() * factor;
         try {
             HBox moneyBox = createPriceLabel(money);
@@ -81,7 +82,7 @@ public class FarmCityView {
             vehicleView.setViewport(new Rectangle2D(0, 0, spriteWidth, spriteHeight));
             vehicleView.setScaleX(-1);
             vehicleView.setOpacity(1);
-            root.getChildren().addAll(vehicleView, moneyBox);
+            root.getChildren().addAll(moneyBox, vehicleView);
             vehicleView.relocate(MainStage.getInstance().getWidth() - width, imageHeight - vehicleHeight - 15);
             moneyBox.relocate(MainStage.getInstance().getWidth() - width, imageHeight - 20);
             Animation animation = new SpriteAnimation(vehicleView,
@@ -162,7 +163,6 @@ public class FarmCityView {
             });
 
             translateTransitionReturn.setOnFinished(event -> root.getChildren().remove(vehicleView));
-
 
             animation.play();
             translateTransitionGo.play();
