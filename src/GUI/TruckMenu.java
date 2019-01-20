@@ -1,10 +1,12 @@
 package GUI;
 
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import model.Game;
+import model.VehicleType;
+import model.exception.NotEnoughCapacityException;
+import model.exception.VehicleOnTripException;
 
 public class TruckMenu {
     private Game game;
@@ -42,9 +44,20 @@ public class TruckMenu {
         cancelButton.getStyleClass().add("truckMenuBtn");
         System.out.println("Width: " + totalWidth);
         System.out.println(0.2 * totalWidth);
-        cancelButton.setOnMouseClicked(event -> MainStage.getInstance().popStack());
-        Hoverable.setMouseHandler(cancelButton);
+        cancelButton.setOnMouseClicked(event -> {
+            try {
+                game.clear(VehicleType.TRUCK);
+            } catch (VehicleOnTripException | NotEnoughCapacityException e) {
+                e.printStackTrace();
+            }
+            MainStage.getInstance().popStack();
+        });
 
+        shipButton.setOnMouseClicked(event -> {
+            MainStage.getInstance().popStack();
+            game.getFarm().getTruck().startTravel();
+            FarmCityView.getInstance().runTruck(table.getMoney());
+        });
         hbox.getChildren().addAll(shipButton, cancelButton);
         AnchorPane.setLeftAnchor(hbox, 0.5 * totalWidth - 180);
         AnchorPane.setBottomAnchor(hbox, 20.0);
