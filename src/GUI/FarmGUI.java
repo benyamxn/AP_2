@@ -54,7 +54,7 @@ public class FarmGUI {
             Workshop temp = farm.getWorkshops()[i];
             workshopGUIS[i] = new WorkshopGUI(temp,false);
             double[] location = getPointForCell(temp.getProductionPoint().getWidth(),temp.getProductionPoint().getHeight());
-            workshopGUIS[i].relocate(location[0] - cellWidth * 5 * shift, location[1] - 8 * cellHeight );
+            workshopGUIS[i].relocate(location[0] - cellWidth * 8 * shift, location[1] - 8 * cellHeight );
             workshopGUIS[i].addToRoot(anchorPane);
         }
         createGameStatus();
