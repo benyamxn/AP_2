@@ -6,9 +6,7 @@ import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
+import javafx.scene.shape.*;
 import model.*;
 import model.exception.*;
 
@@ -97,7 +95,7 @@ public class FarmGUI {
     private void createCellsGUI() {
         for (int i = 0; i < 30; i++) {
             for (int j = 0; j < 30; j++){
-                cellGUIs[i][j] = new CellGUI(farm.getCell(new Point(i,j)));
+                cellGUIs[i][j] = new CellGUI(farm.getCell(new Point(i,j)), cellWidth, cellHeight);
                 anchorPane.getChildren().add(cellGUIs[i][j].getImageView());
                 double[] location = getPointForCell(i,j);
                 cellGUIs[i][j].getImageView().relocate(location[0],location[1]);
@@ -164,15 +162,14 @@ public class FarmGUI {
 
     }
 
-
     private CellGUI getCellByEvent(double x, double y) {
         double width = size[0];
         double height = size[1];
-        if( x >= startX * width  &&  x <= endX * width && y >= startY * height && y <= endY * height ){
+        if(x >= startX * width  &&  x <= endX * width && y >= startY * height && y <= endY * height){
             double mapWidth = endX * width - startX * width;
             double mapHeight = endY * height - startY * height;
-            int cellWidth = (int) ((x - startX * width) / mapWidth * 30.0);
-            int cellHeight = (int) ((y - startY * height) / mapHeight * 30.0);
+            int cellWidth = (int) ((x - startX * width) / (mapWidth / 30.0));
+            int cellHeight = (int) ((y - startY * height) / (mapHeight / 30.0));
             return cellGUIs[cellWidth][cellHeight];
         }
         return null;
@@ -253,7 +250,6 @@ public class FarmGUI {
         farmCityView.relocate(MainStage.getInstance().getWidth() * 0.8, 0);
         farmCityView.addToRoot(anchorPane);
     }
-
 
     public void createWorkshopAction(){
         for (WorkshopGUI workshop : workshopGUIS) {

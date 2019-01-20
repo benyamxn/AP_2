@@ -38,21 +38,16 @@ public class CellGUI {
     private static int height = (int) grassImage.getHeight() / columns;
     private Cell cell;
 
-    public CellGUI(Cell cell) {
+    public CellGUI(Cell cell, double width, double height) {
         this.cell = cell;
         cell.setCellGUI(this);
         imageView.setOpacity(1);
         if (cell.getGrassLevel() == 0)
             imageView.setOpacity(0);
+        imageView.setFitWidth(width);
+        imageView.setFitHeight(height);
     }
 
-    public void render(){
-        int index = cell.getGrassLevel();
-        final int x = (index % columns) * width;
-        final int y = (index / columns) * height;
-        imageView.setViewport(new Rectangle2D(x, y, width, height));
-
-    }
 
     public ImageView getImageView() {
         return imageView;
