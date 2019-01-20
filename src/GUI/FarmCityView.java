@@ -25,11 +25,12 @@ public class FarmCityView {
     private ImageView imageView;
     private Game game;
     private double width;
-    private double factor = 100;
+    private double factor = 2000;
     private double durationOfAnimation = 100;
+    private static FarmCityView instance;
 
 
-    public FarmCityView(Game game, double width) {
+    private FarmCityView(Game game, double width) {
         root = new Group();
         this.game = game;
         this.width = width;
@@ -49,6 +50,16 @@ public class FarmCityView {
         }
     }
 
+    public static FarmCityView getInstance(Game game, double width) {
+        if (instance == null) {
+            instance = new FarmCityView(game, width);
+        }
+        return instance;
+    }
+
+    public static FarmCityView getInstance() {
+        return instance;
+    }
 
     public void relocate(double x, double y) {
         imageView.relocate(x, y);

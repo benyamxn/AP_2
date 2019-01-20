@@ -14,11 +14,13 @@ import javafx.scene.layout.*;
 import javafx.util.Callback;
 import model.Game;
 import model.ProductType;
+import model.exception.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 import java.util.EnumMap;
+import java.util.Map;
 
 public class TruckMenuTable {
     private Game game;
@@ -26,14 +28,16 @@ public class TruckMenuTable {
     private double height;
     private final TableView<ItemRow> table = new TableView<>();
     private final ObservableList<ItemRow> observableList = FXCollections.observableArrayList();
-    private Label moneyLabel = new Label("");
-    private Label totalCapacityLabel = new Label("");
-    private Label remainedCapacityLabel = new Label("");
+    private Label moneyLabel = new Label("0");
+    private Label totalCapacityLabel;
+    private Label remainedCapacityLabel;
     private VBox statusBox;
     public TruckMenuTable(Game game, double width, double height) {
         this.game = game;
         this.width = width;
         this.height = height;
+        totalCapacityLabel = new Label(Double.toString(game.getFarm().getTruck().getCapacity()));
+        remainedCapacityLabel = new Label(Double.toString(game.getFarm().getTruck().getCapacity()));
 
         setTableAppearance();
 
@@ -96,10 +100,11 @@ public class TruckMenuTable {
     }
 
     private void fillTableObservableList() {
-//        EnumMap<ProductType, Integer> productMap = game.getFarm().getWarehouse().getProductMap();
-        EnumMap<ProductType, Integer> productMap = new EnumMap<>(ProductType.class);
-        productMap.put(ProductType.EGG, 3);
-        observableList.addAll(new ItemRow(ProductType.EGG, 3), new ItemRow(ProductType.WOOL, 4));
+        EnumMap<ProductType, Integer> productMap = game.getFarm().getWarehouse().getProductMap();
+        for (Map.Entry<ProductType, Integer> entry : productMap.entrySet()) {
+            observableList.add(new ItemRow(entry.getKey(), entry.getValue()));
+        }
+//        observableList.addAll(new ItemRow(ProductType.EGG, 3), new ItemRow(ProductType.WOOL, 4));
     }
 
     private void createButtonsColumn() {
@@ -113,7 +118,25 @@ public class TruckMenuTable {
                     {
                         addOneButton.setOnAction((ActionEvent event) -> {
                             ItemRow entry = getTableView().getItems().get(getIndex());
-                            System.out.println("selectedData: " + entry);
+                            try {
+                                game.addProductToVehicle(game.getFarm().getTruck(), entry.getProductType(), 1);
+                                entry.setCount(entry.getCount() - 1);
+                                entry.setTruckCount(entry.getTruckCount() + 1);
+                                increaseMoney(entry.getProductType().getSaleCost());
+                                decreaseRemainedCapacity(entry.getProductType().getDepotSize());
+                                getTableView().refresh();
+                                getTableView().refresh();
+                            } catch (VehicleOnTripException e) {
+                                e.printStackTrace();
+                            } catch (NotEnoughCapacityException e) {
+                                e.printStackTrace();
+                            } catch (NotEnoughItemsException e) {
+                                e.printStackTrace();
+                            } catch (MoneyNotEnoughException e) {
+                                e.printStackTrace();
+                            } catch (ItemNotForSaleException e) {
+                                e.printStackTrace();
+                            }
                         });
                         addOneButton.getStyleClass().add("addBtn");
                         addOneButton.setPrefWidth(width * 0.07);
@@ -123,7 +146,27 @@ public class TruckMenuTable {
                     {
                         addAllButton.setOnAction((ActionEvent event) -> {
                             ItemRow entry = getTableView().getItems().get(getIndex());
-                            System.out.println("selectedData: " + entry);
+                            int count = entry.getCount();
+                            if (count > 0) {
+                                try {
+                                    game.addProductToVehicle(game.getFarm().getTruck(), entry.getProductType(), entry.getCount());
+                                    entry.setCount(0);
+                                    entry.setTruckCount(entry.getTruckCount() + count);
+                                    increaseMoney(entry.getProductType().getSaleCost() * count);
+                                    decreaseRemainedCapacity(entry.getProductType().getDepotSize() * count);
+                                    getTableView().refresh();
+                                } catch (VehicleOnTripException e) {
+                                    e.printStackTrace();
+                                } catch (NotEnoughCapacityException e) {
+                                    e.printStackTrace();
+                                } catch (NotEnoughItemsException e) {
+                                    e.printStackTrace();
+                                } catch (MoneyNotEnoughException e) {
+                                    e.printStackTrace();
+                                } catch (ItemNotForSaleException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         });
                         addAllButton.getStyleClass().add("addBtn");
                         addAllButton.setPrefWidth(width * 0.07);
@@ -133,7 +176,14 @@ public class TruckMenuTable {
                     {
                         removeOneButton.setOnAction((ActionEvent event) -> {
                             ItemRow entry = getTableView().getItems().get(getIndex());
-                            System.out.println("selectedData: " + entry);
+                            if (entry.getTruckCount() > 0) {
+                                entry.setTruckCount(entry.getTruckCount() - 1);
+                                entry.setCount(entry.getCount() + 1);
+                                game.removeProductFromVehicle(game.getFarm().getTruck(), entry.productType, 1);
+                                increaseMoney(-1 * entry.getProductType().getSaleCost());
+                                decreaseRemainedCapacity(-1 * entry.getProductType().getDepotSize());
+                                getTableView().refresh();
+                            }
                         });
                         removeOneButton.getStyleClass().add("removeBtn");
                         removeOneButton.setPrefWidth(width * 0.07);
@@ -143,7 +193,15 @@ public class TruckMenuTable {
                     {
                         removeAllButton.setOnAction((ActionEvent event) -> {
                             ItemRow entry = getTableView().getItems().get(getIndex());
-                            System.out.println("selectedData: " + entry);
+                            int count = entry.getTruckCount();
+                            if (count > 0) {
+                                entry.setCount(entry.getCount() + count);
+                                entry.setTruckCount(0);
+                                game.removeProductFromVehicle(game.getFarm().getTruck(), entry.productType, count);
+                                increaseMoney(-1 * entry.getProductType().getSaleCost() * count);
+                                decreaseRemainedCapacity(-1 * entry.getProductType().getDepotSize() * count);
+                                getTableView().refresh();
+                            }
                         });
                         removeAllButton.getStyleClass().add("removeBtn");
                         removeAllButton.setPrefWidth(width * 0.07);
@@ -332,5 +390,21 @@ public class TruckMenuTable {
 
     public VBox getStatusBox() {
         return statusBox;
+    }
+
+    private void increaseMoney(int value) {
+        Integer prevValue = Integer.valueOf(moneyLabel.getText());
+        prevValue = prevValue + value;
+        moneyLabel.setText(prevValue.toString());
+    }
+
+    private void decreaseRemainedCapacity(double value) {
+        Double prevValue = Double.valueOf(remainedCapacityLabel.getText());
+        prevValue = prevValue - value;
+        remainedCapacityLabel.setText(prevValue.toString());
+    }
+
+    int getMoney() {
+        return Integer.parseInt(moneyLabel.getText());
     }
 }

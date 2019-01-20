@@ -245,7 +245,7 @@ public class FarmGUI {
     }
 
     private void createFarmCityView() {
-        FarmCityView farmCityView = new FarmCityView(game, MainStage.getInstance().getWidth() * 0.2);
+        FarmCityView farmCityView = FarmCityView.getInstance(game, MainStage.getInstance().getWidth() * 0.2);
         farmCityView.relocate(MainStage.getInstance().getWidth() * 0.8, 0);
         farmCityView.addToRoot(anchorPane);
     }

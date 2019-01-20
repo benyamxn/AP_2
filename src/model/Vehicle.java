@@ -8,13 +8,13 @@ public abstract class Vehicle implements Upgradable {
     private static final int A = 30;
     private static final int B = 30;
     private static final int C = 30;
-    private static final int TIME = 10;
-    private static final int BASETIME = 70;
+    private static final int TIME = 1;
+    private static final int BASE_TIME = 7;
 
     protected HashMap<ProductType,Integer> contents = new HashMap<>();
     protected int level = 1;
     protected int estimatedTimeOfArrival;
-    protected int arrivalTime = BASETIME;
+    protected int arrivalTime = BASE_TIME;
     protected boolean onTravel = false;
     protected VehicleType vehicleType;
 
@@ -56,7 +56,7 @@ public abstract class Vehicle implements Upgradable {
 
     public int getArrivalTime() {
 
-        return BASETIME - level * TIME;
+        return BASE_TIME - level * TIME;
     }
 
 
@@ -87,6 +87,11 @@ public abstract class Vehicle implements Upgradable {
         } else {
             contents.put(productType, number);
         }
+    }
+
+    public void removeProduct(ProductType productType, int count) {
+        int prevCount = contents.get(productType);
+        contents.put(productType, prevCount - count);
     }
 
     public double getProductsSize() {
