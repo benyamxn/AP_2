@@ -23,6 +23,9 @@ public class FarmCityView {
     private ImageView imageView;
     private Game game;
     private double width;
+    private double factor = 100;
+    private double durationOfAnimation = 100;
+
 
     public FarmCityView(Game game, double width) {
         root = new AnchorPane();
@@ -35,7 +38,10 @@ public class FarmCityView {
             imageView = new ImageView(image);
             imageView.setFitWidth(width);
             imageView.setPreserveRatio(true);
-            imageView.setOnMouseClicked(event -> runHelicopter());
+            imageView.setOnMouseClicked(event -> {
+                runTruck();
+                runHelicopter();
+            });
             root.getChildren().add(imageView);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -52,13 +58,58 @@ public class FarmCityView {
     }
 
     public void runTruck() {
+        Image vehicleImage;
+        double vehicleHeight, imageHeight;
+        imageHeight = image.getHeight() * (width / image.getWidth());
+        System.out.println(imageHeight);
+        double duration = game.getFarm().getTruck().getArrivalTime() * factor;
+        try {
+            vehicleImage = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures","UI",
+                    "Truck", "0" + game.getFarm().getTruck().getLevel() + "_mini.png").toString()));
+            double spriteWidth = vehicleImage.getWidth() / AnimationConstants.TRUCK_MINI[0];
+            double spriteHeight = vehicleImage.getHeight() / (AnimationConstants.TRUCK_MINI[1] / AnimationConstants.TRUCK_MINI[0]);
+            ImageView vehicleView = new ImageView(vehicleImage);
+            double truckWidth = 50;
+            vehicleView.setFitWidth(truckWidth);
+            vehicleHeight = vehicleImage.getHeight() * (truckWidth * (AnimationConstants.TRUCK_MINI[0] * AnimationConstants.TRUCK_MINI[0] / AnimationConstants.TRUCK_MINI[1]) / vehicleImage.getWidth());
+            vehicleView.setPreserveRatio(true);
+            vehicleView.setViewport(new Rectangle2D(0, 0, spriteWidth, spriteHeight));
+            vehicleView.setScaleX(-1);
+            vehicleView.setOpacity(1);
+            root.getChildren().add(vehicleView);
+            vehicleView.relocate(MainStage.getInstance().getWidth() - width, imageHeight - vehicleHeight);
+            Animation animation = new SpriteAnimation(vehicleView,
+                    Duration.millis(durationOfAnimation), AnimationConstants.TRUCK_MINI[1],
+                    AnimationConstants.TRUCK_MINI[0], 0, 0, (int) spriteWidth, (int) spriteHeight);
+            animation.setCycleCount((int) (duration / 2 / durationOfAnimation));
 
+            TranslateTransition translateTransitionGo = new TranslateTransition(Duration.millis(duration / 2), vehicleView);
+            translateTransitionGo.setByX(width - truckWidth);
+            translateTransitionGo.setByY(0);
+
+            TranslateTransition translateTransitionReturn = new TranslateTransition(Duration.millis(duration / 2), vehicleView);
+            translateTransitionReturn.setByX(truckWidth - width);
+            translateTransitionReturn.setByY(0);
+
+            translateTransitionGo.setOnFinished(event -> {
+                vehicleView.setScaleX(1);
+                translateTransitionReturn.play();
+                animation.play();
+            });
+
+            translateTransitionReturn.setOnFinished(event -> root.getChildren().remove(vehicleView));
+
+
+            animation.play();
+            translateTransitionGo.play();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void runHelicopter() {
         Image vehicleImage;
-        double factor = 100;
-        double durationOfAnimation = 100;
         double duration = game.getFarm().getHelicopter().getArrivalTime() * factor;
         try {
             vehicleImage = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures","UI",
@@ -66,7 +117,8 @@ public class FarmCityView {
             double spriteWidth = vehicleImage.getWidth() / AnimationConstants.HELICOPTER_MINI[0];
             double spriteHeight = vehicleImage.getHeight() / (AnimationConstants.HELICOPTER_MINI[1] / AnimationConstants.HELICOPTER_MINI[0]);
             ImageView vehicleView = new ImageView(vehicleImage);
-            vehicleView.setFitWidth(100);
+            double helicopterWidth = 50;
+            vehicleView.setFitWidth(helicopterWidth);
             vehicleView.setPreserveRatio(true);
             vehicleView.setViewport(new Rectangle2D(0, 0, spriteWidth, spriteHeight));
             vehicleView.setScaleX(-1);
@@ -79,11 +131,11 @@ public class FarmCityView {
             animation.setCycleCount((int) (duration / 2 / durationOfAnimation));
 
             TranslateTransition translateTransitionGo = new TranslateTransition(Duration.millis(duration / 2), vehicleView);
-            translateTransitionGo.setByX(width - 100);
+            translateTransitionGo.setByX(width - helicopterWidth);
             translateTransitionGo.setByY(0);
 
             TranslateTransition translateTransitionReturn = new TranslateTransition(Duration.millis(duration / 2), vehicleView);
-            translateTransitionReturn.setByX(100 - width);
+            translateTransitionReturn.setByX(helicopterWidth - width);
             translateTransitionReturn.setByY(0);
 
             translateTransitionGo.setOnFinished(event -> {
