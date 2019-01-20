@@ -28,12 +28,11 @@ public class ProductGUI {
         }
         ;
         imageView = new ImageView(image);
-        imageView.setFitWidth(image.getWidth() * scale);
+        imageView.setFitHeight(FarmGUI.cellHeight);
         imageView.setPreserveRatio(true);
         imageView.setOpacity(1);
         // TODO: remove dead products in farm updating function
     }
-
     public Product getProduct() {
         return product;
     }

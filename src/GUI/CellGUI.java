@@ -3,13 +3,11 @@ package GUI;
 import GUI.animation.AnimationConstants;
 import GUI.animation.SpriteAnimation;
 import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import model.Cell;
-import model.Domesticated;
 import model.Product;
 
 import java.io.FileInputStream;
@@ -20,7 +18,7 @@ import java.nio.file.Paths;
 
 public class CellGUI {
 
-    private  static final double DURATION = 4000;
+    private  static final double DURATION = 1000;
     private static int columns = AnimationConstants.GRASS[0];
     private static Image grassImage;
     private static Image battleImage;
@@ -96,7 +94,7 @@ public class CellGUI {
 
     public void placeProduct(Product product)  {
         System.out.println("salam");
-        ProductGUI productGUI = new ProductGUI(product, 1);
+        ProductGUI productGUI = new ProductGUI(product, 2);
         productGUI.getImageView().relocate(location[0], location[1]);
         FarmGUI.anchorPane.getChildren().add(productGUI.getImageView());
     }

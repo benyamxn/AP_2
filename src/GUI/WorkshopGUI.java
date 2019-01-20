@@ -3,12 +3,10 @@ package GUI;
 import GUI.animation.AnimationConstants;
 import GUI.animation.SpriteAnimation;
 import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
-import model.Warehouse;
 import model.Workshop;
 
 import java.io.FileInputStream;

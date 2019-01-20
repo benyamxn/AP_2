@@ -3,13 +3,10 @@ package GUI;
 import GUI.animation.AnimationConstants;
 import GUI.animation.SpriteAnimation;
 import javafx.animation.Animation;
-import javafx.animation.PathTransition;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
 import javafx.util.Duration;
 import model.*;
 
@@ -18,14 +15,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
 public class AnimalGUI {
 
     private Image[] image = new Image[7];
     private Animal animal;
     private ImageView imageView  = new ImageView();
-    private static double DURATION = 1900;
+    private static double DURATION = 1000;
     private static final int WALK = 2;
     private int[][] constants = new int[7][2];
     private int imageIndex = -1;
@@ -77,6 +73,9 @@ public class AnimalGUI {
         double height =  imageView.getImage().getHeight() / temp;
         imageView.setViewport(new Rectangle2D(0,0,image[imageIndex].getWidth() / constants[imageIndex][0],
                 height));
+
+        imageView.setFitHeight(FarmGUI.cellHeight * 4);
+        imageView.setPreserveRatio(true);
     }
 
     private ImageView setImageView(){
@@ -121,8 +120,12 @@ public class AnimalGUI {
                 break;
         }
         imageView.setImage(image[imageIndex]);
-        if (rotate)
+        if (rotate) {
             imageView.setScaleX(-1);
+        }
+        else{
+            imageView.setScaleX(1);
+        }
         return imageView;
     }
 
@@ -135,20 +138,20 @@ public class AnimalGUI {
     public void move (){
         if(animal.getDirection().equals(Direction.STATIONARY))
             return;
-        if(animal instanceof Cat){
-            animal.toString();
-        }
+        imageView.setVisible(false);
         setImageView();
+        imageView.setVisible(true);
         double difWidth = FarmGUI.cellWidth;
         double difHeight = FarmGUI.cellHeight;
         int[] size  = getSizeOfFrame();
         Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
-        animation.play();
+        animation.setCycleCount(2);
         Point moveVector = animal.getDirection().getMoveVector();
-        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(DURATION),imageView);
-        translateTransition.setByX(moveVector.getWidth() * difWidth);
-        translateTransition.setByY(-1 * moveVector.getHeight() * difHeight);
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(DURATION * WALK ),imageView);
+        translateTransition.setByX(moveVector.getWidth() * difWidth );
+        translateTransition.setByY( -1 *  moveVector.getHeight()  * difHeight);
         translateTransition.play();
+        animation.play();
     }
 
     public ImageView getImageView() {
@@ -165,8 +168,6 @@ public class AnimalGUI {
             FarmGUI.anchorPane.getChildren().remove(imageView);
             return;
         }
-        imageIndex = 6;
-        imageView.setImage(image[imageIndex]);
         int[] size = getSizeOfFrame();
         Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
         animation.play();
