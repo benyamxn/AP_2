@@ -10,10 +10,8 @@ import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import model.Game;
 
@@ -42,7 +40,6 @@ public class FarmCityView {
             imageView.setFitWidth(width);
             imageView.setPreserveRatio(true);
             imageView.setOnMouseClicked(event -> {
-                System.out.println("that");
                 runTruck(100);
                 runHelicopter();
             });
