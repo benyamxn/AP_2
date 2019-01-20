@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class FarmButton {
+public class FarmButton implements Hoverable{
 
     private int radius;
     private Circle circle;
@@ -19,6 +19,8 @@ public class FarmButton {
         this.radius = radius;
         circle = new Circle(radius);
         countRenderer = new Rectangle(2 * radius, radius / 2.0, Color.GOLD);
+        setMouseEvent(circle);
+
     }
 
     public void addToRoot(Pane parent) {

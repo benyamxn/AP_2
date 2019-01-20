@@ -3,6 +3,7 @@ package GUI;
 import controller.Controller;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -62,5 +63,8 @@ public class MainMenu {
         VBox.setMargin(aboutButton, new Insets(10, 20, 10, 20));
         VBox.setMargin(exitButton, new Insets(10, 20, 10, 20));
         vBox.getChildren().addAll(newGameButton, loadGameButton, settingsButton, aboutButton, exitButton);
+        for (Node child : vBox.getChildren()) {
+                Hoverable.setMouseHandler(child);
+        }
     }
 }

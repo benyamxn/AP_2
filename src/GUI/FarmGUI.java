@@ -1,19 +1,19 @@
 package GUI;
 
 import controller.Controller;
+import javafx.animation.PathTransition;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import model.*;
-import model.exception.MoneyNotEnoughException;
-import model.exception.NameNotFoundException;
-import model.exception.NotEnoughCapacityException;
-import model.exception.NotEnoughWaterException;
+import model.exception.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Timer;
@@ -30,7 +30,7 @@ public class FarmGUI {
     private Image image;
     public static AnchorPane anchorPane = new AnchorPane();
     private CellGUI[][] cellGUIs = new CellGUI[30][30];
-    private WorkshopGUI[] workshopGUIS = new WorkshopGUI[7];
+    private WorkshopGUI[] workshopGUIS = new WorkshopGUI[6];
     private Controller controller;
     private Farm farm;
     private Game game;
@@ -38,6 +38,8 @@ public class FarmGUI {
     private static double[] size;
     FarmGUI(Controller controller) throws FileNotFoundException, MoneyNotEnoughException {
         size = new double[]{MainStage.getInstance().getWidth(), MainStage.getInstance().getHeight()};
+        cellWidth = (endX - startX) * size[0] / 30;
+        cellHeight = (endY - startY) * size[1] / 30;
         this.controller = controller;
         game = controller.getGame();
         game.getFarm().setFarmGUI(this);
@@ -45,15 +47,15 @@ public class FarmGUI {
         farm = game.getFarm();
         loadBackground();
         createCellsGUI();
-        for(int i = 0; i < 1; i++){
-            workshopGUIS[i] = new WorkshopGUI(farm.getWorkshops()[i],true);
-            anchorPane.getChildren().add(workshopGUIS[i].getImageView());
-            workshopGUIS[i].getImageView().relocate(1200,300);
-        }
-        for (int i = 0; i < 3; i++) {
-            for (int i1 = 0; i1 < 3; i1++) {
-                placeProduct(new Product(ProductType.EGG), 10 + i, 10 + i1);
-            }
+        for(int i = 0; i < 6 ; i++){
+            int shift = 1;
+            if(i > 2)
+                shift = 0;
+            Workshop temp = farm.getWorkshops()[i];
+            workshopGUIS[i] = new WorkshopGUI(temp,false);
+            double[] location = getPointForCell(temp.getProductionPoint().getWidth(),temp.getProductionPoint().getHeight());
+            workshopGUIS[i].relocate(location[0] - cellWidth * 5 * shift, location[1] - 8 * cellHeight );
+            workshopGUIS[i].addToRoot(anchorPane);
         }
         createGameStatus();
         farm.placeAnimal(new Cat(new Point(0,0)));
@@ -63,9 +65,11 @@ public class FarmGUI {
         createHelicopterGUI();
         createGameUpdater();
         createFarmCityView();
+        createWorkshopAction();
 
-        cellWidth = (endX - startX) * size[0] / 30;
-        cellHeight = (endY - startY) * size[1] / 30;
+        for (int i = 0; i < 10; i++) {
+            farm.getWarehouse().addProduct(new Product(ProductType.EGG));
+        }
     }
 
     private void createGameUpdater() {
@@ -80,8 +84,8 @@ public class FarmGUI {
     }
 
     private void loadBackground() throws FileNotFoundException {
-        Path cur = Paths.get(System.getProperty("user.dir"));
-        Path filePath = Paths.get(cur.toString(), "res", "backgrounds", "back.png");
+        java.nio.file.Path cur = Paths.get(System.getProperty("user.dir"));
+        java.nio.file.Path filePath = Paths.get(cur.toString(), "res", "backgrounds", "back.png");
         image = new Image(new FileInputStream(filePath.toString()));
     }
 
@@ -149,7 +153,7 @@ public class FarmGUI {
                         farm.pickup(cell.getCoordinate());
                     } catch (NotEnoughCapacityException e) {
                        //TODO...
-                        System.out.println(e.getMessage());
+                        System.out.println("full warehouse fulll fulllllllll");
                     }
                 }
             }
@@ -248,6 +252,21 @@ public class FarmGUI {
         FarmCityView farmCityView = new FarmCityView(game, MainStage.getInstance().getWidth() * 0.2);
         farmCityView.relocate(MainStage.getInstance().getWidth() * 0.8, 0);
         farmCityView.addToRoot(anchorPane);
+    }
+
+
+    public void createWorkshopAction(){
+        for (WorkshopGUI workshop : workshopGUIS) {
+            workshop.setOnClick(event -> {
+                try {
+                    controller.startWorkshop(workshop.getWorkshop().getName());
+                } catch (NameNotFoundException e) {
+
+                } catch (NotEnoughItemsException e) {
+                    System.out.println("NotEnoughItemsException");
+                }
+            });
+        }
     }
 
 }

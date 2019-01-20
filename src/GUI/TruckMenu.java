@@ -1,6 +1,7 @@
 package GUI;
 
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import model.Game;
@@ -42,6 +43,8 @@ public class TruckMenu {
         System.out.println("Width: " + totalWidth);
         System.out.println(0.2 * totalWidth);
         cancelButton.setOnMouseClicked(event -> MainStage.getInstance().popStack());
+        Hoverable.setMouseHandler(cancelButton);
+
         hbox.getChildren().addAll(shipButton, cancelButton);
         AnchorPane.setLeftAnchor(hbox, 0.5 * totalWidth - 180);
         AnchorPane.setBottomAnchor(hbox, 20.0);

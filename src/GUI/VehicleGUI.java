@@ -11,7 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 
-public class VehicleGUI {
+public class VehicleGUI  implements Hoverable{
     private Vehicle vehicle;
     private Image image;
     private ImageView imageView;
@@ -27,6 +27,7 @@ public class VehicleGUI {
             imageView.setFitWidth(frameWidth);
             imageView.setPreserveRatio(true);
             imageView.setOpacity(1);
+            setMouseEvent(imageView);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

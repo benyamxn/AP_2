@@ -15,7 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 
-public class AnimalBuyButton extends FarmButton{
+public class AnimalBuyButton extends FarmButton implements Hoverable{
     private Animal animal;
 
     public AnimalBuyButton(int radius, Animal animal) {

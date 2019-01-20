@@ -3,7 +3,7 @@ package GUI;
 import model.ProductType;
 import model.Warehouse;
 
-public class WarehouseGUI {
+public class WarehouseGUI  implements Hoverable {
 
     private Warehouse warehouse;
     private final boolean sale = false;

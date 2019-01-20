@@ -93,13 +93,20 @@ public class CellGUI {
     }
 
     public void placeProduct(Product product)  {
-        System.out.println("salam");
         ProductGUI productGUI = new ProductGUI(product, 2);
         productGUI.getImageView().relocate(location[0], location[1]);
         FarmGUI.anchorPane.getChildren().add(productGUI.getImageView());
     }
 
+    public void placeProduct(Product[] products){
+        for (Product product : products) {
+            placeProduct(product);
+        }
+    }
+
     public void removeProduct(Product product){
        FarmGUI.anchorPane.getChildren().remove(product.getProductGUI().getImageView());
     }
+
+
 }

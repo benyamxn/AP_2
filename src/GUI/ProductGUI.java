@@ -21,6 +21,7 @@ public class ProductGUI {
         this.product = product;
         product.setProductGUI(this);
         try {
+            System.out.println(product.getType().toString());
             image = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures"
                     ,"Products", product.getType().toString().replace(" ", "") + ".png").toString()));
         } catch (FileNotFoundException e) {

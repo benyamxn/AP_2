@@ -16,7 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 
-public class WellGUI {
+public class WellGUI  implements Hoverable {
     private int duration = 1000;
     private Well well;
     private Image image;
@@ -52,6 +52,7 @@ public class WellGUI {
             imageView.setFitWidth(frameWidth);
             imageView.setPreserveRatio(true);
             imageView.setOpacity(1);
+            setMouseEvent(imageView);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

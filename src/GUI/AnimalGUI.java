@@ -3,8 +3,12 @@ package GUI;
 import GUI.animation.AnimationConstants;
 import GUI.animation.SpriteAnimation;
 import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
+import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
+import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
@@ -25,6 +29,7 @@ public class AnimalGUI {
     private static final int WALK = 2;
     private int[][] constants = new int[7][2];
     private int imageIndex = -1;
+    private Animation animation;
 
     public AnimalGUI(Animal animal)  {
         this.animal = animal;
@@ -144,7 +149,7 @@ public class AnimalGUI {
         double difWidth = FarmGUI.cellWidth;
         double difHeight = FarmGUI.cellHeight;
         int[] size  = getSizeOfFrame();
-        Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
+        animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
         animation.setCycleCount(2);
         Point moveVector = animal.getDirection().getMoveVector();
         TranslateTransition translateTransition = new TranslateTransition(Duration.millis(DURATION * WALK ),imageView);
@@ -163,13 +168,16 @@ public class AnimalGUI {
     }
 
     public void dead(){
-        if(animal instanceof Dog || animal instanceof Wild){
+        if(animal instanceof Dog || animal instanceof Wild) {
             animal = null;
             FarmGUI.anchorPane.getChildren().remove(imageView);
             return;
         }
+        System.out.println(animal.toString() + "dead");
+        imageIndex = 6;
+        imageView.setImage(image[imageIndex]);
         int[] size = getSizeOfFrame();
-        Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
+        animation = new SpriteAnimation(imageView, Duration.millis(DURATION * 2) , constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
         animation.play();
         animation.setOnFinished(event ->{
             animal = null;
@@ -183,11 +191,15 @@ public class AnimalGUI {
 
 
     public void eat(){
+
+        System.out.println("eating");
         imageIndex = 5;
         imageView.setImage(image[imageIndex]);
         int[] size = getSizeOfFrame();
-        Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
+        animation = new SpriteAnimation(imageView, Duration.millis(DURATION * 2), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
         animation.play();
+        Duration x = animation.getCurrentTime();
+
     }
 
 

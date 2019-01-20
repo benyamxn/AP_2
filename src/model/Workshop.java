@@ -1,5 +1,6 @@
 package model;
 
+import GUI.WorkshopGUI;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -20,6 +21,8 @@ public class Workshop implements Upgradable {
     private WorkshopType type;
     private String name;
     private Point productionPoint;
+    private transient WorkshopGUI workshopGUI;
+
 
 
 
@@ -29,6 +32,10 @@ public class Workshop implements Upgradable {
         Workshop workshop = gson.fromJson(reader, Workshop.class);
         reader.close();
         return workshop;
+    }
+
+    public void setWorkshopGUI(WorkshopGUI workshopGUI) {
+        this.workshopGUI = workshopGUI;
     }
 
     public Workshop(WorkshopType type, Point point) {
@@ -49,6 +56,7 @@ public class Workshop implements Upgradable {
     }
 
     public void startProduction() {
+        workshopGUI.produce();
         onProduction = true;
         timeLeftToProduction = productionTime;
     }

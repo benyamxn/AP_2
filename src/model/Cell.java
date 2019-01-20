@@ -54,10 +54,12 @@ public class Cell {
     }
 
     public void addProduct(Product product) {
+        cellGUI.placeProduct(product);
         products.add(product);
     }
 
     public void addProduct(Product[] products) {
+        cellGUI.placeProduct(products);
         this.products.addAll(Arrays.asList(products));
     }
 
@@ -81,6 +83,7 @@ public class Cell {
         ProductType[] temp = new ProductType[products.size()];
         int counter = 0;
         for (Product product : products) {
+            System.out.println(product.getType().toString());
             cellGUI.removeProduct(product);
             temp[counter] = product.getType();
             counter++;
