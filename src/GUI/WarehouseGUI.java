@@ -18,6 +18,7 @@ public class WarehouseGUI implements Hoverable {
     private Image image;
     private ImageView imageView;
     private AnchorPane pane = new AnchorPane();
+    private static final double startX = 52.0 / 180, startY = 56.0 / 148, endX = 133.0 / 180, endY = 100.0 / 148;
 
     public WarehouseGUI(Warehouse warehouse) {
         this.warehouse = warehouse;
@@ -35,14 +36,17 @@ public class WarehouseGUI implements Hoverable {
     public void upgrade() {
         initImage();
         setImageView();
-        pane = new AnchorPane();
-        pane.getChildren().add(imageView);
+        updatePane();
+    }
+
+    private void updatePane() {
+        pane = new AnchorPane(imageView);
     }
 
     private void setImageView() {
         imageView = new ImageView(image);
-        imageView.setFitWidth(0.14 * MainStage.getInstance().getWidth());
-        imageView.setFitHeight(0.14 * MainStage.getInstance().getHeight());
+        imageView.setFitWidth(0.16 * MainStage.getInstance().getWidth());
+        imageView.setFitHeight(0.16 * MainStage.getInstance().getHeight());
         imageView.setPreserveRatio(true);
 
     }
@@ -57,24 +61,23 @@ public class WarehouseGUI implements Hoverable {
     }
 
     public void update() {
+//        updatePane();
+        // TODO: products are not removed after they're sold
+        // TODO: products are visually not correctly placed inside of the warehouse
         int level = warehouse.getLevel();
-        double scaleX = 0.9, scaleY = 0.9;
-        System.out.println("Fit Height:\t" + imageView.getFitHeight());
+        double scaleX = endX - startX, scaleY = endY - startY;
         double width = (imageView.getFitWidth() * scaleX) / (8 + 2 * (level - 1));
         double height = (imageView.getFitHeight() * scaleY) / (8 + 2 * (level - 1));
-        System.out.println("Width, height:\t" + width + " and " + height);
         int productIndex = 0;
         for (ProductType product : warehouse.getContents()) {
             try {
-                //TODO: there's no such product as "feather"
                 Image productImage = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures",
                         "Products", product.toString().replace(" ", "") + ".png").toString()));
                 ImageView productImageView = new ImageView(productImage);
                 productImageView.setFitWidth(width);
                 productImageView.setFitHeight(height);
                 productImageView.setPreserveRatio(true);
-                //TODO: check the relocating
-                productImageView.relocate((productIndex % level) * width, (1.0 * productIndex / level) * height);
+                productImageView.relocate((startX + productIndex % level) * width,  (1.0 * productIndex / level + startY) * height);
                 pane.getChildren().add(productImageView);
                 productIndex++;
             } catch (FileNotFoundException e) {

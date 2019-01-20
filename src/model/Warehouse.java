@@ -151,4 +151,8 @@ public class Warehouse implements Upgradable {
     public LinkedList<ProductType> getContents() {
         return contents;
     }
+
+    public WarehouseGUI getWarehouseGUI() {
+        return warehouseGUI;
+    }
 }
