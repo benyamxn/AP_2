@@ -1,12 +1,10 @@
 package GUI;
 
 import controller.Controller;
-import javafx.animation.PathTransition;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.*;
 import model.*;
 import model.exception.*;
 
@@ -27,17 +25,20 @@ public class FarmGUI {
     private static final double endY = 480.0 / 600;
     private Image image;
     public static AnchorPane anchorPane = new AnchorPane();
-    private CellGUI[][] cellGUIs = new CellGUI[30][30];
+    private CellGUI[][] cellGUIs = new CellGUI[WIDTH][HEIGHT];
     private WorkshopGUI[] workshopGUIS = new WorkshopGUI[6];
     private Controller controller;
     private Farm farm;
     private Game game;
     private Timer gameUpdater;
     private static double[] size;
+
+    public static int WIDTH = 10;
+    public static int HEIGHT = 10;
     FarmGUI(Controller controller) throws FileNotFoundException, MoneyNotEnoughException {
         size = new double[]{MainStage.getInstance().getWidth(), MainStage.getInstance().getHeight()};
-        cellWidth = (endX - startX) * size[0] / 30;
-        cellHeight = (endY - startY) * size[1] / 30;
+        cellWidth = (endX - startX) * size[0] / WIDTH;
+        cellHeight = (endY - startY) * size[1] / HEIGHT;
         this.controller = controller;
         game = controller.getGame();
         game.getFarm().setFarmGUI(this);
@@ -50,9 +51,9 @@ public class FarmGUI {
             if(i > 2)
                 shift = 0;
             Workshop temp = farm.getWorkshops()[i];
-            workshopGUIS[i] = new WorkshopGUI(temp,false);
+            workshopGUIS[i] = new WorkshopGUI(temp,false,200);
             double[] location = getPointForCell(temp.getProductionPoint().getWidth(),temp.getProductionPoint().getHeight());
-            workshopGUIS[i].relocate(location[0] - cellWidth * 8 * shift, location[1] - 8 * cellHeight );
+            workshopGUIS[i].relocate(location[0] - cellWidth * 2 * shift, location[1] - 2 * cellHeight );
             workshopGUIS[i].addToRoot(anchorPane);
         }
         createGameStatus();
@@ -65,9 +66,6 @@ public class FarmGUI {
         createFarmCityView();
         createWorkshopAction();
 
-        for (int i = 0; i < 10; i++) {
-            farm.getWarehouse().addProduct(new Product(ProductType.EGG));
-        }
     }
 
     private void createGameUpdater() {
@@ -93,9 +91,9 @@ public class FarmGUI {
     }
 
     private void createCellsGUI() {
-        for (int i = 0; i < 30; i++) {
-            for (int j = 0; j < 30; j++){
-                cellGUIs[i][j] = new CellGUI(farm.getCell(new Point(i,j)), cellWidth, cellHeight);
+        for (int i = 0; i < WIDTH; i++) {
+            for (int j = 0; j < HEIGHT; j++){
+                cellGUIs[i][j] = new CellGUI(farm.getCell(new Point(i,j)),cellWidth,cellHeight);
                 anchorPane.getChildren().add(cellGUIs[i][j].getImageView());
                 double[] location = getPointForCell(i,j);
                 cellGUIs[i][j].getImageView().relocate(location[0],location[1]);
@@ -162,14 +160,15 @@ public class FarmGUI {
 
     }
 
+
     private CellGUI getCellByEvent(double x, double y) {
         double width = size[0];
         double height = size[1];
-        if(x >= startX * width  &&  x <= endX * width && y >= startY * height && y <= endY * height){
+        if( x >= startX * width  &&  x <= endX * width && y >= startY * height && y <= endY * height ){
             double mapWidth = endX * width - startX * width;
             double mapHeight = endY * height - startY * height;
-            int cellWidth = (int) ((x - startX * width) / (mapWidth / 30.0));
-            int cellHeight = (int) ((y - startY * height) / (mapHeight / 30.0));
+            int cellWidth = (int) ((x - startX * width) / mapWidth * WIDTH);
+            int cellHeight = (int) ((y - startY * height) / mapHeight * HEIGHT);
             return cellGUIs[cellWidth][cellHeight];
         }
         return null;
@@ -180,8 +179,8 @@ public class FarmGUI {
         double height = size[1];
         double mapWidth = endX * width - startX * width;
         double mapHeight = endY * height - startY * height;
-        double cellWidth = (startX * width + i * mapWidth / 30);
-        double cellHeight = (startY * height + j * mapHeight / 30);
+        double cellWidth = (startX * width + i * mapWidth /  WIDTH);
+        double cellHeight = (startY * height + j * mapHeight /  HEIGHT );
         return new double[]{cellWidth, cellHeight};
     }
 
@@ -250,6 +249,7 @@ public class FarmGUI {
         farmCityView.relocate(MainStage.getInstance().getWidth() * 0.8, 0);
         farmCityView.addToRoot(anchorPane);
     }
+
 
     public void createWorkshopAction(){
         for (WorkshopGUI workshop : workshopGUIS) {

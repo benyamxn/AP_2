@@ -14,8 +14,8 @@ public class Farm {
     private static int TURN_TIME = 1;
     private static final int WELL_DEFAULT_CAPACITY = 30;
     private String name;
-    private Map map   = new Map(30, 30);
-    private Workshop[] workshops= new Workshop[7];
+    private Map map   = new Map(FarmGUI.WIDTH, FarmGUI.HEIGHT);
+    private Workshop[] workshops = new Workshop[7];
     private transient Truck truck = new Truck();
     private transient Warehouse warehouse = new Warehouse();
     private transient Helicopter helicopter = new Helicopter();
@@ -29,12 +29,14 @@ public class Farm {
 
     public Farm() {
         name = "Default";
+        int width = map.getWidth()  - 1 ;
+        int height = map.getHeight() - 1;
         workshops[0] = new Workshop(WorkshopType.EGG_POWDER_PLANT, new Point(0, 0));
-        workshops[1] = new Workshop(WorkshopType.SPINNERY, new Point(0, 15));
-        workshops[2] = new Workshop(WorkshopType.COOKIE_BAKERY, new Point(0, 29));
-        workshops[3] = new Workshop(WorkshopType.SPINNERY, new Point(29, 0));
-        workshops[4] = new Workshop(WorkshopType.WEAVING_FACTORY, new Point(29, 15));
-        workshops[5] = new Workshop(WorkshopType.WEAVING_FACTORY, new Point(29, 29));
+        workshops[1] = new Workshop(WorkshopType.SPINNERY, new Point(0, height / 2));
+        workshops[2] = new Workshop(WorkshopType.COOKIE_BAKERY, new Point(0, height ));
+        workshops[3] = new Workshop(WorkshopType.SPINNERY, new Point(width, 0));
+        workshops[4] = new Workshop(WorkshopType.WEAVING_FACTORY, new Point(width, height / 2));
+        workshops[5] = new Workshop(WorkshopType.WEAVING_FACTORY, new Point(width, height));
         workshops[6] = new Workshop(WorkshopType.EGG_POWDER_PLANT, new Point(2, 2));
     }
 

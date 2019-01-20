@@ -79,7 +79,7 @@ public class AnimalGUI {
         imageView.setViewport(new Rectangle2D(0,0,image[imageIndex].getWidth() / constants[imageIndex][0],
                 height));
 
-        imageView.setFitHeight(FarmGUI.cellHeight * 4);
+        imageView.setFitHeight(FarmGUI.cellHeight);
         imageView.setPreserveRatio(true);
     }
 

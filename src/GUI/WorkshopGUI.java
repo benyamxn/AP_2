@@ -30,7 +30,7 @@ public class WorkshopGUI implements Hoverable {
     private int height;
     private int columns = AnimationConstants.WORKSHOP[0];
     private ImageView imageView;
-    public WorkshopGUI(Workshop workshop , boolean rotate) throws FileNotFoundException {
+    public WorkshopGUI(Workshop workshop , boolean rotate , int fitWidth) throws FileNotFoundException {
         this.workshop = workshop;
         workshop.setWorkshopGUI(this);
         image = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures","Workshops",
@@ -40,7 +40,7 @@ public class WorkshopGUI implements Hoverable {
         height = (int) image.getHeight() / columns;
 
         imageView.setViewport(new Rectangle2D(0, 0,width,height));
-        imageView.setFitWidth(200);
+        imageView.setFitWidth(fitWidth);
         imageView.setPreserveRatio(true);
         imageView.setOpacity(1);
         setMouseEvent(imageView);
