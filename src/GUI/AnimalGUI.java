@@ -19,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 public class AnimalGUI {
 
@@ -57,12 +58,12 @@ public class AnimalGUI {
                 image[5] = new Image(new FileInputStream(Paths.get(filePath.toString(), "eat.png").toString()));
                 constants[5] = AnimationConstants.getConstants(animal.toString() + " eat");
             } else {
-                if(new File(Paths.get(filePath.toString(), "caged.png").toString()).exists()){
+                if (new File(Paths.get(filePath.toString(), "caged.png").toString()).exists()) {
                     image[5] = new Image(new FileInputStream(Paths.get(filePath.toString(), "caged.png").toString()));
+                    constants[5] = AnimationConstants.getConstants(animal.toString() + " caged");
+                } else {
                     image[5] = image[0];
-                }
-                else {
-                    image[5] = image[0];
+                    constants[5] = constants[0];
                 }
             }
 

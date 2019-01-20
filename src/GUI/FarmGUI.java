@@ -65,6 +65,7 @@ public class FarmGUI {
         createGameUpdater();
         createFarmCityView();
         createWorkshopAction();
+        createWarehouseGUI();
 
     }
 
@@ -236,6 +237,13 @@ public class FarmGUI {
         });
         truckGUI.relocate(MainStage.getInstance().getWidth() / 5, MainStage.getInstance().getHeight() * 0.85);
         truckGUI.addToRoot(anchorPane);
+    }
+
+    private void createWarehouseGUI() {
+        WarehouseGUI warehouseGUI = new WarehouseGUI(farm.getWarehouse());
+        warehouseGUI.setOnClick(event -> new TruckMenu(game));
+        warehouseGUI.relocate(2 * MainStage.getInstance().getWidth() / 5, MainStage.getInstance().getHeight() * 0.85);
+        warehouseGUI.addToRoot(anchorPane);
     }
 
     private void createHelicopterGUI() {

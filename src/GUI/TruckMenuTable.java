@@ -32,6 +32,7 @@ public class TruckMenuTable {
     private Label totalCapacityLabel;
     private Label remainedCapacityLabel;
     private VBox statusBox;
+
     public TruckMenuTable(Game game, double width, double height) {
         this.game = game;
         this.width = width;
