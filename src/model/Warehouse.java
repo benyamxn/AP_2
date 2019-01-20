@@ -47,16 +47,19 @@ public class Warehouse implements Upgradable {
         for (ProductType productType : productTypes) {
             addProduct(productType);
         }
+        warehouseGUI.update();
     }
 
     public void addProduct(LinkedList<ProductType> productTypes) {
         for (ProductType productType : productTypes) {
             addProduct(productType);
         }
+        warehouseGUI.update();
     }
 
     public void addProduct(HashMap<ProductType, Integer> quantities) {
         addProduct(unwrapQuantities(quantities));
+        warehouseGUI.update();
     }
 
     public void addProduct(ProductType productType) {
@@ -87,8 +90,8 @@ public class Warehouse implements Upgradable {
         for (ProductType productType : productTypes) {
             contents.remove(productType);
             capacity -= productType.getDepotSize();
-            warehouseGUI.update();
         }
+        warehouseGUI.update();
         return productTypes;
     }
 
@@ -143,5 +146,9 @@ public class Warehouse implements Upgradable {
 
     public int getLevel() {
         return level;
+    }
+
+    public LinkedList<ProductType> getContents() {
+        return contents;
     }
 }

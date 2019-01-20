@@ -35,6 +35,7 @@ public class FarmGUI {
 
     public static int WIDTH = 10;
     public static int HEIGHT = 10;
+
     FarmGUI(Controller controller) throws FileNotFoundException, MoneyNotEnoughException {
         size = new double[]{MainStage.getInstance().getWidth(), MainStage.getInstance().getHeight()};
         cellWidth = (endX - startX) * size[0] / WIDTH;
