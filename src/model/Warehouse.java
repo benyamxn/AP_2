@@ -1,14 +1,21 @@
 package model;
 
+import GUI.WarehouseGUI;
+
 import java.util.*;
 import java.util.Map;
 
 public class Warehouse implements Upgradable {
-    private static final int INITIAL_CAPACITY = 100;
+    private static final int INITIAL_CAPACITY = 96;
     private static final int BASE_UPGRADE_COST = 100;
     private LinkedList<ProductType> contents = new LinkedList<>();
     private int level = 1;
     private double capacity = INITIAL_CAPACITY;
+    private WarehouseGUI warehouseGUI;
+
+    public Warehouse() {
+        warehouseGUI = new WarehouseGUI(this);
+    }
 
     @Override
     public void upgrade() {
@@ -26,8 +33,8 @@ public class Warehouse implements Upgradable {
         return BASE_UPGRADE_COST * (int) Math.pow(2, level) + 150 - 50 * (level - 1);
     }
 
-    private int getTotalCapacity(int level) {
-        return ((INITIAL_CAPACITY / 4) * level * level) + 3 * INITIAL_CAPACITY / 4 * level;
+    public int getTotalCapacity(int level) {
+        return (int) Math.pow(8 + 2 * (level - 1), 2);
     }
 
     public void addProduct(Product product) {
@@ -55,6 +62,7 @@ public class Warehouse implements Upgradable {
     public void addProduct(ProductType productType) {
         contents.add(productType);
         capacity -= productType.getDepotSize();
+        warehouseGUI.update();
     }
 
     public ProductType[] getProductList() {
@@ -79,6 +87,7 @@ public class Warehouse implements Upgradable {
         for (ProductType productType : productTypes) {
             contents.remove(productType);
             capacity -= productType.getDepotSize();
+            warehouseGUI.update();
         }
         return productTypes;
     }
@@ -126,5 +135,13 @@ public class Warehouse implements Upgradable {
         return  "Warehouse:\n" + "\tLevel: " + level +
                 "\tEmpty Space: " + capacity + "/ " + getTotalCapacity(level)
                 + "\tNumber of contents: " + contents.size();
+    }
+
+    public int getNumberOfContents() {
+        return contents.size();
+    }
+
+    public int getLevel() {
+        return level;
     }
 }
