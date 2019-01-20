@@ -52,7 +52,7 @@ public class FarmCityView {
 
 
     public void relocate(double x, double y) {
-        imageView.relocate(x, y);
+        root.relocate(x, y);
     }
 
     public void addToRoot(Pane pane) {

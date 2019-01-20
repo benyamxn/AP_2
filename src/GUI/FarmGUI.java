@@ -62,7 +62,7 @@ public class FarmGUI {
         createTruckGUI();
         createHelicopterGUI();
         createGameUpdater();
-//        createFarmCityView();
+        createFarmCityView();
 
         cellWidth = (endX - startX) * size[0] / 30;
         cellHeight = (endY - startY) * size[1] / 30;
