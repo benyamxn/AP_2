@@ -2,14 +2,16 @@ package GUI;
 
 import controller.Controller;
 import javafx.application.Platform;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import model.*;
+import model.Point;
 import model.exception.*;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Timer;
@@ -35,8 +37,7 @@ public class FarmGUI {
 
     public static int WIDTH = 10;
     public static int HEIGHT = 10;
-
-    FarmGUI(Controller controller) throws FileNotFoundException, MoneyNotEnoughException {
+    FarmGUI(Controller controller) throws FileNotFoundException {
         size = new double[]{MainStage.getInstance().getWidth(), MainStage.getInstance().getHeight()};
         cellWidth = (endX - startX) * size[0] / WIDTH;
         cellHeight = (endY - startY) * size[1] / HEIGHT;
@@ -57,7 +58,7 @@ public class FarmGUI {
             workshopGUIS[i].relocate(location[0] - cellWidth * 2 * shift, location[1] - 2 * cellHeight );
             workshopGUIS[i].addToRoot(anchorPane);
         }
-        createGameStatus();
+//        createGameStatus();
         farm.placeAnimal(new Cat(new Point(0,0)));
         renderAnimalBuyingButtons();
         createWellGUI();
@@ -87,10 +88,10 @@ public class FarmGUI {
         image = new Image(new FileInputStream(filePath.toString()));
     }
 
-    private void createGameStatus() {
-        game.getGameStatus().addToRoot(anchorPane);
-        game.getGameStatus().relocate(2 * MainStage.getInstance().getWidth() / 3, 10);
-    }
+//    private void createGameStatus() {
+//        game.getGameStatus().addToRoot(anchorPane);
+//        game.getGameStatus().relocate(2 * MainStage.getInstance().getWidth() / 3, 10);
+//    }
 
     private void createCellsGUI() {
         for (int i = 0; i < WIDTH; i++) {
@@ -154,6 +155,18 @@ public class FarmGUI {
                         System.out.println("full warehouse fulll fulllllllll");
                     }
                 }
+            }
+        });
+
+        Button button = new Button("exit");
+        anchorPane.getChildren().add(button);
+
+        button.setOnMouseClicked(event -> {
+            try {
+                controller.saveGame("/Users/mohammadabouei/Desktop/AP_2/gameData/savedGames/game5.json");
+                System.exit(0);
+            } catch (IOException e) {
+                System.out.println("salam");
             }
         });
 
@@ -241,7 +254,7 @@ public class FarmGUI {
     }
 
     private void createWarehouseGUI() {
-        WarehouseGUI warehouseGUI = farm.getWarehouse().getWarehouseGUI();
+        WarehouseGUI warehouseGUI = new WarehouseGUI(farm.getWarehouse());
         warehouseGUI.setOnClick(event -> new TruckMenu(game));
         warehouseGUI.relocate(2 * MainStage.getInstance().getWidth() / 5, MainStage.getInstance().getHeight() * 0.85);
         warehouseGUI.addToRoot(anchorPane);

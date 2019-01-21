@@ -25,7 +25,6 @@ public class WarehouseGUI implements Hoverable {
         initImage();
         setImageView();
         pane.getChildren().add(imageView);
-
         setMouseEvent(pane);
     }
 

@@ -12,7 +12,7 @@ public class Cell {
     private LinkedList<Animal> animals = new LinkedList<>();
     private LinkedList<Product> products = new LinkedList<>();
     private int grassLevel = 0;
-    private CellGUI cellGUI;
+    private transient CellGUI cellGUI;
 
     public void setCellGUI(CellGUI cellGUI) {
         this.cellGUI = cellGUI;

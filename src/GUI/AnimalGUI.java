@@ -174,7 +174,6 @@ public class AnimalGUI {
             FarmGUI.anchorPane.getChildren().remove(imageView);
             return;
         }
-        System.out.println(animal.toString() + "dead");
         imageIndex = 6;
         imageView.setImage(image[imageIndex]);
         int[] size = getSizeOfFrame();

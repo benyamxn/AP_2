@@ -11,7 +11,7 @@ public class Warehouse implements Upgradable {
     private LinkedList<ProductType> contents = new LinkedList<>();
     private int level = 1;
     private double capacity = INITIAL_CAPACITY;
-    private WarehouseGUI warehouseGUI;
+    private transient WarehouseGUI warehouseGUI;
 
     public Warehouse() {
         warehouseGUI = new WarehouseGUI(this);

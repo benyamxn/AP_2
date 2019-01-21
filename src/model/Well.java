@@ -5,7 +5,7 @@ import GUI.WellGUI;
 public class Well implements Upgradable {
     private int level = 1, refillPrice, capacity, remainingWater;
     private static final int WATER_CONSUMPTION = 9;
-    WellGUI wellGUI;
+    private transient WellGUI wellGUI;
 
 
     Well(int capacity){
