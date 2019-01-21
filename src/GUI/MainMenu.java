@@ -55,6 +55,7 @@ public class MainMenu {
         Button settingsButton = new Button("Settings");
         Button aboutButton = new Button("About");
         Button exitButton = new Button("Exit");
+        exitButton.setOnMouseClicked(event ->System.exit(0));
         newGameButton.setOnMouseClicked(event -> {
             try {
                 new FarmGUI(new Controller()).render();
@@ -70,10 +71,14 @@ public class MainMenu {
         VBox.setMargin(aboutButton, new Insets(10, 20, 10, 20));
         VBox.setMargin(exitButton, new Insets(10, 20, 10, 20));
         vBox.getChildren().addAll(newGameButton, loadGameButton, settingsButton, aboutButton, exitButton);
+        for (Node child : vBox.getChildren()) {
+            Hoverable.setMouseHandler(child);
+        }
 
     }
 
     private void createLoadGameButton() {
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose Game File");
         File file = fileChooser.showOpenDialog(MainStage.getInstance().getScene().getWindow());

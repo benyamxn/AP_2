@@ -44,7 +44,6 @@ public class CellGUI {
         imageView.setOpacity(1);
         if (cell.getGrassLevel() == 0)
             imageView.setOpacity(0);
-        imageView.setFitWidth(width);
         imageView.setFitHeight(height);
     }
 
@@ -73,15 +72,15 @@ public class CellGUI {
     }
 
     public void battle() {
-        System.out.println(imageView.getLayoutX());
         imageView.setVisible(false);
         double[] size = new double[]{ battleImage.getWidth() / 5,  battleImage.getHeight() / 4};
         ImageView temp = new ImageView();
         temp.setImage(battleImage);
         temp.setViewport(new Rectangle2D(0, 0, size[0], size[1]));
+        temp.setFitHeight(FarmGUI.cellHeight);
         temp.relocate(location[0],location[1]);
         FarmGUI.anchorPane.getChildren().add(temp);
-        Animation animation = new SpriteAnimation(temp, Duration.millis(DURATION), 5, 4, 0, 0, (int)size[0],(int) size[1]);
+        Animation animation = new SpriteAnimation(temp, Duration.millis(DURATION), 20, 5, 0, 0, (int)size[0],(int) size[1]);
         animation.play();
         animation.setOnFinished(event -> {
             FarmGUI.anchorPane.getChildren().remove(temp);

@@ -31,6 +31,7 @@ public class AnimalGUI {
     private int[][] constants = new int[7][2];
     private int imageIndex = -1;
     private Animation animation;
+    private TranslateTransition translateTransition;
 
     public AnimalGUI(Animal animal)  {
         this.animal = animal;
@@ -147,7 +148,7 @@ public class AnimalGUI {
         animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
         animation.setCycleCount(2);
         Point moveVector = animal.getDirection().getMoveVector();
-        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(DURATION * WALK ),imageView);
+        translateTransition = new TranslateTransition(Duration.millis(DURATION * WALK ),imageView);
         FarmGUI.debugLabel.setText(moveVector.toString());
         translateTransition.setByX(moveVector.getWidth() * difWidth );
         translateTransition.setByY( -1 *  moveVector.getHeight()  * difHeight);
@@ -160,6 +161,8 @@ public class AnimalGUI {
     }
 
     public void dead(){
+        animation.stop();
+        translateTransition.stop();
         if(animal instanceof Dog || animal instanceof Wild) {
             animal = null;
             FarmGUI.anchorPane.getChildren().remove(imageView);
@@ -167,6 +170,7 @@ public class AnimalGUI {
         }
         imageIndex = 6;
         imageView.setImage(image[imageIndex]);
+
         int[] size = getSizeOfFrame();
         animation = new SpriteAnimation(imageView, Duration.millis(DURATION * 2) , constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
         animation.play();
@@ -182,14 +186,11 @@ public class AnimalGUI {
 
 
     public void eat(){
-        System.out.println("eating");
         imageIndex = 5;
         imageView.setImage(image[imageIndex]);
         int[] size = getSizeOfFrame();
         animation = new SpriteAnimation(imageView, Duration.millis(DURATION * 2), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
         animation.play();
-        Duration x = animation.getCurrentTime();
-
     }
 
 
