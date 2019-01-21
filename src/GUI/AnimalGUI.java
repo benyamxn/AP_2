@@ -118,7 +118,7 @@ public class AnimalGUI {
             case STATIONARY:
                 if (animal.getHealth() > 0) {
                     imageIndex = 5;
-                    if(animal instanceof Cat || animal instanceof Dog || animal instanceof Wild)
+                    if(animal instanceof Cat || animal instanceof Wild)
                         imageIndex = 0;
                 }
                 else
@@ -148,6 +148,7 @@ public class AnimalGUI {
         animation.setCycleCount(2);
         Point moveVector = animal.getDirection().getMoveVector();
         TranslateTransition translateTransition = new TranslateTransition(Duration.millis(DURATION * WALK ),imageView);
+        FarmGUI.debugLabel.setText(moveVector.toString());
         translateTransition.setByX(moveVector.getWidth() * difWidth );
         translateTransition.setByY( -1 *  moveVector.getHeight()  * difHeight);
         translateTransition.play();

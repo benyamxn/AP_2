@@ -23,6 +23,11 @@ public abstract class Animal {
         animalGUI  = new AnimalGUI(this);
     }
 
+
+    public void setAnimalGUI(AnimalGUI animalGUI) {
+        this.animalGUI = animalGUI;
+    }
+
     public abstract int getBuyPrice();
 
     public abstract int getSellPrice();
@@ -32,17 +37,12 @@ public abstract class Animal {
     }
 
     public void move(Point cornerPoint) {
-        if (this instanceof Dog) {
-            FarmGUI.debugLabel.setText(location.toString());
-            System.out.println("Dog: " + location.toString());
-        }
+
         if (hasATarget) {
             moveToPoint(target);
             animalGUI.move();
-            System.out.println("has target!");
             return;
         }
-
         ArrayList<Direction> possibleDirections = getPossibleDirections(cornerPoint);
         moveRandom(possibleDirections);
         animalGUI.move();
@@ -99,7 +99,7 @@ public abstract class Animal {
     public void setRandomTarget(Point cornerPoint){
         ArrayList<Direction> directions = getPossibleDirections(cornerPoint);
         direction = Direction.randomDir(directions.toArray(new Direction[0]));
-        Point newTarget = location;
+        Point newTarget = new Point(location.getWidth(),location.getHeight());
         newTarget.add(direction.getMoveVector());
         setTarget(newTarget);
     }

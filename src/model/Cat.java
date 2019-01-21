@@ -17,8 +17,10 @@ public class Cat extends Animal implements Upgradable {
 
     @Override
     public void setTarget(List<Point> possibleTargets, Point cornerPoint) {
+        if(possibleTargets.isEmpty())
+            setHasATarget(false);
         if (smart) {
-            super.setTarget(possibleTargets, cornerPoint);
+           super.setTarget(possibleTargets, cornerPoint);
         }
         if (!hasATarget()) {
             Random randomTarget = new Random();
