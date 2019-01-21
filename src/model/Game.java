@@ -91,7 +91,7 @@ public class Game {
         if(random.nextInt(15) % 15 == 0){
             if ((farm.getMap().getNumberOfEachAnimal()[3] < WILD_NUMBER )) {
                 for (int i = 0; i < random.nextInt(3) + 1; i++) {
-                    farm.placeAnimal(WildType.GRIZZLY);
+//                    farm.placeAnimal(WildType.GRIZZLY);
                 }
             }
         }

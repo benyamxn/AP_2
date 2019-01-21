@@ -1,6 +1,7 @@
 package model;
 
 import GUI.AnimalGUI;
+import GUI.FarmGUI;
 import GUI.MainStage;
 
 import java.io.FileNotFoundException;
@@ -31,9 +32,14 @@ public abstract class Animal {
     }
 
     public void move(Point cornerPoint) {
+        if (this instanceof Dog) {
+            FarmGUI.debugLabel.setText(location.toString());
+            System.out.println("Dog: " + location.toString());
+        }
         if (hasATarget) {
             moveToPoint(target);
             animalGUI.move();
+            System.out.println("has target!");
             return;
         }
 
