@@ -49,6 +49,12 @@ public class CellGUI {
     }
 
 
+    public void render(){
+        int index = cell.getGrassLevel();
+        final int x = (index % columns) * width;
+        final int y = (index / columns) * height;
+        imageView.setViewport(new Rectangle2D(x, y, width, height));
+    }
     public ImageView getImageView() {
         return imageView;
     }
@@ -101,6 +107,7 @@ public class CellGUI {
 
     public void removeProduct(Product product){
        FarmGUI.anchorPane.getChildren().remove(product.getProductGUI().getImageView());
+       product.setProductGUI(null);
     }
 
 

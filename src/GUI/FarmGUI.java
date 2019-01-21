@@ -2,6 +2,7 @@ package GUI;
 
 import controller.Controller;
 import javafx.application.Platform;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,14 +13,13 @@ import model.exception.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class FarmGUI {
-    public static Dog dog;
     public static double cellWidth;
     public static double cellHeight;
     private static final double startX = 185.0 / 800;
@@ -40,7 +40,7 @@ public class FarmGUI {
     public static int WIDTH = 10;
     public static int HEIGHT = 10;
 
-    FarmGUI(Controller controller) throws FileNotFoundException, MoneyNotEnoughException {
+    public FarmGUI(Controller controller) throws FileNotFoundException {
         size = new double[]{MainStage.getInstance().getWidth(), MainStage.getInstance().getHeight()};
         cellWidth = (endX - startX) * size[0] / WIDTH;
         cellHeight = (endY - startY) * size[1] / HEIGHT;
@@ -62,9 +62,6 @@ public class FarmGUI {
             workshopGUIS[i].addToRoot(anchorPane);
         }
         createGameStatus();
-//        farm.placeAnimal(new Cat(new Point(0,0)));
-        dog = new Dog(new Point(0,0));
-        farm.placeAnimal(dog);
         renderAnimalBuyingButtons();
         createWellGUI();
         createTruckGUI();
@@ -72,13 +69,22 @@ public class FarmGUI {
         createGameUpdater();
         createFarmCityView();
         createWorkshopAction();
+        createAnimalsGUI();
         createWarehouseGUI();
-        {
-            debugLabel.relocate(800, 10);
-            debugLabel.setStyle("-fx-text-fill: Black; -fx-font-size: 30px;");
-            anchorPane.getChildren().add(debugLabel);
-        }
+    }
 
+
+    private void createAnimalsGUI(){
+        Cell[][] cells = farm.getMap().getCells();
+        for (int i = 0; i < farm.getMap().getWidth() ; i++) {
+            for (int j = 0; j < farm.getMap().getHeight(); j++) {
+                for (Animal animal : cells[i][j].getAnimals()) {
+                    animal.setAnimalGUI(new AnimalGUI(animal));
+                    animal.getAnimalGUI().initImages();
+                    relocateAnimalGUI(animal.getAnimalGUI());
+                }
+            }
+        }
     }
 
     private void createGameUpdater() {
@@ -100,6 +106,7 @@ public class FarmGUI {
     private void createGameStatus() {
         game.getGameStatus().addToRoot(anchorPane);
         game.getGameStatus().relocate(2 * MainStage.getInstance().getWidth() / 3, 10);
+
     }
 
     private void createCellsGUI() {
@@ -108,6 +115,7 @@ public class FarmGUI {
                 cellGUIs[i][j] = new CellGUI(farm.getCell(new Point(i,j)),cellWidth,cellHeight);
                 anchorPane.getChildren().add(cellGUIs[i][j].getImageView());
                 double[] location = getPointForCell(i,j);
+                cellGUIs[i][j].render();
                 cellGUIs[i][j].getImageView().relocate(location[0],location[1]);
                 cellGUIs[i][j].setLocation(location);
             }
@@ -139,22 +147,18 @@ public class FarmGUI {
                 Cell cell = cellGUI.getCell();
                 if(!cell.hasProduct()) {
                     try {
-                        System.out.println("no product");
                         int[] grassLevels = new int[9];
-
                         LinkedList<Cell> cellsToPlant = farm.getMap().getCellsForPlant(cellGUI.getCell().getCoordinate());
                         for (int i = 0; i < cellsToPlant.size(); i++) {
                             grassLevels[i] = cellsToPlant.get(i).getGrassLevel();
                         }
-
                         farm.plant(cell.getCoordinate());
-
                         for (int i = 0; i < cellsToPlant.size(); i++) {
                             Cell cell1 = cellsToPlant.get(i);
                             cellGUIs[cell1.getCoordinate().getWidth()][cell1.getCoordinate().getHeight()].growGrass(grassLevels[i]);
                         }
                     } catch (NotEnoughWaterException e) {
-                        System.out.println(e.getMessage());
+                        System.out.println("not enough water");
                     }
                 }
                 else{
@@ -168,6 +172,18 @@ public class FarmGUI {
             }
         });
 
+        Button button = new Button("exit");
+
+        button.relocate(500,10);
+        button.setOnMouseClicked(event -> {
+            try {
+                controller.saveGame("/Users/mohammadabouei/Desktop/AP_2/gameData/savedGames/game6.json");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.exit(0);
+        });
+        anchorPane.getChildren().add(button);
         MainStage.getInstance().getScene().getStylesheets().add(getClass().
                 getResource("CSS/farm.css").toExternalForm());
 
@@ -209,7 +225,6 @@ public class FarmGUI {
         double[] pointForCell = getPointForCell(location.getWidth(), location.getHeight());
         animalGUI.getImageView().relocate(pointForCell[0], pointForCell[1]);
         anchorPane.getChildren().add(animalGUI.getImageView());
-//        debugLabel.setText(location.toString());
     }
 
     private void renderAnimalBuyingButtons() {
@@ -236,7 +251,7 @@ public class FarmGUI {
                 } catch (NameNotFoundException e) {
                     e.printStackTrace();
                 } catch (MoneyNotEnoughException e) {
-                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                     // TODO: Handle this.
                 }
 

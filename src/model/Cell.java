@@ -34,7 +34,6 @@ public class Cell {
 
     public void growGrass() {
         grassLevel += GRASS_GROWING_RATE;
-
         if(grassLevel > GRASS_GROWING_RATE * 4){
             grassLevel = GRASS_GROWING_RATE * 4;
         }
@@ -44,6 +43,7 @@ public class Cell {
         grassLevel--;
         if (grassLevel < 0)
             grassLevel = 0;
+        cellGUI.render();
     }
     public double calculateDepotSize() {
         double size = 0;
@@ -83,7 +83,6 @@ public class Cell {
         ProductType[] temp = new ProductType[products.size()];
         int counter = 0;
         for (Product product : products) {
-            System.out.println(product.getType().toString());
             cellGUI.removeProduct(product);
             temp[counter] = product.getType();
             counter++;
