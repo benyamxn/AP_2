@@ -135,12 +135,6 @@ public class AnimalGUI {
         return imageView;
     }
 
-    public void render(){
-        imageView = setImageView();
-        double height = imageView.getImage().getHeight();
-        double width = imageView.getImage().getWidth();
-    }
-
     public void move (){
         if(animal.getDirection().equals(Direction.STATIONARY))
             return;
@@ -162,10 +156,6 @@ public class AnimalGUI {
 
     public ImageView getImageView() {
         return imageView;
-    }
-
-    public void relocate(double x, double y){
-        imageView.relocate(x,y);
     }
 
     public void dead(){
@@ -192,7 +182,6 @@ public class AnimalGUI {
 
 
     public void eat(){
-
         System.out.println("eating");
         imageIndex = 5;
         imageView.setImage(image[imageIndex]);
