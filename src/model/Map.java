@@ -166,4 +166,8 @@ public class Map {
                 "\t# of Dogs: " + numberOfAnimals[1] + "\t# of Cats: " + numberOfAnimals[2] + "\n";
         return status;
     }
+
+    public Cell[][] getCells() {
+        return cells;
+    }
 }

@@ -14,12 +14,12 @@ public class Farm {
     private static int TURN_TIME = 1;
     private static final int WELL_DEFAULT_CAPACITY = 30;
     private String name;
-    private  Map map   = new Map(15, 15);
-    private Workshop[] workshops = new Workshop[7];
-    private transient Truck truck = new Truck();
-    private transient Warehouse warehouse = new Warehouse();
-    private transient Helicopter helicopter = new Helicopter();
-    private transient Well well = new Well(WELL_DEFAULT_CAPACITY);
+    private  Map map ;
+    private  Workshop[] workshops = new Workshop[7];
+    private  Truck truck = new Truck();
+    private  Warehouse warehouse = new Warehouse();
+    private  Helicopter helicopter = new Helicopter();
+    private  Well well = new Well(WELL_DEFAULT_CAPACITY);
     private transient FarmGUI farmGUI;
     private DomesticatedType[] domesticatedAnimals = {DomesticatedType.GUINEA_FOWL, DomesticatedType.OSTRICH, DomesticatedType.BUFFALO};
 
@@ -29,6 +29,7 @@ public class Farm {
 
     public Farm() {
         name = "Default";
+        map = new Map(FarmGUI.WIDTH,FarmGUI.HEIGHT);
         int width = map.getWidth()  - 1 ;
         int height = map.getHeight() - 1;
         workshops[0] = new Workshop(WorkshopType.EGG_POWDER_PLANT, new Point(0, 0));

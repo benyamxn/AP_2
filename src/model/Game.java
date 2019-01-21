@@ -1,16 +1,15 @@
 package model;
 
 import GUI.GameStatus;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.gilecode.yagson.YaGson;
 import com.gilecode.yagson.YaGsonBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import com.google.gson.stream.JsonWriter;
 import model.exception.*;
-import org.codehaus.jackson.map.ObjectMapper;
-
 import java.io.*;
+import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.Map;
 
@@ -20,12 +19,12 @@ public class Game {
     private static int WILD_NUMBER = 12;
     private int money = 0;
     private int time = 0;
-    private  transient Mission mission;
-    private  transient EnumMap<ProductType,Integer> products = new EnumMap<>(ProductType.class);
-    private  transient Farm farm = new Farm();
+    private Mission mission;
+    private EnumMap<ProductType,Integer> products = new EnumMap<>(ProductType.class);
+    private Farm farm = new Farm();
     private String playerName = "Guest";
     private ProductType[] marketProducts = {ProductType.EGG, ProductType.WOOL, ProductType.MILK};
-//    private transient GameStatus gameStatus;
+    private transient GameStatus gameStatus;
     private int turns = 0;
 
     public int getTurns() {
@@ -34,38 +33,38 @@ public class Game {
 
     public void setTurns(int turns) {
         this.turns = turns;
-//        gameStatus.setTurns(turns);
+        gameStatus.setTurns(turns);
     }
 
-//    public GameStatus getGameStatus() {
-//        return gameStatus;
-//    }
+    public GameStatus getGameStatus() {
+        return gameStatus;
+    }
 
     public Game(){
 
     }
     public Game(Mission mission) {
         this.mission = mission;
-//        gameStatus = new GameStatus(money);
+        gameStatus = new GameStatus(money);
     }
 
     public Game(Mission mission, String playerName){
         this.mission = mission;
         this.playerName = playerName;
-//        gameStatus = new GameStatus(money);
+        gameStatus = new GameStatus(money);
     }
 
     public Game(int money, Mission mission, String playerName) {
         this.money = money;
         this.mission = mission;
         this.playerName = playerName;
-//        gameStatus = new GameStatus(money);
+        gameStatus = new GameStatus(money);
     }
 
     public Game(int money, Mission mission) {
         this.money = money;
         this.mission = mission;
-//        gameStatus = new GameStatus(money);
+        gameStatus = new GameStatus(money);
     }
 
     public void loadMarketProducts(String path) throws IOException {
@@ -91,7 +90,7 @@ public class Game {
         if(random.nextInt(15) % 15 == 0){
             if ((farm.getMap().getNumberOfEachAnimal()[3] < WILD_NUMBER )) {
                 for (int i = 0; i < random.nextInt(3) + 1; i++) {
-//                    farm.placeAnimal(WildType.GRIZZLY);
+                    farm.placeAnimal(WildType.GRIZZLY);
                 }
             }
         }
@@ -188,7 +187,7 @@ public class Game {
 
     public void decreaseMoney(int number) {
         money -= number;
-//        gameStatus.setMoney(money);
+        gameStatus.setMoney(money);
     }
 
     public int getTime() {
@@ -251,33 +250,30 @@ public class Game {
     }
 
     public void saveToJson(String path) throws IOException {
-
-        System.out.println(path);
-        Writer writer = new FileWriter(path);
-        ObjectMapper objectMapper = new ObjectMapper();
-
-//        objectMapper.configure(SerializationFeature.CLOSE_CLOSEABLE, false);
-        objectMapper.writeValue(writer, this);
-//        YaGson gson = new YaGsonBuilder().create();
-//        gson.toJson(this, writer);
-        writer.close();
+        try {
+            Writer writer = new FileWriter(path);
+            YaGson gson = new YaGsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT).create();
+            gson.toJson(this,writer);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
     public static Game loadFromJson(String path) throws IOException {
         Reader reader = new FileReader(path);
-        ObjectMapper objectMapper = new ObjectMapper();
-        Game output = objectMapper.readValue(reader, Game.class);
-
-//        Game output = Genson.(reader, Game.class);
+        YaGson gson = new YaGsonBuilder().create();
+        Game output = gson.fromJson(reader, Game.class);
         reader.close();
-//        output.products = new EnumMap<>(ProductType.class);
+        output.gameStatus = new GameStatus(output.money,output.turns);
         return output;
     }
 
     public void increaseMoney(int amount) {
         money += amount;
-//        gameStatus.setMoney(money);
+        gameStatus.setMoney(money);
     }
 
 }
+
