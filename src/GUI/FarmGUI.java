@@ -71,6 +71,10 @@ public class FarmGUI {
         createWorkshopAction();
         createAnimalsGUI();
         createWarehouseGUI();
+        debugLabel.setVisible(true);
+        debugLabel.relocate(800,50);
+        debugLabel.setText("sadfsdfasd");
+        anchorPane.getChildren().add(debugLabel);
     }
 
 

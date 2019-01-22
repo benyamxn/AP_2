@@ -50,6 +50,11 @@ public class CellGUI {
 
     public void render(){
         int index = cell.getGrassLevel();
+        if(index == 0){
+            imageView.setVisible(false);
+            return;
+        }
+        imageView.setVisible(true);
         final int x = (index % columns) * width;
         final int y = (index / columns) * height;
         imageView.setViewport(new Rectangle2D(x, y, width, height));
@@ -59,6 +64,7 @@ public class CellGUI {
     }
 
     public void growGrass(int before){
+        imageView.setVisible(true);
         int after = cell.getGrassLevel();
         if(before != after) {
             final Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), 4, columns,

@@ -139,17 +139,15 @@ public class AnimalGUI {
     public void move (){
         if(animal.getDirection().equals(Direction.STATIONARY))
             return;
-        imageView.setVisible(false);
         setImageView();
-        imageView.setVisible(true);
         double difWidth = FarmGUI.cellWidth;
         double difHeight = FarmGUI.cellHeight;
         int[] size  = getSizeOfFrame();
         animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
-        animation.setCycleCount(2);
+//        animation.setCycleCount(2);
         Point moveVector = animal.getDirection().getMoveVector();
-        translateTransition = new TranslateTransition(Duration.millis(DURATION * WALK ),imageView);
-        FarmGUI.debugLabel.setText(moveVector.toString());
+        translateTransition = new TranslateTransition(Duration.millis(DURATION),imageView);
+        FarmGUI.debugLabel.setText(animal.getLocation().toString());
         translateTransition.setByX(moveVector.getWidth() * difWidth );
         translateTransition.setByY( -1 *  moveVector.getHeight()  * difHeight);
         translateTransition.play();
@@ -170,7 +168,6 @@ public class AnimalGUI {
         }
         imageIndex = 6;
         imageView.setImage(image[imageIndex]);
-
         int[] size = getSizeOfFrame();
         animation = new SpriteAnimation(imageView, Duration.millis(DURATION * 2) , constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
         animation.play();
@@ -186,10 +183,10 @@ public class AnimalGUI {
 
 
     public void eat(){
-        imageIndex = 5;
-        imageView.setImage(image[imageIndex]);
+        ImageView eatImage  = new ImageView(image[imageIndex]);
+        imageView.setScaleX(1);
         int[] size = getSizeOfFrame();
-        animation = new SpriteAnimation(imageView, Duration.millis(DURATION * 2), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
+        Animation animation = new SpriteAnimation(eatImage, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
         animation.play();
     }
 

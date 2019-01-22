@@ -68,8 +68,6 @@ public class Map {
         for(int i = 0; i < width; i++){
             for(int j = 0; j < height; j++){
                 for (Animal animal : cells[i][j].getAnimals()) {
-                    if(cells[i][j].hasGrass() && animal instanceof Domesticated)
-                        continue;
                     animal.move(getCornerPoint());
                     mapAnimals.add(animal);
                 }

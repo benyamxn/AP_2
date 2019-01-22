@@ -37,7 +37,7 @@ public abstract class Animal {
     }
 
     public void move(Point cornerPoint) {
-        if(health == 0 )
+        if(health <= 0 )
             return;
         if (hasATarget) {
             moveToPoint(target);
