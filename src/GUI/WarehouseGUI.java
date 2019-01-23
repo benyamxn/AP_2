@@ -44,8 +44,8 @@ public class WarehouseGUI implements Hoverable {
 
     private void setImageView() {
         imageView = new ImageView(image);
-        imageView.setFitWidth(0.16 * MainStage.getInstance().getWidth());
-        imageView.setFitHeight(0.16 * MainStage.getInstance().getHeight());
+        imageView.setFitWidth(0.20 * MainStage.getInstance().getWidth());
+        imageView.setFitHeight(0.20 * MainStage.getInstance().getHeight());
         imageView.setPreserveRatio(true);
 
     }
@@ -66,8 +66,10 @@ public class WarehouseGUI implements Hoverable {
         // TODO: products are visually not correctly placed inside of the warehouse
         int level = warehouse.getLevel();
         double scaleX = endX - startX, scaleY = endY - startY;
-        double width = (imageView.getFitWidth() * scaleX) / (8 + 2 * (level - 1));
-        double height = (imageView.getFitHeight() * scaleY) / (8 + 2 * (level - 1));
+        int row, column;
+        row = column = 8 + 2 * (level - 1);
+        double width = (imageView.getFitWidth() * scaleX) / row;
+        double height = (imageView.getFitHeight() * scaleY) / column;
         int productIndex = 0;
         for (ProductType product : warehouse.getContents()) {
             try {
@@ -77,7 +79,9 @@ public class WarehouseGUI implements Hoverable {
                 productImageView.setFitWidth(width);
                 productImageView.setFitHeight(height);
                 productImageView.setPreserveRatio(true);
-                productImageView.relocate((startX + productIndex % level) * width,  (1.0 * productIndex / level + startY) * height);
+                productImageView.setScaleY(3);
+                productImageView.setScaleX(3);
+                productImageView.relocate((startX + 1.0 * productIndex / row) * width,  (productIndex % column + startY) * height);
                 pane.getChildren().add(productImageView);
                 productIndex++;
             } catch (FileNotFoundException e) {
