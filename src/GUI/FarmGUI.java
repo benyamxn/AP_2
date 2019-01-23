@@ -116,12 +116,13 @@ public class FarmGUI {
     private void createCellsGUI() {
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++){
-                cellGUIs[i][j] = new CellGUI(farm.getCell(new Point(i,j)),cellWidth,cellHeight);
-                anchorPane.getChildren().add(cellGUIs[i][j].getImageView());
+                Cell cell = farm.getCell(new Point(i,j));
                 double[] location = getPointForCell(i,j);
+                cellGUIs[i][j] = new CellGUI(cell,cellWidth,cellHeight ,location);
+                anchorPane.getChildren().add(cellGUIs[i][j].getImageView());
                 cellGUIs[i][j].getImageView().relocate(location[0],location[1]);
-                cellGUIs[i][j].setLocation(location);
                 cellGUIs[i][j].render();
+                cellGUIs[i][j].placeProduct(cell.getProducts());
             }
         }
     }

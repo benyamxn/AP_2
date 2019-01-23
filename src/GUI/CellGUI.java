@@ -26,7 +26,7 @@ public class CellGUI {
 
     static {
         try {
-            grassImage = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir").toString(),"res","Textures","Grass","grass1.png").toString()));
+            grassImage = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir").toString(),"res","Textures","Grass","grass4.png").toString()));
             battleImage = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir").toString(),"res","Textures","Animals","battle_1.png").toString()));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -38,25 +38,25 @@ public class CellGUI {
     private static int height = (int) grassImage.getHeight() / columns;
     private Cell cell;
 
-    public CellGUI(Cell cell, double width, double height) {
+    public CellGUI(Cell cell, double width, double height ,double[] location) {
         this.cell = cell;
         cell.setCellGUI(this);
         imageView.setOpacity(1);
         if (cell.getGrassLevel() == 0)
             imageView.setOpacity(0);
         imageView.setFitHeight(height);
+        this.location = location;
     }
 
 
     public void render(){
-        if(cell.getProducts().length > 0 )
-             placeProduct(cell.getProducts());
         int index = cell.getGrassLevel();
         if(index == 0){
             imageView.setVisible(false);
             return;
         }
         imageView.setVisible(true);
+        index--;
         final int x = (index % columns) * width;
         final int y = (index / columns) * height;
         imageView.setViewport(new Rectangle2D(x, y, width, height));
@@ -101,22 +101,22 @@ public class CellGUI {
         this.location = location;
     }
 
-    public void placeProduct(Product product)  {
+    public void placeProduct(Product product) {
         ProductGUI productGUI = new ProductGUI(product, 2);
         productGUI.getImageView().relocate(location[0], location[1]);
         FarmGUI.anchorPane.getChildren().add(productGUI.getImageView());
     }
 
-    public void placeProduct(Product[] products){
+    public void placeProduct(Product[] products) {
         for (Product product : products) {
             placeProduct(product);
         }
     }
 
-    public void removeProduct(Product product){
-      product.getProductGUI().getImageView().setVisible(false);
-       FarmGUI.anchorPane.getChildren().remove(product.getProductGUI().getImageView());
-       product.setProductGUI(null);
+    public void removeProduct(Product product) {
+        product.getProductGUI().getImageView().setVisible(false);
+        FarmGUI.anchorPane.getChildren().remove(product.getProductGUI().getImageView());
+        product.setProductGUI(null);
     }
 
 
