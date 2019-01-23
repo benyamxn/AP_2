@@ -16,13 +16,14 @@ import java.nio.file.Paths;
 
 
 
-public class CellGUI {
+public class CellGUI  implements  Pausable{
 
     private  static final double DURATION = 1000;
     private static int columns = AnimationConstants.GRASS[0];
     private static Image grassImage;
     private static Image battleImage;
     private double[] location;
+    private Animation animation;
 
     static {
         try {
@@ -69,7 +70,7 @@ public class CellGUI {
         imageView.setVisible(true);
         int after = cell.getGrassLevel();
         if(before != after) {
-            final Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), 4, columns,
+            animation = new SpriteAnimation(imageView, Duration.millis(DURATION), 4, columns,
                     (before % columns) * width, (before / columns) * height, width, height);
             animation.play();
         }
@@ -89,7 +90,7 @@ public class CellGUI {
         temp.setFitWidth(FarmGUI.cellWidth);
         FarmGUI.anchorPane.getChildren().add(temp);
         temp.relocate(location[0],location[1]);
-        Animation animation = new SpriteAnimation(temp, Duration.millis(DURATION), 20, 5, 0, 0, (int)size[0],(int) size[1]);
+        animation = new SpriteAnimation(temp, Duration.millis(DURATION), 20, 5, 0, 0, (int)size[0],(int) size[1]);
         animation.play();
         animation.setOnFinished(event -> {
             FarmGUI.anchorPane.getChildren().remove(temp);
@@ -120,4 +121,8 @@ public class CellGUI {
     }
 
 
+    @Override
+    public void setRate(double rate) {
+        animation.setRate(rate);
+    }
 }

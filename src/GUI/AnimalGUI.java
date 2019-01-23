@@ -21,7 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-public class AnimalGUI {
+public class AnimalGUI implements Pausable{
 
     private Image[] image = new Image[7];
     private Animal animal;
@@ -189,7 +189,7 @@ public class AnimalGUI {
         imageView.setScaleX(1);
         imageView.setImage(image[imageIndex]);
         int[] size = getSizeOfFrame();
-        Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
+        animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
         animation.play();
         animation.setOnFinished(event -> {
             animal.setEating(false);
@@ -210,5 +210,11 @@ public class AnimalGUI {
         int height = (int) imageView.getImage().getHeight() / temp;
 
         return new int[]{width,height};
+    }
+
+    @Override
+    public void setRate(double rate) {
+        animation.setRate(rate);
+        translateTransition.setRate(rate);
     }
 }

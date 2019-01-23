@@ -20,7 +20,7 @@ import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 
 
-public class WorkshopGUI implements Hoverable {
+public class WorkshopGUI implements Hoverable,Pausable {
 
     public static final int DURATION = 3000;
     private Workshop workshop;
@@ -30,6 +30,7 @@ public class WorkshopGUI implements Hoverable {
     private int height;
     private int columns = AnimationConstants.WORKSHOP[0];
     private ImageView imageView;
+    private Animation animation;
     public WorkshopGUI(Workshop workshop , boolean rotate , int fitWidth) throws FileNotFoundException {
         this.workshop = workshop;
         workshop.setWorkshopGUI(this);
@@ -61,7 +62,7 @@ public class WorkshopGUI implements Hoverable {
 
 
     public void produce(){
-        final Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), AnimationConstants.WORKSHOP[1], columns,
+        animation = new SpriteAnimation(imageView, Duration.millis(DURATION), AnimationConstants.WORKSHOP[1], columns,
                 0, 0, width, height);
         animation.play();
     }
@@ -86,5 +87,10 @@ public class WorkshopGUI implements Hoverable {
 
     public Workshop getWorkshop() {
         return workshop;
+    }
+
+    @Override
+    public void setRate(double rate) {
+        animation.setRate(rate);
     }
 }
