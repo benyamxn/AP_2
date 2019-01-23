@@ -64,17 +64,21 @@ public class Cell {
     }
 
     public ProductType[] updateRemoveProducts() {
+        boolean temp = false;
         for (Animal animal : animals) {
             if (animal instanceof Cat) {
-                return removeProducts();
+                temp  = true;
+                animal.setHasATarget(false);
             }
         }
+        if(temp)
+            return removeProducts();
         Iterator<Product> iterator = products.iterator();
         while(iterator.hasNext()) {
-            Product temp = iterator.next();
-            temp.decreaseTimeLeftToExpire(1);
-            if(temp.isExpired()) {
-                cellGUI.removeProduct(temp);
+            Product product = iterator.next();
+            product.decreaseTimeLeftToExpire(1);
+            if(product.isExpired()) {
+                cellGUI.removeProduct(product);
                 iterator.remove();
             }
         }

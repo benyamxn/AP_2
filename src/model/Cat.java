@@ -5,22 +5,22 @@ import java.util.Random;
 
 public class Cat extends Animal implements Upgradable {
 
-    private static boolean smart;
+    private static boolean smart = false ;
     private static final int  BUY_PRICE = 2500;
     private static final int  SELL_PRICE = 1250;
     private static final int  UPGRADE_PRICE = 1000;
     public Cat(Point location) {
         super(location);
-        smart = false;
         animalGUI.initImages();
     }
 
     @Override
     public void setTarget(List<Point> possibleTargets, Point cornerPoint) {
-        if(possibleTargets.isEmpty())
+        if(possibleTargets.isEmpty()){
             setHasATarget(false);
+        }
         if (smart) {
-           super.setTarget(possibleTargets, cornerPoint);
+            super.setTarget(possibleTargets, cornerPoint);
         }
         if (!hasATarget()) {
             Random randomTarget = new Random();
