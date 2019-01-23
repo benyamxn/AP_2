@@ -119,9 +119,9 @@ public class FarmGUI {
                 cellGUIs[i][j] = new CellGUI(farm.getCell(new Point(i,j)),cellWidth,cellHeight);
                 anchorPane.getChildren().add(cellGUIs[i][j].getImageView());
                 double[] location = getPointForCell(i,j);
-                cellGUIs[i][j].render();
                 cellGUIs[i][j].getImageView().relocate(location[0],location[1]);
                 cellGUIs[i][j].setLocation(location);
+                cellGUIs[i][j].render();
             }
         }
     }
@@ -167,6 +167,7 @@ public class FarmGUI {
                 }
                 else{
                     try {
+                        System.out.println("pichuppppp");
                         farm.pickup(cell.getCoordinate());
                     } catch (NotEnoughCapacityException e) {
                        //TODO...

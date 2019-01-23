@@ -57,8 +57,10 @@ public class Domesticated extends Animal {
     public void move(Point cornerPoint) {
         reduceHealth();
         // Assuming that map calls this method when the location of the animal does not contain any grass
-        if (isHungry() && hasATarget())
+        if (isHungry() && hasATarget()) {
             moveToPoint(getTarget());
+            animalGUI.move();
+        }
         else
             super.move(cornerPoint);
     }

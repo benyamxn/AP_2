@@ -49,6 +49,8 @@ public class CellGUI {
 
 
     public void render(){
+        if(cell.getProducts().length > 0 )
+             placeProduct(cell.getProducts());
         int index = cell.getGrassLevel();
         if(index == 0){
             imageView.setVisible(false);
@@ -84,8 +86,9 @@ public class CellGUI {
         temp.setImage(battleImage);
         temp.setViewport(new Rectangle2D(0, 0, size[0], size[1]));
         temp.setFitHeight(FarmGUI.cellHeight);
-        temp.relocate(location[0],location[1]);
+        temp.setFitWidth(FarmGUI.cellWidth);
         FarmGUI.anchorPane.getChildren().add(temp);
+        temp.relocate(location[0],location[1]);
         Animation animation = new SpriteAnimation(temp, Duration.millis(DURATION), 20, 5, 0, 0, (int)size[0],(int) size[1]);
         animation.play();
         animation.setOnFinished(event -> {
@@ -111,6 +114,7 @@ public class CellGUI {
     }
 
     public void removeProduct(Product product){
+      product.getProductGUI().getImageView().setVisible(false);
        FarmGUI.anchorPane.getChildren().remove(product.getProductGUI().getImageView());
        product.setProductGUI(null);
     }

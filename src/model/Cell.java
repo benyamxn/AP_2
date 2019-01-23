@@ -73,8 +73,10 @@ public class Cell {
         while(iterator.hasNext()) {
             Product temp = iterator.next();
             temp.decreaseTimeLeftToExpire(1);
-            if(temp.isExpired())
+            if(temp.isExpired()) {
+                cellGUI.removeProduct(temp);
                 iterator.remove();
+            }
         }
         return new ArrayList<ProductType>().toArray(new ProductType[0]);
     }
@@ -289,5 +291,9 @@ public class Cell {
 
     public boolean canGrow(){
         return grassLevel < 4 * GRASS_GROWING_RATE;
+    }
+
+    public Product[] getProducts() {
+       return products.toArray(new Product[0]);
     }
 }

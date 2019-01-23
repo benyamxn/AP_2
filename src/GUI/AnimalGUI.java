@@ -159,8 +159,10 @@ public class AnimalGUI {
     }
 
     public void dead(){
-        animation.stop();
-        translateTransition.stop();
+        if(animation != null & translateTransition != null){
+            animation.stop();
+            translateTransition.stop();
+        }
         if(animal instanceof Dog || animal instanceof Wild) {
             animal = null;
             FarmGUI.anchorPane.getChildren().remove(imageView);
@@ -183,11 +185,11 @@ public class AnimalGUI {
 
 
     public void eat(){
-        ImageView eatImage  = new ImageView(image[imageIndex]);
-        imageView.setScaleX(1);
-        int[] size = getSizeOfFrame();
-        Animation animation = new SpriteAnimation(eatImage, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
-        animation.play();
+//        setImageView();
+//        imageView.setScaleX(1);
+//        int[] size = getSizeOfFrame();
+//        Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
+//        animation.play();
     }
 
 
