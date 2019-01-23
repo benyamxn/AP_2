@@ -89,7 +89,7 @@ public class Warehouse implements Upgradable {
     public ProductType[] removeProducts(ProductType[] productTypes) {
         for (ProductType productType : productTypes) {
             contents.remove(productType);
-            capacity -= productType.getDepotSize();
+            capacity += productType.getDepotSize();
         }
         warehouseGUI.update();
         return productTypes;
