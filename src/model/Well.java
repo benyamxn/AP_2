@@ -81,4 +81,8 @@ public class Well implements Upgradable {
     public void setRemainingWater(int remainingWater) {
         this.remainingWater = remainingWater;
     }
+
+    public WellGUI getWellGUI() {
+        return wellGUI;
+    }
 }

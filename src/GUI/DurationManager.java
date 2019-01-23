@@ -2,11 +2,10 @@ package GUI;
 
 import model.Animal;
 import model.Cell;
-import model.Farm;
 
 public class DurationManager {
 
-    private static double rate = 1;
+    private static double rate = 10;
     private FarmGUI farmGUI;
 
     public DurationManager(FarmGUI farmGUI) {
@@ -41,6 +40,9 @@ public class DurationManager {
             }
         }
 
+    }
+    public void setWell(double rate) {
+        farmGUI.getFarm().getWell().getWellGUI().setRate(rate);
     }
     public void setFarmCity(double rate){
         farmGUI.getFarmCityView().setRate(rate);

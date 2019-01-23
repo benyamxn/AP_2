@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLOutput;
 import java.util.LinkedList;
 
 public class FarmGUI {
@@ -100,24 +101,30 @@ public class FarmGUI {
 
     private void createGameUpdater() {
         DurationManager durationManager = new DurationManager(this);
-        gameUpdater = new Timeline(new KeyFrame(Duration.seconds(2), event -> game.updateGame()));
+        gameUpdater = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
+            System.out.println("updated.");
+            game.updateGame();
+        }));
+        gameUpdater.setRate(durationManager.getRate());
         gameUpdater.setCycleCount(Animation.INDEFINITE);
         gameUpdater.play();
         Button pauseButton = new Button("pause");
         pauseButton.relocate(700,50);
 
         Slider slider = new Slider(0.1,10,1);
-        slider.valueProperty().addListener(new ChangeListener<Number>() {
+        slider.valueChangingProperty().addListener(new ChangeListener<Boolean>() {
             @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-               durationManager.setRate(slider.getValue());
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                durationManager.setRate(slider.getValue());
+                System.out.println(slider.getValue());
             }
         });
         pauseButton.setOnMouseClicked(event -> {
             if(pause == false) {
                 durationManager.pause();
                 pause = true;
-            }else{
+            } else {
+                pause = false;
                 durationManager.setRate(slider.getValue());
             }
         });
