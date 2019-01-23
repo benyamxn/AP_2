@@ -60,9 +60,10 @@ public class Domesticated extends Animal {
         if (isHungry() && hasATarget()) {
             moveToPoint(getTarget());
             animalGUI.move();
-        }
-        else
+        } else {
             super.move(cornerPoint);
+            // TODO: why???
+        }
     }
 
     private void reduceHealth() {
