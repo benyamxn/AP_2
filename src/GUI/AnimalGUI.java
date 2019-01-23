@@ -147,7 +147,6 @@ public class AnimalGUI implements Pausable{
 //        animation.setCycleCount(2);
         Point moveVector = animal.getDirection().getMoveVector();
         translateTransition = new TranslateTransition(Duration.millis(DURATION),imageView);
-        FarmGUI.debugLabel.setText(animal.getLocation().toString());
         translateTransition.setByX(moveVector.getWidth() * difWidth );
         translateTransition.setByY( -1 *  moveVector.getHeight()  * difHeight);
         setRate(DurationManager.getRate());
@@ -217,7 +216,8 @@ public class AnimalGUI implements Pausable{
 
     @Override
     public void setRate(double rate) {
-        animation.setRate(rate);
+        if(animation != null)
+             animation.setRate(rate);
         if(translateTransition != null)
              translateTransition.setRate(rate);
     }

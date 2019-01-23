@@ -125,6 +125,7 @@ public class CellGUI  implements  Pausable{
 
     @Override
     public void setRate(double rate) {
-        animation.setRate(rate);
+        if(animation != null)
+            animation.setRate(rate);
     }
 }

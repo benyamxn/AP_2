@@ -1,12 +1,18 @@
 package GUI;
 
 import controller.Controller;
-import javafx.application.Platform;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 import model.*;
 import model.Point;
 import model.exception.*;
@@ -17,8 +23,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class FarmGUI {
     public static double cellWidth;
@@ -27,6 +31,7 @@ public class FarmGUI {
     private static final double startY = 200.0 / 600;
     private static final double endX = 605.0 / 800;
     private static final double endY = 480.0 / 600;
+    private boolean pause = false;
     private Image image;
     public static AnchorPane anchorPane = new AnchorPane();
     private CellGUI[][] cellGUIs = new CellGUI[WIDTH][HEIGHT];
@@ -34,7 +39,8 @@ public class FarmGUI {
     private Controller controller;
     private Farm farm;
     private Game game;
-    private Timer gameUpdater;
+    private Timeline gameUpdater;
+    private FarmCityView farmCityView;
     private static double[] size;
     public static Label debugLabel = new Label("");
 
@@ -93,13 +99,31 @@ public class FarmGUI {
     }
 
     private void createGameUpdater() {
-        gameUpdater = new Timer(true);
-        gameUpdater.scheduleAtFixedRate(new TimerTask() {
+        DurationManager durationManager = new DurationManager(this);
+        gameUpdater = new Timeline(new KeyFrame(Duration.seconds(2), event -> game.updateGame()));
+        gameUpdater.setCycleCount(Animation.INDEFINITE);
+        gameUpdater.play();
+        Button pauseButton = new Button("pause");
+        pauseButton.relocate(700,50);
+
+        Slider slider = new Slider(0.1,10,1);
+        slider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
-            public void run() {
-                Platform.runLater(() -> game.updateGame());
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+               durationManager.setRate(slider.getValue());
             }
-        }, 0, 2000);
+        });
+        pauseButton.setOnMouseClicked(event -> {
+            if(pause == false) {
+                durationManager.pause();
+                pause = true;
+            }else{
+                durationManager.setRate(slider.getValue());
+            }
+        });
+
+        slider.relocate(900,50);
+        anchorPane.getChildren().addAll(pauseButton,slider);
     }
 
     private void loadBackground() throws FileNotFoundException {
@@ -169,7 +193,6 @@ public class FarmGUI {
                 }
                 else{
                     try {
-                        System.out.println("pichuppppp");
                         farm.pickup(cell.getCoordinate());
                     } catch (NotEnoughCapacityException e) {
                        //TODO...
@@ -181,7 +204,7 @@ public class FarmGUI {
 
         Button button = new Button("exit");
 
-        button.relocate(500,10);
+        button.relocate(500,50);
         button.setOnMouseClicked(event -> {
             try {
                 String path = Paths.get(System.getProperty("user.dir"),"gameData","savedGames", "game6.json").toString();
@@ -290,7 +313,7 @@ public class FarmGUI {
     }
 
     private void createFarmCityView() {
-        FarmCityView farmCityView = FarmCityView.getInstance(game, MainStage.getInstance().getWidth() * 0.2);
+        farmCityView = FarmCityView.getInstance(game, MainStage.getInstance().getWidth() * 0.2);
         farmCityView.relocate(MainStage.getInstance().getWidth() * 0.8, 0);
         farmCityView.addToRoot(anchorPane);
     }
@@ -309,4 +332,23 @@ public class FarmGUI {
         }
     }
 
+    public Farm getFarm() {
+        return farm;
+    }
+
+    public FarmCityView getFarmCityView() {
+        return farmCityView;
+    }
+
+    public CellGUI[][] getCellGUIs() {
+        return cellGUIs;
+    }
+
+    public WorkshopGUI[] getWorkshopGUIS() {
+        return workshopGUIS;
+    }
+
+    public Timeline getGameUpdater() {
+        return gameUpdater;
+    }
 }
