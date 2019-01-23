@@ -33,6 +33,16 @@ public class Map {
 
     public ProductType[]  updateMap(double  warehouseCapacity){
 
+        List<ProductType> newProduct = new LinkedList<>();
+        for(int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                cells[i][j].updateWildAnimals();
+                cells[i][j].updateDomesticatedAnimals();
+                cells[i][j].updateAddProducts();
+                if (warehouseCapacity >= cells[i][j].calculateDepotSize())
+                    newProduct.addAll(Arrays.asList(cells[i][j].updateRemoveProducts()));
+            }
+        }
         LinkedList<Point> catCollectablePoints = new LinkedList<>();
         LinkedList<Point> wildAnimalPoints = new LinkedList<>();
         LinkedList<Point> grassPoints  = new LinkedList<>();
@@ -81,16 +91,7 @@ public class Map {
             }
 
         }
-        List<ProductType> newProduct = new LinkedList<>();
-        for(int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                cells[i][j].updateWildAnimals();
-                cells[i][j].updateDomesticatedAnimals();
-                cells[i][j].updateAddProducts();
-                if (warehouseCapacity >= cells[i][j].calculateDepotSize())
-                    newProduct.addAll(Arrays.asList(cells[i][j].updateRemoveProducts()));
-            }
-        }
+
         return newProduct.toArray(new ProductType[newProduct.size()]);
     }
 

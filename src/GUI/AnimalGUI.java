@@ -185,11 +185,10 @@ public class AnimalGUI {
 
 
     public void eat(){
-//        setImageView();
-//        imageView.setScaleX(1);
-//        int[] size = getSizeOfFrame();
-//        Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
-//        animation.play();
+        imageIndex = 5;
+        int[] size = getSizeOfFrame();
+        Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
+        animation.play();
     }
 
 
