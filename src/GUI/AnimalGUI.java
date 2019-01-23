@@ -150,6 +150,7 @@ public class AnimalGUI implements Pausable{
         FarmGUI.debugLabel.setText(animal.getLocation().toString());
         translateTransition.setByX(moveVector.getWidth() * difWidth );
         translateTransition.setByY( -1 *  moveVector.getHeight()  * difHeight);
+        setRate(DurationManager.getRate());
         translateTransition.play();
         animation.play();
     }
@@ -172,6 +173,7 @@ public class AnimalGUI implements Pausable{
         imageView.setImage(image[imageIndex]);
         int[] size = getSizeOfFrame();
         animation = new SpriteAnimation(imageView, Duration.millis(DURATION * 2) , constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
+        setRate(DurationManager.getRate());
         animation.play();
         animation.setOnFinished(event ->{
             animal = null;
@@ -190,6 +192,7 @@ public class AnimalGUI implements Pausable{
         imageView.setImage(image[imageIndex]);
         int[] size = getSizeOfFrame();
         animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
+        setRate(DurationManager.getRate());
         animation.play();
         animation.setOnFinished(event -> {
             animal.setEating(false);
@@ -215,6 +218,7 @@ public class AnimalGUI implements Pausable{
     @Override
     public void setRate(double rate) {
         animation.setRate(rate);
-        translateTransition.setRate(rate);
+        if(translateTransition != null)
+             translateTransition.setRate(rate);
     }
 }

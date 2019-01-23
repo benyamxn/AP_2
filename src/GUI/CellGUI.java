@@ -71,7 +71,8 @@ public class CellGUI  implements  Pausable{
         int after = cell.getGrassLevel();
         if(before != after) {
             animation = new SpriteAnimation(imageView, Duration.millis(DURATION), 4, columns,
-                    (before % columns) * width, (before / columns) * height, width, height);
+                    ((before) % columns) * width, ((before) / columns) * height, width, height);
+            setRate(DurationManager.getRate());
             animation.play();
         }
     }
@@ -91,6 +92,7 @@ public class CellGUI  implements  Pausable{
         FarmGUI.anchorPane.getChildren().add(temp);
         temp.relocate(location[0],location[1]);
         animation = new SpriteAnimation(temp, Duration.millis(DURATION), 20, 5, 0, 0, (int)size[0],(int) size[1]);
+        setRate(DurationManager.getRate());
         animation.play();
         animation.setOnFinished(event -> {
             FarmGUI.anchorPane.getChildren().remove(temp);
