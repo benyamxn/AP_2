@@ -186,9 +186,14 @@ public class AnimalGUI {
 
     public void eat(){
         imageIndex = 5;
+        imageView.setScaleX(1);
+        imageView.setImage(image[imageIndex]);
         int[] size = getSizeOfFrame();
         Animation animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
         animation.play();
+        animation.setOnFinished(event -> {
+            animal.setEating(false);
+        });
     }
 
 

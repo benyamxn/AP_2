@@ -15,6 +15,7 @@ public abstract class Animal {
     private boolean hasATarget;
     protected transient AnimalGUI animalGUI;
     private Direction direction = Direction.STATIONARY;
+    protected boolean isEating;
 
     Animal(Point location) {
         this.location = location;
@@ -175,5 +176,12 @@ public abstract class Animal {
 
     public AnimalGUI getAnimalGUI() {
         return animalGUI;
+    }
+
+    public void setEating(boolean eating) {
+        isEating = eating;
+    }
+    public boolean isEating() {
+        return isEating;
     }
 }

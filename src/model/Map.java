@@ -78,7 +78,8 @@ public class Map {
         for(int i = 0; i < width; i++){
             for(int j = 0; j < height; j++){
                 for (Animal animal : cells[i][j].getAnimals()) {
-                    animal.move(getCornerPoint());
+                    if(!animal.isEating())
+                        animal.move(getCornerPoint());
                     mapAnimals.add(animal);
                 }
                 cells[i][j].setAnimals(new LinkedList<>());
