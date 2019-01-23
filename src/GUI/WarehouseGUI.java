@@ -62,6 +62,7 @@ public class WarehouseGUI implements Hoverable {
     public void update() {
 //        updatePane();
         // TODO: products are not removed after they're sold
+        pane.getChildren().remove(1, pane.getChildren().size());
         // TODO: products are visually not correctly placed inside of the warehouse
         int level = warehouse.getLevel();
         double scaleX = endX - startX, scaleY = endY - startY;

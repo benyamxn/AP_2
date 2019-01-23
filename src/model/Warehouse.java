@@ -140,6 +140,10 @@ public class Warehouse implements Upgradable {
                 + "\tNumber of contents: " + contents.size();
     }
 
+    public void updateGraphics() {
+        warehouseGUI.update();
+    }
+
     public int getNumberOfContents() {
         return contents.size();
     }

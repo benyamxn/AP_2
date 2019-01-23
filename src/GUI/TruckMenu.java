@@ -38,12 +38,8 @@ public class TruckMenu {
         hbox.setSpacing(10);
         Button shipButton = new Button("Ship");
         shipButton.getStyleClass().add("truckMenuBtn");
-        shipButton.setPrefWidth(0.4 * totalWidth);
         Button cancelButton = new Button("Cancel");
-        cancelButton.setPrefWidth(0.4 * totalWidth);
         cancelButton.getStyleClass().add("truckMenuBtn");
-        System.out.println("Width: " + totalWidth);
-        System.out.println(0.2 * totalWidth);
         cancelButton.setOnMouseClicked(event -> {
             try {
                 game.clear(VehicleType.TRUCK);
@@ -54,6 +50,7 @@ public class TruckMenu {
         });
 
         shipButton.setOnMouseClicked(event -> {
+            game.getFarm().getWarehouse().updateGraphics();
             MainStage.getInstance().popStack();
             game.getFarm().getTruck().startTravel();
             FarmCityView.getInstance().runTruck(table.getMoney());
