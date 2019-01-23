@@ -279,7 +279,7 @@ public class FarmGUI {
     private void createWarehouseGUI() {
         WarehouseGUI warehouseGUI = farm.getWarehouse().getWarehouseGUI();
         warehouseGUI.setOnClick(event -> new TruckMenu(game));
-        warehouseGUI.relocate(2 * MainStage.getInstance().getWidth() / 5, MainStage.getInstance().getHeight() * 0.85);
+        warehouseGUI.relocate(2 * MainStage.getInstance().getWidth() / 5, MainStage.getInstance().getHeight() * 0.83);
         warehouseGUI.addToRoot(anchorPane);
     }
 
