@@ -16,7 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 
-public class WellGUI  implements Hoverable {
+public class WellGUI  implements Hoverable, Pausable{
     private int duration = 1000;
     private Well well;
     private Image image;
@@ -27,15 +27,17 @@ public class WellGUI  implements Hoverable {
     private int count = AnimationConstants.WELL[1];
     private int frameWidth;
     private int cycleCount = 8;
+    private SpriteAnimation animation;
 
 
     public void refill() {
-        Animation animation = new SpriteAnimation(imageView, Duration.millis(duration), count, columns,
+        animation = new SpriteAnimation(imageView, Duration.millis(duration), count, columns,
                 0, 0,width, height);
         animation.setCycleCount(cycleCount);
         animation.setOnFinished(event -> {
             well.setRemainingWater(well.getCapacity());
         });
+        animation.setRate(DurationManager.getRate());
         animation.play();
     }
 
@@ -77,5 +79,10 @@ public class WellGUI  implements Hoverable {
 
     public void setOnClick(EventHandler<? super MouseEvent> eventHandler) {
         imageView.setOnMouseClicked(eventHandler);
+    }
+
+    @Override
+    public void setRate(double rate) {
+        animation.setRate(rate);
     }
 }

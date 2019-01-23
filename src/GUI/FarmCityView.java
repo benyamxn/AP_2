@@ -18,9 +18,8 @@ import model.Game;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
-import java.util.LinkedList;
 
-public class FarmCityView {
+public class FarmCityView implements Pausable {
     private Group root;
     private Image image;
     private ImageView imageView;
@@ -28,9 +27,10 @@ public class FarmCityView {
     private double width;
     private double factor = 2000;
     private double durationOfAnimation = 100;
-    private LinkedList<Animation> animations = new LinkedList<>();
     private static FarmCityView instance;
-    private double rate = 0.5;
+    private SpriteAnimation truckSpriteAnimation, helicopterSpriteAnimation;
+    private TranslateTransition truckTransitionGo, truckTransitionReturn, moneyGo, moneyReturn,
+            helicopterTransitionGo, helicopterTransitionReturn;
 
     private FarmCityView(Game game, double width) {
         root = new Group();
@@ -45,10 +45,6 @@ public class FarmCityView {
             imageView.setOnMouseClicked(event -> {
                 runTruck(100);
                 runHelicopter();
-                rate *= 2;
-                for (Animation animation : animations) {
-                    animation.setRate(rate);
-                }
             });
             root.getChildren().add(imageView);
         } catch (FileNotFoundException e) {
@@ -99,43 +95,39 @@ public class FarmCityView {
             root.getChildren().addAll(moneyBox, vehicleView);
             vehicleView.relocate(MainStage.getInstance().getWidth() - width, imageHeight - vehicleHeight - 15);
             moneyBox.relocate(MainStage.getInstance().getWidth() - width, imageHeight - 20);
-            Animation animation = new SpriteAnimation(vehicleView,
+            truckSpriteAnimation = new SpriteAnimation(vehicleView,
                     Duration.millis(durationOfAnimation), AnimationConstants.TRUCK_MINI[1],
                     AnimationConstants.TRUCK_MINI[0], 0, 0, (int) spriteWidth, (int) spriteHeight);
-            animation.setCycleCount((int) (duration / 2 / durationOfAnimation));
+            truckSpriteAnimation.setCycleCount((int) (duration / 2 / durationOfAnimation));
+
+            truckTransitionGo = new TranslateTransition(Duration.millis(duration / 2), vehicleView);
+            truckTransitionGo.setByX(width - truckWidth);
+            truckTransitionGo.setByY(0);
 
 
-            TranslateTransition translateTransitionGo = new TranslateTransition(Duration.millis(duration / 2), vehicleView);
-            translateTransitionGo.setByY(0);
-            translateTransitionGo.setByX(width - truckWidth);
+            truckTransitionReturn = new TranslateTransition(Duration.millis(duration / 2), vehicleView);
+            truckTransitionReturn.setByY(0);
+            truckTransitionReturn.setByX(truckWidth - width);
 
-            animations.add(translateTransitionGo);
-
-            TranslateTransition translateTransitionReturn = new TranslateTransition(Duration.millis(duration / 2), vehicleView);
-            translateTransitionReturn.setByY(0);
-            translateTransitionReturn.setByX(truckWidth - width);
-
-            animations.add(translateTransitionReturn);
-
-            TranslateTransition moneyGo = new TranslateTransition(Duration.millis(duration / 2), moneyBox);
-            moneyGo.setByY(0);
+            moneyGo = new TranslateTransition(Duration.millis(duration / 2), moneyBox);
             moneyGo.setByX(width - truckWidth);
+            moneyGo.setByY(0);
 
-            TranslateTransition moneyReturn = new TranslateTransition(Duration.millis(duration / 2), moneyBox);
+            moneyReturn = new TranslateTransition(Duration.millis(duration / 2), moneyBox);
             moneyReturn.setByX(truckWidth - width);
             moneyReturn.setByY(0);
 
-            translateTransitionGo.setOnFinished(event -> {
+            truckTransitionGo.setOnFinished(event -> {
                 vehicleView.setScaleX(1);
-                translateTransitionReturn.play();
-                animation.play();
+                truckTransitionReturn.play();
+                truckSpriteAnimation.play();
                 moneyReturn.play();
             });
 
-            translateTransitionReturn.setOnFinished(event -> root.getChildren().removeAll(vehicleView, moneyBox));
-
-            animation.play();
-            translateTransitionGo.play();
+            truckTransitionReturn.setOnFinished(event -> root.getChildren().removeAll(vehicleView, moneyBox));
+            setRateAnimations(DurationManager.getRate(), truckSpriteAnimation, truckTransitionGo, truckTransitionReturn, moneyGo, moneyReturn);
+            truckSpriteAnimation.play();
+            truckTransitionGo.play();
             moneyGo.play();
 
         } catch (FileNotFoundException e) {
@@ -162,29 +154,29 @@ public class FarmCityView {
             vehicleView.setOpacity(1);
             root.getChildren().add(vehicleView);
             vehicleView.relocate(MainStage.getInstance().getWidth() - width, 0);
-            Animation animation = new SpriteAnimation(vehicleView,
+            helicopterSpriteAnimation = new SpriteAnimation(vehicleView,
                     Duration.millis(durationOfAnimation),columnNumber, rowNumber * columnNumber,
                     0, 0, (int) spriteWidth, (int) spriteHeight);
-            animation.setCycleCount((int) (duration / 2 / durationOfAnimation));
+            helicopterSpriteAnimation.setCycleCount((int) (duration / 2 / durationOfAnimation));
 
-            TranslateTransition translateTransitionGo = new TranslateTransition(Duration.millis(duration / 2), vehicleView);
-            translateTransitionGo.setByX(width - helicopterWidth);
-            translateTransitionGo.setByY(0);
+            helicopterTransitionGo = new TranslateTransition(Duration.millis(duration / 2), vehicleView);
+            helicopterTransitionGo.setByY(0);
+            helicopterTransitionGo.setByX(width - helicopterWidth);
 
-            TranslateTransition translateTransitionReturn = new TranslateTransition(Duration.millis(duration / 2), vehicleView);
-            translateTransitionReturn.setByX(helicopterWidth - width);
-            translateTransitionReturn.setByY(0);
+            helicopterTransitionReturn = new TranslateTransition(Duration.millis(duration / 2), vehicleView);
+            helicopterTransitionReturn.setByX(helicopterWidth - width);
+            helicopterTransitionReturn.setByY(0);
 
-            translateTransitionGo.setOnFinished(event -> {
+            helicopterTransitionGo.setOnFinished(event -> {
                 vehicleView.setScaleX(1);
-                translateTransitionReturn.play();
-                animation.play();
+                helicopterTransitionReturn.play();
+                helicopterSpriteAnimation.play();
             });
 
-            translateTransitionReturn.setOnFinished(event -> root.getChildren().remove(vehicleView));
-
-            animation.play();
-            translateTransitionGo.play();
+            helicopterTransitionReturn.setOnFinished(event -> root.getChildren().remove(vehicleView));
+            setRateAnimations(DurationManager.getRate(), helicopterSpriteAnimation, helicopterTransitionGo, helicopterTransitionReturn);
+            helicopterSpriteAnimation.play();
+            helicopterTransitionGo.play();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -205,5 +197,19 @@ public class FarmCityView {
         coinView.setPreserveRatio(true);
         box.getChildren().addAll(moneyLabel, coinView);
         return box;
+    }
+
+    @Override
+    public void setRate(double rate) {
+        setRateAnimations(rate, truckSpriteAnimation, helicopterSpriteAnimation, truckTransitionGo, truckTransitionReturn,
+                moneyGo, moneyReturn, helicopterTransitionGo, helicopterTransitionReturn);
+    }
+
+    private void setRateAnimations(double rate, Animation... animations) {
+        for (Animation animation : animations) {
+            if (animation != null) {
+                animation.setRate(rate);
+            }
+        }
     }
 }
