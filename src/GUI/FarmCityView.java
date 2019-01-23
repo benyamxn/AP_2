@@ -18,6 +18,7 @@ import model.Game;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
+import java.util.LinkedList;
 
 public class FarmCityView {
     private Group root;
@@ -27,8 +28,9 @@ public class FarmCityView {
     private double width;
     private double factor = 2000;
     private double durationOfAnimation = 100;
+    private LinkedList<Animation> animations = new LinkedList<>();
     private static FarmCityView instance;
-
+    private double rate = 0.5;
 
     private FarmCityView(Game game, double width) {
         root = new Group();
@@ -43,6 +45,10 @@ public class FarmCityView {
             imageView.setOnMouseClicked(event -> {
                 runTruck(100);
                 runHelicopter();
+                rate *= 2;
+                for (Animation animation : animations) {
+                    animation.setRate(rate);
+                }
             });
             root.getChildren().add(imageView);
         } catch (FileNotFoundException e) {
@@ -98,13 +104,18 @@ public class FarmCityView {
                     AnimationConstants.TRUCK_MINI[0], 0, 0, (int) spriteWidth, (int) spriteHeight);
             animation.setCycleCount((int) (duration / 2 / durationOfAnimation));
 
+
             TranslateTransition translateTransitionGo = new TranslateTransition(Duration.millis(duration / 2), vehicleView);
             translateTransitionGo.setByY(0);
             translateTransitionGo.setByX(width - truckWidth);
 
+            animations.add(translateTransitionGo);
+
             TranslateTransition translateTransitionReturn = new TranslateTransition(Duration.millis(duration / 2), vehicleView);
             translateTransitionReturn.setByY(0);
             translateTransitionReturn.setByX(truckWidth - width);
+
+            animations.add(translateTransitionReturn);
 
             TranslateTransition moneyGo = new TranslateTransition(Duration.millis(duration / 2), moneyBox);
             moneyGo.setByY(0);

@@ -14,6 +14,7 @@ import model.exception.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Timer;
@@ -183,7 +184,8 @@ public class FarmGUI {
         button.relocate(500,10);
         button.setOnMouseClicked(event -> {
             try {
-                controller.saveGame("/Users/mohammadabouei/Desktop/AP_2/gameData/savedGames/game6.json");
+                String path = Paths.get(System.getProperty("user.dir"),"gameData","savedGames", "game6.json").toString();
+                controller.saveGame(path);
             } catch (IOException e) {
                 e.printStackTrace();
             }
