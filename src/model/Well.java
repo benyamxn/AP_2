@@ -17,7 +17,7 @@ public class Well implements Upgradable {
     public void upgrade(){
         level++;
         refillPrice -= 10;
-        capacity += level * 20;
+        capacity += level * 10 - 10;
         wellGUI.upgrade();
     }
 
@@ -27,12 +27,12 @@ public class Well implements Upgradable {
 
     @Override
     public int getUpgradePrice() {
-        return 100*level + 150;
+        return 100 * level + 150;
     }
 
     @Override
     public boolean canUpgrade() {
-        return level < 5;
+        return level < 4;
     }
 
     public void reduceWater(int numberOfCells){

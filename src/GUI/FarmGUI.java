@@ -20,9 +20,7 @@ import model.exception.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLOutput;
 import java.util.LinkedList;
 
 public class FarmGUI {
@@ -68,6 +66,20 @@ public class FarmGUI {
             double[] location = getPointForCell(temp.getProductionPoint().getWidth(),temp.getProductionPoint().getHeight());
             workshopGUIS[i].relocate(location[0] - cellWidth * 2 * shift, location[1] - 2 * cellHeight );
             workshopGUIS[i].addToRoot(anchorPane);
+            UpgradeButton upgradeButton = new UpgradeButton(workshopGUIS[i].getWorkshop());
+            WorkshopGUI thisGUI = workshopGUIS[i];
+            upgradeButton.setOnClick(mouseEvent -> {
+                try {
+                    controller.upgrade(thisGUI.getWorkshop());
+                    upgradeButton.render();
+                } catch (MoneyNotEnoughException e) {
+                    e.printStackTrace();
+                } catch (MaxLevelException e) {
+                    e.printStackTrace();
+                }
+            });
+            upgradeButton.addToRoot(anchorPane);
+            upgradeButton.relocate(location[0] - cellWidth * 2 * shift - 250 * (shift - 0.8), location[1] - 2 * cellHeight + 0.1 * MainStage.getInstance().getHeight());
         }
         createGameStatus();
         renderAnimalBuyingButtons();
@@ -84,7 +96,6 @@ public class FarmGUI {
         debugLabel.setText("sadfsdfasd");
         anchorPane.getChildren().add(debugLabel);
     }
-
 
     private void createAnimalsGUI(){
         Cell[][] cells = farm.getMap().getCells();
@@ -121,10 +132,12 @@ public class FarmGUI {
         });
         pauseButton.setOnMouseClicked(event -> {
             if(pause == false) {
+                gameUpdater.pause();
                 durationManager.pause();
                 pause = true;
             } else {
                 pause = false;
+                gameUpdater.play();
                 durationManager.setRate(slider.getValue());
             }
         });
@@ -172,6 +185,19 @@ public class FarmGUI {
                 // TODO: Handle this
             }
         });
+        UpgradeButton upgradeButton = new UpgradeButton(wellGUI.getWell());
+        upgradeButton.setOnClick(event -> {
+            try {
+                controller.upgrade(wellGUI.getWell());
+                upgradeButton.render();
+            } catch (MoneyNotEnoughException e) {
+                e.printStackTrace();
+            } catch (MaxLevelException e) {
+                e.printStackTrace();
+            }
+        });
+        upgradeButton.addToRoot(anchorPane);
+        upgradeButton.relocate(2.4 * MainStage.getInstance().getWidth() / 5 - 40, 7 * MainStage.getInstance().getHeight() / 40);
     }
 
     public void render() {
@@ -226,7 +252,6 @@ public class FarmGUI {
                 getResource("CSS/farm.css").toExternalForm());
 
     }
-
 
     private CellGUI getCellByEvent(double x, double y) {
         double width = size[0];
@@ -302,7 +327,9 @@ public class FarmGUI {
         truckGUI.setOnClick(event -> {
             new TruckMenu(game);
         });
+        UpgradeButton upgradeButton = createVehicleUpgradeButton(truckGUI);
         truckGUI.relocate(MainStage.getInstance().getWidth() / 5, MainStage.getInstance().getHeight() * 0.85);
+        upgradeButton.relocate(MainStage.getInstance().getWidth() / 5 - 60, MainStage.getInstance().getHeight()* 0.90);
         truckGUI.addToRoot(anchorPane);
     }
 
@@ -311,12 +338,27 @@ public class FarmGUI {
         warehouseGUI.setOnClick(event -> new TruckMenu(game));
         warehouseGUI.relocate(2 * MainStage.getInstance().getWidth() / 5, MainStage.getInstance().getHeight() * 0.83);
         warehouseGUI.addToRoot(anchorPane);
+        UpgradeButton upgradeButton = new UpgradeButton(warehouseGUI.getWarehouse());
+        upgradeButton.setOnClick(mouseEvent -> {
+            try {
+                controller.upgrade(warehouseGUI.getWarehouse());
+                upgradeButton.render();
+            } catch (MoneyNotEnoughException e) {
+                e.printStackTrace();
+            } catch (MaxLevelException e) {
+                e.printStackTrace();
+            }
+        });
+        upgradeButton.addToRoot(anchorPane);
+        upgradeButton.relocate(2 * MainStage.getInstance().getWidth() / 5 - 50, MainStage.getInstance().getHeight() * 0.9);
     }
 
     private void createHelicopterGUI() {
-        VehicleGUI HelicopterGUI = new VehicleGUI(farm.getHelicopter(), (int) (MainStage.getInstance().getWidth() / 10));
-        HelicopterGUI.relocate(MainStage.getInstance().getWidth() * 0.7, MainStage.getInstance().getHeight() * 0.85);
-        HelicopterGUI.addToRoot(anchorPane);
+        VehicleGUI helicopterGUI = new VehicleGUI(farm.getHelicopter(), (int) (MainStage.getInstance().getWidth() / 10));
+        helicopterGUI.relocate(MainStage.getInstance().getWidth() * 0.7, MainStage.getInstance().getHeight() * 0.85);
+        UpgradeButton upgradeButton = createVehicleUpgradeButton(helicopterGUI);
+        upgradeButton.relocate(MainStage.getInstance().getWidth() * 0.7 - 60, MainStage.getInstance().getHeight()* 0.90);
+        helicopterGUI.addToRoot(anchorPane);
     }
 
     private void createFarmCityView() {
@@ -357,5 +399,26 @@ public class FarmGUI {
 
     public Timeline getGameUpdater() {
         return gameUpdater;
+    }
+
+    public Controller getController() {
+        return controller;
+    }
+
+    private UpgradeButton createVehicleUpgradeButton(VehicleGUI vehicleGUI) {
+        UpgradeButton upgradeButton = new UpgradeButton(vehicleGUI.getVehicle());
+        upgradeButton.setOnClick(event -> {
+            try {
+                controller.upgrade(vehicleGUI.getVehicle());
+                vehicleGUI.upgrade();
+                upgradeButton.render();
+            } catch (MoneyNotEnoughException e) {
+                e.printStackTrace();
+            } catch (MaxLevelException e) {
+                e.printStackTrace();
+            }
+        });
+        upgradeButton.addToRoot(anchorPane);
+        return upgradeButton;
     }
 }

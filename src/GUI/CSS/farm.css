@@ -29,3 +29,12 @@
 }
 
 
+.upgradeBtn {
+    -fx-background-color: linear-gradient(to bottom, #0f10ff, #192fcc 9%, #1309db 93%, #000264);
+    -fx-pref-width: 50px;
+    -fx-pref-height: 10px;
+    -fx-font-size: 10px;
+    -fx-font-family: 'Spicy Rice';
+    -fx-text-fill: Ivory;
+}
+

@@ -110,6 +110,7 @@ public class Workshop implements Upgradable {
             productionTime -= 2;
         }
         price = getUpgradePrice();
+        workshopGUI.upgrade();
     }
 
     public void saveToJson(String path) throws IOException {

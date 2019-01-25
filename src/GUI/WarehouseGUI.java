@@ -16,7 +16,7 @@ public class WarehouseGUI implements Hoverable {
 
     private Warehouse warehouse;
     private Image image;
-    private ImageView imageView;
+    private ImageView imageView = new ImageView();
     private AnchorPane pane = new AnchorPane();
     private static final double startX = 52.0 / 180, startY = 56.0 / 148, endX = 133.0 / 180, endY = 100.0 / 148;
 
@@ -34,16 +34,12 @@ public class WarehouseGUI implements Hoverable {
 
     public void upgrade() {
         initImage();
+        imageView.setImage(image);
         setImageView();
-        updatePane();
-    }
-
-    private void updatePane() {
-        pane = new AnchorPane(imageView);
     }
 
     private void setImageView() {
-        imageView = new ImageView(image);
+        imageView.setImage(image);
         imageView.setFitWidth(0.20 * MainStage.getInstance().getWidth());
         imageView.setFitHeight(0.20 * MainStage.getInstance().getHeight());
         imageView.setPreserveRatio(true);
@@ -88,6 +84,10 @@ public class WarehouseGUI implements Hoverable {
                 e.printStackTrace();
             }
         }
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
     }
 
     public void relocate(double x, double y) {

@@ -23,7 +23,7 @@ public abstract class Vehicle implements Upgradable {
 
     @Override
     public  boolean canUpgrade(){
-        return level < 5;
+        return level < 4;
     }
 
     @Override

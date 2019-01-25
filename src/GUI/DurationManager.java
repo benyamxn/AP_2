@@ -5,7 +5,7 @@ import model.Cell;
 
 public class DurationManager {
 
-    private static double rate = 10;
+    private static double rate = 1;
     private FarmGUI farmGUI;
 
     public DurationManager(FarmGUI farmGUI) {

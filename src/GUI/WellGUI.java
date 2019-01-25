@@ -36,6 +36,7 @@ public class WellGUI  implements Hoverable, Pausable{
         animation.setCycleCount(cycleCount);
         animation.setOnFinished(event -> {
             well.setRemainingWater(well.getCapacity());
+            imageView.setImage(image);
         });
         animation.setRate(DurationManager.getRate());
         animation.play();
@@ -72,6 +73,14 @@ public class WellGUI  implements Hoverable, Pausable{
         try {
             image = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures",
                     "Service", "Well", "0" + well.getLevel() + ".png").toString()));
+            imageView.setImage(image);
+            width = (int) image.getWidth() / columns;
+            height = (int) image.getHeight() / columns;
+            imageView.setViewport(new Rectangle2D(0, 0,width,height));
+            imageView.setFitWidth(frameWidth);
+            imageView.setPreserveRatio(true);
+            imageView.setOpacity(1);
+            setMouseEvent(imageView);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -84,5 +93,9 @@ public class WellGUI  implements Hoverable, Pausable{
     @Override
     public void setRate(double rate) {
         animation.setRate(rate);
+    }
+
+    public Well getWell() {
+        return well;
     }
 }

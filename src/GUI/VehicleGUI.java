@@ -45,6 +45,7 @@ public class VehicleGUI  implements Hoverable{
         try {
             image = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures",
                     "Service", vehicle.getVehicleType().toString(), "0" + vehicle.getLevel() + ".png").toString()));
+            imageView.setImage(image);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -54,5 +55,7 @@ public class VehicleGUI  implements Hoverable{
         imageView.setOnMouseClicked(eventHandler);
     }
 
-
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
 }

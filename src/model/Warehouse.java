@@ -21,11 +21,12 @@ public class Warehouse implements Upgradable {
     public void upgrade() {
         level++;
         capacity += getTotalCapacity(level) - getTotalCapacity(level - 1);
+        warehouseGUI.upgrade();
     }
 
     @Override
     public boolean canUpgrade() {
-        return canUpgrade();
+        return level < 4;
     }
 
     @Override

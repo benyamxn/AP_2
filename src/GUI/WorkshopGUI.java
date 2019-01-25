@@ -72,12 +72,18 @@ public class WorkshopGUI implements Hoverable,Pausable {
     }
 
     public void upgrade(){
-        image = new Image(Paths.get(System.getProperty("user.dir"),"res","Textures","Workshops",
-                workshop.getType().toString() +"0" + workshop.getLevel() + ".png").toString());
-        imageView.setImage(image);
-        imageView.setViewport(new Rectangle2D(0, 0, width, height));
-        if(rotate == true){
-            imageView.setScaleX(-1);
+        try {
+            image = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures","Workshops",
+                    workshop.getType().toString() ,"0" + workshop.getLevel() + ".png").toString()));
+            width = (int) image.getWidth() / columns;
+            height = (int) image.getHeight() / columns;
+            imageView.setImage(image);
+            imageView.setViewport(new Rectangle2D(0, 0, width, height));
+            if(rotate == true){
+                imageView.setScaleX(-1);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
