@@ -66,11 +66,14 @@ public class MainMenu {
         Button settingsButton = new Button("Settings");
         Button aboutButton = new Button("About");
         Button exitButton = new Button("Exit");
-        exitButton.setOnMouseClicked(event ->System.exit(0));
+        exitButton.setOnMouseClicked(event -> {
+            MainStage.getInstance().getSoundUI().playTrack("click");
+            System.exit(0);
+        });
         newGameButton.setOnMouseClicked(event -> {
             try {
+                MainStage.getInstance().getSoundUI().playTrack("click");
                 new FarmGUI(new Controller()).render();
-                FarmGUI.getSoundPlayer().playTrack("click");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

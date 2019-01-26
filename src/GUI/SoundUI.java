@@ -58,6 +58,11 @@ public class SoundUI {
     private Media fightSound = new Media(getClass().getClassLoader().getResource("Soundtrack/fight.mp3").toExternalForm());
     private MediaPlayer fightSoundPlayer = new MediaPlayer(fightSound);
 
+    private Media hoverSound = new Media(getClass().getClassLoader().getResource("Soundtrack/hover.mp3").toExternalForm());
+    private MediaPlayer hoverOutSoundPlayer = new MediaPlayer(hoverSound);
+
+    private MediaPlayer hoverInSoundPlayer = new MediaPlayer(hoverSound);
+
     SoundUI() {
         initSoundPlayers();
     }
@@ -75,6 +80,8 @@ public class SoundUI {
         woodSoundPlayer.setVolume(volume * 0.1);
         hammerSoundPlayer.setVolume(volume * 100);
         clickSoundPlayer.setVolume(volume);
+        hoverInSoundPlayer.setVolume(volume);
+        hoverOutSoundPlayer.setVolume(volume);
         bearSoundPlayer.setVolume(volume * 0.5);
         guineaFowlDeathSoundPlayer.setVolume(volume);
         guineaFowlProduceSoundPlayer.setVolume(volume);
@@ -105,6 +112,8 @@ public class SoundUI {
         hammerSoundPlayer.setVolume(100);
 
         clickSoundPlayer = new MediaPlayer(clickSound);
+
+        hoverInSoundPlayer = hoverOutSoundPlayer = new MediaPlayer(hoverSound);
 
         guineaFowlProduceSoundPlayer = new MediaPlayer(guineaFowlSound);
         guineaFowlProduceSoundPlayer.setStopTime(new Duration(2500));
@@ -226,6 +235,14 @@ public class SoundUI {
             case "fight":
                 fightSoundPlayer.seek(start);
                 fightSoundPlayer.play();
+                break;
+            case "hover in":
+                hoverInSoundPlayer.seek(start);
+                hoverInSoundPlayer.play();
+                break;
+            case "hover out":
+                hoverOutSoundPlayer.seek(start);
+                hoverOutSoundPlayer.play();
                 break;
         }
 
