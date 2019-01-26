@@ -276,4 +276,8 @@ public class SoundUI {
     public double getVolume() {
         return volume;
     }
+
+    public double getMusicSound() {
+        return mainMusicPlayer.getVolume();
+    }
 }
