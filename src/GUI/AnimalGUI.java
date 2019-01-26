@@ -150,8 +150,8 @@ public class AnimalGUI implements Pausable{
         translateTransition.setByX(moveVector.getWidth() * difWidth );
         translateTransition.setByY( -1 *  moveVector.getHeight()  * difHeight);
         setRate(DurationManager.getRate());
-        translateTransition.play();
         animation.play();
+        translateTransition.play();
     }
 
     public ImageView getImageView() {
@@ -173,11 +173,11 @@ public class AnimalGUI implements Pausable{
         int[] size = getSizeOfFrame();
         animation = new SpriteAnimation(imageView, Duration.millis(DURATION * 2) , constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
         setRate(DurationManager.getRate());
-        animation.play();
         animation.setOnFinished(event ->{
             animal = null;
             FarmGUI.anchorPane.getChildren().remove(imageView);
         });
+        animation.play();
     }
 
     public void setAnimal(Animal animal) {
@@ -185,17 +185,17 @@ public class AnimalGUI implements Pausable{
     }
 
 
-    public void eat(){
+    public void eat() {
         imageIndex = 5;
         imageView.setScaleX(1);
         imageView.setImage(image[imageIndex]);
         int[] size = getSizeOfFrame();
-        animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
+        animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0, size[0], size[1]);
         setRate(DurationManager.getRate());
-        animation.play();
         animation.setOnFinished(event -> {
             animal.setEating(false);
         });
+        animation.play();
     }
 
 
@@ -218,9 +218,11 @@ public class AnimalGUI implements Pausable{
     public void setRate(double rate) {
         if(rate == DurationManager.pauseRate){
             pause();
+            return;
         }
         if(rate == DurationManager.resumeRate){
             resume();
+            return;
         }
         if(animation != null) {
             animation.setRate(rate);

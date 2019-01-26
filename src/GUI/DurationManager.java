@@ -26,7 +26,7 @@ public class DurationManager {
         if(rate != DurationManager.pauseRate && rate != DurationManager.resumeRate ){
             farmGUI.getGameUpdater().setRate(rate);
         }
-        DurationManager.rate = rate;
+//        DurationManager.rate = rate;
         setCellsGUI(rate);
         setFarmCity(rate);
         setWorkshops(rate);
@@ -63,6 +63,7 @@ public class DurationManager {
             }
         }
     }
+
     public void setWorkshops(double rate){
         for (WorkshopGUI workshopGUI : farmGUI.getWorkshopGUIS()) {
             workshopGUI.setRate(rate);

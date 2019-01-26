@@ -203,11 +203,14 @@ public class FarmCityView implements Pausable {
     public void setRate(double rate) {
         if(rate == DurationManager.pauseRate ){
             pause();
+            return;
         }
-        if(rate == DurationManager.resumeRate){
+        else if(rate == DurationManager.resumeRate){
             resume();
+            return;
         }
-        setRateAnimations(rate, truckSpriteAnimation, helicopterSpriteAnimation, truckTransitionGo, truckTransitionReturn,
+        else
+            setRateAnimations(rate, truckSpriteAnimation, helicopterSpriteAnimation, truckTransitionGo, truckTransitionReturn,
                 moneyGo, moneyReturn, helicopterTransitionGo, helicopterTransitionReturn);
     }
 

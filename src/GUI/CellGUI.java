@@ -128,10 +128,10 @@ public class CellGUI  implements  Pausable{
         if(rate == DurationManager.pauseRate ){
             pause();
         }
-        if(rate == DurationManager.resumeRate){
+        else if(rate == DurationManager.resumeRate){
             resume();
         }
-        if(animation != null)
+        else if(animation != null)
             animation.setRate(rate);
     }
 

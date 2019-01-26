@@ -191,8 +191,8 @@ public class FarmGUI {
                 pause = true;
             } else {
                 pause = false;
-                gameUpdater.play();
                 durationManager.resume();
+                gameUpdater.play();
             }
         });
 
