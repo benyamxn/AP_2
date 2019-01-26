@@ -145,7 +145,6 @@ public class MainMenu {
         menuBox.getChildren().addAll(text,musicSoundSlider,text1,soundEffect,backButton);
         Hoverable.setMouseHandler(backButton);
         backButton.setOnMouseClicked(event -> {
-            FarmGUI.getSoundPlayer().playTrack("click");
             menuBox.getChildren().clear();
             createButtons(menuBox);
         });

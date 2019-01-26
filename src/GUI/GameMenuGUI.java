@@ -154,4 +154,24 @@ public class GameMenuGUI {
         });
     }
 
+    public  void showExit(){
+
+        menuBox.getChildren().clear();
+        Text text = new Text("YOU WON");
+        text.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 30));
+        VBox.setMargin(text, new Insets(10, 20, 10, 20));
+        VBox.setMargin(exitButton, new Insets(100, 20, 10, 20));
+        menuBox.getChildren().addAll(text,exitButton);
+        FarmGUI.anchorPane.getChildren().add(menuBox);
+        exitButton.setOnMouseClicked(event -> {
+            FarmGUI.getSoundPlayer().playTrack("click");
+            FarmGUI.anchorPane.getChildren().remove(menuBox);
+            FarmGUI.anchorPane.getChildren().remove(farmGUI.getPauseRectangle());
+            MainStage.getInstance().popStack();
+            FarmGUI.anchorPane = new AnchorPane();
+        });
+        Hoverable.setMouseHandler(exitButton);
+    }
+
+
 }

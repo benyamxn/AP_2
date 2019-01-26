@@ -3,10 +3,7 @@ package model;
 import GUI.GameStatus;
 import com.gilecode.yagson.YaGson;
 import com.gilecode.yagson.YaGsonBuilder;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import com.google.gson.stream.JsonWriter;
 import model.exception.*;
 import java.io.*;
 import java.lang.reflect.Modifier;
@@ -69,14 +66,14 @@ public class Game {
 
     public void loadMarketProducts(String path) throws IOException {
         Reader reader = new FileReader(path);
-        Gson gson = new GsonBuilder().create();
+        YaGson gson = new YaGsonBuilder().create();
         marketProducts = gson.fromJson(reader, ProductType[].class);
         reader.close();
     }
 
     public void saveMarketProducts(String path) throws IOException {
         Writer writer = new FileWriter(path);
-        Gson gson = new GsonBuilder().create();
+        YaGson gson = new YaGsonBuilder().create();
         gson.toJson(marketProducts, writer);
         writer.close();
     }
@@ -118,7 +115,7 @@ public class Game {
     }
 
     public boolean isFinished(){
-        Mission temp = new Mission(money,time,products);
+        Mission temp = new Mission(money,time,farm.getWarehouse().getProductMap());
         if(temp.compareTo(mission) == 1){
             return true;
         }

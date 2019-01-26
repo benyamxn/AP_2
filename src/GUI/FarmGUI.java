@@ -124,7 +124,6 @@ public class FarmGUI {
             createPausePage();
             soundPlayer.playTrack("click");
             pauseFarm();
-            createPausePage();
             anchorPane.getChildren().add(pauseRectangle);
             gameMenuGUI.show();
         });
@@ -190,8 +189,13 @@ public class FarmGUI {
     private void createGameUpdater() {
         DurationManager durationManager = new DurationManager(this);
         gameUpdater = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
-            System.out.println("updated.");
             game.updateGame();
+            if(game.isFinished()){
+                createPausePage();
+                pauseFarm();
+                anchorPane.getChildren().add(pauseRectangle);
+                gameMenuGUI.showExit();
+            }
         }));
         gameUpdater.setRate(durationManager.getRate());
         gameUpdater.setCycleCount(Animation.INDEFINITE);
