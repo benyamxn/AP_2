@@ -96,8 +96,9 @@ public class WellGUI  implements Hoverable, Pausable{
         if(rate == DurationManager.pauseRate ){
             pause();
         }
-        if(rate == DurationManager.resumeRate){
+        else  if(rate == DurationManager.resumeRate){
             resume();
+            return;
         }
         if(animation != null)
               animation.setRate(rate);
