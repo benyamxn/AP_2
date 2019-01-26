@@ -360,10 +360,25 @@ public class FarmGUI {
             animalBuyButtons[i] = new AnimalBuyButton(radius, new Domesticated(dummyPoint, farm.getDomesticatedAnimals()[i]));
         }
         animalBuyButtons[3] = new AnimalBuyButton(radius, new Cat(dummyPoint));
+        UpgradeButton upgradeButton = new UpgradeButton(new Cat(dummyPoint));
+        upgradeButton.setOnClick(event -> {
+            try {
+                controller.upgrade(new Cat(dummyPoint));
+                upgradeButton.render();
+            } catch (MoneyNotEnoughException e) {
+                e.printStackTrace();
+            } catch (MaxLevelException e) {
+                e.printStackTrace();
+            }
+        });
         animalBuyButtons[4] = new AnimalBuyButton(radius, new Dog(dummyPoint));
         for (int i = 0; i < 5; i++) {
             animalBuyButtons[i].addToRoot(anchorPane);
             animalBuyButtons[i].relocateInRoot(startX, startY);
+            if (i == 3) {
+                upgradeButton.addToRoot(anchorPane);
+                upgradeButton.relocate(startX + radius - 30, startY + 2 * radius + 45);
+            }
             startX += 2 * radius + marginDistance;
             final String animalName = animalBuyButtons[i].getAnimal().toString().toLowerCase();
             animalBuyButtons[i].setOnClick(event -> {

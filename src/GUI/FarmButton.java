@@ -21,7 +21,6 @@ public class FarmButton implements Hoverable {
         circle = new Circle(radius);
         countRenderer = new Rectangle(2 * radius, radius / 2.0, Color.GOLD);
         setMouseEvent(circle);
-
     }
 
     public void addToRoot(Pane parent) {
@@ -52,5 +51,10 @@ public class FarmButton implements Hoverable {
 
     public void setPriceLabel(Label priceLabel) {
         this.priceLabel = priceLabel;
+        priceLabel.setStyle("-fx-font-family: 'Spicy Rice'; -fx-text-alignment: Center; -fx-border-width: 2;");
+    }
+
+    public int getRadius() {
+        return radius;
     }
 }
