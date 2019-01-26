@@ -166,6 +166,7 @@ public class GameMenuGUI {
         VBox.setMargin(exitButton, new Insets(100, 20, 10, 20));
         menuBox.getChildren().addAll(text,exitButton);
         FarmGUI.anchorPane.getChildren().add(menuBox);
+        text.setFill(Color.GOLD);
         exitButton.setOnMouseClicked(event -> {
             FarmGUI.getSoundPlayer().playTrack("click");
             FarmGUI.anchorPane.getChildren().remove(menuBox);
