@@ -36,11 +36,14 @@ public class Wild extends Animal {
     }
 
     public void incrementCagedLevel(){
-        cagedLevel++;
+        if (!isCaged()) {
+            cagedLevel++;
+            animalGUI.cage();
+        }
     }
 
     public boolean isCaged(){
-        return cagedLevel == 5;
+        return cagedLevel == 7;
     }
 
     public ProductType returnCagedProduct(){
@@ -48,7 +51,10 @@ public class Wild extends Animal {
     }
 
     public void setCagedLevel(int cagedLevel) {
-        this.cagedLevel = cagedLevel;
+        if (!isCaged()) {
+            animalGUI.cage();
+            this.cagedLevel = cagedLevel;
+        }
     }
 
     @Override

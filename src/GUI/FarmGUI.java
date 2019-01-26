@@ -327,8 +327,8 @@ public class FarmGUI {
     public void relocateAnimalGUI(AnimalGUI animalGUI) {
         Point location = animalGUI.getAnimal().getLocation();
         double[] pointForCell = getPointForCell(location.getWidth(), location.getHeight());
-        animalGUI.getImageView().relocate(pointForCell[0], pointForCell[1]);
-        anchorPane.getChildren().add(animalGUI.getImageView());
+        animalGUI.relocate(pointForCell[0], pointForCell[1]);
+        animalGUI.addToRoot(anchorPane);
     }
 
     private void renderAnimalBuyingButtons() {
