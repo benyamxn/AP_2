@@ -43,19 +43,22 @@ public class TruckMenu {
         shipButton.getStyleClass().add("truckMenuBtn");
         Button cancelButton = new Button("Cancel");
         cancelButton.getStyleClass().add("truckMenuBtn");
+        Hoverable.setMouseHandler(cancelButton);
         cancelButton.setOnMouseClicked(event -> {
             try {
                 FarmGUI.getSoundPlayer().playTrack("click");
                 game.clear(VehicleType.TRUCK);
+                farmGUI.resume();
 
             } catch (VehicleOnTripException | NotEnoughCapacityException e) {
                 e.printStackTrace();
             }
             MainStage.getInstance().popStack();
         });
-
+        Hoverable.setMouseHandler(shipButton);
         shipButton.setOnMouseClicked(event -> {
             FarmGUI.getSoundPlayer().playTrack("click");
+            farmGUI.resume();
             game.getFarm().getWarehouse().updateGraphics();
             MainStage.getInstance().popStack();
             game.getFarm().getTruck().startTravel();

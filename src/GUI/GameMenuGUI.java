@@ -1,12 +1,17 @@
 package GUI;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 import java.awt.*;
@@ -21,6 +26,7 @@ public class GameMenuGUI {
     private Button saveButton;
     private Button loadButton;
     private Button exitButton;
+    private Button settingsButton;
     VBox menuBox = new VBox();
     public GameMenuGUI(FarmGUI farmGUI) {
         this.farmGUI = farmGUI;
@@ -46,13 +52,14 @@ public class GameMenuGUI {
         continueButton = new Button("Continue");
         saveButton = new Button("Save");
         loadButton = new Button("Load");
+        settingsButton = new Button("Settings");
         exitButton = new Button("Exit");
-        exitButton.setOnMouseClicked(event -> System.exit(0));
         VBox.setMargin(continueButton, new Insets(10, 20, 10, 20));
         VBox.setMargin(saveButton, new Insets(10, 20, 10, 20));
         VBox.setMargin(loadButton, new Insets(10, 20, 10, 20));
+        VBox.setMargin(settingsButton, new Insets(10, 20, 10, 20));
         VBox.setMargin(exitButton, new Insets(10, 20, 10, 20));
-        vBox.getChildren().addAll(continueButton,loadButton,saveButton,exitButton);
+        vBox.getChildren().addAll(continueButton,loadButton,saveButton,settingsButton,exitButton);
         for (Node child : vBox.getChildren()) {
             Hoverable.setMouseHandler(child);
         }
@@ -78,6 +85,9 @@ public class GameMenuGUI {
             FarmGUI.getSoundPlayer().playTrack("click");
             MainMenu.createLoadGameButton();
         });
+        settingsButton.setOnMouseClicked(event -> {
+            createSettingsMenu();
+        });
         exitButton.setOnMouseClicked(event -> {
             FarmGUI.getSoundPlayer().playTrack("click");
             FarmGUI.anchorPane.getChildren().remove(menuBox);
@@ -101,6 +111,45 @@ public class GameMenuGUI {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void createSettingsMenu(){
+        menuBox.getChildren().clear();
+
+        Slider musicSoundSlider = new Slider(0, 100, MainStage.getInstance().getSoundUI().getMusicSound()  * 100);
+        musicSoundSlider.valueProperty().addListener(new ChangeListener<>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                MainStage.getInstance().getSoundUI().setMusicSound(newValue.doubleValue());
+            }
+        });
+
+        Slider soundEffect = new Slider(0,100,MainStage.getInstance().getSoundUI().getVolume());
+        soundEffect.valueProperty().addListener(new ChangeListener<>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                MainStage.getInstance().getSoundUI().setVolume(newValue.doubleValue());
+            }
+        });
+        Text text = new Text("Music Volume:");
+        text.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
+        Text text1 = new Text("Sound Effects:");
+        text1.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
+        Button backButton = new Button("Back");
+
+        VBox.setMargin(text, new Insets(10, 20, 10, 20));
+        VBox.setMargin(musicSoundSlider, new Insets(5, 20, 10, 20));
+        VBox.setMargin(text1, new Insets(30, 20, 10, 20));
+        VBox.setMargin(soundEffect, new Insets(5, 20, 10, 20));
+        VBox.setMargin(backButton, new Insets(100, 20, 10, 20));
+
+        menuBox.getChildren().addAll(text,musicSoundSlider,text1,soundEffect,backButton);
+        Hoverable.setMouseHandler(backButton);
+        backButton.setOnMouseClicked(event -> {
+            menuBox.getChildren().clear();
+            createButtonMenu();
+            render();
+        });
     }
 
 }
