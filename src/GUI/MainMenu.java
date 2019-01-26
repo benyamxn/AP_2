@@ -79,6 +79,7 @@ public class MainMenu {
 
         VBox settingsMenu = new VBox();
         settingsButton.setOnMouseClicked(event -> {
+            MainStage.getInstance().getSoundUI().playTrack("click");
             createSettingsMenu(vBox);
         });
         VBox.setMargin(newGameButton, new Insets(10, 20, 10, 20));
@@ -145,7 +146,7 @@ public class MainMenu {
         menuBox.getChildren().addAll(text,musicSoundSlider,text1,soundEffect,backButton);
         Hoverable.setMouseHandler(backButton);
         backButton.setOnMouseClicked(event -> {
-            FarmGUI.getSoundPlayer().playTrack("click");
+            MainStage.getInstance().getSoundUI().playTrack("click");
             menuBox.getChildren().clear();
             createButtons(menuBox);
         });
