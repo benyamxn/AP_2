@@ -47,6 +47,7 @@ public class TruckMenu {
             try {
                 FarmGUI.getSoundPlayer().playTrack("click");
                 game.clear(VehicleType.TRUCK);
+                farmGUI.resume();
 
             } catch (VehicleOnTripException | NotEnoughCapacityException e) {
                 e.printStackTrace();
@@ -56,6 +57,7 @@ public class TruckMenu {
 
         shipButton.setOnMouseClicked(event -> {
             FarmGUI.getSoundPlayer().playTrack("click");
+            farmGUI.resume();
             game.getFarm().getWarehouse().updateGraphics();
             MainStage.getInstance().popStack();
             game.getFarm().getTruck().startTravel();

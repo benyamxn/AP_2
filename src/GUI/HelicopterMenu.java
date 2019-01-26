@@ -54,6 +54,7 @@ public class HelicopterMenu {
 
         shipButton.setOnMouseClicked(event -> {
             MainStage.getInstance().popStack();
+            farmGUI.resume();
             game.getFarm().getHelicopter().startTravel();
             FarmCityView.getInstance().runHelicopter();
         });
