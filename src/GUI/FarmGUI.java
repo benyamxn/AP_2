@@ -163,8 +163,6 @@ public class FarmGUI {
         pane.setLayoutX(anchorPane.getWidth() /  2);
         pane.setLayoutY(anchorPane.getHeight() / 2);
         anchorPane.getChildren().add(pane);
-        anchorPane.setDisable(false);
-        MainStage.getInstance().getScene().setRoot(pane);
         VBox menuBox = new VBox();
         menuBox.setAlignment(Pos.CENTER);
         menuBox.setSpacing(10);
