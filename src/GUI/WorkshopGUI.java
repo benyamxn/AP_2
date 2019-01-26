@@ -67,6 +67,9 @@ public class WorkshopGUI implements Hoverable,Pausable {
                 0, 0, width, height);
         animation.setCycleCount(cycleCount);
         animation.play();
+        animation.setOnFinished(event -> {
+            animation = null;
+        });
     }
 
     public ImageView getImageView() {
