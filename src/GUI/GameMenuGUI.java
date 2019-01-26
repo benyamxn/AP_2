@@ -86,6 +86,7 @@ public class GameMenuGUI {
             MainMenu.createLoadGameButton();
         });
         settingsButton.setOnMouseClicked(event -> {
+            FarmGUI.getSoundPlayer().playTrack("click");
             createSettingsMenu();
         });
         exitButton.setOnMouseClicked(event -> {
