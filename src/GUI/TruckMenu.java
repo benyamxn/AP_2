@@ -3,6 +3,7 @@ package GUI;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
+import model.Farm;
 import model.Game;
 import model.VehicleType;
 import model.exception.NotEnoughCapacityException;
@@ -14,8 +15,10 @@ public class TruckMenu {
     private double totalHeight = MainStage.getInstance().getHeight();
     private AnchorPane pane = new AnchorPane();
     private TruckMenuTable table;
+    private FarmGUI farmGUI;
 
-    public TruckMenu(Game game) {
+    public TruckMenu(Game game ,FarmGUI farmGUI) {
+        this.farmGUI = farmGUI;
         pane.getStyleClass().add("vehicleMenu");
         System.out.println(totalWidth);
         this.game = game;
@@ -44,6 +47,7 @@ public class TruckMenu {
             try {
                 FarmGUI.getSoundPlayer().playTrack("click");
                 game.clear(VehicleType.TRUCK);
+
             } catch (VehicleOnTripException | NotEnoughCapacityException e) {
                 e.printStackTrace();
             }

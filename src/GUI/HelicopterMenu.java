@@ -14,8 +14,10 @@ public class HelicopterMenu {
     private double totalHeight = MainStage.getInstance().getHeight();
     private AnchorPane pane = new AnchorPane();
     private HelicopterMenuTable table;
+    private FarmGUI farmGUI;
 
-    public HelicopterMenu(Game game) {
+    public HelicopterMenu(Game game ,FarmGUI farmGUI) {
+        this.farmGUI = farmGUI;
         pane.getStyleClass().add("vehicleMenu");
         System.out.println(totalWidth);
         this.game = game;
@@ -43,6 +45,7 @@ public class HelicopterMenu {
         cancelButton.setOnMouseClicked(event -> {
             try {
                 game.clear(VehicleType.HELICOPTER);
+                farmGUI.resume();
             } catch (VehicleOnTripException | NotEnoughCapacityException e) {
                 e.printStackTrace();
             }
