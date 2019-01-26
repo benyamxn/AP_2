@@ -22,7 +22,8 @@ import java.nio.file.Paths;
 
 public class WorkshopGUI implements Hoverable,Pausable {
 
-    public static  int DURATION = 10000;
+    private static int DURATION = 1000;
+    private static int cycleCount = 9;
     private Workshop workshop;
     private Image image;
     private boolean rotate;
@@ -64,6 +65,7 @@ public class WorkshopGUI implements Hoverable,Pausable {
     public void produce(){
         animation = new SpriteAnimation(imageView, Duration.millis(DURATION), AnimationConstants.WORKSHOP[1], columns,
                 0, 0, width, height);
+        animation.setCycleCount(cycleCount);
         animation.play();
     }
 

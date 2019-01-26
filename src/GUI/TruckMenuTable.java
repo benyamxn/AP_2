@@ -127,6 +127,7 @@ public class TruckMenuTable {
                                 decreaseRemainedCapacity(entry.getProductType().getDepotSize());
                                 getTableView().refresh();
                                 getTableView().refresh();
+                                FarmGUI.getSoundPlayer().playTrack("click");
                             } catch (VehicleOnTripException e) {
                                 e.printStackTrace();
                             } catch (NotEnoughCapacityException e) {
@@ -156,6 +157,7 @@ public class TruckMenuTable {
                                     increaseMoney(entry.getProductType().getSaleCost() * count);
                                     decreaseRemainedCapacity(entry.getProductType().getDepotSize() * count);
                                     getTableView().refresh();
+                                    FarmGUI.getSoundPlayer().playTrack("click");
                                 } catch (VehicleOnTripException e) {
                                     e.printStackTrace();
                                 } catch (NotEnoughCapacityException e) {
@@ -184,6 +186,7 @@ public class TruckMenuTable {
                                 increaseMoney(-1 * entry.getProductType().getSaleCost());
                                 decreaseRemainedCapacity(-1 * entry.getProductType().getDepotSize());
                                 getTableView().refresh();
+                                FarmGUI.getSoundPlayer().playTrack("click");
                             }
                         });
                         removeOneButton.getStyleClass().add("removeBtn");
@@ -202,6 +205,7 @@ public class TruckMenuTable {
                                 increaseMoney(-1 * entry.getProductType().getSaleCost() * count);
                                 decreaseRemainedCapacity(-1 * entry.getProductType().getDepotSize() * count);
                                 getTableView().refresh();
+                                FarmGUI.getSoundPlayer().playTrack("click");
                             }
                         });
                         removeAllButton.getStyleClass().add("removeBtn");

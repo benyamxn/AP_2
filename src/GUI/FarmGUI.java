@@ -53,6 +53,7 @@ public class FarmGUI {
     private Game game;
     private Timeline gameUpdater;
     private FarmCityView farmCityView;
+    private Rectangle pauseRectangle;
 
     private static SoundUI soundPlayer;
     private static double[] size;
@@ -110,6 +111,7 @@ public class FarmGUI {
         createCamera();
         createExitButton();
         createMenu();
+        createPausePage();
         debugLabel.setVisible(true);
         debugLabel.relocate(800,50);
         debugLabel.setText("sadfsdfasd");
@@ -122,6 +124,7 @@ public class FarmGUI {
 
         button.setOnMouseClicked(event -> {
             try {
+                FarmGUI.getSoundPlayer().playTrack("click");
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Choose File");
                 File file = fileChooser.showOpenDialog(MainStage.getInstance().getScene().getWindow());
@@ -253,16 +256,29 @@ public class FarmGUI {
             if(pause == false) {
                 gameUpdater.pause();
                 durationManager.pause();
+                createPausePage();
+                anchorPane.getChildren().add(pauseRectangle);
                 pause = true;
+                anchorPane.setDisable(true);
             } else {
                 pause = false;
                 durationManager.resume();
                 gameUpdater.play();
+                anchorPane.getChildren().remove(pauseRectangle);
             }
         });
 
         slider.relocate(900,50);
         anchorPane.getChildren().addAll(pauseButton,slider);
+    }
+
+    private void createPausePage() {
+        double width, height;
+        width = MainStage.getInstance().getWidth() + 100;
+        height = MainStage.getInstance().getHeight() + 100;
+        pauseRectangle = new Rectangle(0, 0, width, height);
+        pauseRectangle.setFill(Color.FIREBRICK);
+        pauseRectangle.setOpacity(0.5);
     }
 
     private void loadBackground() throws FileNotFoundException {
@@ -325,6 +341,8 @@ public class FarmGUI {
         anchorPane.setId("farmPane");
         anchorPane.setOnMouseClicked(event -> {
             CellGUI cellGUI = getCellByEvent(event.getX(), event.getY());
+            if (pause)
+                return;
             if(cellGUI != null){
                 Cell cell = cellGUI.getCell();
                 if(!cell.hasProduct()) {
@@ -392,8 +410,8 @@ public class FarmGUI {
     public void relocateAnimalGUI(AnimalGUI animalGUI) {
         Point location = animalGUI.getAnimal().getLocation();
         double[] pointForCell = getPointForCell(location.getWidth(), location.getHeight());
-        animalGUI.relocate(pointForCell[0], pointForCell[1]);
-        animalGUI.addToRoot(anchorPane);
+        animalGUI.getImageView().relocate(pointForCell[0], pointForCell[1]);
+        anchorPane.getChildren().add(animalGUI.getImageView());
     }
 
     private void renderAnimalBuyingButtons() {
@@ -454,7 +472,10 @@ public class FarmGUI {
 
     private void createWarehouseGUI() {
         WarehouseGUI warehouseGUI = farm.getWarehouse().getWarehouseGUI();
-        warehouseGUI.setOnClick(event -> new TruckMenu(game));
+        warehouseGUI.setOnClick(event -> {
+            new TruckMenu(game);
+            FarmGUI.getSoundPlayer().playTrack("click");
+        });
         warehouseGUI.relocate(2 * MainStage.getInstance().getWidth() / 5, MainStage.getInstance().getHeight() * 0.83);
         warehouseGUI.addToRoot(anchorPane);
         UpgradeButton upgradeButton = new UpgradeButton(warehouseGUI.getWarehouse());
@@ -493,7 +514,7 @@ public class FarmGUI {
     }
 
     private void createSoundPlayer() {
-        soundPlayer = new SoundUI();
+        soundPlayer = MainStage.getInstance().getSoundUI();
     }
 
     public Farm getFarm() {

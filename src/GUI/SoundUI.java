@@ -54,12 +54,16 @@ public class SoundUI {
 
     private MediaPlayer guineaFowlDeathSoundPlayer = new MediaPlayer(guineaFowlSound);
 
+    private Media fightSound = new Media(getClass().getClassLoader().getResource("Soundtrack/fight.mp3").toExternalForm());
+    private MediaPlayer fightSoundPlayer = new MediaPlayer(fightSound);
+
     SoundUI() {
         initSoundPlayers();
     }
 
     public void playMainMusic() {
         mainMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mainMusicPlayer.setVolume(0.5);
         mainMusicPlayer.play();
         mainMusicPlayer.setAutoPlay(true);
     }
@@ -85,32 +89,40 @@ public class SoundUI {
 
         guineaFowlProduceSoundPlayer = new MediaPlayer(guineaFowlSound);
         guineaFowlProduceSoundPlayer.setStopTime(new Duration(2500));
-        guineaFowlProduceSoundPlayer.setRate(1.5);
+        guineaFowlProduceSoundPlayer.setRate(rate * 1.5);
 
         guineaFowlDeathSoundPlayer = new MediaPlayer(guineaFowlSound);
         guineaFowlDeathSoundPlayer.setStartTime(new Duration(5000));
         guineaFowlDeathSoundPlayer.setStopTime(new Duration(6500));
+        guineaFowlDeathSoundPlayer.setVolume(0.5);
 
         bearSoundPlayer = new MediaPlayer(bearSound);
         bearSoundPlayer.setStartTime(new Duration(1000));
+        bearSoundPlayer.setVolume(0.5);
 
         ostrichProduceSoundPlayer = new MediaPlayer(ostrichProduceSound);
-        ostrichProduceSoundPlayer.setRate(1.5);
+        ostrichProduceSoundPlayer.setRate(rate * 1.5);
 
         buffaloProduceSoundPlayer = new MediaPlayer(buffaloProduceSound);
 
         ostrichDeathSoundPlayer = new MediaPlayer(ostrichDeathSound);
         ostrichDeathSoundPlayer.setStopTime(new Duration(2500));
-        ostrichDeathSoundPlayer.setRate(1.5);
+        ostrichDeathSoundPlayer.setRate(rate * 1.5);
+        ostrichDeathSoundPlayer.setVolume(0.5);
 
         buffaloDeathSoundPlayer = new MediaPlayer(buffaloDeathSound);
-        buffaloDeathSoundPlayer.setRate(1.5);
+        buffaloDeathSoundPlayer.setRate(rate * 1.5);
+        buffaloDeathSoundPlayer.setVolume(0.5);
 
         catSoundPlayer = new MediaPlayer(catSound);
-        catSoundPlayer.setVolume(0.2);
+        catSoundPlayer.setVolume(0.3);
 
         dogSoundPlayer = new MediaPlayer(dogSound);
-        dogSoundPlayer.setVolume(10);
+        dogSoundPlayer.setVolume(30);
+
+        fightSoundPlayer = new MediaPlayer(fightSound);
+        fightSoundPlayer.setCycleCount(2);
+        fightSoundPlayer.setRate(rate * 2);
 
     }
 
@@ -191,6 +203,10 @@ public class SoundUI {
             case "cat":
                 catSoundPlayer.seek(start);
                 catSoundPlayer.play();
+                break;
+            case "fight":
+                fightSoundPlayer.seek(start);
+                fightSoundPlayer.play();
                 break;
         }
 
