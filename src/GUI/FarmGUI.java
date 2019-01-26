@@ -124,6 +124,7 @@ public class FarmGUI {
 
         button.setOnMouseClicked(event -> {
             try {
+                FarmGUI.getSoundPlayer().playTrack("click");
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Choose File");
                 File file = fileChooser.showOpenDialog(MainStage.getInstance().getScene().getWindow());
@@ -471,7 +472,10 @@ public class FarmGUI {
 
     private void createWarehouseGUI() {
         WarehouseGUI warehouseGUI = farm.getWarehouse().getWarehouseGUI();
-        warehouseGUI.setOnClick(event -> new TruckMenu(game));
+        warehouseGUI.setOnClick(event -> {
+            new TruckMenu(game);
+            FarmGUI.getSoundPlayer().playTrack("click");
+        });
         warehouseGUI.relocate(2 * MainStage.getInstance().getWidth() / 5, MainStage.getInstance().getHeight() * 0.83);
         warehouseGUI.addToRoot(anchorPane);
         UpgradeButton upgradeButton = new UpgradeButton(warehouseGUI.getWarehouse());
@@ -510,7 +514,7 @@ public class FarmGUI {
     }
 
     private void createSoundPlayer() {
-        soundPlayer = new SoundUI();
+        soundPlayer = MainStage.getInstance().getSoundUI();
     }
 
     public Farm getFarm() {

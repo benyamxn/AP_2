@@ -17,6 +17,8 @@ public class MainStage {
     private Scene scene;
     private Stack<Parent> roots;
     private static MainStage instance = new MainStage();
+    private SoundUI soundUI = new SoundUI();
+
     public void setStage(Stage stage) {
         this.stage = stage;
         scene = new Scene(new Group());
@@ -27,6 +29,7 @@ public class MainStage {
         stage.setResizable(false);
         stage.fullScreenExitKeyProperty().setValue(KeyCombination.NO_MATCH);
         roots = new Stack<>();
+        soundUI.playMainMusic();
     }
 
     public static MainStage getInstance() {
@@ -61,4 +64,7 @@ public class MainStage {
         return primaryScreenBounds.getHeight();
     }
 
+    public SoundUI getSoundUI() {
+        return soundUI;
+    }
 }
