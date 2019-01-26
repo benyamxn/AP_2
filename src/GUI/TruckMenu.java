@@ -43,6 +43,7 @@ public class TruckMenu {
         shipButton.getStyleClass().add("truckMenuBtn");
         Button cancelButton = new Button("Cancel");
         cancelButton.getStyleClass().add("truckMenuBtn");
+        Hoverable.setMouseHandler(cancelButton);
         cancelButton.setOnMouseClicked(event -> {
             try {
                 FarmGUI.getSoundPlayer().playTrack("click");
@@ -54,7 +55,7 @@ public class TruckMenu {
             }
             MainStage.getInstance().popStack();
         });
-
+        Hoverable.setMouseHandler(shipButton);
         shipButton.setOnMouseClicked(event -> {
             FarmGUI.getSoundPlayer().playTrack("click");
             farmGUI.resume();
