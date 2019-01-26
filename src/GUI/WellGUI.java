@@ -92,7 +92,8 @@ public class WellGUI  implements Hoverable, Pausable{
 
     @Override
     public void setRate(double rate) {
-        animation.setRate(rate);
+        if(animation != null)
+              animation.setRate(rate);
     }
 
     public Well getWell() {

@@ -1,14 +1,14 @@
 package model;
 
 import GUI.WorkshopGUI;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.gilecode.yagson.YaGson;
+import com.gilecode.yagson.YaGsonBuilder;
 
 import java.io.*;
 import java.util.Arrays;
 
 public class Workshop implements Upgradable {
-    private static final int INITIAL_PRODUCTION_TYPE = 7;
+    private static final int INITIAL_PRODUCTION_TYPE = 5;
     private ProductType[] input;
     private ProductType output;
     private int numberOfInputs = 1;
@@ -28,7 +28,7 @@ public class Workshop implements Upgradable {
 
     public static Workshop readFromJson(String path) throws IOException {
         Reader reader = new FileReader(path);
-        Gson gson = new GsonBuilder().create();
+        YaGson gson = new YaGsonBuilder().create();
         Workshop workshop = gson.fromJson(reader, Workshop.class);
         reader.close();
         return workshop;
@@ -115,7 +115,7 @@ public class Workshop implements Upgradable {
 
     public void saveToJson(String path) throws IOException {
         Writer writer = new FileWriter(path);
-        Gson gson = new GsonBuilder().create();
+        YaGson gson = new YaGsonBuilder().create();
         gson.toJson(this, writer);
         writer.close();
     }
@@ -173,5 +173,9 @@ public class Workshop implements Upgradable {
 
     public int getLevel() {
         return level;
+    }
+
+    public int getProductionTime() {
+        return productionTime;
     }
 }
