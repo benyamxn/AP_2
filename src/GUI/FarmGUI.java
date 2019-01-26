@@ -2,14 +2,19 @@ package GUI;
 
 import GUI.animation.ZoomAnimation;
 import controller.Controller;
+import controller.Main;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -18,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Screen;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import model.*;
 import model.Point;
@@ -104,6 +110,7 @@ public class FarmGUI {
         createWarehouseGUI();
         createCamera();
         createExitButton();
+        createMenu();
         createPausePage();
         debugLabel.setVisible(true);
         debugLabel.relocate(800,50);
@@ -133,6 +140,61 @@ public class FarmGUI {
 
     }
 
+    private void createMenu(){
+        Button button = new Button("menu");
+        button.relocate(button.getWidth(),MainStage.getInstance().getHeight() * 0.95);
+
+
+        button.setOnMouseClicked(event -> {
+            createButtonMenu();
+//            Rectangle rectangle = new Rectangle(0,0,MainStage.getInstance().getWidth(),MainStage.getInstance().getHeight());
+//            rectangle.setMouseTransparent(true);
+//            rectangle.setOpacity(0.5);
+//            rectangle.setOnMouseClicked(event1 -> {
+//
+//            });
+//            anchorPane.getChildren().add(rectangle);
+        });
+        anchorPane.getChildren().add(button);
+    }
+
+
+    private void createButtonMenu(){
+
+        AnchorPane pane = new AnchorPane();
+        pane.setLayoutX(anchorPane.getWidth() /  2);
+        pane.setLayoutY(anchorPane.getHeight() / 2);
+        anchorPane.getChildren().add(pane);
+        VBox menuBox = new VBox();
+        menuBox.setAlignment(Pos.CENTER);
+        menuBox.setSpacing(10);
+        menuBox.setId("menuBox");
+        double width = MainStage.getInstance().getWidth() / 4;
+        double height = MainStage.getInstance().getHeight() / 4;
+        double anchor = (400 > height / 3)? height / 2 - 200: height / 3;
+        pane.setBottomAnchor(menuBox, anchor);
+        pane.setTopAnchor(menuBox, anchor);
+        pane.setRightAnchor(menuBox, 100.0);
+        pane.setLeftAnchor(menuBox, width - 300);
+        pane.getChildren().add(menuBox);
+        createButtons(menuBox);
+    }
+
+    private void createButtons(VBox vBox) {
+        Button continueButton = new Button("Continue");
+        Button exitButton = new Button("Exit");
+        exitButton.setOnMouseClicked(event ->System.exit(0));
+        continueButton.setOnMouseClicked(event -> {
+
+        });
+        exitButton.setOnMouseClicked(event -> System.exit(0));
+        VBox.setMargin(continueButton, new Insets(10, 20, 10, 20));
+        VBox.setMargin(exitButton, new Insets(10, 20, 10, 20));
+        vBox.getChildren().addAll(continueButton,exitButton);
+        for (Node child : vBox.getChildren()) {
+            Hoverable.setMouseHandler(child);
+        }
+    }
     private void createCamera(){
         ZoomAnimation zoomAnimation = new ZoomAnimation();
         anchorPane.setOnScroll(event -> {
@@ -196,6 +258,7 @@ public class FarmGUI {
                 createPausePage();
                 anchorPane.getChildren().add(pauseRectangle);
                 pause = true;
+                anchorPane.setDisable(true);
             } else {
                 pause = false;
                 durationManager.resume();
@@ -397,6 +460,15 @@ public class FarmGUI {
         truckGUI.addToRoot(anchorPane);
     }
 
+    private void createHelicopterGUI() {
+        VehicleGUI helicopterGUI = new VehicleGUI(farm.getHelicopter(), (int) (MainStage.getInstance().getWidth() / 10));
+        helicopterGUI.relocate(MainStage.getInstance().getWidth() * 0.7, MainStage.getInstance().getHeight() * 0.85);
+        UpgradeButton upgradeButton = createVehicleUpgradeButton(helicopterGUI);
+        helicopterGUI.setOnClick(event -> new HelicopterMenu(game));
+        upgradeButton.relocate(MainStage.getInstance().getWidth() * 0.7 - 60, MainStage.getInstance().getHeight()* 0.90);
+        helicopterGUI.addToRoot(anchorPane);
+    }
+
     private void createWarehouseGUI() {
         WarehouseGUI warehouseGUI = farm.getWarehouse().getWarehouseGUI();
         warehouseGUI.setOnClick(event -> new TruckMenu(game));
@@ -415,14 +487,6 @@ public class FarmGUI {
         });
         upgradeButton.addToRoot(anchorPane);
         upgradeButton.relocate(2 * MainStage.getInstance().getWidth() / 5 - 50, MainStage.getInstance().getHeight() * 0.9);
-    }
-
-    private void createHelicopterGUI() {
-        VehicleGUI helicopterGUI = new VehicleGUI(farm.getHelicopter(), (int) (MainStage.getInstance().getWidth() / 10));
-        helicopterGUI.relocate(MainStage.getInstance().getWidth() * 0.7, MainStage.getInstance().getHeight() * 0.85);
-        UpgradeButton upgradeButton = createVehicleUpgradeButton(helicopterGUI);
-        upgradeButton.relocate(MainStage.getInstance().getWidth() * 0.7 - 60, MainStage.getInstance().getHeight()* 0.90);
-        helicopterGUI.addToRoot(anchorPane);
     }
 
     private void createFarmCityView() {

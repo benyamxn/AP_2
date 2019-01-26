@@ -135,9 +135,23 @@ public class Cell {
     }
 
     public void updateWildAnimals() {
+        Iterator<Animal> iterator = animals.iterator();
+        while (iterator.hasNext()) {
+            Animal animal = iterator.next();
+            if (animal instanceof Wild) {
+                Wild wild = (Wild) animal;
+                if (wild.isCaged()) {
+                    iterator.remove();
+                    deleteFromGUI(wild);
+                    Product product = new Product(wild.returnCagedProduct());
+                    cellGUI.placeProduct(product);
+                    products.add(product);
+                }
+            }
+        }
         boolean hasDog = false;
         boolean hasWild = hasAWildAnimal();
-        Iterator<Animal> iterator = animals.iterator();
+        iterator = animals.iterator();
         Animal temp;
         while (iterator.hasNext()) {
             if ((temp = iterator.next()) instanceof Dog) {
@@ -185,8 +199,8 @@ public class Cell {
                 }
             }
         }
-
     }
+
 
     public boolean hasAWildAnimal() {
         for (Animal animal : animals) {
@@ -227,9 +241,11 @@ public class Cell {
     public void addAnimal(Animal animal) {
         animals.add(animal);
     }
+
     public void removeAnimal(Animal animal) {
         animals.remove(animal);
     }
+
     public Animal[] getAnimals() {
         Animal[] animals = new Animal[this.animals.size()];
         return this.animals.toArray(animals);

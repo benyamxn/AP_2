@@ -11,6 +11,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import model.*;
 
@@ -24,17 +25,47 @@ import java.util.Arrays;
 public class AnimalGUI implements Pausable{
 
     private Image[] image = new Image[7];
+    private Image cageImage;
     private Animal animal;
     private ImageView imageView  = new ImageView();
+    private ImageView cageView = new ImageView();
+    private int cageWidth, cageHeight;
+    {
+        imageView.setOnMouseClicked(event -> {
+            if (animal instanceof Wild) {
+                event.consume();
+                ((Wild) animal).incrementCagedLevel();
+            }
+        });
+        cageView.setOnMouseClicked(event -> {
+            if (animal instanceof Wild) {
+                event.consume();
+                ((Wild) animal).incrementCagedLevel();
+            }
+        });
+    }
     private static double DURATION = 1000;
     private static final int WALK = 2;
     private int[][] constants = new int[7][2];
     private int imageIndex = -1;
     private Animation animation;
-    private TranslateTransition translateTransition;
+    private TranslateTransition translateTransition, cageTranslateTransition;
 
     public AnimalGUI(Animal animal)  {
         this.animal = animal;
+        try {
+            cageImage = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures",
+                    "Cages", "build02.png").toString()));
+            cageView.setImage(cageImage);
+            cageWidth = (int) cageImage.getWidth() / AnimationConstants.CAGE_BUILD_2[0];
+            cageHeight = (int) cageImage.getHeight() / (AnimationConstants.CAGE_BUILD_2[1] / AnimationConstants.CAGE_BUILD_2[0]);
+            cageView.setViewport(new Rectangle2D(0, 0,cageWidth,cageHeight));
+            cageView.setFitHeight(FarmGUI.cellHeight * 2);
+            cageView.setPreserveRatio(true);
+            cageView.setOpacity(1);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public Animal getAnimal() {
@@ -147,10 +178,14 @@ public class AnimalGUI implements Pausable{
 //        animation.setCycleCount(2);
         Point moveVector = animal.getDirection().getMoveVector();
         translateTransition = new TranslateTransition(Duration.millis(DURATION),imageView);
-        translateTransition.setByX(moveVector.getWidth() * difWidth );
+        translateTransition.setByX(moveVector.getWidth() * difWidth);
         translateTransition.setByY( -1 *  moveVector.getHeight()  * difHeight);
+        cageTranslateTransition = new TranslateTransition(Duration.millis(DURATION),cageView);
+        cageTranslateTransition.setByY( -1 *  moveVector.getHeight()  * difHeight);
+        cageTranslateTransition.setByX(moveVector.getWidth() * difWidth);
         setRate(DurationManager.getRate());
         animation.play();
+        cageTranslateTransition.play();
         translateTransition.play();
     }
 
@@ -165,7 +200,7 @@ public class AnimalGUI implements Pausable{
         }
         if(animal instanceof Dog || animal instanceof Wild) {
             animal = null;
-            FarmGUI.anchorPane.getChildren().remove(imageView);
+            FarmGUI.anchorPane.getChildren().removeAll(imageView, cageView);
             return;
         }
         imageIndex = 6;
@@ -175,7 +210,7 @@ public class AnimalGUI implements Pausable{
         setRate(DurationManager.getRate());
         animation.setOnFinished(event ->{
             animal = null;
-            FarmGUI.anchorPane.getChildren().remove(imageView);
+            FarmGUI.anchorPane.getChildren().removeAll(imageView, cageView);
         });
         if (animal instanceof Domesticated)
             FarmGUI.getSoundPlayer().playTrack(animal.toString() + " death");
@@ -234,6 +269,9 @@ public class AnimalGUI implements Pausable{
         if(translateTransition != null) {
             translateTransition.setRate(rate);
         }
+        if (cageTranslateTransition != null) {
+            cageTranslateTransition.setRate(rate);
+        }
     }
 
     @Override
@@ -243,6 +281,9 @@ public class AnimalGUI implements Pausable{
         }
         if(translateTransition != null) {
             translateTransition.pause();
+        }
+        if (cageTranslateTransition != null) {
+            cageTranslateTransition.pause();
         }
     }
 
@@ -254,7 +295,24 @@ public class AnimalGUI implements Pausable{
         if(translateTransition != null) {
             translateTransition.play();
         }
+        if (cageTranslateTransition != null) {
+            cageTranslateTransition.play();
+        }
     }
 
 
+    public void cage() {
+        int column = AnimationConstants.CAGE_BUILD_2[0];
+        int level = ((Wild) animal).getCagedLevel();
+        cageView.setViewport(new Rectangle2D(cageWidth * (level % column), cageHeight * (level / column),cageWidth,cageHeight));
+    }
+
+    public void addToRoot(Pane pane) {
+        pane.getChildren().addAll(imageView, cageView);
+    }
+
+    public void relocate(double x, double y) {
+        imageView.relocate(x, y);
+        cageView.relocate(x - FarmGUI.cellHeight / 2, y - FarmGUI.cellHeight / 2);
+    }
 }
