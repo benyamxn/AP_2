@@ -236,7 +236,7 @@ public class FarmCityView implements Pausable {
 
     private void resumeAnimation(Animation... animations){
         for (Animation animation : animations) {
-            if (animation != null) {
+            if (animation != null && animation.getStatus() == Animation.Status.PAUSED) {
                 animation.play();
             }
         }
