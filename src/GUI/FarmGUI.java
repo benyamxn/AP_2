@@ -45,7 +45,7 @@ public class FarmGUI {
     private Timeline gameUpdater;
     private FarmCityView farmCityView;
 
-    private static SoundGUI soundPlayer;
+    private static SoundUI soundPlayer;
     private static double[] size;
     public static Label debugLabel = new Label("");
     public static int WIDTH = 10;
@@ -423,7 +423,7 @@ public class FarmGUI {
     }
 
     private void createSoundPlayer() {
-        soundPlayer = new SoundGUI();
+        soundPlayer = new SoundUI();
     }
 
     public Farm getFarm() {
@@ -450,7 +450,7 @@ public class FarmGUI {
         return controller;
     }
 
-    public static SoundGUI getSoundPlayer() {
+    public static SoundUI getSoundPlayer() {
         return soundPlayer;
     }
 

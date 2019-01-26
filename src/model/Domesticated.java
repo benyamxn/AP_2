@@ -2,6 +2,7 @@ package model;
 
 
 import java.util.List;
+import java.util.Random;
 
 public class Domesticated extends Animal {
 
@@ -25,11 +26,13 @@ public class Domesticated extends Animal {
 
     public Product produce(){
         if (turnsLeftToProduce == 0) {
-            turnsLeftToProduce = type.getTurnsToProduce();
-            return new Product(type.getProductType());
+            Random rand = new Random();
+            if (rand.nextInt(100) <= 20) {
+                turnsLeftToProduce = type.getTurnsToProduce();
+                return new Product(type.getProductType());
+            }
         }
-        else
-            return null;
+        return null;
     }
 
     public boolean canEat(){
