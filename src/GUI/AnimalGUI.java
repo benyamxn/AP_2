@@ -212,6 +212,10 @@ public class AnimalGUI implements Pausable{
             animal = null;
             FarmGUI.anchorPane.getChildren().removeAll(imageView, cageView);
         });
+        if (animal instanceof Domesticated)
+            FarmGUI.getSoundPlayer().playTrack(animal.toString() + " death");
+        else
+            FarmGUI.getSoundPlayer().playTrack(animal.toString());
         animation.play();
     }
 

@@ -61,15 +61,17 @@ public class Farm {
         Animal newWild = new Wild(point,wildType);
         map.getCell(point).addAnimal(newWild);
         farmGUI.relocateAnimalGUI(newWild.getAnimalGUI());
+        FarmGUI.getSoundPlayer().playTrack(wildType.toString());
         return newWild;
     }
 
-    public Animal placeAnimal(DomesticatedType DomesticatedType ){
+    public Animal placeAnimal(DomesticatedType domesticatedType ){
 
         Point point = getRandomPoint();
-        Animal newDomesticated = new Domesticated(point,DomesticatedType);
+        Animal newDomesticated = new Domesticated(point,domesticatedType);
         map.getCell(point).addAnimal(newDomesticated);
         farmGUI.relocateAnimalGUI(newDomesticated.getAnimalGUI());
+        FarmGUI.getSoundPlayer().playTrack(domesticatedType.toString() + " produce");
         return newDomesticated;
     }
 
@@ -78,6 +80,7 @@ public class Farm {
         Animal newDog = new Dog(point);
         map.getCell(point).addAnimal(newDog);
         farmGUI.relocateAnimalGUI(newDog.getAnimalGUI());
+        FarmGUI.getSoundPlayer().playTrack("dog");
         return  newDog;
     }
 
@@ -86,6 +89,7 @@ public class Farm {
         Animal newCat = new Cat(point);
         map.getCell(point).addAnimal(newCat);
         farmGUI.relocateAnimalGUI(newCat.getAnimalGUI());
+        FarmGUI.getSoundPlayer().playTrack("cat");
         return newCat;
     }
 

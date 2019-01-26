@@ -2,19 +2,28 @@ package GUI;
 
 import GUI.animation.ZoomAnimation;
 import controller.Controller;
+import controller.Main;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Screen;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import model.*;
 import model.Point;
@@ -45,7 +54,7 @@ public class FarmGUI {
     private Timeline gameUpdater;
     private FarmCityView farmCityView;
 
-    private static SoundGUI soundPlayer;
+    private static SoundUI soundPlayer;
     private static double[] size;
     public static Label debugLabel = new Label("");
     public static int WIDTH = 10;
@@ -100,6 +109,7 @@ public class FarmGUI {
         createWarehouseGUI();
         createCamera();
         createExitButton();
+        createMenu();
         debugLabel.setVisible(true);
         debugLabel.relocate(800,50);
         debugLabel.setText("sadfsdfasd");
@@ -128,6 +138,61 @@ public class FarmGUI {
 
     }
 
+    private void createMenu(){
+        Button button = new Button("menu");
+        button.relocate(button.getWidth(),MainStage.getInstance().getHeight() * 0.95);
+
+
+        button.setOnMouseClicked(event -> {
+            createButtonMenu();
+//            Rectangle rectangle = new Rectangle(0,0,MainStage.getInstance().getWidth(),MainStage.getInstance().getHeight());
+//            rectangle.setMouseTransparent(true);
+//            rectangle.setOpacity(0.5);
+//            rectangle.setOnMouseClicked(event1 -> {
+//
+//            });
+//            anchorPane.getChildren().add(rectangle);
+        });
+        anchorPane.getChildren().add(button);
+    }
+
+
+    private void createButtonMenu(){
+
+        AnchorPane pane = new AnchorPane();
+        pane.setLayoutX(anchorPane.getWidth() /  2);
+        pane.setLayoutY(anchorPane.getHeight() / 2);
+        anchorPane.getChildren().add(pane);
+        VBox menuBox = new VBox();
+        menuBox.setAlignment(Pos.CENTER);
+        menuBox.setSpacing(10);
+        menuBox.setId("menuBox");
+        double width = MainStage.getInstance().getWidth() / 4;
+        double height = MainStage.getInstance().getHeight() / 4;
+        double anchor = (400 > height / 3)? height / 2 - 200: height / 3;
+        pane.setBottomAnchor(menuBox, anchor);
+        pane.setTopAnchor(menuBox, anchor);
+        pane.setRightAnchor(menuBox, 100.0);
+        pane.setLeftAnchor(menuBox, width - 300);
+        pane.getChildren().add(menuBox);
+        createButtons(menuBox);
+    }
+
+    private void createButtons(VBox vBox) {
+        Button continueButton = new Button("Continue");
+        Button exitButton = new Button("Exit");
+        exitButton.setOnMouseClicked(event ->System.exit(0));
+        continueButton.setOnMouseClicked(event -> {
+
+        });
+        exitButton.setOnMouseClicked(event -> System.exit(0));
+        VBox.setMargin(continueButton, new Insets(10, 20, 10, 20));
+        VBox.setMargin(exitButton, new Insets(10, 20, 10, 20));
+        vBox.getChildren().addAll(continueButton,exitButton);
+        for (Node child : vBox.getChildren()) {
+            Hoverable.setMouseHandler(child);
+        }
+    }
     private void createCamera(){
         ZoomAnimation zoomAnimation = new ZoomAnimation();
         anchorPane.setOnScroll(event -> {
@@ -168,7 +233,6 @@ public class FarmGUI {
         gameUpdater = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
             System.out.println("updated.");
             game.updateGame();
-            soundPlayer.playMainMusic();
         }));
         gameUpdater.setRate(durationManager.getRate());
         gameUpdater.setCycleCount(Animation.INDEFINITE);
@@ -185,14 +249,17 @@ public class FarmGUI {
             }
         });
         pauseButton.setOnMouseClicked(event -> {
+            soundPlayer.playTrack("click");
             if(pause == false) {
                 gameUpdater.pause();
                 durationManager.pause();
                 pause = true;
+                anchorPane.setDisable(true);
             } else {
                 pause = false;
                 durationManager.resume();
                 gameUpdater.play();
+                anchorPane.setDisable(false);
             }
         });
 
@@ -348,10 +415,14 @@ public class FarmGUI {
             animalBuyButtons[i].addToRoot(anchorPane);
             animalBuyButtons[i].relocateInRoot(startX, startY);
             startX += 2 * radius + marginDistance;
-            final String animalName = animalBuyButtons[i].getAnimal().toString();
+            final String animalName = animalBuyButtons[i].getAnimal().toString().toLowerCase();
             animalBuyButtons[i].setOnClick(event -> {
                 try {
                     controller.buyAnimal(animalName);
+                    if (animalName.equals("cat") || animalName.equals("dog"))
+                        soundPlayer.playTrack(animalName);
+                    else
+                        soundPlayer.playTrack(animalName + " produce");
                 } catch (NameNotFoundException e) {
                     e.printStackTrace();
                 } catch (MoneyNotEnoughException e) {
@@ -424,7 +495,7 @@ public class FarmGUI {
     }
 
     private void createSoundPlayer() {
-        soundPlayer = new SoundGUI();
+        soundPlayer = new SoundUI();
     }
 
     public Farm getFarm() {
@@ -451,7 +522,7 @@ public class FarmGUI {
         return controller;
     }
 
-    public static SoundGUI getSoundPlayer() {
+    public static SoundUI getSoundPlayer() {
         return soundPlayer;
     }
 
