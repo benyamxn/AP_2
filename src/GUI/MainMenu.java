@@ -107,7 +107,7 @@ public class MainMenu {
         musicSoundSlider.setScaleY(1.5);
 
         pane.getChildren().addAll(musicSoundSlider);
-        MainStage.getInstance().pushStack(pane);
+//        MainStage.getInstance().pushStack(pane);
     }
 
     public static void createLoadGameButton() {

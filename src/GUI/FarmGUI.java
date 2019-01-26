@@ -118,6 +118,7 @@ public class FarmGUI {
 
     private void createMenu(){
         Button button = new Button("menu");
+        Hoverable.setMouseHandler(button);
         button.relocate(button.getWidth(),MainStage.getInstance().getHeight() * 0.95);
         button.setOnMouseClicked(event -> {
             createPausePage();
