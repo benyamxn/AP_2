@@ -83,6 +83,7 @@ public class CellGUI  implements  Pausable{
 
     public void battle() {
         imageView.setVisible(false);
+        FarmGUI.getSoundPlayer().playTrack("fight");
         double[] size = new double[]{ battleImage.getWidth() / 5,  battleImage.getHeight() / 4};
         ImageView temp = new ImageView();
         temp.setImage(battleImage);
