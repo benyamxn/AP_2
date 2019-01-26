@@ -44,7 +44,7 @@ public abstract class Vehicle implements Upgradable {
 
     public void startTravel() {
         if(!onTravel) {
-            setEstimatedTimeOfArrival(arrivalTime);
+            setEstimatedTimeOfArrival(getArrivalTime());
             onTravel = true;
         }
     }
@@ -55,7 +55,6 @@ public abstract class Vehicle implements Upgradable {
     }
 
     public int getArrivalTime() {
-
         return BASE_TIME - level * TIME;
     }
 
