@@ -1,5 +1,6 @@
 package GUI;
 
+import GUI.animation.AnimationConstants;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.Product;
@@ -21,8 +22,12 @@ public class ProductGUI {
         this.product = product;
         product.setProductGUI(this);
         try {
-            image = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures"
-                    ,"Products", product.getType().toString().replace(" ", "") + ".png").toString()));
+            if((image = AnimationConstants.productImage.get(product.getType())) == null){
+                image = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures"
+                        ,"Products", product.getType().toString().replace(" ", "") + ".png").toString()));
+                AnimationConstants.productImage.put(product.getType(),image);
+            }
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
