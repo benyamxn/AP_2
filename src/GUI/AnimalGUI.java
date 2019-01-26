@@ -216,6 +216,12 @@ public class AnimalGUI implements Pausable{
 
     @Override
     public void setRate(double rate) {
+        if(rate == DurationManager.pauseRate){
+            pause();
+        }
+        if(rate == DurationManager.resumeRate){
+            resume();
+        }
         if(animation != null) {
             animation.setRate(rate);
         }
@@ -223,4 +229,26 @@ public class AnimalGUI implements Pausable{
             translateTransition.setRate(rate);
         }
     }
+
+    @Override
+    public void pause() {
+        if(animation != null) {
+            animation.pause();
+        }
+        if(translateTransition != null) {
+            translateTransition.pause();
+        }
+    }
+
+    @Override
+    public void resume() {
+        if(animation != null) {
+            animation.play();
+        }
+        if(translateTransition != null) {
+            translateTransition.play();
+        }
+    }
+
+
 }

@@ -98,8 +98,26 @@ public class WorkshopGUI implements Hoverable,Pausable {
 
     @Override
     public void setRate(double rate) {
+        if(rate == DurationManager.pauseRate ){
+            pause();
+        }
+        if(rate == DurationManager.resumeRate){
+            resume();
+        }
         if(animation != null)
              animation.setRate(rate);
+    }
+
+    @Override
+    public void pause() {
+        if(animation != null)
+            animation.pause();
+    }
+
+    @Override
+    public void resume() {
+        if(animation != null)
+            animation.play();
     }
 
 }

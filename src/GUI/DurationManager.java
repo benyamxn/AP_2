@@ -2,10 +2,13 @@ package GUI;
 
 import model.Animal;
 import model.Cell;
+import model.Farm;
 
 public class DurationManager {
 
     private static double rate = 1;
+    public static  double pauseRate = 0;
+    public static  double resumeRate = -1;
     private FarmGUI farmGUI;
 
     public DurationManager(FarmGUI farmGUI) {
@@ -14,16 +17,21 @@ public class DurationManager {
 
 
     public void pause(){
-        setRate(0);
+        setRate(pauseRate);
     }
 
+    public void resume(){setRate(resumeRate);}
+
     public void setRate(double rate){
+        if(rate != DurationManager.pauseRate && rate != DurationManager.resumeRate ){
+            farmGUI.getGameUpdater().setRate(rate);
+        }
         DurationManager.rate = rate;
         setCellsGUI(rate);
         setFarmCity(rate);
         setWorkshops(rate);
         setAnimal(rate);
-        farmGUI.getGameUpdater().setRate(rate);
+        setWell(rate);
     }
 
     public static double getRate() {

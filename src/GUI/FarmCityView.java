@@ -201,8 +201,43 @@ public class FarmCityView implements Pausable {
 
     @Override
     public void setRate(double rate) {
+        if(rate == DurationManager.pauseRate ){
+            pause();
+        }
+        if(rate == DurationManager.resumeRate){
+            resume();
+        }
         setRateAnimations(rate, truckSpriteAnimation, helicopterSpriteAnimation, truckTransitionGo, truckTransitionReturn,
                 moneyGo, moneyReturn, helicopterTransitionGo, helicopterTransitionReturn);
+    }
+
+    @Override
+    public void pause() {
+        pauseAnimations(truckSpriteAnimation, helicopterSpriteAnimation, truckTransitionGo, truckTransitionReturn,
+                moneyGo, moneyReturn, helicopterTransitionGo, helicopterTransitionReturn);
+    }
+
+    @Override
+    public void resume() {
+        resumeAnimation(truckSpriteAnimation, helicopterSpriteAnimation, truckTransitionGo, truckTransitionReturn,
+                moneyGo, moneyReturn, helicopterTransitionGo, helicopterTransitionReturn);
+    }
+
+    private void pauseAnimations(Animation... animations){
+        for (Animation animation : animations) {
+            if (animation != null) {
+                animation.pause();
+            }
+        }
+    }
+
+    private void resumeAnimation(Animation... animations){
+        for (Animation animation : animations) {
+            if (animation != null) {
+                animation.play();
+            }
+        }
+
     }
 
     private void setRateAnimations(double rate, Animation... animations) {

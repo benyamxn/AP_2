@@ -13,12 +13,14 @@ import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.util.Duration;
 import model.*;
 import model.Point;
 import model.exception.*;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -46,7 +48,6 @@ public class FarmGUI {
     private static SoundGUI soundPlayer;
     private static double[] size;
     public static Label debugLabel = new Label("");
-
     public static int WIDTH = 10;
     public static int HEIGHT = 10;
 
@@ -98,16 +99,36 @@ public class FarmGUI {
         createAnimalsGUI();
         createWarehouseGUI();
         createCamera();
+        createExitButton();
         debugLabel.setVisible(true);
         debugLabel.relocate(800,50);
         debugLabel.setText("sadfsdfasd");
         anchorPane.getChildren().add(debugLabel);
     }
 
+    private void createExitButton(){
+        Button button = new Button("exit");
+        button.relocate(500,50);
+
+        button.setOnMouseClicked(event -> {
+            try {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Choose File");
+                File file = fileChooser.showOpenDialog(MainStage.getInstance().getScene().getWindow());
+                if (file == null) {
+                    return;
+                }
+                controller.saveGame(file.getPath().toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.exit(0);
+        });
+        anchorPane.getChildren().add(button);
+
+    }
 
     private void createCamera(){
-
-
         ZoomAnimation zoomAnimation = new ZoomAnimation();
         anchorPane.setOnScroll(event -> {
             zoomAnimation.zoom(anchorPane,Math.pow(1.01,event.getDeltaY()),event.getSceneX(),event.getSceneY(), Screen.getPrimary().getBounds());
@@ -128,6 +149,7 @@ public class FarmGUI {
             mouseY[0] = e.getScreenY();
         });
     }
+
     private void createAnimalsGUI(){
         Cell[][] cells = farm.getMap().getCells();
         for (int i = 0; i < farm.getMap().getWidth() ; i++) {
@@ -170,7 +192,7 @@ public class FarmGUI {
             } else {
                 pause = false;
                 gameUpdater.play();
-                durationManager.setRate(slider.getValue());
+                durationManager.resume();
             }
         });
 
@@ -267,20 +289,6 @@ public class FarmGUI {
                 }
             }
         });
-
-        Button button = new Button("exit");
-
-        button.relocate(500,50);
-        button.setOnMouseClicked(event -> {
-            try {
-                String path = Paths.get(System.getProperty("user.dir"),"gameData","savedGames", "game6.json").toString();
-                controller.saveGame(path);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            System.exit(0);
-        });
-        anchorPane.getChildren().add(button);
         MainStage.getInstance().getScene().getStylesheets().add(getClass().
                 getResource("CSS/farm.css").toExternalForm());
 
