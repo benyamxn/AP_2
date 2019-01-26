@@ -56,6 +56,7 @@ public class SoundUI {
 
     private Media fightSound = new Media(getClass().getClassLoader().getResource("Soundtrack/fight.mp3").toExternalForm());
     private MediaPlayer fightSoundPlayer = new MediaPlayer(fightSound);
+    private double volume = 75;
 
     SoundUI() {
         initSoundPlayers();
@@ -66,6 +67,21 @@ public class SoundUI {
         mainMusicPlayer.setVolume(0.5);
         mainMusicPlayer.play();
         mainMusicPlayer.setAutoPlay(true);
+    }
+
+    private void changeVolumes() {
+        waterSoundPlayer.setVolume(volume * 0.25);
+        woodSoundPlayer.setVolume(volume * 0.1);
+        hammerSoundPlayer.setVolume(volume * 100);
+        clickSoundPlayer.setVolume(volume * 1);
+        bearSoundPlayer.setVolume(volume * 0.5);
+        ostrichProduceSoundPlayer.setVolume(volume * 1);
+        ostrichDeathSoundPlayer.setVolume(volume * 0.5);
+        buffaloProduceSoundPlayer.setVolume(volume * 1);
+        buffaloDeathSoundPlayer.setVolume(volume * 0.5);
+        catSoundPlayer.setVolume(volume * 0.3);
+        dogSoundPlayer.setVolume(volume * 30);
+        fightSoundPlayer.setVolume(volume * 1);
     }
 
     private void initSoundPlayers() {
@@ -248,4 +264,11 @@ public class SoundUI {
     public void setMusicSound(double volume) {
         mainMusicPlayer.setVolume(volume * 0.01);
     }
+
+    public void setVolume(double volumePercentage) {
+        volume *= volumePercentage / 100;
+        changeVolumes();
+    }
+
+
 }
