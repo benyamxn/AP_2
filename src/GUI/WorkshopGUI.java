@@ -22,7 +22,7 @@ import java.nio.file.Paths;
 
 public class WorkshopGUI implements Hoverable,Pausable {
 
-    public static final int DURATION = 3000;
+    public static  int DURATION = 10000;
     private Workshop workshop;
     private Image image;
     private boolean rotate;
@@ -82,6 +82,7 @@ public class WorkshopGUI implements Hoverable,Pausable {
             if(rotate == true){
                 imageView.setScaleX(-1);
             }
+            DURATION = workshop.getProductionTime() * 2000;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

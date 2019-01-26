@@ -1,9 +1,15 @@
 package GUI.animation;
 
+import javafx.scene.image.Image;
+import model.ProductType;
+
+import java.util.HashMap;
+
 public class AnimationConstants {
 
     private static int numberOfColumns, numberOfFrames;
 
+    public static HashMap<ProductType, Image> productImage = new HashMap<>();
     //CAT CONSTANTS:
     public static final int[] CAT_LEFT = getConstants("cat left");
     public static final int[] CAT_RIGHT = CAT_LEFT;

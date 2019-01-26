@@ -3,15 +3,20 @@ package GUI;
 import controller.Controller;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Bounds;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Screen;
 import javafx.util.Duration;
 import model.*;
 import model.Point;
@@ -91,12 +96,87 @@ public class FarmGUI {
         createWorkshopAction();
         createAnimalsGUI();
         createWarehouseGUI();
+        createCamera();
         debugLabel.setVisible(true);
         debugLabel.relocate(800,50);
         debugLabel.setText("sadfsdfasd");
         anchorPane.getChildren().add(debugLabel);
     }
 
+
+    private void createCamera(){
+
+        AnchorPane zoom = anchorPane;
+        Node node = anchorPane;
+        zoom.setOnScroll(event -> {
+
+           int factor = 2;
+           if(event.getDeltaY() < 0)
+               factor = 1 / factor;
+           double x = event.getSceneX();
+           double y = event.getSceneY();
+           double oldScale = node.getScaleX();
+           double scale = oldScale * factor;
+           if (scale < 1) scale = 1;
+           if (scale > 50)  scale = 50;
+           node.setScaleX(scale);
+           node.setScaleY(scale);
+           double  f = (scale / oldScale)-1;
+           Bounds bounds = node.localToScene(node.getBoundsInLocal());
+           double dx = (x - (bounds.getWidth()/2 + bounds.getMinX()));
+           double dy = (y - (bounds.getHeight()/2 + bounds.getMinY()));
+
+           node.setTranslateX(node.getTranslateX()-f*dx);
+           node.setTranslateY(node.getTranslateY()-f*dy);
+        });
+
+        final double[] mouseX = new double[1];
+        final double[] mouseY = new double[1];
+
+        zoom.setOnMousePressed(e -> {
+            mouseX[0] = e.getScreenX();
+            mouseY[0] = e.getScreenY();
+        });
+
+        zoom.setOnMouseDragged(e -> {
+            Rectangle2D screenBounds  =  Screen.getPrimary().getBounds();
+            double deltaX = e.getScreenX() - mouseX[0];
+            double deltaY = e.getScreenY() - mouseY[0];
+            mouseX[0] = e.getScreenX();
+            mouseY[0] = e.getScreenY();
+            int DRAG_FACTOR = 3;
+            Bounds bounds = node.localToScene(node.getBoundsInLocal());
+            Rectangle2D bounds2 = new Rectangle2D(
+                    bounds.getMinX() + deltaX * DRAG_FACTOR,
+                    bounds.getMinY() + deltaY * DRAG_FACTOR,
+                    bounds.getWidth(),
+                    bounds.getHeight()
+            );
+
+            double fixX = 0;
+            double fixY = 0;
+            if (bounds2.getMinX() > screenBounds.getMinX()) {
+                fixX = screenBounds.getMinX() - bounds2.getMinX();
+            }
+            if (bounds2.getMaxX() <= screenBounds.getMaxX()) {
+                fixX = screenBounds.getMaxX() - bounds2.getMaxX();
+            }
+            if (bounds2.getMinY() > screenBounds.getMinY()) {
+                fixY = screenBounds.getMinY() - bounds2.getMinY();
+            }
+            if (bounds2.getMaxY() <= screenBounds.getMaxY()) {
+                fixY = screenBounds.getMaxY() - bounds2.getMaxY();
+            }
+             Timeline timeline = new Timeline();
+            timeline.getKeyFrames().clear();
+            timeline.getKeyFrames().addAll(
+                    new KeyFrame(Duration.millis(20), new KeyValue(node.translateXProperty(), node.getTranslateX() + deltaX * DRAG_FACTOR + fixX)),
+                    new KeyFrame(Duration.millis(20), new KeyValue(node.translateYProperty(), node.getTranslateY() + deltaY * DRAG_FACTOR + fixY))
+            );
+            timeline.play();
+        });
+
+    }
     private void createAnimalsGUI(){
         Cell[][] cells = farm.getMap().getCells();
         for (int i = 0; i < farm.getMap().getWidth() ; i++) {
