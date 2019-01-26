@@ -118,6 +118,7 @@ public class MainMenu {
         if (file == null) {
             return;
         }
+        FarmGUI.anchorPane = new AnchorPane();
         Controller controller = new Controller();
         try {
             controller.loadGame(file.getPath());
