@@ -8,6 +8,7 @@ import javafx.util.Duration;
 public class SoundUI {
 
     private double rate = 1;
+    private double volume = 1;
     private final Duration start = new Duration(0);
 
     private Media mainMusic = new Media(getClass().getClassLoader().getResource("Soundtrack/minecraft.mp3").toExternalForm());
@@ -56,7 +57,6 @@ public class SoundUI {
 
     private Media fightSound = new Media(getClass().getClassLoader().getResource("Soundtrack/fight.mp3").toExternalForm());
     private MediaPlayer fightSoundPlayer = new MediaPlayer(fightSound);
-    private double volume = 75;
 
     SoundUI() {
         initSoundPlayers();
@@ -269,7 +269,7 @@ public class SoundUI {
     }
 
     public void setVolume(double volumePercentage) {
-        volume *= volumePercentage / 100;
+        volume = volumePercentage / 100;
         changeVolumes();
     }
 

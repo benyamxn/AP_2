@@ -197,21 +197,21 @@ public class FarmGUI {
         gameUpdater.setCycleCount(Animation.INDEFINITE);
         gameUpdater.play();
 
-        Slider musicSoundSlider = new Slider(0, 100, 75);
-        musicSoundSlider.valueProperty().addListener(new ChangeListener<> () {
+        Slider slider = new Slider(0, 100, 75);
+        slider.valueProperty().addListener(new ChangeListener<> () {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 MainStage.getInstance().getSoundUI().setMusicSound(newValue.doubleValue());
             }
         });
-        musicSoundSlider.setScaleX(1.5);
-        musicSoundSlider.setScaleY(1.5);
-        musicSoundSlider.relocate(900,25);
+        slider.setScaleX(1.5);
+        slider.setScaleY(1.5);
+        slider.relocate(MainStage.getInstance().getWidth() / 2 + 100 ,25);
 
-        Text text = new Text("Music Volume: ");
+        Text text = new Text("Speed :");
         text.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
-        text.relocate(750, 20);
-        anchorPane.getChildren().addAll(musicSoundSlider, text);
+        text.relocate(MainStage.getInstance().getWidth() / 2, 20);
+        anchorPane.getChildren().addAll(slider, text);
     }
 
     private void loadBackground() throws FileNotFoundException {

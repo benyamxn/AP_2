@@ -124,7 +124,7 @@ public class GameMenuGUI {
             }
         });
 
-        Slider soundEffect = new Slider(0,100,MainStage.getInstance().getSoundUI().getVolume());
+        Slider soundEffect = new Slider(0,100,MainStage.getInstance().getSoundUI().getVolume() * 100);
         soundEffect.valueProperty().addListener(new ChangeListener<>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -146,6 +146,7 @@ public class GameMenuGUI {
         menuBox.getChildren().addAll(text,musicSoundSlider,text1,soundEffect,backButton);
         Hoverable.setMouseHandler(backButton);
         backButton.setOnMouseClicked(event -> {
+            FarmGUI.getSoundPlayer().playTrack("click");
             menuBox.getChildren().clear();
             createButtonMenu();
             render();
