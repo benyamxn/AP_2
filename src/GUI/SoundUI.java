@@ -272,4 +272,8 @@ public class SoundUI {
         volume *= volumePercentage / 100;
         changeVolumes();
     }
+
+    public double getVolume() {
+        return volume;
+    }
 }
