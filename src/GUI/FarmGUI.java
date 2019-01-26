@@ -185,6 +185,7 @@ public class FarmGUI {
             }
         });
         pauseButton.setOnMouseClicked(event -> {
+            soundPlayer.playTrack("click");
             if(pause == false) {
                 gameUpdater.pause();
                 durationManager.pause();
@@ -348,10 +349,14 @@ public class FarmGUI {
             animalBuyButtons[i].addToRoot(anchorPane);
             animalBuyButtons[i].relocateInRoot(startX, startY);
             startX += 2 * radius + marginDistance;
-            final String animalName = animalBuyButtons[i].getAnimal().toString();
+            final String animalName = animalBuyButtons[i].getAnimal().toString().toLowerCase();
             animalBuyButtons[i].setOnClick(event -> {
                 try {
                     controller.buyAnimal(animalName);
+                    if (animalName.equals("cat") || animalName.equals("dog"))
+                        soundPlayer.playTrack(animalName);
+                    else
+                        soundPlayer.playTrack(animalName + " produce");
                 } catch (NameNotFoundException e) {
                     e.printStackTrace();
                 } catch (MoneyNotEnoughException e) {
