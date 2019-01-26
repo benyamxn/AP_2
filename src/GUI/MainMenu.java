@@ -17,7 +17,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import model.Farm;
 import model.Game;
@@ -27,6 +29,7 @@ import model.exception.MoneyNotEnoughException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.zip.CheckedOutputStream;
 
 public class MainMenu {
     private double width = MainStage.getInstance().getWidth();
@@ -72,13 +75,20 @@ public class MainMenu {
                 e.printStackTrace();
             }
         });
+
         loadGameButton.setOnMouseClicked(event -> createLoadGameButton());
         exitButton.setOnMouseClicked(event -> System.exit(0));
 
-        VBox settingsMenu = new VBox();
         settingsButton.setOnMouseClicked(event -> {
-            createSettingsMenu();
+            MainStage.getInstance().getSoundUI().playTrack("click");
+            createSettingsMenu(vBox);
         });
+
+        aboutButton.setOnMouseClicked(event -> {
+            MainStage.getInstance().getSoundUI().playTrack("click");
+            createAboutsMenu(vBox);
+        });
+
         VBox.setMargin(newGameButton, new Insets(10, 20, 10, 20));
         VBox.setMargin(loadGameButton, new Insets(10, 20, 10, 20));
         VBox.setMargin(settingsButton, new Insets(10, 20, 10, 20));
@@ -91,24 +101,6 @@ public class MainMenu {
 
     }
 
-    private void createSettingsMenu() {
-
-        AnchorPane pane = new AnchorPane();
-        pane.setId("settingsMenuPane");
-        Slider musicSoundSlider = new Slider(0, 100, 75);
-        musicSoundSlider.valueProperty().addListener(new ChangeListener<> () {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                MainStage.getInstance().getSoundUI().setMusicSound(newValue.doubleValue());
-            }
-        });
-        musicSoundSlider.relocate(2 * width / 3, height / 2);
-        musicSoundSlider.setScaleX(1.5);
-        musicSoundSlider.setScaleY(1.5);
-
-        pane.getChildren().addAll(musicSoundSlider);
-//        MainStage.getInstance().pushStack(pane);
-    }
 
     public static void createLoadGameButton() {
 
@@ -128,4 +120,83 @@ public class MainMenu {
             return;
         }
     }
+    private void createSettingsMenu(VBox menuBox){
+        menuBox.getChildren().clear();
+
+        Slider musicSoundSlider = new Slider(0, 100, MainStage.getInstance().getSoundUI().getMusicSound()  * 100);
+        musicSoundSlider.valueProperty().addListener(new ChangeListener<>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                MainStage.getInstance().getSoundUI().setMusicSound(newValue.doubleValue());
+            }
+        });
+
+        Slider soundEffect = new Slider(0,100,MainStage.getInstance().getSoundUI().getVolume() * 100);
+        soundEffect.valueProperty().addListener(new ChangeListener<>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                MainStage.getInstance().getSoundUI().setVolume(newValue.doubleValue());
+            }
+        });
+        Text text = new Text("Music Volume:");
+        text.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
+        Text text1 = new Text("Sound Effects:");
+        text1.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
+        text.setFill(Color.GOLD);
+        text1.setFill(Color.GOLD);
+        Button backButton = new Button("Back");
+
+        VBox.setMargin(text, new Insets(10, 20, 10, 20));
+        VBox.setMargin(musicSoundSlider, new Insets(5, 20, 10, 20));
+        VBox.setMargin(text1, new Insets(30, 20, 10, 20));
+        VBox.setMargin(soundEffect, new Insets(5, 20, 10, 20));
+        VBox.setMargin(backButton, new Insets(100, 20, 10, 20));
+
+        menuBox.getChildren().addAll(text,musicSoundSlider,text1,soundEffect,backButton);
+        Hoverable.setMouseHandler(backButton);
+        backButton.setOnMouseClicked(event -> {
+            MainStage.getInstance().getSoundUI().playTrack("click");
+            menuBox.getChildren().clear();
+            createButtons(menuBox);
+        });
+    }
+
+
+    private void createAboutsMenu(VBox menuBox) {
+        menuBox.getChildren().clear();
+        Text start1 = new Text("\nA game, totally new!");
+        start1.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
+
+        Text start2 = new Text("Made By:");
+        start2.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
+
+        Text ben = new Text("Benyamin Ghaseminia");
+        ben.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
+        Text aboo = new Text("Amirmohammad Abouei");
+        aboo.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
+        Text aryo = new Text("Aryo Lotfi");
+        aryo.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
+
+        Button backButton = new Button("Back");
+        start1.setFill(Color.GOLD);
+        start2.setFill(Color.GOLD);
+        ben.setFill(Color.BEIGE);
+        aboo.setFill(Color.BEIGE);
+        aryo.setFill(Color.BEIGE);
+        VBox.setMargin(start1, new Insets(10, 20, 10, 20));
+        VBox.setMargin(start2, new Insets(10, 20, 10, 20));
+        VBox.setMargin(aboo, new Insets(10, 20, 10, 20));
+        VBox.setMargin(aryo, new Insets(10, 20, 10, 20));
+        VBox.setMargin(ben, new Insets(10, 20, 10, 20));
+        VBox.setMargin(backButton, new Insets(80, 20, 10, 20));
+
+        menuBox.getChildren().addAll(start1, start2, aboo, aryo, ben, backButton);
+        Hoverable.setMouseHandler(backButton);
+        backButton.setOnMouseClicked(event -> {
+            MainStage.getInstance().getSoundUI().playTrack("click");
+            menuBox.getChildren().clear();
+            createButtons(menuBox);
+        });
+    }
+
 }

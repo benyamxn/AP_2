@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -135,6 +136,8 @@ public class GameMenuGUI {
         Text text = new Text("Music Volume:");
         text.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
         Text text1 = new Text("Sound Effects:");
+        text.setFill(Color.GOLD);
+        text1.setFill(Color.GOLD);
         text1.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
         Button backButton = new Button("Back");
 
