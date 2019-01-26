@@ -60,6 +60,7 @@ public class SoundUI {
 
     public void playMainMusic() {
         mainMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mainMusicPlayer.setVolume(0.5);
         mainMusicPlayer.play();
         mainMusicPlayer.setAutoPlay(true);
     }
@@ -93,6 +94,7 @@ public class SoundUI {
 
         bearSoundPlayer = new MediaPlayer(bearSound);
         bearSoundPlayer.setStartTime(new Duration(1000));
+        bearSoundPlayer.setVolume(0.5);
 
         ostrichProduceSoundPlayer = new MediaPlayer(ostrichProduceSound);
         ostrichProduceSoundPlayer.setRate(1.5);
@@ -107,10 +109,10 @@ public class SoundUI {
         buffaloDeathSoundPlayer.setRate(1.5);
 
         catSoundPlayer = new MediaPlayer(catSound);
-        catSoundPlayer.setVolume(0.2);
+        catSoundPlayer.setVolume(0.3);
 
         dogSoundPlayer = new MediaPlayer(dogSound);
-        dogSoundPlayer.setVolume(10);
+        dogSoundPlayer.setVolume(30);
 
     }
 
