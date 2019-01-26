@@ -254,12 +254,10 @@ public class FarmGUI {
                 gameUpdater.pause();
                 durationManager.pause();
                 pause = true;
-                anchorPane.setDisable(true);
             } else {
                 pause = false;
                 durationManager.resume();
                 gameUpdater.play();
-                anchorPane.setDisable(false);
             }
         });
 
