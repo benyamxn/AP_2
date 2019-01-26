@@ -62,6 +62,7 @@ public class FarmGUI {
     public static int WIDTH = 10;
     public static int HEIGHT = 10;
     private DurationManager durationManager;
+    private MissionGUI missionGUI;
 
     public FarmGUI(Controller controller) throws FileNotFoundException {
         size = new double[]{MainStage.getInstance().getWidth(), MainStage.getInstance().getHeight()};
@@ -112,8 +113,14 @@ public class FarmGUI {
         createCamera();
         createMenu();
         createPausePage();
+        createMissionGUI();
         durationManager = new DurationManager(this);
         gameMenuGUI = new GameMenuGUI(this);
+    }
+
+    private void createMissionGUI() {
+        missionGUI = new MissionGUI(game);
+        missionGUI.addToRoot(anchorPane);
     }
 
     private void createMenu(){
@@ -192,6 +199,8 @@ public class FarmGUI {
         gameUpdater = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
             System.out.println("updated.");
             game.updateGame();
+            missionGUI.updateMoney();
+            missionGUI.updateProducts();
         }));
         gameUpdater.setRate(durationManager.getRate());
         gameUpdater.setCycleCount(Animation.INDEFINITE);

@@ -96,4 +96,8 @@ public class GameStatus {
         moneyLabel.setStyle(style);
         turnsLabel.setStyle(style);
     }
+
+    public Label getMoneyLabel() {
+        return moneyLabel;
+    }
 }
