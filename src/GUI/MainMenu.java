@@ -59,6 +59,7 @@ public class MainMenu {
         newGameButton.setOnMouseClicked(event -> {
             try {
                 new FarmGUI(new Controller()).render();
+                FarmGUI.getSoundPlayer().playTrack("click");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
