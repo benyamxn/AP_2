@@ -11,7 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 
-public class ProductButton extends FarmButton{
+public class ProductButton extends FarmButton implements Hoverable{
 
     private ProductType productType;
     private Label countLabel;

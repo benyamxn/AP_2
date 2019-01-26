@@ -7,8 +7,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import model.Farm;
 
-public class FarmButton implements Hoverable{
+public class FarmButton implements Hoverable {
 
     private int radius;
     private Circle circle;
@@ -37,6 +38,7 @@ public class FarmButton implements Hoverable{
         circle.setOnMouseClicked(eventHandler);
         countRenderer.setOnMouseClicked(eventHandler);
         priceLabel.setOnMouseClicked(eventHandler);
+//        FarmGUI.getSoundPlayer().playTrack("click");
         // TODO: is the line above necessary?
     }
 
