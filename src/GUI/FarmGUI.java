@@ -13,6 +13,9 @@ import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.util.Duration;
@@ -44,6 +47,7 @@ public class FarmGUI {
     private Game game;
     private Timeline gameUpdater;
     private FarmCityView farmCityView;
+    private Rectangle pauseRectangle;
 
     private static SoundUI soundPlayer;
     private static double[] size;
@@ -100,6 +104,7 @@ public class FarmGUI {
         createWarehouseGUI();
         createCamera();
         createExitButton();
+        createPausePage();
         debugLabel.setVisible(true);
         debugLabel.relocate(800,50);
         debugLabel.setText("sadfsdfasd");
@@ -188,16 +193,28 @@ public class FarmGUI {
             if(pause == false) {
                 gameUpdater.pause();
                 durationManager.pause();
+                createPausePage();
+                anchorPane.getChildren().add(pauseRectangle);
                 pause = true;
             } else {
                 pause = false;
                 durationManager.resume();
                 gameUpdater.play();
+                anchorPane.getChildren().remove(pauseRectangle);
             }
         });
 
         slider.relocate(900,50);
         anchorPane.getChildren().addAll(pauseButton,slider);
+    }
+
+    private void createPausePage() {
+        double width, height;
+        width = MainStage.getInstance().getWidth() + 100;
+        height = MainStage.getInstance().getHeight() + 100;
+        pauseRectangle = new Rectangle(0, 0, width, height);
+        pauseRectangle.setFill(Color.FIREBRICK);
+        pauseRectangle.setOpacity(0.5);
     }
 
     private void loadBackground() throws FileNotFoundException {
@@ -260,6 +277,8 @@ public class FarmGUI {
         anchorPane.setId("farmPane");
         anchorPane.setOnMouseClicked(event -> {
             CellGUI cellGUI = getCellByEvent(event.getX(), event.getY());
+            if (pause)
+                return;
             if(cellGUI != null){
                 Cell cell = cellGUI.getCell();
                 if(!cell.hasProduct()) {
