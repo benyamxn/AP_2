@@ -35,6 +35,7 @@ public class UpgradeButton implements Hoverable{
             button.setDisable(true);
             return;
         }
+        FarmGUI.getSoundPlayer().playTrack("upgrade");
         button.setText(Integer.toString(upgradable.getUpgradePrice()));
     }
 

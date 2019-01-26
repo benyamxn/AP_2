@@ -75,9 +75,9 @@ public class WarehouseGUI implements Hoverable {
                 productImageView.setFitWidth(width);
                 productImageView.setFitHeight(height);
                 productImageView.setPreserveRatio(true);
-                productImageView.setScaleY(3);
-                productImageView.setScaleX(3);
-                productImageView.relocate((startX + 1.0 * productIndex / row) * width,  (productIndex % column + startY) * height);
+                productImageView.setScaleY(2);
+                productImageView.setScaleX(2);
+                productImageView.relocate(width * (startX + 1.0 * productIndex / row),  height * (productIndex % column + startY));
                 pane.getChildren().add(productImageView);
                 productIndex++;
             } catch (FileNotFoundException e) {

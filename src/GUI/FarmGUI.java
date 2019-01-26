@@ -1,15 +1,12 @@
 package GUI;
 
+import GUI.animation.ZoomAnimation;
 import controller.Controller;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.Bounds;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -45,6 +42,8 @@ public class FarmGUI {
     private Game game;
     private Timeline gameUpdater;
     private FarmCityView farmCityView;
+
+    private static SoundGUI soundPlayer;
     private static double[] size;
     public static Label debugLabel = new Label("");
 
@@ -86,6 +85,8 @@ public class FarmGUI {
             upgradeButton.addToRoot(anchorPane);
             upgradeButton.relocate(location[0] - cellWidth * 2 * shift - 250 * (shift - 0.8), location[1] - 2 * cellHeight + 0.1 * MainStage.getInstance().getHeight());
         }
+
+        createSoundPlayer();
         createGameStatus();
         renderAnimalBuyingButtons();
         createWellGUI();
@@ -106,76 +107,26 @@ public class FarmGUI {
 
     private void createCamera(){
 
-        AnchorPane zoom = anchorPane;
-        Node node = anchorPane;
-        zoom.setOnScroll(event -> {
 
-           int factor = 2;
-           if(event.getDeltaY() < 0)
-               factor = 1 / factor;
-           double x = event.getSceneX();
-           double y = event.getSceneY();
-           double oldScale = node.getScaleX();
-           double scale = oldScale * factor;
-           if (scale < 1) scale = 1;
-           if (scale > 50)  scale = 50;
-           node.setScaleX(scale);
-           node.setScaleY(scale);
-           double  f = (scale / oldScale)-1;
-           Bounds bounds = node.localToScene(node.getBoundsInLocal());
-           double dx = (x - (bounds.getWidth()/2 + bounds.getMinX()));
-           double dy = (y - (bounds.getHeight()/2 + bounds.getMinY()));
-
-           node.setTranslateX(node.getTranslateX()-f*dx);
-           node.setTranslateY(node.getTranslateY()-f*dy);
+        ZoomAnimation zoomAnimation = new ZoomAnimation();
+        anchorPane.setOnScroll(event -> {
+            zoomAnimation.zoom(anchorPane,Math.pow(1.01,event.getDeltaY()),event.getSceneX(),event.getSceneY(), Screen.getPrimary().getBounds());
         });
-
         final double[] mouseX = new double[1];
         final double[] mouseY = new double[1];
 
-        zoom.setOnMousePressed(e -> {
+        anchorPane.setOnMousePressed(e -> {
             mouseX[0] = e.getScreenX();
             mouseY[0] = e.getScreenY();
         });
 
-        zoom.setOnMouseDragged(e -> {
-            Rectangle2D screenBounds  =  Screen.getPrimary().getBounds();
+        anchorPane.setOnMouseDragged(e -> {
             double deltaX = e.getScreenX() - mouseX[0];
             double deltaY = e.getScreenY() - mouseY[0];
+            zoomAnimation.drag(anchorPane,deltaX,deltaY,Screen.getPrimary().getBounds());
             mouseX[0] = e.getScreenX();
             mouseY[0] = e.getScreenY();
-            int DRAG_FACTOR = 3;
-            Bounds bounds = node.localToScene(node.getBoundsInLocal());
-            Rectangle2D bounds2 = new Rectangle2D(
-                    bounds.getMinX() + deltaX * DRAG_FACTOR,
-                    bounds.getMinY() + deltaY * DRAG_FACTOR,
-                    bounds.getWidth(),
-                    bounds.getHeight()
-            );
-
-            double fixX = 0;
-            double fixY = 0;
-            if (bounds2.getMinX() > screenBounds.getMinX()) {
-                fixX = screenBounds.getMinX() - bounds2.getMinX();
-            }
-            if (bounds2.getMaxX() <= screenBounds.getMaxX()) {
-                fixX = screenBounds.getMaxX() - bounds2.getMaxX();
-            }
-            if (bounds2.getMinY() > screenBounds.getMinY()) {
-                fixY = screenBounds.getMinY() - bounds2.getMinY();
-            }
-            if (bounds2.getMaxY() <= screenBounds.getMaxY()) {
-                fixY = screenBounds.getMaxY() - bounds2.getMaxY();
-            }
-             Timeline timeline = new Timeline();
-            timeline.getKeyFrames().clear();
-            timeline.getKeyFrames().addAll(
-                    new KeyFrame(Duration.millis(20), new KeyValue(node.translateXProperty(), node.getTranslateX() + deltaX * DRAG_FACTOR + fixX)),
-                    new KeyFrame(Duration.millis(20), new KeyValue(node.translateYProperty(), node.getTranslateY() + deltaY * DRAG_FACTOR + fixY))
-            );
-            timeline.play();
         });
-
     }
     private void createAnimalsGUI(){
         Cell[][] cells = farm.getMap().getCells();
@@ -195,6 +146,7 @@ public class FarmGUI {
         gameUpdater = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
             System.out.println("updated.");
             game.updateGame();
+            soundPlayer.playMainMusic();
         }));
         gameUpdater.setRate(durationManager.getRate());
         gameUpdater.setCycleCount(Animation.INDEFINITE);
@@ -300,6 +252,7 @@ public class FarmGUI {
                             Cell cell1 = cellsToPlant.get(i);
                             cellGUIs[cell1.getCoordinate().getWidth()][cell1.getCoordinate().getHeight()].growGrass(grassLevels[i]);
                         }
+                        soundPlayer.playTrack("water");
                     } catch (NotEnoughWaterException e) {
                         System.out.println("not enough water");
                     }
@@ -448,7 +401,7 @@ public class FarmGUI {
         farmCityView.addToRoot(anchorPane);
     }
 
-    public void createWorkshopAction(){
+    private void createWorkshopAction(){
         for (WorkshopGUI workshop : workshopGUIS) {
             workshop.setOnClick(event -> {
                 try {
@@ -460,6 +413,10 @@ public class FarmGUI {
                 }
             });
         }
+    }
+
+    private void createSoundPlayer() {
+        soundPlayer = new SoundGUI();
     }
 
     public Farm getFarm() {
@@ -484,6 +441,10 @@ public class FarmGUI {
 
     public Controller getController() {
         return controller;
+    }
+
+    public static SoundGUI getSoundPlayer() {
+        return soundPlayer;
     }
 
     private UpgradeButton createVehicleUpgradeButton(VehicleGUI vehicleGUI) {

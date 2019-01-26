@@ -2,7 +2,6 @@ package GUI;
 
 import GUI.animation.AnimationConstants;
 import GUI.animation.SpriteAnimation;
-import javafx.animation.Animation;
 import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
@@ -10,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import model.Farm;
 import model.Well;
 
 import java.io.FileInputStream;
@@ -31,6 +31,7 @@ public class WellGUI  implements Hoverable, Pausable{
 
 
     public void refill() {
+        FarmGUI.getSoundPlayer().playTrack("splash");
         animation = new SpriteAnimation(imageView, Duration.millis(duration), count, columns,
                 0, 0,width, height);
         animation.setCycleCount(cycleCount);
