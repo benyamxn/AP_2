@@ -244,4 +244,8 @@ public class SoundUI {
             }
         }
     }
+
+    public void setMusicSound(double volume) {
+        mainMusicPlayer.setVolume(volume * 0.01);
+    }
 }
