@@ -4,14 +4,9 @@ import GUI.animation.ZoomAnimation;
 import controller.Controller;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.Bounds;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -47,6 +42,8 @@ public class FarmGUI {
     private Game game;
     private Timeline gameUpdater;
     private FarmCityView farmCityView;
+
+    private static SoundGUI soundPlayer;
     private static double[] size;
     public static Label debugLabel = new Label("");
 
@@ -88,6 +85,8 @@ public class FarmGUI {
             upgradeButton.addToRoot(anchorPane);
             upgradeButton.relocate(location[0] - cellWidth * 2 * shift - 250 * (shift - 0.8), location[1] - 2 * cellHeight + 0.1 * MainStage.getInstance().getHeight());
         }
+
+        createSoundPlayer();
         createGameStatus();
         renderAnimalBuyingButtons();
         createWellGUI();
@@ -147,6 +146,7 @@ public class FarmGUI {
         gameUpdater = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
             System.out.println("updated.");
             game.updateGame();
+            soundPlayer.playMainMusic();
         }));
         gameUpdater.setRate(durationManager.getRate());
         gameUpdater.setCycleCount(Animation.INDEFINITE);
@@ -252,6 +252,7 @@ public class FarmGUI {
                             Cell cell1 = cellsToPlant.get(i);
                             cellGUIs[cell1.getCoordinate().getWidth()][cell1.getCoordinate().getHeight()].growGrass(grassLevels[i]);
                         }
+                        soundPlayer.playTrack("water");
                     } catch (NotEnoughWaterException e) {
                         System.out.println("not enough water");
                     }
@@ -399,7 +400,7 @@ public class FarmGUI {
         farmCityView.addToRoot(anchorPane);
     }
 
-    public void createWorkshopAction(){
+    private void createWorkshopAction(){
         for (WorkshopGUI workshop : workshopGUIS) {
             workshop.setOnClick(event -> {
                 try {
@@ -411,6 +412,10 @@ public class FarmGUI {
                 }
             });
         }
+    }
+
+    private void createSoundPlayer() {
+        soundPlayer = new SoundGUI();
     }
 
     public Farm getFarm() {
@@ -435,6 +440,10 @@ public class FarmGUI {
 
     public Controller getController() {
         return controller;
+    }
+
+    public static SoundGUI getSoundPlayer() {
+        return soundPlayer;
     }
 
     private UpgradeButton createVehicleUpgradeButton(VehicleGUI vehicleGUI) {
