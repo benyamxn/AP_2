@@ -142,6 +142,8 @@ public class MainMenu {
         text.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
         Text text1 = new Text("Sound Effects:");
         text1.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
+        text.setFill(Color.GOLD);
+        text1.setFill(Color.GOLD);
         Button backButton = new Button("Back");
 
         VBox.setMargin(text, new Insets(10, 20, 10, 20));
