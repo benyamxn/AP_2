@@ -64,6 +64,9 @@ public class WarehouseGUI implements Hoverable {
         double scaleX = endX - startX, scaleY = endY - startY;
         int row, column;
         row = column = 8 + 2 * (level - 1);
+        double offsetX, offsetY;
+        offsetX = imageView.getFitWidth() * startX;
+        offsetY = imageView.getFitHeight() * startY;
         double width = (imageView.getFitWidth() * scaleX) / row;
         double height = (imageView.getFitHeight() * scaleY) / column;
         int productIndex = 0;
@@ -75,9 +78,9 @@ public class WarehouseGUI implements Hoverable {
                 productImageView.setFitWidth(width);
                 productImageView.setFitHeight(height);
                 productImageView.setPreserveRatio(true);
-                productImageView.setScaleY(2);
-                productImageView.setScaleX(2);
-                productImageView.relocate(width * (startX + 1.0 * productIndex / row),  height * (productIndex % column + startY));
+                productImageView.setScaleY(2.8);
+                productImageView.setScaleX(2.8);
+                productImageView.relocate(width * (1.0 * productIndex / row) + offsetX / 2 ,  height * ((double) (productIndex % column)) + offsetY);
                 pane.getChildren().add(productImageView);
                 productIndex++;
             } catch (FileNotFoundException e) {
