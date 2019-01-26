@@ -70,18 +70,21 @@ public class SoundUI {
     }
 
     private void changeVolumes() {
+        splashSoundPlayer.setVolume(volume);
         waterSoundPlayer.setVolume(volume * 0.25);
         woodSoundPlayer.setVolume(volume * 0.1);
         hammerSoundPlayer.setVolume(volume * 100);
-        clickSoundPlayer.setVolume(volume * 1);
+        clickSoundPlayer.setVolume(volume);
         bearSoundPlayer.setVolume(volume * 0.5);
-        ostrichProduceSoundPlayer.setVolume(volume * 1);
+        guineaFowlDeathSoundPlayer.setVolume(volume);
+        guineaFowlProduceSoundPlayer.setVolume(volume);
+        ostrichProduceSoundPlayer.setVolume(volume);
         ostrichDeathSoundPlayer.setVolume(volume * 0.5);
-        buffaloProduceSoundPlayer.setVolume(volume * 1);
+        buffaloProduceSoundPlayer.setVolume(volume);
         buffaloDeathSoundPlayer.setVolume(volume * 0.5);
         catSoundPlayer.setVolume(volume * 0.3);
         dogSoundPlayer.setVolume(volume * 30);
-        fightSoundPlayer.setVolume(volume * 1);
+        fightSoundPlayer.setVolume(volume);
     }
 
     private void initSoundPlayers() {
@@ -269,6 +272,4 @@ public class SoundUI {
         volume *= volumePercentage / 100;
         changeVolumes();
     }
-
-
 }
