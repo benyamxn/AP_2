@@ -42,6 +42,7 @@ public class HelicopterMenu {
         shipButton.getStyleClass().add("truckMenuBtn");
         Button cancelButton = new Button("Cancel");
         cancelButton.getStyleClass().add("truckMenuBtn");
+        Hoverable.setMouseHandler(cancelButton);
         cancelButton.setOnMouseClicked(event -> {
             try {
                 game.clear(VehicleType.HELICOPTER);
@@ -51,7 +52,7 @@ public class HelicopterMenu {
             }
             MainStage.getInstance().popStack();
         });
-
+        Hoverable.setMouseHandler(shipButton);
         shipButton.setOnMouseClicked(event -> {
             MainStage.getInstance().popStack();
             game.getFarm().getHelicopter().startTravel();
