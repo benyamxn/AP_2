@@ -377,7 +377,9 @@ public class FarmGUI {
     private void createTruckGUI() {
         VehicleGUI truckGUI = new VehicleGUI(farm.getTruck(), (int) (MainStage.getInstance().getWidth() / 10));
         truckGUI.setOnClick(event -> {
-            new TruckMenu(game);
+            FarmGUI.getSoundPlayer().playTrack("click");
+            pauseFarm();
+            new TruckMenu(game,this);
         });
         UpgradeButton upgradeButton = createVehicleUpgradeButton(truckGUI);
         truckGUI.relocate(MainStage.getInstance().getWidth() / 5, MainStage.getInstance().getHeight() * 0.85);
@@ -389,7 +391,12 @@ public class FarmGUI {
         VehicleGUI helicopterGUI = new VehicleGUI(farm.getHelicopter(), (int) (MainStage.getInstance().getWidth() / 10));
         helicopterGUI.relocate(MainStage.getInstance().getWidth() * 0.7, MainStage.getInstance().getHeight() * 0.85);
         UpgradeButton upgradeButton = createVehicleUpgradeButton(helicopterGUI);
-        helicopterGUI.setOnClick(event -> new HelicopterMenu(game));
+        helicopterGUI.setOnClick(event -> {
+            FarmGUI.getSoundPlayer().playTrack("click");
+            pauseFarm();
+            new HelicopterMenu(game,this);
+
+        });
         upgradeButton.relocate(MainStage.getInstance().getWidth() * 0.7 - 60, MainStage.getInstance().getHeight()* 0.90);
         helicopterGUI.addToRoot(anchorPane);
     }
@@ -397,8 +404,9 @@ public class FarmGUI {
     private void createWarehouseGUI() {
         WarehouseGUI warehouseGUI = farm.getWarehouse().getWarehouseGUI();
         warehouseGUI.setOnClick(event -> {
-            new TruckMenu(game);
+            pauseFarm();
             FarmGUI.getSoundPlayer().playTrack("click");
+            new TruckMenu(game,this);
         });
         warehouseGUI.relocate(2 * MainStage.getInstance().getWidth() / 5, MainStage.getInstance().getHeight() * 0.83);
         warehouseGUI.addToRoot(anchorPane);
