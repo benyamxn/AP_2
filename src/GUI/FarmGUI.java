@@ -197,11 +197,11 @@ public class FarmGUI {
         gameUpdater.setCycleCount(Animation.INDEFINITE);
         gameUpdater.play();
 
-        Slider slider = new Slider(0, 100, 75);
+        Slider slider = new Slider(0.2, 10, gameUpdater.getRate());
         slider.valueProperty().addListener(new ChangeListener<> () {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                MainStage.getInstance().getSoundUI().setMusicSound(newValue.doubleValue());
+                durationManager.setRate(newValue.doubleValue());
             }
         });
         slider.setScaleX(1.5);
