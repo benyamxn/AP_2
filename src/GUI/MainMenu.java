@@ -56,6 +56,7 @@ public class MainMenu {
         Button aboutButton = new Button("About");
         Button exitButton = new Button("Exit");
         exitButton.setOnMouseClicked(event ->System.exit(0));
+        new SoundUI().playMainMusic();
         newGameButton.setOnMouseClicked(event -> {
             try {
                 new FarmGUI(new Controller()).render();

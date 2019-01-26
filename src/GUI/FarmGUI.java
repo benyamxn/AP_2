@@ -168,7 +168,6 @@ public class FarmGUI {
         gameUpdater = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
             System.out.println("updated.");
             game.updateGame();
-            soundPlayer.playMainMusic();
         }));
         gameUpdater.setRate(durationManager.getRate());
         gameUpdater.setCycleCount(Animation.INDEFINITE);
