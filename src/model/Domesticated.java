@@ -1,6 +1,8 @@
 package model;
 
 
+import GUI.FarmGUI;
+
 import java.util.List;
 import java.util.Random;
 
@@ -29,6 +31,7 @@ public class Domesticated extends Animal {
             Random rand = new Random();
             if (rand.nextInt(100) <= 20) {
                 turnsLeftToProduce = type.getTurnsToProduce();
+                FarmGUI.getSoundPlayer().playTrack(this.toString() + " produce");
                 return new Product(type.getProductType());
             }
         }
