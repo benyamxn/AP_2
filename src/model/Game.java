@@ -138,7 +138,9 @@ public class Game {
     public void removeProductFromVehicle(Vehicle vehicle, ProductType productType, int number) {
         HashMap <ProductType, Integer> map = new HashMap<>();
         map.put(productType, number);
-        farm.getWarehouse().addProduct(map);
+        if (vehicle instanceof Truck) {
+            farm.getWarehouse().addProduct(map);
+        }
         vehicle.removeProduct(productType, number);
     }
     public void addProductToVehicle(Vehicle vehicle, ProductType productType, int number) throws VehicleOnTripException, NotEnoughCapacityException, NotEnoughItemsException, MoneyNotEnoughException, ItemNotForSaleException {

@@ -333,6 +333,15 @@ public class FarmGUI {
         truckGUI.addToRoot(anchorPane);
     }
 
+    private void createHelicopterGUI() {
+        VehicleGUI helicopterGUI = new VehicleGUI(farm.getHelicopter(), (int) (MainStage.getInstance().getWidth() / 10));
+        helicopterGUI.relocate(MainStage.getInstance().getWidth() * 0.7, MainStage.getInstance().getHeight() * 0.85);
+        UpgradeButton upgradeButton = createVehicleUpgradeButton(helicopterGUI);
+        helicopterGUI.setOnClick(event -> new HelicopterMenu(game));
+        upgradeButton.relocate(MainStage.getInstance().getWidth() * 0.7 - 60, MainStage.getInstance().getHeight()* 0.90);
+        helicopterGUI.addToRoot(anchorPane);
+    }
+
     private void createWarehouseGUI() {
         WarehouseGUI warehouseGUI = farm.getWarehouse().getWarehouseGUI();
         warehouseGUI.setOnClick(event -> new TruckMenu(game));
@@ -351,14 +360,6 @@ public class FarmGUI {
         });
         upgradeButton.addToRoot(anchorPane);
         upgradeButton.relocate(2 * MainStage.getInstance().getWidth() / 5 - 50, MainStage.getInstance().getHeight() * 0.9);
-    }
-
-    private void createHelicopterGUI() {
-        VehicleGUI helicopterGUI = new VehicleGUI(farm.getHelicopter(), (int) (MainStage.getInstance().getWidth() / 10));
-        helicopterGUI.relocate(MainStage.getInstance().getWidth() * 0.7, MainStage.getInstance().getHeight() * 0.85);
-        UpgradeButton upgradeButton = createVehicleUpgradeButton(helicopterGUI);
-        upgradeButton.relocate(MainStage.getInstance().getWidth() * 0.7 - 60, MainStage.getInstance().getHeight()* 0.90);
-        helicopterGUI.addToRoot(anchorPane);
     }
 
     private void createFarmCityView() {
