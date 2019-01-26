@@ -13,12 +13,15 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Screen;
@@ -192,16 +195,22 @@ public class FarmGUI {
         gameUpdater.setRate(durationManager.getRate());
         gameUpdater.setCycleCount(Animation.INDEFINITE);
         gameUpdater.play();
-        Slider slider = new Slider(0.1,10,1);
-        slider.valueChangingProperty().addListener(new ChangeListener<Boolean>() {
+
+        Slider musicSoundSlider = new Slider(0, 100, 75);
+        musicSoundSlider.valueProperty().addListener(new ChangeListener<> () {
             @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                durationManager.setRate(slider.getValue());
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                MainStage.getInstance().getSoundUI().setMusicSound(newValue.doubleValue());
             }
         });
+        musicSoundSlider.setScaleX(1.5);
+        musicSoundSlider.setScaleY(1.5);
+        musicSoundSlider.relocate(900,25);
 
-        slider.relocate(900,50);
-        anchorPane.getChildren().add(slider);
+        Text text = new Text("Music Volume: ");
+        text.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
+        text.relocate(750, 20);
+        anchorPane.getChildren().addAll(musicSoundSlider, text);
     }
 
     private void loadBackground() throws FileNotFoundException {

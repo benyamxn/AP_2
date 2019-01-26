@@ -110,7 +110,7 @@ public class MainMenu {
         MainStage.getInstance().pushStack(pane);
     }
 
-    private void createLoadGameButton() {
+    public static void createLoadGameButton() {
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose Game File");
