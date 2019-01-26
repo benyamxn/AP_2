@@ -65,17 +65,21 @@ public class GameMenuGUI {
 
     public void render(){
         continueButton.setOnMouseClicked(event -> {
+            FarmGUI.getSoundPlayer().playTrack("click");
             FarmGUI.anchorPane.getChildren().remove(menuBox);
             FarmGUI.anchorPane.getChildren().remove(farmGUI.getPauseRectangle());
             farmGUI.resume();
         });
         saveButton.setOnMouseClicked(event -> {
+            FarmGUI.getSoundPlayer().playTrack("click");
             showFilePathDialog(farmGUI);
         });
         loadButton.setOnMouseClicked(event -> {
+            FarmGUI.getSoundPlayer().playTrack("click");
             MainMenu.createLoadGameButton();
         });
         exitButton.setOnMouseClicked(event -> {
+            FarmGUI.getSoundPlayer().playTrack("click");
             FarmGUI.anchorPane.getChildren().remove(menuBox);
             FarmGUI.anchorPane.getChildren().remove(farmGUI.getPauseRectangle());
             MainStage.getInstance().popStack();
