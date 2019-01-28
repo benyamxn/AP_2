@@ -9,7 +9,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-public class Mission implements  Comparable<Mission> {
+public class Mission implements  Comparable<Mission>, Serializable {
 
     private int moneyGoal;
     private int timeGoal;
