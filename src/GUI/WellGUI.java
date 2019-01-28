@@ -38,6 +38,7 @@ public class WellGUI  implements Hoverable, Pausable{
         animation.setOnFinished(event -> {
             well.setRemainingWater(well.getCapacity());
             imageView.setImage(image);
+            animation = null;
         });
         animation.setRate(DurationManager.getRate());
         animation.play();
