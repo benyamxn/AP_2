@@ -73,7 +73,10 @@ public class MainMenu {
         newGameButton.setOnMouseClicked(event -> {
             try {
                 MainStage.getInstance().getSoundUI().playTrack("click");
-                new FarmGUI(new Controller()).render();
+                Controller c = new Controller();
+                System.out.println(Mission.getMissions().get(0).getProductsGoal());
+                c.getGame().setMission(Mission.getMissions().get(0));
+                new FarmGUI(c).render();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

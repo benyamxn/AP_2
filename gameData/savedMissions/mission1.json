@@ -1,1 +1,1 @@
-{"moneyGoal":20000,"timeGoal":360,"productGoalSpare":[]}
+{"@type":"model.Mission","@val":{"moneyGoal":1000,"timeGoal":400,"productsGoal":{"@type":"java.util.EnumMap<model.ProductType,?>","@val":{"EGG":{"@type":"java.lang.Integer","@val":10}}}}}

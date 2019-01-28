@@ -1,25 +1,35 @@
 package model;
 import com.gilecode.yagson.YaGson;
 import com.gilecode.yagson.YaGsonBuilder;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
 
 import java.io.*;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.Map;
+
 public class Mission implements  Comparable<Mission>, Serializable {
 
-    private int moneyGoal;
-    private int timeGoal;
+    private  int moneyGoal;
+    private  int timeGoal;
     private  EnumMap<ProductType,Integer> productsGoal = new EnumMap<>(ProductType.class);
+
+    private transient static ArrayList<Mission> missions;
+
+    static{
+//        Path path = Paths.get(System.getProperty("user.dir"),"gameData","savedMissions","missions.json");
+//        try {
+//            Reader reader = new FileReader(path.toString());
+//            Gson gson = new GsonBuilder().create();
+//            missions = gson.fromJson(reader, ArrayList.class);
+//            System.out.println(missions.get(0).getProductsGoal() + " sdfsdfs" );
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+    }
 
     public Mission(int moneyGoal, int timeGoal) {
         this.moneyGoal = moneyGoal;
         this.timeGoal = timeGoal;
-        productsGoal.put(ProductType.EGG, 10);
-        productsGoal.put(ProductType.DRIED_EGG, 5);
     }
 
     public Mission(int moneyGoal, int timeGoal, EnumMap<ProductType,Integer> productsGoal ){
@@ -81,5 +91,9 @@ public class Mission implements  Comparable<Mission>, Serializable {
             status += entry.getKey().toString() + " Goal: " + entry.getValue() + "\n";
         }
         return status;
+    }
+
+    public static ArrayList<Mission> getMissions() {
+        return missions;
     }
 }

@@ -1,7 +1,10 @@
+
 import com.gilecode.yagson.YaGson;
 import com.gilecode.yagson.YaGsonBuilder;
-import com.gilecode.yagson.com.google.gson.reflect.TypeToken;
-import com.sun.jdi.IntegerValue;
+
+import com.gilecode.yagson.com.google.gson.Gson;
+import com.gilecode.yagson.com.google.gson.GsonBuilder;
+import com.gilecode.yagson.com.google.gson.internal.LinkedTreeMap;
 import model.Mission;
 import model.ProductType;
 import org.junit.Test;
@@ -13,8 +16,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
-import java.util.Map;
-
+import java.util.HashMap;
 
 public class FIleTest {
 
@@ -37,7 +39,6 @@ public class FIleTest {
         map.put(ProductType.EGG,5);
         map.put(ProductType.DRIED_EGG,3);
         Mission mission2 = new Mission(1000,1000,map);
-
         map.put(ProductType.EGG,10);
         map.put(ProductType.DRIED_EGG,10);
         map = map.clone();
@@ -48,33 +49,42 @@ public class FIleTest {
         map.put(ProductType.EGG,20);
         Mission mission4 = new Mission(1000,2000,map);
 
+        arrayList.addAll(Arrays.asList(mission1,mission2,mission3,mission4));
 
-        arrayList.addAll(Arrays.asList(mission1,mission2,mission3,mission3,mission4));
+
         try {
-//            Writer writer = new FileWriter(path.toString());
-//            YaGson gson = new YaGsonBuilder().create();
-//            gson.toJson(arrayList, writer);
-//            writer.close();
-            OutputStream outputStream = new FileOutputStream(path.toString());
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+            OutputStream outputStream = new FileOutputStream(path.toString()) ;
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(path.toString()));
             objectOutputStream.writeObject(arrayList);
+//            Writer writer = new FileWriter(path.toString());
+//            Gson gson = new GsonBuilder().create();
+//            gson.toJson(arrayList,writer);
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
         try {
-//            Reader reader = new FileReader(path.toString());
-//            YaGson gson = new YaGsonBuilder().create();
-//            Type type = new TypeToken<ArrayList<Mission>>(){}.getType();
-//            ArrayList missions = gson.fromJson(reader, type);
-            InputStream inputStream = new FileInputStream(path.toString());
-            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-            ArrayList list = (ArrayList) objectInputStream.readObject();
-            System.out.println(((Mission) list.get(1)).getMoneyGoal());
-            for (Object o : list) {
+            InputStream input = new FileInputStream(path.toString());
+            ObjectInputStream inputStream = new ObjectInputStream(input);
+
+            ArrayList missions = (ArrayList) inputStream.readObject();
+
+            for (Object o : missions) {
                 System.out.println(((Mission) o).getMoneyGoal());
             }
-        } catch (IOException | ClassNotFoundException e) {
+
+//            Reader reader = new FileReader(path.toString());
+//            Gson gson = new GsonBuilder().create();
+//            ArrayList missions = gson.fromJson(reader, ArrayList.class);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 }
+

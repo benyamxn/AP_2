@@ -172,4 +172,8 @@ public class Controller {
     public LinkedList<Farm> getFarms() {
         return farms;
     }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
 }

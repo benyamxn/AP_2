@@ -1,5 +1,6 @@
 package GUI;
 
+import controller.Controller;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -9,14 +10,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import model.Farm;
+import model.Mission;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class GameMenuGUI {
@@ -90,6 +95,10 @@ public class GameMenuGUI {
             FarmGUI.getSoundPlayer().playTrack("click");
             createSettingsMenu();
         });
+       setExitButton();
+    }
+
+    public void setExitButton(){
         exitButton.setOnMouseClicked(event -> {
             FarmGUI.getSoundPlayer().playTrack("click");
             FarmGUI.anchorPane.getChildren().remove(menuBox);
@@ -97,8 +106,8 @@ public class GameMenuGUI {
             MainStage.getInstance().popStack();
             FarmGUI.anchorPane = new AnchorPane();
         });
-    }
 
+    }
     private static void showFilePathDialog(FarmGUI farmGUI) {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("json files (*.json)", "*.json");
@@ -159,22 +168,33 @@ public class GameMenuGUI {
 
     public  void showExit(){
 
+
+        Button nextButton = new Button("Next Level");
         menuBox.getChildren().clear();
         Text text = new Text("YOU WON");
         text.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 30));
         VBox.setMargin(text, new Insets(10, 20, 10, 20));
-        VBox.setMargin(exitButton, new Insets(100, 20, 10, 20));
-        menuBox.getChildren().addAll(text,exitButton);
+        VBox.setMargin(nextButton, new Insets(100, 20, 10, 20));
+        VBox.setMargin(exitButton, new Insets(5, 20, 10, 20));
+
+        menuBox.getChildren().addAll(text,nextButton,exitButton);
         FarmGUI.anchorPane.getChildren().add(menuBox);
         text.setFill(Color.GOLD);
-        exitButton.setOnMouseClicked(event -> {
+        setExitButton();
+        nextButton.setOnMouseClicked(event -> {
             FarmGUI.getSoundPlayer().playTrack("click");
-            FarmGUI.anchorPane.getChildren().remove(menuBox);
-            FarmGUI.anchorPane.getChildren().remove(farmGUI.getPauseRectangle());
             MainStage.getInstance().popStack();
             FarmGUI.anchorPane = new AnchorPane();
+            try {
+                Controller controller = new Controller();
+                controller.getGame().setMission(new Mission(20,2));
+                new FarmGUI(controller).render();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         });
         Hoverable.setMouseHandler(exitButton);
+        Hoverable.setMouseHandler(nextButton);
     }
 
 
