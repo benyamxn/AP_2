@@ -1,20 +1,21 @@
 package multiplayer;
 
+import multiplayer.messages.Message;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class SenderThread extends Thread {
-    private Queue<Serializable> queue = new LinkedList<>();
+public class ClientSenderThread extends Thread {
+    private Queue<Message> queue = new LinkedList<>();
     private Socket socket;
     private OutputStream outputStream;
     private ObjectOutputStream objectOutputStream;
 
-    public SenderThread(Socket socket) {
+    public ClientSenderThread(Socket socket) {
         this.socket = socket;
         try {
             outputStream = socket.getOutputStream();
@@ -26,8 +27,8 @@ public class SenderThread extends Thread {
 
     }
 
-    public void addToQueue(Serializable serializable) {
-        queue.add(serializable);
+    public void addToQueue(Message message) {
+        queue.add(message);
     }
 
     @Override

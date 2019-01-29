@@ -2,13 +2,16 @@ package multiplayer.server;
 
 import multiplayer.Player;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 public class User {
 
     private Player player;
     private Socket socket;
-
+    private ObjectOutputStream objectOutputStream;
 
     public Player getPlayer() {
         return player;
@@ -25,4 +28,14 @@ public class User {
     public Socket getSocket() {
         return socket;
     }
+
+    public ObjectOutputStream getObjectOutputStream() throws IOException {
+        if (objectOutputStream != null) {
+            return objectOutputStream;
+        } else {
+            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            return objectOutputStream;
+        }
+    }
+
 }
