@@ -42,10 +42,10 @@ public class FarmCityView implements Pausable {
             imageView = new ImageView(image);
             imageView.setFitWidth(width);
             imageView.setPreserveRatio(true);
-            imageView.setOnMouseClicked(event -> {
-                runTruck(100);
-                runHelicopter();
-            });
+//            imageView.setOnMouseClicked(event -> {
+//                runTruck(100);
+//                runHelicopter();
+//            });
             root.getChildren().add(imageView);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
