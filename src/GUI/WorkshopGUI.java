@@ -5,13 +5,10 @@ import GUI.animation.SpriteAnimation;
 import javafx.animation.Animation;
 import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import model.Workshop;
 
@@ -22,7 +19,7 @@ import java.nio.file.Paths;
 
 public class WorkshopGUI implements Hoverable,Pausable {
 
-    private static int DURATION = 1000;
+    private static int duration = 1000;
     private static int cycleCount = 9;
     private Workshop workshop;
     private Image image;
@@ -47,7 +44,7 @@ public class WorkshopGUI implements Hoverable,Pausable {
         imageView.setOpacity(1);
         setMouseEvent(imageView);
         this.rotate = rotate;
-        if(rotate == true){
+        if(rotate){
             imageView.setScaleX(-1);
         }
     }
@@ -63,7 +60,7 @@ public class WorkshopGUI implements Hoverable,Pausable {
 
 
     public void produce(){
-        animation = new SpriteAnimation(imageView, Duration.millis(DURATION), AnimationConstants.WORKSHOP[1], columns,
+        animation = new SpriteAnimation(imageView, Duration.millis(duration), AnimationConstants.WORKSHOP[1], columns,
                 0, 0, width, height);
         animation.setCycleCount(cycleCount);
         animation.play();
@@ -84,10 +81,10 @@ public class WorkshopGUI implements Hoverable,Pausable {
             height = (int) image.getHeight() / columns;
             imageView.setImage(image);
             imageView.setViewport(new Rectangle2D(0, 0, width, height));
-            if(rotate == true){
+            if(rotate){
                 imageView.setScaleX(-1);
             }
-            DURATION = workshop.getProductionTime() * 2000;
+            duration = workshop.getProductionTime();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

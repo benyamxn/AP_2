@@ -8,7 +8,7 @@ import java.io.*;
 import java.util.Arrays;
 
 public class Workshop implements Upgradable {
-    private static final int INITIAL_PRODUCTION_TYPE = 5;
+    private static final int INITIAL_PRODUCTION_TYPE = 1000;
     private ProductType[] input;
     private ProductType output;
     private int numberOfInputs = 1;
@@ -107,7 +107,7 @@ public class Workshop implements Upgradable {
             numberOfOutputs++;
         }
         if (level == 5) {
-            productionTime -= 2;
+            productionTime -= INITIAL_PRODUCTION_TYPE / 5;
         }
         price = getUpgradePrice();
         workshopGUI.upgrade();
