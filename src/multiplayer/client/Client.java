@@ -1,5 +1,6 @@
 package multiplayer.client;
 
+import model.exception.UsedIdException;
 import multiplayer.Player;
 
 import java.io.IOException;
@@ -23,7 +24,7 @@ public class Client {
         this.socket = socket;
     }
 
-    public Client(Player player, InetAddress ip, int localPort, int serverPort, InetAddress serverIp) throws IOException {
+    public Client(Player player, InetAddress ip, int localPort, int serverPort, InetAddress serverIp) throws IOException, UsedIdException {
         this.player = player;
         this.ip = ip;
         this.localPort = localPort;
@@ -37,7 +38,7 @@ public class Client {
         if (str.equals("ok")) {
 
         } else {
-            throw new IOException();
+            throw new UsedIdException();
         }
 
     }

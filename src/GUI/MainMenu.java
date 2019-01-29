@@ -20,6 +20,7 @@ import model.Farm;
 import model.Game;
 import model.Mission;
 import model.exception.MoneyNotEnoughException;
+import model.exception.UsedIdException;
 import multiplayer.Player;
 import multiplayer.client.Client;
 import multiplayer.server.Server;
@@ -419,9 +420,10 @@ public class MainMenu {
                 Client client = new Client(new Player(nameField.getText(), idField.getText(), 20000), ipClient, portNumber, serverPortNumber, ipSever);
             } catch (UnknownHostException e) {
                 error.setText("Invalid  ip");
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 error.setText("Can Not connect to Sever");
+            } catch (UsedIdException e) {
+                error.setText("this id already used");
             }
         });
 
