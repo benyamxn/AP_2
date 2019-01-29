@@ -34,50 +34,35 @@ public class FIleTest {
         EnumMap<ProductType,Integer> map = new EnumMap<ProductType,Integer>(ProductType.class);
         map.put(ProductType.EGG,5);
 
-        Mission mission1 = new Mission(500,500,map);
+        Mission mission1 = new Mission(500,500,map,1);
         map = map.clone();
         map.put(ProductType.EGG,5);
         map.put(ProductType.DRIED_EGG,3);
-        Mission mission2 = new Mission(1000,1000,map);
+        Mission mission2 = new Mission(1000,1000,map,2);
         map.put(ProductType.EGG,10);
         map.put(ProductType.DRIED_EGG,10);
         map = map.clone();
         map.put(ProductType.EGG,15);
 
-        Mission mission3 = new Mission(1000,1500,map);
+        Mission mission3 = new Mission(1000,1500,map,3);
         map = map.clone();
         map.put(ProductType.EGG,20);
-        Mission mission4 = new Mission(1000,2000,map);
-
+        Mission mission4 = new Mission(1000,2000,map,4);
         arrayList.addAll(Arrays.asList(mission1,mission2,mission3,mission4));
-
-
         try {
             OutputStream outputStream = new FileOutputStream(path.toString()) ;
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(path.toString()));
             objectOutputStream.writeObject(arrayList);
-//            Writer writer = new FileWriter(path.toString());
-//            Gson gson = new GsonBuilder().create();
-//            gson.toJson(arrayList,writer);
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
         try {
             InputStream input = new FileInputStream(path.toString());
             ObjectInputStream inputStream = new ObjectInputStream(input);
-
             ArrayList missions = (ArrayList) inputStream.readObject();
-
             for (Object o : missions) {
                 System.out.println(((Mission) o).getMoneyGoal());
             }
-
-//            Reader reader = new FileReader(path.toString());
-//            Gson gson = new GsonBuilder().create();
-//            ArrayList missions = gson.fromJson(reader, ArrayList.class);
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

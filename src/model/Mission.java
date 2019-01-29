@@ -4,6 +4,8 @@ import com.gilecode.yagson.YaGsonBuilder;
 
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.Map;
 
@@ -11,20 +13,28 @@ public class Mission implements  Comparable<Mission>, Serializable {
 
     private  int moneyGoal;
     private  int timeGoal;
+    private int level;
     private  EnumMap<ProductType,Integer> productsGoal = new EnumMap<>(ProductType.class);
 
-    private transient static ArrayList<Mission> missions;
+    private  static ArrayList<Mission> missions = new ArrayList<>();
 
     static{
-//        Path path = Paths.get(System.getProperty("user.dir"),"gameData","savedMissions","missions.json");
-//        try {
-//            Reader reader = new FileReader(path.toString());
-//            Gson gson = new GsonBuilder().create();
-//            missions = gson.fromJson(reader, ArrayList.class);
-//            System.out.println(missions.get(0).getProductsGoal() + " sdfsdfs" );
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            Path path = Paths.get(System.getProperty("user.dir"),"gameData","savedMissions","missions.json");
+            InputStream inputStream = new FileInputStream(path.toString());
+            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+            ArrayList input = (ArrayList) objectInputStream.readObject();
+            for (Object o : input) {
+                missions.add((Mission) o);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public Mission(int moneyGoal, int timeGoal) {
@@ -32,10 +42,15 @@ public class Mission implements  Comparable<Mission>, Serializable {
         this.timeGoal = timeGoal;
     }
 
-    public Mission(int moneyGoal, int timeGoal, EnumMap<ProductType,Integer> productsGoal ){
-        this.moneyGoal = moneyGoal;
-        this.timeGoal = timeGoal;
+    public Mission(int moneyGoal, int timeGoal, EnumMap<ProductType,Integer> productsGoal){
+        this(moneyGoal,timeGoal);
         this.productsGoal = productsGoal;
+        this.level= level;
+    }
+
+    public Mission(int moneyGoal, int timeGoal, EnumMap<ProductType,Integer> productsGoal , int level ){
+        this(moneyGoal,timeGoal,productsGoal);
+        this.level= level;
     }
 
     public int getMoneyGoal() {
@@ -58,8 +73,8 @@ public class Mission implements  Comparable<Mission>, Serializable {
     public int compareTo(Mission second){
         if(this.getTimeGoal() <= second.getTimeGoal() ){
             if(this.getMoneyGoal() >= second.getMoneyGoal()){
-                for (Map.Entry<ProductType, Integer> entry : productsGoal.entrySet()){
-                    if(entry.getValue() < second.productsGoal.get(entry.getKey())){
+                for (Map.Entry<ProductType, Integer> entry : second.productsGoal.entrySet()){
+                    if(productsGoal.get(entry.getKey()) == null || entry.getValue() > productsGoal.get(entry.getKey())){
                         return 0;
                     }
                 }
@@ -95,5 +110,13 @@ public class Mission implements  Comparable<Mission>, Serializable {
 
     public static ArrayList<Mission> getMissions() {
         return missions;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getLevel() {
+        return level;
     }
 }

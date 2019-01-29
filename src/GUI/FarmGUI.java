@@ -200,6 +200,7 @@ public class FarmGUI {
             missionGUI.updateMoney();
             missionGUI.updateProducts();
             if(game.isFinished()){
+                System.out.println("salam");
                 createPausePage();
                 pauseFarm();
                 anchorPane.getChildren().add(pauseRectangle);
@@ -538,5 +539,9 @@ public class FarmGUI {
 
     public Rectangle getPauseRectangle() {
         return pauseRectangle;
+    }
+
+    public Game getGame() {
+        return game;
     }
 }

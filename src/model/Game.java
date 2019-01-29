@@ -115,7 +115,7 @@ public class Game {
     }
 
     public boolean isFinished(){
-        Mission temp = new Mission(money,time,farm.getWarehouse().getProductMap());
+        Mission temp = new Mission(money,time,farm.getWarehouse().getProductMap(),0);
         if(temp.compareTo(mission) == 1){
             return true;
         }
@@ -273,6 +273,8 @@ public class Game {
         money += amount;
         gameStatus.setMoney(money);
     }
+
+
 
 }
 

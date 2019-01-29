@@ -187,7 +187,7 @@ public class GameMenuGUI {
             FarmGUI.anchorPane = new AnchorPane();
             try {
                 Controller controller = new Controller();
-                controller.getGame().setMission(new Mission(20,2));
+                controller.getGame().setMission(Mission.getMissions().get(Math.min(farmGUI.getGame().getMission().getLevel() ,3)));
                 new FarmGUI(controller).render();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

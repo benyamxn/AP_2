@@ -7,16 +7,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -29,15 +24,19 @@ import model.exception.MoneyNotEnoughException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.InetAddress;
+import java.text.NumberFormat;
+import java.util.Stack;
 import java.util.zip.CheckedOutputStream;
 
 public class MainMenu {
     private double width = MainStage.getInstance().getWidth();
     private double height = MainStage.getInstance().getHeight();
-
+    private AnchorPane pane = new AnchorPane();
     public void render() {
         Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 42);
-        AnchorPane pane = new AnchorPane();
+
         pane.setId("mainMenuPane");
         VBox menuBox = new VBox();
         menuBox.setAlignment(Pos.CENTER);
@@ -62,6 +61,7 @@ public class MainMenu {
 
     private void createButtons(VBox vBox) {
         Button newGameButton = new Button("New Game");
+        Button multiPlayerButton = new Button("Multi Player");
         Button loadGameButton = new Button("Load Game");
         Button settingsButton = new Button("Settings");
         Button aboutButton = new Button("About");
@@ -82,6 +82,7 @@ public class MainMenu {
             }
         });
 
+        multiPlayerButton.setOnMouseClicked(event -> createMultiPlayerMenu(vBox));
         loadGameButton.setOnMouseClicked(event -> createLoadGameButton());
         exitButton.setOnMouseClicked(event -> System.exit(0));
 
@@ -96,11 +97,12 @@ public class MainMenu {
         });
 
         VBox.setMargin(newGameButton, new Insets(10, 20, 10, 20));
+        VBox.setMargin(multiPlayerButton,new Insets(10,20,10,20));
         VBox.setMargin(loadGameButton, new Insets(10, 20, 10, 20));
         VBox.setMargin(settingsButton, new Insets(10, 20, 10, 20));
         VBox.setMargin(aboutButton, new Insets(10, 20, 10, 20));
         VBox.setMargin(exitButton, new Insets(10, 20, 10, 20));
-        vBox.getChildren().addAll(newGameButton, loadGameButton, settingsButton, aboutButton, exitButton);
+        vBox.getChildren().addAll(newGameButton,multiPlayerButton,loadGameButton, settingsButton, aboutButton, exitButton);
         for (Node child : vBox.getChildren()) {
             Hoverable.setMouseHandler(child);
         }
@@ -203,6 +205,205 @@ public class MainMenu {
             menuBox.getChildren().clear();
             createButtons(menuBox);
         });
+    }
+
+    private void createMultiPlayerMenu(VBox vBox){
+
+        vBox.getChildren().clear();
+        Button serverButton = new Button("Host");
+        Button clientButton = new Button("client");
+        Button backButton = new Button("Back");
+        VBox.setMargin(serverButton, new Insets(10, 20, 10, 20));
+        VBox.setMargin(clientButton, new Insets(10, 20, 10, 20));
+        VBox.setMargin(backButton, new Insets(200, 20, 10, 20));
+        vBox.getChildren().addAll(serverButton,clientButton,backButton);
+
+        serverButton.setOnMouseClicked(event -> createServerMenu(vBox));
+        clientButton.setOnMouseClicked(event -> createClientMenu(vBox));
+        backButton.setOnMouseClicked(event -> {
+            MainStage.getInstance().getSoundUI().playTrack("click");
+            vBox.getChildren().clear();
+            createButtons(vBox);
+        });
+        for (Node child : vBox.getChildren()) {
+            Hoverable.setMouseHandler(child);
+        }
+    }
+
+
+    private void createServerMenu(VBox vBox){
+        pane.getChildren().remove(vBox);
+        double anchor = (400 > height / 3)? height / 2 - 200: height / 3;
+        VBox menu = new VBox();
+        pane.getChildren().add(menu);
+        menu.setAlignment(Pos.CENTER);
+        menu.setSpacing(10);
+        menu.setId("menuBox");
+        pane.setBottomAnchor(menu, anchor);
+        pane.setTopAnchor(menu, anchor);
+        pane.setRightAnchor(menu, width / 9);
+        pane.setLeftAnchor(menu, width /2);
+
+        Text error = new Text();
+        error.setFill(Color.GOLD);
+
+        Text textIP = new Text("IP ADDRESS : ");
+        textIP.setFill(Color.GOLD);
+        TextField ip = new TextField();
+        ip.setAlignment(Pos.CENTER);
+        ip.setText("127.0.0.1");
+        ip.setEditable(false);
+
+        Text textPort = new Text("PORT : ");
+        textPort.setFill(Color.GOLD);
+        TextField port = new TextField();
+        port.setAlignment(Pos.CENTER);
+        port.setText("8050");
+
+        HBox buttons = new HBox();
+        Button back  = new Button("Back");
+        Button connect = new Button("Connect");
+        buttons.setAlignment(Pos.CENTER);
+        HBox.setMargin(back,new Insets(0,20,10,20));
+        HBox.setMargin(connect,new Insets(0,10,10,30));
+        buttons.getChildren().addAll(back,connect);
+
+        VBox.setMargin(error,new Insets(20,40,5,50));
+        VBox.setMargin(textIP,new Insets(10,40,10,50));
+        VBox.setMargin(ip,new Insets(10,100,10,100));
+        VBox.setMargin(textPort,new Insets(10,40,10,50));
+        VBox.setMargin(port,new Insets(10,100,80,100));
+        VBox.setMargin(buttons,new Insets(80,40,50,50));
+
+        menu.getChildren().addAll(error,textIP,ip,textPort,port,buttons);
+        setTextFont(menu,20);
+        addToHoverable(buttons);
+        back.setOnMouseClicked(event -> {
+            pane.getChildren().add(vBox);
+            pane.getChildren().remove(menu);
+            createMultiPlayerMenu(vBox);
+        });
+
+        connect.setOnMouseClicked(event -> {
+          try {
+              int portNumber = Integer.parseInt(port.getText());
+              if(portNumber < 0 || portNumber > 9999){
+                  throw new  NumberFormatException();
+              }
+          } catch (Exception NumberFormatException) {
+              error.setText("Invalid Port");
+
+          }
+        });
+
+    }
+
+    private void addToHoverable(Parent parent){
+        for (Node node : parent.getChildrenUnmodifiable()) {
+            Hoverable.setMouseHandler(node);
+        }
+    }
+    private void createClientMenu(VBox vBox){
+
+        pane.getChildren().remove(vBox);
+        double anchor = (400 > height / 3)? height / 2 - 200: height / 3;
+        VBox menu = new VBox();
+        pane.getChildren().add(menu);
+        menu.setAlignment(Pos.CENTER);
+        menu.setSpacing(10);
+        menu.setId("menuBox");
+        pane.setBottomAnchor(menu, anchor);
+        pane.setTopAnchor(menu, anchor);
+        pane.setRightAnchor(menu, width / 9);
+        pane.setLeftAnchor(menu, width /2);
+
+        Text error = new Text();
+        error.setFill(Color.GOLD);
+
+        Text textIP = new Text("Client IP ADDRESS : ");
+        textIP.setFill(Color.GOLD);
+        TextField ip = new TextField();
+        ip.setAlignment(Pos.CENTER);
+        ip.setText("192.168.1.68");
+        ip.setEditable(false);
+
+        Text textPort = new Text("PORT : ");
+        textPort.setFill(Color.GOLD);
+        TextField port = new TextField();
+        port.setAlignment(Pos.CENTER);
+        port.setText("8060");
+
+
+        Text textSeverIP = new Text("Sever IP ADDRESS : ");
+        textSeverIP.setFill(Color.GOLD);
+        TextField severIP = new TextField();
+        severIP.setAlignment(Pos.CENTER);
+        severIP.setText("127.0.0.1");
+
+        Text textSeverPort = new Text("Sever PORT : ");
+        textSeverPort.setFill(Color.GOLD);
+        TextField serverPort = new TextField();
+        serverPort.setAlignment(Pos.CENTER);
+        serverPort.setText("8050");
+
+
+        HBox buttons = new HBox();
+        Button back  = new Button("Back");
+        Button connect = new Button("Connect");
+        buttons.setAlignment(Pos.CENTER);
+        HBox.setMargin(back,new Insets(0,20,10,20));
+        HBox.setMargin(connect,new Insets(0,10,10,30));
+        buttons.getChildren().addAll(back,connect);
+
+        VBox.setMargin(error,new Insets(10,40,10,50));
+        VBox.setMargin(textIP,new Insets(5,40,5,50));
+        VBox.setMargin(ip,new Insets(5,100,5,100));
+        VBox.setMargin(textPort,new Insets(5,40,5,50));
+        VBox.setMargin(port,new Insets(5,100,5,100));
+        VBox.setMargin(textSeverIP,new Insets(5,40,5,50));
+        VBox.setMargin(severIP,new Insets(5,100,5,100));
+        VBox.setMargin(textSeverPort,new Insets(5,40,5,50));
+        VBox.setMargin(serverPort,new Insets(5,100,20,100));
+        VBox.setMargin(buttons,new Insets(20,40,10,50));
+
+        menu.getChildren().addAll(error,textIP,ip,textPort,port);
+        menu.getChildren().addAll(textSeverIP,severIP,textSeverPort,serverPort,buttons);
+        setTextFont(menu,15);
+
+        addToHoverable(buttons);
+        back.setOnMouseClicked(event -> {
+            pane.getChildren().add(vBox);
+            pane.getChildren().remove(menu);
+            createMultiPlayerMenu(vBox);
+        });
+
+        connect.setOnMouseClicked(event -> {
+            try {
+                int portNumber = Integer.parseInt(port.getText());
+                int serverPortNumber = Integer.parseInt(serverPort.getText());
+                error.setText("invalid input");
+                InetAddress inetAddress = InetAddress.getByName(textSeverPort.getText());
+                if(portNumber < 0 || serverPortNumber < 0 ){
+                    throw new  NumberFormatException();
+                }
+
+            } catch (Exception NumberFormatException) {
+                error.setText("Invalid Port");
+
+            }
+        });
+
+    }
+
+
+    public void setTextFont(VBox menu ,int size ){
+        Font font = Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), size);
+        for (Node child : menu.getChildren()) {
+            if(child instanceof Text){
+                ((Text )child).setFont(font);
+            }
+        }
+
     }
 
 }
