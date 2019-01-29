@@ -113,8 +113,12 @@ public class WorkshopGUI implements Hoverable,Pausable {
         return workshop;
     }
 
-    public void setOnHover(EventHandler<? super MouseEvent> eventHandler) {
+    public void setOnEnter(EventHandler<? super MouseEvent> eventHandler) {
         imageView.setOnMouseEntered(eventHandler);
+    }
+
+    public void setOnExit(EventHandler<? super MouseEvent> eventHandler) {
+        imageView.setOnMouseExited(eventHandler);
     }
 
     public void initTooltip(Tooltip tooltip) {
@@ -122,10 +126,12 @@ public class WorkshopGUI implements Hoverable,Pausable {
         tooltip.setStyle("-fx-font-family: 'Spicy Rice'; -fx-font-size: 16px");
     }
 
+
     private void initInfoImageView() {
         infoImageView = new ImageView(infoImage);
         infoImageView.setScaleX(infoWidth);
         infoImageView.setScaleY(infoImage.getHeight() * infoWidth / infoImage.getWidth());
+        infoImageView.setPreserveRatio(true);
     }
 
     @Override
@@ -152,5 +158,9 @@ public class WorkshopGUI implements Hoverable,Pausable {
     public void resume() {
         if(animation != null)
             animation.play();
+    }
+
+    public ImageView getInfoImageView() {
+        return infoImageView;
     }
 }

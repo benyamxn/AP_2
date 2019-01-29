@@ -63,6 +63,9 @@ public class SoundUI {
 
     private MediaPlayer hoverInSoundPlayer = new MediaPlayer(hoverSound);
 
+    private Media errorSound = new Media(getClass().getClassLoader().getResource("Soundtrack/error.mp3").toExternalForm());
+    private MediaPlayer errorSoundPlayer = new MediaPlayer(errorSound);
+
     SoundUI() {
         initSoundPlayers();
     }
@@ -92,6 +95,7 @@ public class SoundUI {
         catSoundPlayer.setVolume(volume * 0.3);
         dogSoundPlayer.setVolume(volume * 30);
         fightSoundPlayer.setVolume(volume);
+        errorSoundPlayer.setVolume(volume * 0.5);
     }
 
     private void initSoundPlayers() {
@@ -152,6 +156,9 @@ public class SoundUI {
         fightSoundPlayer = new MediaPlayer(fightSound);
         fightSoundPlayer.setCycleCount(2);
         fightSoundPlayer.setRate(rate * 2);
+
+        errorSoundPlayer = new MediaPlayer(errorSound);
+        errorSoundPlayer.setVolume(0.5);
 
     }
 
@@ -244,6 +251,10 @@ public class SoundUI {
             case "hover out":
                 hoverOutSoundPlayer.seek(start);
                 hoverOutSoundPlayer.play();
+                break;
+            case "error":
+                errorSoundPlayer.seek(start);
+                errorSoundPlayer.play();
                 break;
         }
 

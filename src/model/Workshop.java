@@ -89,7 +89,7 @@ public class Workshop implements Upgradable {
     }
     @Override
     public int getUpgradePrice() {
-       return price * 2 - 50;
+       return price * 2 - price / 2;
     }
 
     @Override

@@ -7,20 +7,14 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.util.Duration;
 import model.*;
@@ -28,10 +22,8 @@ import model.Cell;
 import model.Point;
 import model.exception.*;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 
@@ -483,6 +475,8 @@ public class FarmGUI {
             Workshop workshop = workshopGUI.getWorkshop();
             Tooltip tooltip = new Tooltip(workshop.getName().replace("_", " "));
             workshopGUI.initTooltip(tooltip);
+//            workshopGUI.setOnEnter(event -> anchorPane.getChildren().add(workshopGUI.getInfoImageView()));
+//            workshopGUI.setOnExit(event -> anchorPane.getChildren().remove(workshopGUI.getInfoImageView()));
         }
     }
 
