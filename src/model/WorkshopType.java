@@ -3,12 +3,12 @@ package model;
 public enum WorkshopType {
     EGG_POWDER_PLANT(ProductType.EGG, ProductType.DRIED_EGG, 200),
     MEGA_PIE(ProductType.MEGA_PIE, 10000, ProductType.DRIED_EGG, ProductType.MILK, ProductType.FLOUR),
-    COOKIE_BAKERY(ProductType.DRIED_EGG, ProductType.COOKIE, 250),
+    COOKIE_BAKERY(ProductType.COOKIE, ProductType.DRIED_EGG, 250),
     PLUME(ProductType.FEATHER, ProductType.PLUME, 2500),
-    CARNIVAL_DRESS(ProductType.CARNIVAL_DRESS, ProductType.PLUME, 5000),
+    CARNIVAL_DRESS(ProductType.FABRIC, ProductType.CARNIVAL_DRESS, 15000),
     SPINNERY(ProductType.WOOL, ProductType.SEWING, 250),
-    GRINDING_FACTORY(ProductType.HORN, ProductType.BRIGHT_HORN, 300),
-    WEAVING_FACTORY(ProductType.SEWING, ProductType.FABRIC, 250),
+    GRINDING_FACTORY(ProductType.MILK, ProductType.FLOUR, 3500),
+    WEAVING_FACTORY(ProductType.PLUME, ProductType.FABRIC, 250),
     MANUFACTURING_PLANT(ProductType.BRIGHT_HORN, ProductType.INTERMEDIATE, 350),
     CUSTOM();
 
@@ -61,7 +61,7 @@ public enum WorkshopType {
             case SPINNERY:
                 return "Spinnery (Spinnery)";
             case GRINDING_FACTORY:
-                return "Grinding Factory";
+                return "Flour (Grinding Factory)";
             case WEAVING_FACTORY:
                 return "Weaving (Weaving Factory)";
             case MANUFACTURING_PLANT:
