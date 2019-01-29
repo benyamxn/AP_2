@@ -78,8 +78,8 @@ public class SoundUI {
         splashSoundPlayer.setVolume(volume);
         waterSoundPlayer.setVolume(volume * 0.25);
         woodSoundPlayer.setVolume(volume * 0.1);
-        hammerSoundPlayer.setVolume(volume * 100);
-        clickSoundPlayer.setVolume(volume);
+        hammerSoundPlayer.setVolume(volume);
+        clickSoundPlayer.setVolume(volume * 0.2);
         hoverInSoundPlayer.setVolume(volume);
         hoverOutSoundPlayer.setVolume(volume);
         bearSoundPlayer.setVolume(volume * 0.5);
@@ -109,9 +109,10 @@ public class SoundUI {
         hammerSoundPlayer = new MediaPlayer(hammerSound);
         hammerSoundPlayer.setStopTime(new Duration(3000));
         hammerSoundPlayer.setRate(rate * 1.5);
-        hammerSoundPlayer.setVolume(100);
+        hammerSoundPlayer.setVolume(1);
 
         clickSoundPlayer = new MediaPlayer(clickSound);
+        clickSoundPlayer.setVolume(0.2);
 
         hoverInSoundPlayer = hoverOutSoundPlayer = new MediaPlayer(hoverSound);
 

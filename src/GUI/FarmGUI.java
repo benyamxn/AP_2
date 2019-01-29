@@ -211,21 +211,21 @@ public class FarmGUI {
         gameUpdater.setCycleCount(Animation.INDEFINITE);
         gameUpdater.play();
 
-        Slider slider = new Slider(0.2, 10, gameUpdater.getRate());
-        slider.valueProperty().addListener(new ChangeListener<> () {
+        Slider gameSpeedSlider = new Slider(0.2, 10, gameUpdater.getRate());
+        gameSpeedSlider.valueProperty().addListener(new ChangeListener<> () {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 durationManager.setRate(newValue.doubleValue());
             }
         });
-        slider.setScaleX(1.5);
-        slider.setScaleY(1.5);
-        slider.relocate(MainStage.getInstance().getWidth() / 2 + 100 ,25);
+        gameSpeedSlider.setScaleX(1.5);
+        gameSpeedSlider.setScaleY(1.5);
+        gameSpeedSlider.relocate(MainStage.getInstance().getWidth() / 2 + 100 ,25);
 
         Text text = new Text("Speed :");
         text.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
         text.relocate(MainStage.getInstance().getWidth() / 2, 20);
-        anchorPane.getChildren().addAll(slider, text);
+        anchorPane.getChildren().addAll(gameSpeedSlider, text);
     }
 
     private void loadBackground() throws FileNotFoundException {
