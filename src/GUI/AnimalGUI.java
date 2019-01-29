@@ -303,7 +303,7 @@ public class AnimalGUI implements Pausable{
     public void cage() {
         int column = AnimationConstants.CAGE_BUILD_2[0];
         int level = ((Wild) animal).getCagedLevel();
-        cageView.setViewport(new Rectangle2D(cageWidth * (level % column), cageHeight * (level / column),cageWidth,cageHeight));
+        cageView.setViewport(new Rectangle2D(cageWidth * (level % column), cageHeight * (1.0 * level / column),cageWidth,cageHeight));
     }
 
     public void addToRoot(Pane pane) {

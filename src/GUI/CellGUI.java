@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 
 public class CellGUI  implements  Pausable{
 
-    private  static final double DURATION = 1000;
+    private  static final double DURATION = 500;
     private static int columns = AnimationConstants.GRASS[0];
     private static Image grassImage;
     private static Image battleImage;
