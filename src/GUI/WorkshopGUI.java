@@ -4,11 +4,17 @@ import GUI.animation.AnimationConstants;
 import GUI.animation.SpriteAnimation;
 import javafx.animation.Animation;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Group;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import model.Workshop;
 
@@ -19,6 +25,7 @@ import java.nio.file.Paths;
 
 public class WorkshopGUI implements Hoverable,Pausable {
 
+    private Group root = new Group();
     private static int duration = 1000;
     private static int cycleCount = 9;
     private Workshop workshop;
@@ -29,6 +36,11 @@ public class WorkshopGUI implements Hoverable,Pausable {
     private int columns = AnimationConstants.WORKSHOP[0];
     private ImageView imageView;
     private Animation animation;
+    private ImageView infoImageView;
+    private Image infoImage;
+    private double infoWidth = MainStage.getInstance().getWidth() / 7;
+    private double infoHeight;
+
     public WorkshopGUI(Workshop workshop , boolean rotate , int fitWidth) throws FileNotFoundException {
         this.workshop = workshop;
         workshop.setWorkshopGUI(this);
@@ -42,6 +54,9 @@ public class WorkshopGUI implements Hoverable,Pausable {
         imageView.setFitWidth(fitWidth);
         imageView.setPreserveRatio(true);
         imageView.setOpacity(1);
+
+        infoImage = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures","Workshops", "info.png").toString()));
+        initInfoImageView();
         setMouseEvent(imageView);
         this.rotate = rotate;
         if(rotate){
@@ -98,6 +113,21 @@ public class WorkshopGUI implements Hoverable,Pausable {
         return workshop;
     }
 
+    public void setOnHover(EventHandler<? super MouseEvent> eventHandler) {
+        imageView.setOnMouseEntered(eventHandler);
+    }
+
+    public void initTooltip(Tooltip tooltip) {
+        Tooltip.install(imageView, tooltip);
+        tooltip.setStyle("-fx-font-family: 'Spicy Rice'; -fx-font-size: 16px");
+    }
+
+    private void initInfoImageView() {
+        infoImageView = new ImageView(infoImage);
+        infoImageView.setScaleX(infoWidth);
+        infoImageView.setScaleY(infoImage.getHeight() * infoWidth / infoImage.getWidth());
+    }
+
     @Override
     public void setRate(double rate) {
         if(rate == DurationManager.pauseRate ){
@@ -123,5 +153,4 @@ public class WorkshopGUI implements Hoverable,Pausable {
         if(animation != null)
             animation.play();
     }
-
 }

@@ -10,10 +10,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -27,6 +24,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.util.Duration;
 import model.*;
+import model.Cell;
 import model.Point;
 import model.exception.*;
 
@@ -471,16 +469,20 @@ public class FarmGUI {
     }
 
     private void createWorkshopAction(){
-        for (WorkshopGUI workshop : workshopGUIS) {
-            workshop.setOnClick(event -> {
+        for (WorkshopGUI workshopGUI : workshopGUIS) {
+            workshopGUI.setOnClick(event -> {
                 try {
-                    controller.startWorkshop(workshop.getWorkshop().getName());
+                    controller.startWorkshop(workshopGUI.getWorkshop().getName());
                 } catch (NameNotFoundException e) {
 
                 } catch (NotEnoughItemsException e) {
                     System.out.println("NotEnoughItemsException");
                 }
             });
+
+            Workshop workshop = workshopGUI.getWorkshop();
+            Tooltip tooltip = new Tooltip(workshop.getName().replace("_", " "));
+            workshopGUI.initTooltip(tooltip);
         }
     }
 

@@ -29,7 +29,6 @@ public class MissionGUI {
     private Label[] labels = new Label[4];
     private int[] counts = new int[3];
     private int counter = 0;
-    private Point2D scenePoint;
 
     public MissionGUI(Game game) {
         this.game = game;
@@ -50,7 +49,6 @@ public class MissionGUI {
             startX = MainStage.getInstance().getWidth() - width;
             startY = MainStage.getInstance().getHeight() - height;
             doneX = startX + width * 0.47;
-            scenePoint = new Point2D(startX, startY);
             imageView.relocate(startX, startY);
             counter = 0;
             infoLabel.relocate(startX + 0.4 * width, startY + 0.065 * height);
