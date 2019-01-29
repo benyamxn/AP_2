@@ -13,40 +13,31 @@ import java.util.ArrayList;
 public class Server {
 
     private static ArrayList<User> users = new ArrayList<>();
-    public Server() {
+    private ServerSocket serverSocket ;
+    public Server(int port,InetAddress inetAddress) throws IOException {
 
-    }
-
-    public void main(String[] args) {
-        try {
-            ServerSocket serverSocket = new ServerSocket(8080);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    while(true){
-
-                        try {
-                            User user = new User();
-                            user.setSocket(serverSocket.accept());
-                            user.setPlayer(getNewPlayer(user.getSocket()));
-                            if(checkNewUser(user)){
-                                users.add(user);
-                                send(new String("ok"),user.getSocket());
-                            }else{
-                                send(new String("dddd"),user.getSocket());
-                                user.getSocket().close();
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
+        this.serverSocket = new ServerSocket(port);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true){
+                    try {
+                        User user = new User();
+                        user.setSocket(serverSocket.accept());
+                        user.setPlayer(getNewPlayer(user.getSocket()));
+                        if(checkNewUser(user)){
+                            users.add(user);
+                            send(new String("ok"),user.getSocket());
+                        }else{
+                            send(new String("dddd"),user.getSocket());
+                            user.getSocket().close();
                         }
-
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
-            }).start();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            }
+        }).start();
     }
 
     public Player getNewPlayer(Socket socket){

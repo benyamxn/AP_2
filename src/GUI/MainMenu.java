@@ -20,12 +20,16 @@ import model.Farm;
 import model.Game;
 import model.Mission;
 import model.exception.MoneyNotEnoughException;
+import multiplayer.Player;
+import multiplayer.client.Client;
+import multiplayer.server.Server;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.NumberFormat;
 import java.util.Stack;
 import java.util.zip.CheckedOutputStream;
@@ -290,9 +294,9 @@ public class MainMenu {
               if(portNumber < 0 || portNumber > 9999){
                   throw new  NumberFormatException();
               }
+              Server server = new Server(portNumber , InetAddress.getByName(ip.getText()));
           } catch (Exception NumberFormatException) {
               error.setText("Invalid Port");
-
           }
         });
 
@@ -327,6 +331,8 @@ public class MainMenu {
         ip.setText("192.168.1.68");
         ip.setEditable(false);
 
+
+
         Text textPort = new Text("PORT : ");
         textPort.setFill(Color.GOLD);
         TextField port = new TextField();
@@ -347,6 +353,19 @@ public class MainMenu {
         serverPort.setText("8050");
 
 
+        Text id = new Text("ID : ");
+
+        TextField idField = new TextField();
+        Text name = new Text("NAME :");
+        TextField nameField = new TextField();
+        HBox user = new HBox();
+        HBox.setMargin(id,new Insets(5,5,10,10));
+        HBox.setMargin(idField,new Insets(0,10,5,10));
+        HBox.setMargin(name,new Insets(5,5,5,10));
+        HBox.setMargin(nameField,new Insets(0,10,10,10));
+        user.getChildren().addAll(id,idField,name,nameField);
+        setTextFont(user,15);
+        user.setAlignment(Pos.CENTER);
         HBox buttons = new HBox();
         Button back  = new Button("Back");
         Button connect = new Button("Connect");
@@ -356,18 +375,19 @@ public class MainMenu {
         buttons.getChildren().addAll(back,connect);
 
         VBox.setMargin(error,new Insets(10,40,10,50));
-        VBox.setMargin(textIP,new Insets(5,40,5,50));
-        VBox.setMargin(ip,new Insets(5,100,5,100));
-        VBox.setMargin(textPort,new Insets(5,40,5,50));
-        VBox.setMargin(port,new Insets(5,100,5,100));
-        VBox.setMargin(textSeverIP,new Insets(5,40,5,50));
-        VBox.setMargin(severIP,new Insets(5,100,5,100));
-        VBox.setMargin(textSeverPort,new Insets(5,40,5,50));
-        VBox.setMargin(serverPort,new Insets(5,100,20,100));
-        VBox.setMargin(buttons,new Insets(20,40,10,50));
+        VBox.setMargin(textIP,new Insets(5,40,0,50));
+        VBox.setMargin(ip,new Insets(0,100,5,100));
+        VBox.setMargin(textPort,new Insets(0,40,5,50));
+        VBox.setMargin(port,new Insets(0,100,5,100));
+        VBox.setMargin(textSeverIP,new Insets(0,40,5,50));
+        VBox.setMargin(severIP,new Insets(0,100,5,100));
+        VBox.setMargin(textSeverPort,new Insets(0,40,5,50));
+        VBox.setMargin(serverPort,new Insets(0,100,20,100));
+        VBox.setMargin(user,new Insets(5,100,10,100));
+        VBox.setMargin(buttons,new Insets(10,40,5,50));
 
         menu.getChildren().addAll(error,textIP,ip,textPort,port);
-        menu.getChildren().addAll(textSeverIP,severIP,textSeverPort,serverPort,buttons);
+        menu.getChildren().addAll(textSeverIP,severIP,textSeverPort,serverPort,user,buttons);
         setTextFont(menu,15);
 
         addToHoverable(buttons);
@@ -378,29 +398,43 @@ public class MainMenu {
         });
 
         connect.setOnMouseClicked(event -> {
+
             try {
+                if (idField.getText().equals("")) {
+                    error.setText("Enter Id");
+                    return;
+                }
+                if (nameField.getText().equals("")) {
+                    error.setText("Enter Name");
+                    return;
+                }
+                error.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
                 int portNumber = Integer.parseInt(port.getText());
                 int serverPortNumber = Integer.parseInt(serverPort.getText());
-                error.setText("invalid input");
-                InetAddress inetAddress = InetAddress.getByName(textSeverPort.getText());
-                if(portNumber < 0 || serverPortNumber < 0 ){
-                    throw new  NumberFormatException();
+                InetAddress ipClient = InetAddress.getByName(ip.getText());
+                InetAddress ipSever = InetAddress.getByName(severIP.getText());
+                if (portNumber < 0 || serverPortNumber < 0) {
+                    throw new NumberFormatException();
                 }
-
-            } catch (Exception NumberFormatException) {
-                error.setText("Invalid Port");
-
+                Client client = new Client(new Player(nameField.getText(), idField.getText(), 20000), ipClient, portNumber, serverPortNumber, ipSever);
+            } catch (UnknownHostException e) {
+                error.setText("Invalid  ip");
+            }
+            catch (IOException e) {
+                error.setText("Can Not connect to Sever");
             }
         });
 
     }
 
 
-    public void setTextFont(VBox menu ,int size ){
+    public void setTextFont(Pane menu,int size ){
+
         Font font = Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), size);
         for (Node child : menu.getChildren()) {
             if(child instanceof Text){
                 ((Text )child).setFont(font);
+                ((Text) child).setFill(Color.GOLD);
             }
         }
 

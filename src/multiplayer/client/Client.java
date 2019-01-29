@@ -23,29 +23,22 @@ public class Client {
         this.socket = socket;
     }
 
-    public  void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        player = new Player(scanner.nextLine(), scanner.nextLine());
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    //TODO inetADress,localPort....
-                    socket = new Socket(serverIp,serverPort,ip,localPort);
-                    objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-                    objectOutputStream.writeObject(player);
-                    String str = (String) getObject();
-                    if (str.equals("ok")) {
-                        System.out.println("ok");
-                    } else {
-                        System.out.println("this id has already used");
-                    }
+    public Client(Player player, InetAddress ip, int localPort, int serverPort, InetAddress serverIp) throws IOException {
+        this.player = player;
+        this.ip = ip;
+        this.localPort = localPort;
+        this.serverPort = serverPort;
+        this.serverIp = serverIp;
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+        socket = new Socket(serverIp, serverPort);
+        objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+        objectOutputStream.writeObject(player);
+        String str = (String) getObject();
+        if (str.equals("ok")) {
+
+        } else {
+            throw new IOException();
+        }
 
     }
 

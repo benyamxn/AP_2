@@ -8,11 +8,13 @@ public class Player implements Serializable {
 
     private String name;
     private String id;
-    private int level;
+    private int level = 1;
+    private int money;
 
-    public Player(String name, String id) {
+    public Player(String name, String id,int money) {
         this.name = name;
         this.id = id;
+        this.money = money;
     }
 
     public void update(Game game){
@@ -34,5 +36,9 @@ public class Player implements Serializable {
 
     public String getId() {
         return id;
+    }
+
+    public int getMoney() {
+        return money;
     }
 }
