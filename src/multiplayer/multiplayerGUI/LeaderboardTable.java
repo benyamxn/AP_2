@@ -63,7 +63,7 @@ public class LeaderboardTable {
         table.setPrefHeight(height);
     }
 
-    private void fillTableObservableList(ArrayList<Player> players) {
+    public void fillTableObservableList(ArrayList<Player> players) {
         for (Player player : players) {
             observableList.add(new PlayerRow(player));
         }
@@ -103,6 +103,14 @@ public class LeaderboardTable {
             money = player.getMoney();
             level = player.getLevel();
         }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof PlayerRow) {
+                return this.id == ((PlayerRow) obj).id;
+            }
+            return false;
+        }
     }
 
     public void relocate(double x, double y) {
@@ -111,5 +119,33 @@ public class LeaderboardTable {
 
     public void addToRoot(Pane pane) {
         pane.getChildren().add(table);
+    }
+
+    public void update() {
+        table.refresh();
+    }
+
+    public ObservableList<PlayerRow> getObservableList() {
+        return observableList;
+    }
+
+    public void addPlayer(Player player) {
+        observableList.add(new PlayerRow(player));
+        update();
+    }
+
+    public void removePlayer(Player player) {
+        observableList.remove(new PlayerRow(player));
+    }
+
+    public void updatePlayer(Player player) {
+        for (PlayerRow playerRow : observableList) {
+            if (playerRow.getId().equals(player.getId())) {
+                playerRow.setLevel(player.getLevel());
+                playerRow.setMoney(player.getMoney());
+                update();
+                return;
+            }
+        }
     }
 }
