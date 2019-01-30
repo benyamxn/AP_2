@@ -1,6 +1,6 @@
 package multiplayer;
 
-import multiplayer.messages.Message;
+import multiplayer.multiplayerModel.messages.Message;
 
 import java.io.ObjectOutputStream;
 

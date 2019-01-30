@@ -463,12 +463,14 @@ public class FarmGUI {
     private void createWorkshopAction(){
         for (WorkshopGUI workshopGUI : workshopGUIS) {
             workshopGUI.setOnClick(event -> {
-                try {
-                    controller.startWorkshop(workshopGUI.getWorkshop().getName());
-                } catch (NameNotFoundException e) {
+                if(event.getClickCount() == 1) {
+                    try {
+                        controller.startWorkshop(workshopGUI.getWorkshop().getName());
+                    } catch (NameNotFoundException e) {
 
-                } catch (NotEnoughItemsException e) {
-                    System.out.println("NotEnoughItemsException");
+                    } catch (NotEnoughItemsException e) {
+                        System.out.println("NotEnoughItemsException");
+                    }
                 }
             });
 

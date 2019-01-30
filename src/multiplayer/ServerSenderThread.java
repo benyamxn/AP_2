@@ -1,22 +1,22 @@
 package multiplayer;
 
-import multiplayer.messages.Message;
+import multiplayer.multiplayerModel.messages.Message;
 import multiplayer.server.User;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Queue;
 
-public class ServerSenderThread extends Thread {
+public  class ServerSenderThread extends Thread {
     private Queue<Packet> queue = new LinkedList<>();
     private ArrayList<User> users;
     private OutputStream outputStream;
     private ObjectOutputStream objectOutputStream;
+    private static ServerSenderThread instance;
 
-    public ServerSenderThread(ArrayList<User> users) {
+    private ServerSenderThread(ArrayList<User> users) {
         this.users = users;
     }
 
@@ -45,4 +45,13 @@ public class ServerSenderThread extends Thread {
             }
         }
     }
+
+    public static void init(ArrayList<User> users){
+        instance = new ServerSenderThread(users);
+    }
+
+    public ServerSenderThread getInstance(){
+        return instance;
+    }
+
 }

@@ -63,7 +63,7 @@ public class SoundUI {
 
     private MediaPlayer hoverInSoundPlayer = new MediaPlayer(hoverSound);
 
-    private Media errorSound = new Media(getClass().getClassLoader().getResource("Soundtrack/error.mp3").toExternalForm());
+    private Media errorSound = new Media(getClass().getClassLoader().getResource("Soundtrack/hover.mp3").toExternalForm());
     private MediaPlayer errorSoundPlayer = new MediaPlayer(errorSound);
 
     SoundUI() {

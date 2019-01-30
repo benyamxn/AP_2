@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class Server {
 
-    private static ArrayList<User> users = new ArrayList<>();
+    private ArrayList<User> users = new ArrayList<>();
     private ServerSocket serverSocket ;
     public Server(int port,InetAddress inetAddress) throws IOException {
 
@@ -73,5 +73,9 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<User> getUsers() {
+        return users;
     }
 }

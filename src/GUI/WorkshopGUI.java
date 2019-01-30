@@ -62,6 +62,8 @@ public class WorkshopGUI implements Hoverable,Pausable {
         if(rotate){
             imageView.setScaleX(-1);
         }
+
+
     }
 
 
@@ -105,9 +107,7 @@ public class WorkshopGUI implements Hoverable,Pausable {
         }
     }
 
-    public void setOnClick(EventHandler<? super MouseEvent> eventHandler) {
-        imageView.setOnMouseClicked(eventHandler);
-    }
+    public void setOnClick(EventHandler<? super MouseEvent> eventHandler) { imageView.setOnMouseClicked(eventHandler); }
 
     public Workshop getWorkshop() {
         return workshop;
