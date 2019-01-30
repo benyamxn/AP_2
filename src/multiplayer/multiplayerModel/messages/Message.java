@@ -4,8 +4,8 @@ import multiplayer.multiplayerModel.*;
 import java.io.Serializable;
 
 public abstract class Message implements Serializable {
-    private CompactProfile sender;
-    private CompactProfile receiver;
+    protected CompactProfile sender;
+    protected CompactProfile receiver;
 
     public CompactProfile getSender() {
         return sender;

@@ -17,8 +17,8 @@ public class ChatMessage extends Message{
     }
 
     public ChatMessage(CompactProfile sender, CompactProfile receiver, String text, CompactProfile replyingTO) {
-        this(sender, receiver,text);
-        this.replyingTO = replyingTO;
+        this(sender, text,replyingTO);
+        super.receiver = receiver;
     }
 
     public String getText() {
