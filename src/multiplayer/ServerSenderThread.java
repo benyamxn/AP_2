@@ -1,5 +1,7 @@
 package multiplayer;
 
+import GUI.SoundUI;
+import javafx.scene.media.Media;
 import multiplayer.multiplayerModel.messages.Message;
 import multiplayer.server.User;
 import java.io.IOException;
@@ -50,7 +52,7 @@ public  class ServerSenderThread extends Thread {
         instance = new ServerSenderThread(users);
     }
 
-    public ServerSenderThread getInstance(){
+    public static ServerSenderThread getInstance(){
         return instance;
     }
 

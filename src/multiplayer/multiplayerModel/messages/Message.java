@@ -23,6 +23,10 @@ public abstract class Message implements Serializable {
         this.receiver = receiver;
     }
 
+
+    public Message() {
+    }
+
     public Message(CompactProfile sender) {
         this.sender = sender;
     }
@@ -32,6 +36,4 @@ public abstract class Message implements Serializable {
         this.receiver = receiver;
     }
 
-    public Message() {
-    }
 }

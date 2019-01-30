@@ -23,6 +23,8 @@ import model.exception.MoneyNotEnoughException;
 import model.exception.UsedIdException;
 import multiplayer.Player;
 import multiplayer.client.Client;
+import multiplayer.multiplayerGUI.ChatRoomGUI;
+import multiplayer.multiplayerModel.ChatRoom;
 import multiplayer.server.Server;
 
 import java.io.File;
