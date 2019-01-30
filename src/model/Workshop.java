@@ -24,8 +24,6 @@ public class Workshop implements Upgradable {
     private transient WorkshopGUI workshopGUI;
 
 
-
-
     public static Workshop readFromJson(String path) throws IOException {
         Reader reader = new FileReader(path);
         YaGson gson = new YaGsonBuilder().create();
@@ -173,6 +171,10 @@ public class Workshop implements Upgradable {
 
     public int getLevel() {
         return level;
+    }
+
+    public ProductType getOutput() {
+        return output;
     }
 
     public int getProductionTime() {

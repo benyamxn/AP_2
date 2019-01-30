@@ -70,7 +70,7 @@ public class FarmGUI {
             if(i > 2)
                 shift = 0;
             Workshop temp = farm.getWorkshops()[i];
-            workshopGUIS[i] = new WorkshopGUI(temp,false,200);
+            workshopGUIS[i] = new WorkshopGUI(temp,false,200, this);
             double[] location = getPointForCell(temp.getProductionPoint().getWidth(),temp.getProductionPoint().getHeight());
             workshopGUIS[i].relocate(location[0] - cellWidth * 2 * shift, location[1] - 2 * cellHeight );
             workshopGUIS[i].addToRoot(anchorPane);
@@ -114,7 +114,7 @@ public class FarmGUI {
     }
 
     private void createMenu(){
-        Button button = new Button("menu");
+        Button button = new Button("Menu");
         Hoverable.setMouseHandler(button);
         button.relocate(button.getWidth(),MainStage.getInstance().getHeight() * 0.95);
         button.setOnMouseClicked(event -> {
@@ -464,7 +464,8 @@ public class FarmGUI {
         for (WorkshopGUI workshopGUI : workshopGUIS) {
             workshopGUI.setOnClick(event -> {
                 try {
-                    controller.startWorkshop(workshopGUI.getWorkshop().getName());
+                    if (!event.isStillSincePress())
+                        controller.startWorkshop(workshopGUI.getWorkshop().getName());
                 } catch (NameNotFoundException e) {
 
                 } catch (NotEnoughItemsException e) {
@@ -475,8 +476,11 @@ public class FarmGUI {
             Workshop workshop = workshopGUI.getWorkshop();
             Tooltip tooltip = new Tooltip(workshop.getName().replace("_", " "));
             workshopGUI.initTooltip(tooltip);
-//            workshopGUI.setOnEnter(event -> anchorPane.getChildren().add(workshopGUI.getInfoImageView()));
-//            workshopGUI.setOnExit(event -> anchorPane.getChildren().remove(workshopGUI.getInfoImageView()));
+            workshopGUI.setOnHold(event -> {
+                pauseFarm();
+                anchorPane.getChildren().add(pauseRectangle);
+                workshopGUI.show(anchorPane);
+            });
         }
     }
 

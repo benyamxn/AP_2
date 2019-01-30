@@ -13,6 +13,17 @@
     -fx-background-size: 100% 100%;
 }
 
+#infoBox {
+    -fx-background-image: url("../../Textures/Workshops/info.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#infoPane {
+    -fx-background-image: url("../../Textures/Workshops/info.png");
+    -fx-background-size: 100% 100%;
+}
+
 #titleLabel {
     -fx-font-size: 80px;
     -fx-font-family: 'Spicy Rice';

@@ -4,18 +4,23 @@ import GUI.animation.AnimationConstants;
 import GUI.animation.SpriteAnimation;
 import javafx.animation.Animation;
 import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import model.Product;
+import model.ProductType;
 import model.Workshop;
 
 import java.io.FileInputStream;
@@ -25,9 +30,9 @@ import java.nio.file.Paths;
 
 public class WorkshopGUI implements Hoverable,Pausable {
 
-    private Group root = new Group();
     private static int duration = 1000;
     private static int cycleCount = 9;
+    private FarmGUI farmGUI;
     private Workshop workshop;
     private Image image;
     private boolean rotate;
@@ -38,11 +43,12 @@ public class WorkshopGUI implements Hoverable,Pausable {
     private Animation animation;
     private ImageView infoImageView;
     private Image infoImage;
-    private double infoWidth = MainStage.getInstance().getWidth() / 7;
-    private double infoHeight;
+    private VBox infoVBox;
+    private double infoWidth = MainStage.getInstance().getWidth() / 3;
 
-    public WorkshopGUI(Workshop workshop , boolean rotate , int fitWidth) throws FileNotFoundException {
+    public WorkshopGUI(Workshop workshop , boolean rotate , int fitWidth, FarmGUI farmGUI) throws FileNotFoundException {
         this.workshop = workshop;
+        this.farmGUI = farmGUI;
         workshop.setWorkshopGUI(this);
         image = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures","Workshops",
                 workshop.getType().toString() ,"0" + workshop.getLevel() + ".png").toString()));
@@ -56,7 +62,7 @@ public class WorkshopGUI implements Hoverable,Pausable {
         imageView.setOpacity(1);
 
         infoImage = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures","Workshops", "info.png").toString()));
-        initInfoImageView();
+        initInfo();
         setMouseEvent(imageView);
         this.rotate = rotate;
         if(rotate){
@@ -113,12 +119,8 @@ public class WorkshopGUI implements Hoverable,Pausable {
         return workshop;
     }
 
-    public void setOnEnter(EventHandler<? super MouseEvent> eventHandler) {
-        imageView.setOnMouseEntered(eventHandler);
-    }
-
-    public void setOnExit(EventHandler<? super MouseEvent> eventHandler) {
-        imageView.setOnMouseExited(eventHandler);
+    public void setOnHold(EventHandler<? super MouseEvent> eventHandler) {
+        imageView.setOnMousePressed(eventHandler);
     }
 
     public void initTooltip(Tooltip tooltip) {
@@ -127,11 +129,73 @@ public class WorkshopGUI implements Hoverable,Pausable {
     }
 
 
-    private void initInfoImageView() {
-        infoImageView = new ImageView(infoImage);
-        infoImageView.setScaleX(infoWidth);
-        infoImageView.setScaleY(infoImage.getHeight() * infoWidth / infoImage.getWidth());
-        infoImageView.setPreserveRatio(true);
+    private void initInfo() {
+        infoVBox = new VBox();
+        infoVBox.setAlignment(Pos.CENTER);
+
+        Button okButton = new Button("Ok");
+        Hoverable.setMouseHandler(okButton);
+        okButton.setOnMouseClicked(event -> {
+            FarmGUI.getSoundPlayer().playTrack("click");
+            FarmGUI.anchorPane.getChildren().removeAll(infoVBox);
+            FarmGUI.anchorPane.getChildren().remove(farmGUI.getPauseRectangle());
+            farmGUI.resume();
+        });
+        okButton.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
+        VBox.setMargin(okButton, new Insets(20, 0, 0, 0));
+
+        Text workshopName = new Text(workshop.getName().replace("_", " "));
+        workshopName.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 36));
+        workshopName.setFill(Color.BLACK);
+        VBox.setMargin(workshopName, new Insets(20, 0, 40, 0));
+        infoVBox.setId("infoBox");
+        double width = MainStage.getInstance().getWidth() ;
+        double height = MainStage.getInstance().getHeight() ;
+        double anchor = (400 > height / 3)? height / 2 - 200: height / 3;
+        AnchorPane.setBottomAnchor(infoVBox, anchor - 200);
+        AnchorPane.setTopAnchor(infoVBox, anchor - 200);
+        AnchorPane.setRightAnchor(infoVBox, width / 2 - width / 10);
+        AnchorPane.setLeftAnchor(infoVBox, width / 2  - width / 10);
+        infoVBox.getChildren().add(workshopName);
+        renderInputsAndOutputs();
+        infoVBox.getChildren().add(okButton);
+    }
+
+    private void renderInputsAndOutputs() {
+        Text input = new Text("Input(s):");
+        input.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 30));
+        input.setFill(Color.BLACK);
+        infoVBox.getChildren().add(input);
+        for (ProductType inputProduct : workshop.getNeededProducts()) {
+            ImageView inputProductImageView = new ProductGUI(new Product(inputProduct), 1).getImageView();
+
+            Text productName = new Text(inputProduct.toString());
+            productName.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 26));
+            productName.setFill(Color.CHOCOLATE);
+
+            VBox.setMargin(productName, new Insets(0, 0, 10, 0));
+
+            infoVBox.getChildren().addAll(inputProductImageView, productName);
+        }
+        Text output = new Text("Output :");
+        output.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 30));
+        output.setFill(Color.BLACK);
+
+        Text outputName = new Text(workshop.getOutput().toString());
+        outputName.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 28));
+        outputName.setFill(Color.GOLDENROD);
+
+
+        ImageView outputImageView = new ProductGUI(new Product(workshop.getOutput()), 1).getImageView();
+        Insets center = new Insets(0, infoWidth / 2, 0, infoWidth / 2);
+        VBox.setMargin(output, new Insets(60, 0, 10, 0));
+        VBox.setMargin(outputImageView, new Insets(0, 0, 10, 0));
+        VBox.setMargin(outputName, center);
+        infoVBox.getChildren().addAll(output, outputImageView, outputName);
+    }
+
+    public void show(AnchorPane pane) {
+        pane.getChildren().addAll(infoVBox);
     }
 
     @Override
