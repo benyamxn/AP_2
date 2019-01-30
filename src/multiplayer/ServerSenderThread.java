@@ -48,11 +48,13 @@ public  class ServerSenderThread extends Thread {
         }
     }
 
-    public static void init(ArrayList<User> users){
-        instance = new ServerSenderThread(users);
+    public static void init(){
+        instance = new ServerSenderThread(new ArrayList<>());
     }
 
     public static ServerSenderThread getInstance(){
+        if (instance == null)
+            init();
         return instance;
     }
 

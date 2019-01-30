@@ -2,23 +2,19 @@ package multiplayer.multiplayerGUI;
 
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import multiplayer.ClientSenderThread;
 import multiplayer.Player;
-import multiplayer.messages.LeaderboardRequestMessage;
+import multiplayer.ServerSenderThread;
 
 import java.util.ArrayList;
 
-public class LeaderboardGUI {
-    private static boolean visible = false;
+public class LeaderboardGUIServer {
     private double width, height;
     private AnchorPane pane;
     private LeaderboardTable leaderboardTable;
-    // TODO: toggle visible on click.
-    private ClientSenderThread senderThread = ClientSenderThread.getInstance();
+    private ServerSenderThread senderThread = ServerSenderThread.getInstance();
 
-    public LeaderboardGUI(double width, double height) {
+    public LeaderboardGUIServer(double width, double height) {
         pane = new AnchorPane();
-        senderThread.addToQueue(new LeaderboardRequestMessage());
         this.width = width;
         this.height = height;
     }
@@ -38,15 +34,6 @@ public class LeaderboardGUI {
     }
 
     public void relocate(double x, double y) {
-        pane.relocate(x, y);
         leaderboardTable.relocate(x, y);
-    }
-
-    public static boolean isVisible() {
-        return visible;
-    }
-
-    public static void setVisible(boolean visible) {
-        LeaderboardGUI.visible = visible;
     }
 }

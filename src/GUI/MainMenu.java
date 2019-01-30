@@ -25,6 +25,7 @@ import multiplayer.Player;
 import multiplayer.client.Client;
 import multiplayer.multiplayerGUI.ChatRoomGUI;
 import multiplayer.multiplayerModel.ChatRoom;
+import multiplayer.multiplayerGUI.ServerPageGUI;
 import multiplayer.server.Server;
 
 import java.io.File;
@@ -298,6 +299,7 @@ public class MainMenu {
                   throw new  NumberFormatException();
               }
               Server server = new Server(portNumber , InetAddress.getByName(ip.getText()));
+              new ServerPageGUI(server);
           } catch (Exception NumberFormatException) {
               error.setText("Invalid Port");
           }
