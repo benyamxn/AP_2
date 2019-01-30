@@ -187,6 +187,9 @@ public class AnimalGUI implements Pausable{
         animation.play();
         cageTranslateTransition.play();
         translateTransition.play();
+        animation.setOnFinished(event -> animation = null);
+        cageTranslateTransition.setOnFinished(event -> cageTranslateTransition = null);
+        translateTransition.setOnFinished(event -> translateTransition = null);
     }
 
     public ImageView getImageView() {
@@ -211,6 +214,7 @@ public class AnimalGUI implements Pausable{
         animation.setOnFinished(event ->{
             animal = null;
             FarmGUI.anchorPane.getChildren().removeAll(imageView, cageView);
+            animation = null;
         });
         if (animal instanceof Domesticated)
             FarmGUI.getSoundPlayer().playTrack(animal.toString() + " death");
@@ -233,6 +237,7 @@ public class AnimalGUI implements Pausable{
         setRate(DurationManager.getRate());
         animation.setOnFinished(event -> {
             animal.setEating(false);
+            animation = null;
         });
         animation.play();
     }

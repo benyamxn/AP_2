@@ -74,6 +74,7 @@ public class CellGUI  implements  Pausable{
                     ((before) % columns) * width, ((before) / columns) * height, width, height);
             setRate(DurationManager.getRate());
             animation.play();
+            animation.setOnFinished(event -> animation = null);
         }
     }
 
@@ -98,6 +99,7 @@ public class CellGUI  implements  Pausable{
         animation.setOnFinished(event -> {
             FarmGUI.anchorPane.getChildren().remove(temp);
             imageView.setVisible(true);
+            animation = null;
         });
     }
 
