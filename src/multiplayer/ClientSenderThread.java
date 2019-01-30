@@ -1,6 +1,7 @@
 package multiplayer;
 
-import multiplayer.messages.Message;
+
+import multiplayer.multiplayerModel.messages.Message;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -14,8 +15,9 @@ public class ClientSenderThread extends Thread {
     private Socket socket;
     private OutputStream outputStream;
     private ObjectOutputStream objectOutputStream;
+    private static ClientSenderThread instance;
 
-    public ClientSenderThread(Socket socket) {
+    private ClientSenderThread(Socket socket) {
         this.socket = socket;
         try {
             outputStream = socket.getOutputStream();
@@ -43,5 +45,13 @@ public class ClientSenderThread extends Thread {
                 }
             }
         }
+    }
+
+    public void init(Socket socket){
+        instance = new ClientSenderThread(socket);
+    }
+
+    public static ClientSenderThread getInstance() {
+        return instance;
     }
 }
