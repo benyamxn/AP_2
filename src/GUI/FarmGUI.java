@@ -464,7 +464,7 @@ public class FarmGUI {
         for (WorkshopGUI workshopGUI : workshopGUIS) {
             workshopGUI.setOnClick(event -> {
                 try {
-                    if (!event.isStillSincePress())
+                    if (event.getClickCount() == 1)
                         controller.startWorkshop(workshopGUI.getWorkshop().getName());
                 } catch (NameNotFoundException e) {
 
@@ -477,9 +477,11 @@ public class FarmGUI {
             Tooltip tooltip = new Tooltip(workshop.getName().replace("_", " "));
             workshopGUI.initTooltip(tooltip);
             workshopGUI.setOnHold(event -> {
-                pauseFarm();
-                anchorPane.getChildren().add(pauseRectangle);
-                workshopGUI.show(anchorPane);
+                if (event.getClickCount() == 2) {
+                    pauseFarm();
+                    anchorPane.getChildren().add(pauseRectangle);
+                    workshopGUI.show(anchorPane);
+                }
             });
         }
     }

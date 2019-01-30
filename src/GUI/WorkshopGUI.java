@@ -147,7 +147,7 @@ public class WorkshopGUI implements Hoverable,Pausable {
         Text workshopName = new Text(workshop.getName().replace("_", " "));
         workshopName.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 36));
         workshopName.setFill(Color.BLACK);
-        VBox.setMargin(workshopName, new Insets(20, 0, 40, 0));
+        VBox.setMargin(workshopName, new Insets(50, 0, 40, 0));
         infoVBox.setId("infoBox");
         double width = MainStage.getInstance().getWidth() ;
         double height = MainStage.getInstance().getHeight() ;
