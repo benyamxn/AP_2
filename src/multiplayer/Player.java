@@ -41,4 +41,8 @@ public class Player implements Serializable {
     public int getMoney() {
         return money;
     }
+
+    public int getLevel() {
+        return level;
+    }
 }
