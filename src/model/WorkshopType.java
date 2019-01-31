@@ -3,7 +3,7 @@ package model;
 public enum WorkshopType {
     EGG_POWDER_PLANT(ProductType.EGG, ProductType.DRIED_EGG, 200),
     MEGA_PIE(ProductType.MEGA_PIE, 10000, ProductType.DRIED_EGG, ProductType.MILK, ProductType.FLOUR),
-    COOKIE_BAKERY(ProductType.COOKIE, ProductType.DRIED_EGG, 250),
+    COOKIE_BAKERY(ProductType.DRIED_EGG, ProductType.COOKIE, 250),
     PLUME(ProductType.FEATHER, ProductType.PLUME, 2500),
     CARNIVAL_DRESS(ProductType.FABRIC, ProductType.CARNIVAL_DRESS, 15000),
     SPINNERY(ProductType.WOOL, ProductType.SEWING, 250),
