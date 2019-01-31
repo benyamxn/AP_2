@@ -35,12 +35,17 @@ public class Server {
                     try {
                         User user = new User();
                         user.setSocket(serverSocket.accept());
-
-                        user.setPlayer(getNewPlayer(user.getObjectInputStream()));
+                        System.out.println("salam");
+                        send(new String("ok"),user.getObjectOutputStream());
+                        Player player = getNewPlayer(user.getSocket(),user);
+//                        System.out.println("moh");
+                        user.setPlayer(player);
                         if(checkNewUser(user)){
                             users.add(user);
                             send(new String("ok"),user.getObjectOutputStream());
-
+                            Thread receiver = new RecieverThread(serverHandler,user.getSocket());
+                            ((RecieverThread) receiver).setObjectInputStream(user.getObjectInputStream());
+                            receiver.start();
                         }else{
                             send(new String("dddd"),user.getObjectOutputStream());
                             user.getSocket().close();
@@ -62,10 +67,11 @@ public class Server {
         shop = new Shop(enumMap);
     }
 
-    public Player getNewPlayer(ObjectInputStream objectInputStream){
+    public Player getNewPlayer(Socket socket,User user){
         try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
             Player player = (Player) objectInputStream.readObject();
-            return player;
+            return  player;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -87,6 +93,7 @@ public class Server {
 
         try {
             objectOutputStream.writeObject(object);
+            objectOutputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }

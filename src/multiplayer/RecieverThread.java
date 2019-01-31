@@ -1,9 +1,8 @@
 package multiplayer;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
+import multiplayer.multiplayerModel.messages.Message;
+
+import java.io.*;
 import java.net.Socket;
 
 
@@ -26,14 +25,17 @@ public class RecieverThread  extends Thread  {
 
     @Override
     public void run() {
+        System.out.println("salam");
         while(true) {
             try {
-                Object o = objectInputStream.readObject();
-                handler.handle((Serializable) o);
+                Object o;
+                if((o = objectInputStream.readObject()) instanceof Message){
+                    handler.handle((Message) o);
+                }
             } catch (IOException e) {
-                e.printStackTrace();
+
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+
             }
         }
     }

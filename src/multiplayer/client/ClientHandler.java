@@ -22,13 +22,16 @@ public class ClientHandler implements Handler {
             ClientSenderThread.getInstance().start();
              Thread receiver = new RecieverThread(this,client.getSocket());
              ((RecieverThread) receiver).setObjectInputStream(client.getObjectInputStream());
-//             receiver.start();
+             receiver.start();
     }
 
     @Override
     public void handle(Serializable input) {
         if (input instanceof ChatMessage){
-            client.getChatRoomByReceiver(((ChatMessage) input).getSender()).addMessage((ChatMessage)input);
+            if(((ChatMessage)input).isGlobal()){
+                client.getChatRoomByReceiver(null).addMessage((ChatMessage)input);
+            } else
+                client.getChatRoomByReceiver(((ChatMessage) input).getSender()).addMessage((ChatMessage)input);
         }
     }
 

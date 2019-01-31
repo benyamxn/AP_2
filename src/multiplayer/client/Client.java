@@ -42,10 +42,16 @@ public class Client {
         socket = new Socket(serverIp, serverPort);
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectInputStream = new ObjectInputStream(socket.getInputStream());
+        try {
+            System.out.println(((String) objectInputStream.readObject()));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         objectOutputStream.writeObject(player);
+        objectOutputStream.flush();
         String str = (String) getObject();
         if (str.equals("ok")) {
-
+            System.out.println("s");
         } else {
             throw new UsedIdException();
         }

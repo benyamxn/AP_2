@@ -6,7 +6,7 @@ import multiplayer.multiplayerModel.*;
 public class ChatMessage extends Message{
     private String text;
     private String replyingTO;
-
+    private boolean isGlobal  = false;
 
     public ChatMessage(CompactProfile sender, String text) {
         super(sender);
@@ -28,7 +28,9 @@ public class ChatMessage extends Message{
         this.text = text;
     }
 
-
+    public void setGlobal(boolean global) {
+        isGlobal = global;
+    }
 
     public String getText() {
         return text;
@@ -44,5 +46,9 @@ public class ChatMessage extends Message{
 
     public String getReplyingTO() {
         return replyingTO;
+    }
+
+    public boolean isGlobal() {
+        return isGlobal;
     }
 }

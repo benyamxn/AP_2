@@ -14,7 +14,6 @@ public class ChatRoom {
     private boolean isClient;
     private ChatRoomGUI chatRoomGUI;
     private LinkedList<ChatMessage> chatMessages = new LinkedList<>();
-    private boolean isGlobal;
     private CompactProfile receiver;
 
     public ChatRoom(boolean isClient) {
@@ -42,6 +41,7 @@ public class ChatRoom {
     public void sendMessage(String replyTo,String text){
         ChatMessage message = new ChatMessage(text);
         message.setReplyingTO(replyTo);
+        message.setGlobal(receiver == null);
         if(isClient) {
             ClientSenderThread.getInstance().addToQueue(message);
         } else {
@@ -53,7 +53,4 @@ public class ChatRoom {
         return receiver;
     }
 
-    public void setGlobal(boolean global) {
-        isGlobal = global;
-    }
 }

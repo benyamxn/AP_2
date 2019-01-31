@@ -27,6 +27,7 @@ public class ServerHandler implements Handler {
     @Override
     public void handle(Serializable input) {
         if (input instanceof ChatMessage){
+            System.out.println("send chat");
             sendChatMessage((ChatMessage) input);
 //        } else if(){
 
