@@ -1,23 +1,24 @@
 package multiplayer.multiplayerModel.messages;
 
-import javafx.scene.media.Media;
+
 import multiplayer.multiplayerModel.*;
 
 public class ChatMessage extends Message{
     private String text;
-    private CompactProfile replyingTO;
-    private Media media;
+    private String replyingTO;
+
+
     public ChatMessage(CompactProfile sender, String text) {
         super(sender);
         this.text = text;
     }
 
-    public ChatMessage(CompactProfile sender, String text, CompactProfile replyingTO) {
+    public ChatMessage(CompactProfile sender, String text, String replyingTO) {
         this(sender,text);
         this.replyingTO = replyingTO;
     }
 
-    public ChatMessage(CompactProfile sender, CompactProfile receiver, String text, CompactProfile replyingTO) {
+    public ChatMessage(CompactProfile sender, CompactProfile receiver, String text, String replyingTO) {
         this(sender, text,replyingTO);
         super.receiver = receiver;
     }
@@ -37,7 +38,11 @@ public class ChatMessage extends Message{
         this.text = text;
     }
 
-    public void setReplyingTO(CompactProfile replyingTO) {
+    public void setReplyingTO(String replyingTO) {
         this.replyingTO = replyingTO;
+    }
+
+    public String getReplyingTO() {
+        return replyingTO;
     }
 }

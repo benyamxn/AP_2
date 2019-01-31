@@ -57,7 +57,7 @@ public class ServerPageGUI {
         AnchorPane chatPane = new AnchorPane();
         chatPane.setBottomAnchor(vBox,100.0);
         chatPane.setTopAnchor(vBox, 0.0);
-        chatPane.setRightAnchor(vBox, 0.0);
+        chatPane.setRightAnchor(vBox, 100.0);
         chatPane.setLeftAnchor(vBox, 0.0);
         chatPane.getChildren().add(vBox);
         chatRoomGUI.init();

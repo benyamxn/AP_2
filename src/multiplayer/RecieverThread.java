@@ -14,11 +14,15 @@ public class RecieverThread  extends Thread  {
     private ObjectInputStream objectInputStream;
     private InputStream inputStream;
 
-    public RecieverThread(Handler handler,Socket socket) throws IOException {
+    public RecieverThread(Handler handler,Socket socket) {
         this.handler = handler;
         this.socket = socket;
-        this.inputStream = socket.getInputStream();
-        this.objectInputStream = new ObjectInputStream(inputStream);
+        try {
+            this.inputStream = socket.getInputStream();
+            this.objectInputStream = new ObjectInputStream(inputStream);
+        } catch (IOException e) {
+            e.getMessage();
+        }
     }
 
     @Override
@@ -33,4 +37,7 @@ public class RecieverThread  extends Thread  {
         }
     }
 
+    public Handler getHandler() {
+        return handler;
+    }
 }

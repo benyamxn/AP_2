@@ -58,4 +58,7 @@ public  class ServerSenderThread extends Thread {
         return instance;
     }
 
+    public void setUsers(ArrayList<User> users) {
+        this.users = users;
+    }
 }

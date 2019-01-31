@@ -2,6 +2,7 @@ package multiplayer.server;
 
 import model.ProductType;
 import multiplayer.Player;
+import multiplayer.RecieverThread;
 import multiplayer.client.Client;
 import multiplayer.multiplayerModel.ChatRoom;
 import multiplayer.multiplayerModel.CompactProfile;
@@ -21,6 +22,7 @@ public class Server {
     private ServerSocket serverSocket ;
     private ArrayList<ChatRoom> chatRooms;
     private Shop shop;
+    private ServerHandler serverHandler;
     public Server(int port,InetAddress inetAddress) throws IOException {
 
         this.serverSocket = new ServerSocket(port);
@@ -37,6 +39,7 @@ public class Server {
                         if(checkNewUser(user)){
                             users.add(user);
                             send(new String("ok"),user.getSocket());
+                            new RecieverThread(serverHandler,user.getSocket()).start();
                         }else{
                             send(new String("dddd"),user.getSocket());
                             user.getSocket().close();
@@ -47,10 +50,14 @@ public class Server {
                 }
             }
         }).start();
+        createShop();
+    }
 
+    public void createShop(){
         EnumMap<ProductType,Integer> enumMap = new EnumMap<>(ProductType.class);
-        enumMap.put(ProductType.EGG,50);
-        enumMap.put(ProductType.CAKE,20);
+        for (ProductType value : ProductType.values()) {
+            enumMap.put(value,10);
+        }
         shop = new Shop(enumMap);
     }
 
@@ -104,5 +111,19 @@ public class Server {
 
     public Shop getShop() {
         return shop;
+    }
+
+
+    public User getUserById(CompactProfile compactProfile){
+        for (User user : users) {
+            if(user.getPlayer().getId().equals(compactProfile.getId())){
+                return user;
+            }
+        }
+        return  null;
+    }
+
+    public void setServerHandler(ServerHandler serverHandler) {
+        this.serverHandler = serverHandler;
     }
 }

@@ -17,7 +17,7 @@ public class Shop {
     }
 
 
-    public boolean hasProducts(EnumMap<ProductType,Integer> input){
+    public synchronized boolean hasProducts(EnumMap<ProductType,Integer> input){
         for (Map.Entry<ProductType, Integer> productTypeIntegerEntry : input.entrySet()) {
             if( products.get(productTypeIntegerEntry.getKey()) == null || products.get(productTypeIntegerEntry.getKey()) < input.get(productTypeIntegerEntry.getKey())){
                 return false;
@@ -26,7 +26,7 @@ public class Shop {
         return true;
     }
 
-    public void remove(EnumMap<ProductType,Integer> input){
+    public synchronized void remove(EnumMap<ProductType,Integer> input){
         for (Map.Entry<ProductType, Integer> product : input.entrySet()) {
             int number = products.get(product.getKey()) -  input.get(product.getKey());
             if(number > 0 ){
@@ -37,7 +37,7 @@ public class Shop {
         }
     }
 
-    public void add(EnumMap<ProductType,Integer> input) {
+    public synchronized void add(EnumMap<ProductType,Integer> input) {
         for (Map.Entry<ProductType, Integer> product : input.entrySet()) {
             int number = products.get(product.getKey()) == null ? 0 : products.get(product.getValue()) - input.get(product.getKey());
             products.put(product.getKey(), number);
