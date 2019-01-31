@@ -21,6 +21,7 @@ public class LeaderboardGUIClient {
         senderThread.addToQueue(new LeaderboardRequestMessage());
         this.width = width;
         this.height = height;
+        initTable(new ArrayList<>());
     }
 
     public void initTable(ArrayList<Player> players) {
@@ -38,7 +39,6 @@ public class LeaderboardGUIClient {
     }
 
     public void relocate(double x, double y) {
-        pane.relocate(x, y);
         leaderboardTable.relocate(x, y);
     }
 

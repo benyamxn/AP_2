@@ -47,7 +47,7 @@ public class ClientSenderThread extends Thread {
         }
     }
 
-    public void init(Socket socket){
+    public static void init(Socket socket){
         instance = new ClientSenderThread(socket);
     }
 
