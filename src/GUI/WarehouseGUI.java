@@ -63,7 +63,8 @@ public class WarehouseGUI implements Hoverable {
         int level = warehouse.getLevel();
         double scaleX = endX - startX, scaleY = endY - startY;
         int row, column;
-        row = column = 8 + 2 * (level - 1);
+//        row = column = 8 + 2 * (level - 1);
+        row = column = 6;
         double offsetX, offsetY;
         offsetX = imageView.getFitWidth() * startX;
         offsetY = imageView.getFitHeight() * startY;
@@ -80,7 +81,7 @@ public class WarehouseGUI implements Hoverable {
                 productImageView.setPreserveRatio(true);
                 productImageView.setScaleY(2.8);
                 productImageView.setScaleX(2.8);
-                productImageView.relocate(width * (1.0 * productIndex / row) + offsetX / 2 ,  height * ((double) (productIndex % column)) + offsetY);
+                productImageView.relocate(width * (double) (productIndex % row) + offsetX / 2,  height * ((double) (productIndex / column)) + offsetY);
                 pane.getChildren().add(productImageView);
                 productIndex++;
             } catch (FileNotFoundException e) {
