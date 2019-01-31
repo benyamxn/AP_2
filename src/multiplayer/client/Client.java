@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 public class Client {
 
+
     private  Socket socket;
     private  ObjectOutputStream objectOutputStream;
     private  Player player;
@@ -29,6 +30,8 @@ public class Client {
     }
 
     public Client(Player player, InetAddress ip, int localPort, int serverPort, InetAddress serverIp) throws IOException, UsedIdException {
+
+
         this.player = player;
         this.ip = ip;
         this.localPort = localPort;

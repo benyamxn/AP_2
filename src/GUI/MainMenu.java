@@ -23,12 +23,15 @@ import model.exception.MoneyNotEnoughException;
 import model.exception.UsedIdException;
 import multiplayer.ClientSenderThread;
 import multiplayer.Player;
+import multiplayer.ServerSenderThread;
 import multiplayer.client.Client;
+import multiplayer.client.ClientHandler;
 import multiplayer.multiplayerGUI.ChatRoomGUI;
 import multiplayer.multiplayerGUI.ClientPageGUI;
 import multiplayer.multiplayerModel.ChatRoom;
 import multiplayer.multiplayerGUI.ServerPageGUI;
 import multiplayer.server.Server;
+import multiplayer.server.ServerHandler;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -316,6 +319,7 @@ public class MainMenu {
                   throw new  NumberFormatException();
               }
               Server server = new Server(portNumber , InetAddress.getByName(ip.getText()));
+              new ServerHandler(server);
               new ServerPageGUI(server);
           } catch (Exception NumberFormatException) {
               error.setText("Invalid Port");
@@ -449,7 +453,7 @@ public class MainMenu {
                     throw new NumberFormatException();
                 }
                 Client client = new Client(new Player(nameField.getText(), idField.getText(), 20000), ipClient, portNumber, serverPortNumber, ipSever);
-                ClientSenderThread.init(client.getSocket());
+                new ClientHandler(client);
                 new ClientPageGUI(client);
             } catch (UnknownHostException e) {
                 error.setText("Invalid  ip");
