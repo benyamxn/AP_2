@@ -58,8 +58,8 @@ public class AnimalGUI implements Pausable{
             cageImage = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures",
                     "Cages", "build02.png").toString()));
             cageView.setImage(cageImage);
-            cageWidth = (int) cageImage.getWidth() / AnimationConstants.CAGE_BUILD_2[0];
-            cageHeight = (int) cageImage.getHeight() / (AnimationConstants.CAGE_BUILD_2[1] / AnimationConstants.CAGE_BUILD_2[0]);
+            cageWidth = (int) (cageImage.getWidth()) / AnimationConstants.CAGE_BUILD_2[0];
+            cageHeight = (int) (cageImage.getHeight())/ 2;
             cageView.setViewport(new Rectangle2D(0, 0,cageWidth,cageHeight));
             cageView.setOpacity(1);
         } catch (FileNotFoundException e) {
@@ -200,15 +200,20 @@ public class AnimalGUI implements Pausable{
         translateTransition = new TranslateTransition(Duration.millis(DURATION),imageView);
         translateTransition.setByX(moveVector.getWidth() * difWidth);
         translateTransition.setByY( -1 *  moveVector.getHeight()  * difHeight);
-        cageTranslateTransition = new TranslateTransition(Duration.millis(DURATION),cageView);
-        cageTranslateTransition.setByY( -1 *  moveVector.getHeight()  * difHeight);
+        cageTranslateTransition = new TranslateTransition(Duration.millis(DURATION), cageView);
+        cageTranslateTransition.setByY(-1 * moveVector.getHeight() * difHeight);
         cageTranslateTransition.setByX(moveVector.getWidth() * difWidth);
         setRate(DurationManager.getRate());
+        if(!(animal instanceof Wild)){
+            cageTranslateTransition = null;
+        }else{
+            cageTranslateTransition.play();
+            cageTranslateTransition.setOnFinished(event -> cageTranslateTransition = null);
+        }
+
         animation.play();
-        cageTranslateTransition.play();
         translateTransition.play();
         animation.setOnFinished(event -> animation = null);
-        cageTranslateTransition.setOnFinished(event -> cageTranslateTransition = null);
         translateTransition.setOnFinished(event -> translateTransition = null);
     }
 
@@ -328,7 +333,10 @@ public class AnimalGUI implements Pausable{
     public void cage() {
         int column = AnimationConstants.CAGE_BUILD_2[0];
         int level = ((Wild) animal).getCagedLevel();
-        cageView.setViewport(new Rectangle2D(cageWidth * (level % column), cageHeight * (1.0 * level / column),cageWidth,cageHeight));
+
+        final int x = (level % column) * cageWidth;
+        final int y = (level / column) * cageHeight;
+        cageView.setViewport(new Rectangle2D( x,y,cageWidth,cageHeight));
     }
 
     public void addToRoot(Pane pane) {

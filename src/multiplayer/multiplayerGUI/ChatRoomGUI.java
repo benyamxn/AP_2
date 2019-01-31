@@ -19,7 +19,7 @@ public class ChatRoomGUI {
 
     private VBox vBox;
     private ChatRoom chatRoom;
-    private TextField text = new TextField();
+    private TextArea text = new TextArea();
     private TextArea textArea = new TextArea();
 
     public ChatRoomGUI(VBox vBox) {
@@ -29,16 +29,17 @@ public class ChatRoomGUI {
     public ChatRoomGUI(VBox vbox, ChatRoom chatRoom) {
         this.vBox = vbox;
         this.chatRoom = chatRoom;
+        chatRoom.setChatRoomGUI(this);
     }
 
     public void init(){
         Button send = new Button("send");
         HBox hbox = new HBox();
-        HBox.setMargin(text,new Insets(0,0,0,0));
-        HBox.setMargin(send,new Insets(0,0,0,0));
+        HBox.setMargin(text,new Insets(0,10,0,0));
+        HBox.setMargin(send,new Insets(0,0,0,100));
         hbox.getChildren().addAll(text,send);
-        VBox.setMargin(textArea,new Insets(10,0,0,0));
-        VBox.setMargin(send,new Insets(10,20,0,30));
+        VBox.setMargin(textArea,new Insets(10,0,100,0));
+        VBox.setMargin(send,new Insets(100,0,0,0));
         vBox.getChildren().addAll(textArea,hbox);
         textArea.setEditable(false);
         setSendButton(send);

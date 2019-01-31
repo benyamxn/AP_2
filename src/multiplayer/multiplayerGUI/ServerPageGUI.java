@@ -4,6 +4,7 @@ import GUI.MainStage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import multiplayer.server.Server;
 
 import java.io.FileInputStream;
@@ -22,12 +23,9 @@ public class ServerPageGUI {
         this.server = server;
         loadBackground();
         createLeaderboard();
-
+        createChatGUI();
         MainStage.getInstance().pushStack(pane);
     }
-
-
-
 
     private void loadBackground() {
         Image image = null;
@@ -51,6 +49,20 @@ public class ServerPageGUI {
     }
 
     private void createChatGUI() {
+        VBox vBox = new VBox();
+        chatRoomGUI = new ChatRoomGUI(vBox,server.getChatRoomByReceiver(null));
+        AnchorPane chatPane = new AnchorPane();
+        chatPane.setBottomAnchor(vBox,0.0);
+        chatPane.setTopAnchor(vBox, 0.0);
+        chatPane.setRightAnchor(vBox, 0.0);
+        chatPane.setLeftAnchor(vBox, 0.0);
+        chatPane.getChildren().add(vBox);
+
+        chatRoomGUI.init();
+        pane.getChildren().add(chatPane);
+
 
     }
+
+
 }

@@ -2,6 +2,8 @@ package multiplayer.server;
 
 import multiplayer.Player;
 import multiplayer.client.Client;
+import multiplayer.multiplayerModel.ChatRoom;
+import multiplayer.multiplayerModel.CompactProfile;
 
 import java.io.*;
 import java.net.Inet4Address;
@@ -14,9 +16,12 @@ public class Server {
 
     private ArrayList<User> users = new ArrayList<>();
     private ServerSocket serverSocket ;
+    private ArrayList<ChatRoom> chatRooms;
     public Server(int port,InetAddress inetAddress) throws IOException {
 
         this.serverSocket = new ServerSocket(port);
+        this.chatRooms = new ArrayList<>();
+        chatRooms.add(new ChatRoom(false,null));
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -77,5 +82,14 @@ public class Server {
 
     public ArrayList<User> getUsers() {
         return users;
+    }
+
+    public ChatRoom getChatRoomByReceiver(CompactProfile compactProfile){
+        for (ChatRoom chatRoom : chatRooms) {
+            if((chatRoom.getReceiver() == null && compactProfile == null)  || chatRoom.getReceiver().equals(compactProfile)){
+                return chatRoom;
+            }
+        }
+        return null;
     }
 }

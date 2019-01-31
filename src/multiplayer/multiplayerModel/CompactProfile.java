@@ -16,4 +16,9 @@ public class CompactProfile {
     public String getId() {
         return id;
     }
+
+
+    public boolean equals(CompactProfile compactProfile) {
+        return  this.id.equals(compactProfile.id);
+    }
 }

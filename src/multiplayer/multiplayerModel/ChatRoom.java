@@ -14,10 +14,19 @@ public class ChatRoom {
     private boolean isClient;
     private ChatRoomGUI chatRoomGUI;
     private LinkedList<ChatMessage> chatMessages = new LinkedList<>();
-
+    private CompactProfile receiver;
 
     public ChatRoom(boolean isClient) {
         this.isClient = isClient;
+    }
+
+    public ChatRoom(boolean isClient, CompactProfile receiver) {
+        this.isClient = isClient;
+        this.receiver = receiver;
+    }
+
+    public void setChatRoomGUI(ChatRoomGUI chatRoomGUI) {
+        this.chatRoomGUI = chatRoomGUI;
     }
 
     public LinkedList<ChatMessage> getChatMessages() {
@@ -38,5 +47,8 @@ public class ChatRoom {
             ServerSenderThread.getInstance().addToQueue(new Packet(message,null));
         }
     }
-    
+
+    public CompactProfile getReceiver() {
+        return receiver;
+    }
 }
