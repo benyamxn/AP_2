@@ -32,7 +32,7 @@ public class Shop {
             if(number > 0 ){
                 products.put(product.getKey(),number);
             } else {
-                products.remove(product.getKey());
+                products.put(product.getKey(),0);
             }
         }
     }
@@ -47,4 +47,5 @@ public class Shop {
     public EnumMap<ProductType, Integer> getProducts() {
         return products;
     }
+
 }

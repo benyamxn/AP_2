@@ -150,4 +150,11 @@ public enum ProductType {
         return null;
     }
 
+    public void setBuyCost(int buyCost) {
+        this.buyCost = buyCost;
+    }
+
+    public void setSaleCost(int saleCost) {
+        this.saleCost = saleCost;
+    }
 }

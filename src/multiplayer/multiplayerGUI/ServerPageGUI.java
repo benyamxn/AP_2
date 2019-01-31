@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import multiplayer.multiplayerModel.Shop;
 import multiplayer.server.Server;
 
 import java.io.FileInputStream;
@@ -19,11 +20,13 @@ public class ServerPageGUI {
     private LeaderboardGUIServer leaderboardGUIServer;
     private AnchorPane pane = new AnchorPane();
     private ChatRoomGUI chatRoomGUI;
+    private ShopGUI shopGUI;
     public ServerPageGUI(Server server) {
         this.server = server;
         loadBackground();
         createLeaderboard();
         createChatGUI();
+        createShopGUI();
         MainStage.getInstance().pushStack(pane);
     }
 
@@ -52,16 +55,20 @@ public class ServerPageGUI {
         VBox vBox = new VBox();
         chatRoomGUI = new ChatRoomGUI(vBox,server.getChatRoomByReceiver(null));
         AnchorPane chatPane = new AnchorPane();
-        chatPane.setBottomAnchor(vBox,0.0);
+        chatPane.setBottomAnchor(vBox,100.0);
         chatPane.setTopAnchor(vBox, 0.0);
         chatPane.setRightAnchor(vBox, 0.0);
         chatPane.setLeftAnchor(vBox, 0.0);
         chatPane.getChildren().add(vBox);
-
         chatRoomGUI.init();
+        chatPane.relocate(width /2 , height * 0.1);
         pane.getChildren().add(chatPane);
+    }
 
-
+    private void createShopGUI(){
+        shopGUI = new ShopGUI(server.getShop(),width * 0.4 , height * 0.25);
+        shopGUI.addToPane(pane);
+        shopGUI.relocate(width * 0.5 , height * 0.6 );
     }
 
 

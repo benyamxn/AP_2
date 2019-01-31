@@ -3,14 +3,16 @@ package multiplayer.multiplayerGUI;
 import GUI.Hoverable;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import multiplayer.multiplayerModel.ChatRoom;
+import multiplayer.multiplayerModel.CompactProfile;
 import multiplayer.multiplayerModel.messages.ChatMessage;
 
 import java.io.IOException;
@@ -19,8 +21,8 @@ public class ChatRoomGUI {
 
     private VBox vBox;
     private ChatRoom chatRoom;
-    private TextArea text = new TextArea();
     private TextArea textArea = new TextArea();
+    private ListView messages = new ListView<Node>();
 
     public ChatRoomGUI(VBox vBox) {
         this.vBox = vBox;
@@ -35,28 +37,42 @@ public class ChatRoomGUI {
     public void init(){
         Button send = new Button("send");
         HBox hbox = new HBox();
-        HBox.setMargin(text,new Insets(0,10,0,0));
+        HBox.setMargin(textArea,new Insets(0,10,0,0));
         HBox.setMargin(send,new Insets(0,0,0,100));
-        hbox.getChildren().addAll(text,send);
-        VBox.setMargin(textArea,new Insets(10,0,100,0));
-        VBox.setMargin(send,new Insets(100,0,0,0));
-        vBox.getChildren().addAll(textArea,hbox);
-        textArea.setEditable(false);
+        textArea.setPrefHeight(hbox.getPrefHeight());
+        hbox.getChildren().addAll(textArea,send);
+        VBox.setMargin(messages,new Insets(10,0,0,0));
+        VBox.setMargin(send,new Insets(10,0,0,0));
+        vBox.getChildren().addAll(messages,hbox);
+        messages.setEditable(false);
         setSendButton(send);
     }
 
     public void setSendButton(Button send){
         send.setOnMouseClicked(event -> {
-            if(! text.getText().equals("")){
-                chatRoom.sendMessage(null,text.getText());
-                text.setText("");
+            if(! textArea.getText().equals("")){
+//                chatRoom.sendMessage(null,text.getText());
+                addMessage(new ChatMessage(new CompactProfile("salm","s"),textArea.getText()));
+                textArea.setText("");
+
             }
         });
         Hoverable.setMouseHandler(send);
     }
 
     public void addMessage(ChatMessage chatMessage){
-        textArea.appendText(chatMessage.getSender().getName() + " : " + chatMessage.getText() + "\n");
+
+        Label name = new Label(chatMessage.getSender().getName() + " : \n");
+        name.setTextFill(Color.BLUE);
+        Label text = new Label(chatMessage.getText());
+        text.setOnMouseClicked(event -> {
+            if(event.getClickCount() >= 2){
+                textArea.setText("");
+                textArea.setText("replying TO");
+            }
+        });
+        messages.getItems().add(name);
+        messages.getItems().add(text);
     }
 
 }
