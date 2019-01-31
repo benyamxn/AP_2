@@ -10,6 +10,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -114,7 +115,7 @@ public class FarmGUI {
     }
 
     private void createMenu(){
-        Button button = new Button("Menu");
+        Button button = new Button("Pause");
         Hoverable.setMouseHandler(button);
         button.relocate(button.getWidth(),MainStage.getInstance().getHeight() * 0.95);
         button.setOnMouseClicked(event -> {
@@ -464,7 +465,7 @@ public class FarmGUI {
         for (WorkshopGUI workshopGUI : workshopGUIS) {
             workshopGUI.setOnClick(event -> {
                 try {
-                    if (event.getClickCount() == 1)
+                    if (event.getButton().equals(MouseButton.PRIMARY))
                         controller.startWorkshop(workshopGUI.getWorkshop().getName());
                 } catch (NameNotFoundException e) {
 
@@ -477,7 +478,7 @@ public class FarmGUI {
             Tooltip tooltip = new Tooltip(workshop.getName().replace("_", " "));
             workshopGUI.initTooltip(tooltip);
             workshopGUI.setOnHold(event -> {
-                if (event.getClickCount() == 2) {
+                if (event.getButton().equals(MouseButton.SECONDARY)) {
                     pauseFarm();
                     anchorPane.getChildren().add(pauseRectangle);
                     workshopGUI.show(anchorPane);
