@@ -158,6 +158,26 @@ public class AnimalGUI implements Pausable{
                 break;
         }
         imageView.setImage(image[imageIndex]);
+        if (animal instanceof  Wild) {
+            imageView.setFitHeight(1.5 * FarmGUI.cellHeight);
+            cageView.setFitHeight(2 * 1.5 * FarmGUI.cellHeight);
+            cageView.setPreserveRatio(true);
+        }
+        if (animal instanceof Domesticated){
+            if (((Domesticated) animal).getType().equals(DomesticatedType.OSTRICH)){
+                imageView.setFitHeight(1.2 * FarmGUI.cellHeight);
+            }
+            if (((Domesticated) animal).getType().equals(DomesticatedType.GUINEA_FOWL)){
+                imageView.setFitHeight(0.8 * FarmGUI.cellHeight);
+            }
+        }
+        if (animal instanceof Dog) {
+            imageView.setFitHeight(1.2 * FarmGUI.cellHeight);
+        }
+        if (animal instanceof Cat){
+            imageView.setFitHeight(1.05 * FarmGUI.cellHeight);
+        }
+        imageView.setPreserveRatio(true);
         if (rotate) {
             imageView.setScaleX(-1);
         }
@@ -175,7 +195,6 @@ public class AnimalGUI implements Pausable{
         double difHeight = FarmGUI.cellHeight;
         int[] size  = getSizeOfFrame();
         animation = new SpriteAnimation(imageView, Duration.millis(DURATION), constants[imageIndex][1], constants[imageIndex][0], 0, 0,size[0], size[1]);
-//        animation.setCycleCount(2);
         Point moveVector = animal.getDirection().getMoveVector();
         translateTransition = new TranslateTransition(Duration.millis(DURATION),imageView);
         translateTransition.setByX(moveVector.getWidth() * difWidth);

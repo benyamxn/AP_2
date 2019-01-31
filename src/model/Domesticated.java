@@ -77,6 +77,10 @@ public class Domesticated extends Animal {
         setHealth(getHealth() - getMaxHealth() / HUNGRINESS);
     }
 
+    public DomesticatedType getType() {
+        return type;
+    }
+
     @Override
     public void setTarget(List<Point> plants, Point cornerPoint) {
         if (getHealth() < getMaxHealth() / 3)
