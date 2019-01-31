@@ -55,7 +55,7 @@ public class GameMenuGUI {
     }
 
     private void createButtons(VBox vBox) {
-        continueButton = new Button("Continue");
+        continueButton = new Button("Resume");
         saveButton = new Button("Save");
         loadButton = new Button("Load");
         settingsButton = new Button("Settings");
