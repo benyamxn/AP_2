@@ -33,7 +33,7 @@ public class MissionGUI {
     public MissionGUI(Game game) {
         this.game = game;
         Label infoLabel = new Label("Goals");
-        infoLabel.setStyle("-fx-font-family: 'Spicy Rice'; -fx-font-size: 20px");
+        infoLabel.setStyle("-fx-font-family: 'Spicy Rice'; -fx-font-size: 20px; -fx-text-fill: BEIGE;");
         Label infoLabel2 = new Label("Current (Target)");
         infoLabel2.setStyle("-fx-font-family: 'Spicy Rice'; -fx-font-size: 20px");
         try {
