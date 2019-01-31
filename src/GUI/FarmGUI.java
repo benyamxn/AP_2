@@ -368,6 +368,7 @@ public class FarmGUI {
         UpgradeButton upgradeButton = new UpgradeButton(new Cat(dummyPoint));
         upgradeButton.setOnClick(event -> {
             try {
+                FarmGUI.getSoundPlayer().playTrack("cat");
                 controller.upgrade(new Cat(dummyPoint));
                 upgradeButton.render();
             } catch (MoneyNotEnoughException e) {
