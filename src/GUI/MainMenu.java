@@ -74,10 +74,6 @@ public class MainMenu {
         Button settingsButton = new Button("Settings");
         Button aboutButton = new Button("About");
         Button exitButton = new Button("Exit");
-        exitButton.setOnMouseClicked(event -> {
-            MainStage.getInstance().getSoundUI().playTrack("click");
-            System.exit(0);
-        });
         newGameButton.setOnMouseClicked(event -> {
             try {
                 MainStage.getInstance().getSoundUI().playTrack("click");
@@ -90,9 +86,18 @@ public class MainMenu {
             }
         });
 
-        multiPlayerButton.setOnMouseClicked(event -> createMultiPlayerMenu(vBox));
-        loadGameButton.setOnMouseClicked(event -> createLoadGameButton());
-        exitButton.setOnMouseClicked(event -> System.exit(0));
+        multiPlayerButton.setOnMouseClicked(event -> {
+            MainStage.getInstance().getSoundUI().playTrack("click");
+            createMultiPlayerMenu(vBox);
+        });
+        loadGameButton.setOnMouseClicked(event -> {
+            MainStage.getInstance().getSoundUI().playTrack("click");
+            createLoadGameButton();
+        });
+        exitButton.setOnMouseClicked(event -> {
+            MainStage.getInstance().getSoundUI().playTrack("click");
+            System.exit(0);
+        });
 
         settingsButton.setOnMouseClicked(event -> {
             MainStage.getInstance().getSoundUI().playTrack("click");
@@ -226,8 +231,14 @@ public class MainMenu {
         VBox.setMargin(backButton, new Insets(200, 20, 10, 20));
         vBox.getChildren().addAll(serverButton,clientButton,backButton);
 
-        serverButton.setOnMouseClicked(event -> createServerMenu(vBox));
-        clientButton.setOnMouseClicked(event -> createClientMenu(vBox));
+        serverButton.setOnMouseClicked(event -> {
+            MainStage.getInstance().getSoundUI().playTrack("click");
+            createServerMenu(vBox);
+        });
+        clientButton.setOnMouseClicked(event -> {
+            MainStage.getInstance().getSoundUI().playTrack("click");
+            createClientMenu(vBox);
+        });
         backButton.setOnMouseClicked(event -> {
             MainStage.getInstance().getSoundUI().playTrack("click");
             vBox.getChildren().clear();
@@ -287,6 +298,7 @@ public class MainMenu {
         setTextFont(menu,20);
         addToHoverable(buttons);
         back.setOnMouseClicked(event -> {
+            MainStage.getInstance().getSoundUI().playTrack("click");
             pane.getChildren().add(vBox);
             pane.getChildren().remove(menu);
             createMultiPlayerMenu(vBox);
@@ -294,6 +306,7 @@ public class MainMenu {
 
         connect.setOnMouseClicked(event -> {
           try {
+              MainStage.getInstance().getSoundUI().playTrack("click");
               int portNumber = Integer.parseInt(port.getText());
               if(portNumber < 0 || portNumber > 9999){
                   throw new  NumberFormatException();
@@ -397,6 +410,7 @@ public class MainMenu {
 
         addToHoverable(buttons);
         back.setOnMouseClicked(event -> {
+            MainStage.getInstance().getSoundUI().playTrack("click");
             pane.getChildren().add(vBox);
             pane.getChildren().remove(menu);
             createMultiPlayerMenu(vBox);
@@ -405,6 +419,7 @@ public class MainMenu {
         connect.setOnMouseClicked(event -> {
 
             try {
+                MainStage.getInstance().getSoundUI().playTrack("click");
                 if (idField.getText().equals("")) {
                     error.setText("Enter Id");
                     return;
