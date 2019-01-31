@@ -170,6 +170,9 @@ public class AnimalGUI implements Pausable{
             if (((Domesticated) animal).getType().equals(DomesticatedType.GUINEA_FOWL)){
                 scale = 0.8;
             }
+            if (((Domesticated) animal).getType().equals(DomesticatedType.BUFFALO)){
+                scale = 1.6;
+            }
         }
         if (animal instanceof Dog) {
             scale = 1.2;

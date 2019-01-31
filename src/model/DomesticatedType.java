@@ -4,7 +4,7 @@ public enum DomesticatedType {
 
     GUINEA_FOWL(100, ProductType.EGG, 6, 75),
     OSTRICH(1000, ProductType.FEATHER, 8, 125),
-    BUFFALO(10000, ProductType.HORN, 10, 200),
+    BUFFALO(10000, ProductType.MILK, 10, 200),
 
     GOOSE(100, ProductType.EGG, 6, 75),
     YAK(1000, ProductType.WOOL, 8, 125),
