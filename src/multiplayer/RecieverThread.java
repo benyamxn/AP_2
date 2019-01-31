@@ -19,9 +19,8 @@ public class RecieverThread  extends Thread  {
         this.socket = socket;
         try {
             this.inputStream = socket.getInputStream();
-            this.objectInputStream = new ObjectInputStream(inputStream);
         } catch (IOException e) {
-            e.getMessage();
+            e.printStackTrace();
         }
     }
 
@@ -29,9 +28,11 @@ public class RecieverThread  extends Thread  {
     public void run() {
         while(true) {
             try {
-                Object o = objectInputStream.read();
+                Object o = objectInputStream.readObject();
                 handler.handle((Serializable) o);
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
@@ -39,5 +40,9 @@ public class RecieverThread  extends Thread  {
 
     public Handler getHandler() {
         return handler;
+    }
+
+    public void setObjectInputStream(ObjectInputStream objectInputStream) {
+        this.objectInputStream = objectInputStream;
     }
 }

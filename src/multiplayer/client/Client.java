@@ -18,6 +18,7 @@ public class Client {
 
     private  Socket socket;
     private  ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
     private  Player player;
     private InetAddress ip;
     private int localPort;
@@ -40,6 +41,7 @@ public class Client {
         chatRooms.add(new ChatRoom(true,null));
         socket = new Socket(serverIp, serverPort);
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+        objectInputStream = new ObjectInputStream(socket.getInputStream());
         objectOutputStream.writeObject(player);
         String str = (String) getObject();
         if (str.equals("ok")) {
@@ -64,8 +66,6 @@ public class Client {
 
     public  Object getObject(){
         try {
-            InputStream inputStream = socket.getInputStream();
-            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
             return objectInputStream.readObject();
         } catch (IOException e) {
             e.printStackTrace();
@@ -84,4 +84,7 @@ public class Client {
         return null;
     }
 
+    public ObjectInputStream getObjectInputStream() {
+        return objectInputStream;
+    }
 }

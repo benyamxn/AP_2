@@ -17,9 +17,12 @@ public class ClientHandler implements Handler {
     private Client client;
 
     public ClientHandler(Client client) {
-            new RecieverThread(this,client.getSocket());
+
             ClientSenderThread.init(client.getSocket());
             ClientSenderThread.getInstance().start();
+             Thread receiver = new RecieverThread(this,client.getSocket());
+             ((RecieverThread) receiver).setObjectInputStream(client.getObjectInputStream());
+//             receiver.start();
     }
 
     @Override

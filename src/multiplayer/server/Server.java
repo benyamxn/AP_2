@@ -35,13 +35,14 @@ public class Server {
                     try {
                         User user = new User();
                         user.setSocket(serverSocket.accept());
-                        user.setPlayer(getNewPlayer(user.getSocket()));
+
+                        user.setPlayer(getNewPlayer(user.getObjectInputStream()));
                         if(checkNewUser(user)){
                             users.add(user);
-                            send(new String("ok"),user.getSocket());
-                            new RecieverThread(serverHandler,user.getSocket()).start();
+                            send(new String("ok"),user.getObjectOutputStream());
+
                         }else{
-                            send(new String("dddd"),user.getSocket());
+                            send(new String("dddd"),user.getObjectOutputStream());
                             user.getSocket().close();
                         }
                     } catch (IOException e) {
@@ -61,10 +62,8 @@ public class Server {
         shop = new Shop(enumMap);
     }
 
-    public Player getNewPlayer(Socket socket){
+    public Player getNewPlayer(ObjectInputStream objectInputStream){
         try {
-            InputStream inputStream = socket.getInputStream();
-            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
             Player player = (Player) objectInputStream.readObject();
             return player;
         } catch (IOException e) {
@@ -84,12 +83,9 @@ public class Server {
         return true;
     }
 
-    public void send(Object object,Socket socket) {
+    public void send(Object object,ObjectOutputStream objectOutputStream) {
 
-        OutputStream outputStream = null;
         try {
-            outputStream = socket.getOutputStream();
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             objectOutputStream.writeObject(object);
         } catch (IOException e) {
             e.printStackTrace();
