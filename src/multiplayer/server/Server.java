@@ -1,9 +1,11 @@
 package multiplayer.server;
 
+import model.ProductType;
 import multiplayer.Player;
 import multiplayer.client.Client;
 import multiplayer.multiplayerModel.ChatRoom;
 import multiplayer.multiplayerModel.CompactProfile;
+import multiplayer.multiplayerModel.Shop;
 
 import java.io.*;
 import java.net.Inet4Address;
@@ -11,12 +13,14 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.EnumMap;
 
 public class Server {
 
     private ArrayList<User> users = new ArrayList<>();
     private ServerSocket serverSocket ;
     private ArrayList<ChatRoom> chatRooms;
+    private Shop shop;
     public Server(int port,InetAddress inetAddress) throws IOException {
 
         this.serverSocket = new ServerSocket(port);
@@ -43,6 +47,11 @@ public class Server {
                 }
             }
         }).start();
+
+        EnumMap<ProductType,Integer> enumMap = new EnumMap<>(ProductType.class);
+        enumMap.put(ProductType.EGG,50);
+        enumMap.put(ProductType.CAKE,20);
+        shop = new Shop(enumMap);
     }
 
     public Player getNewPlayer(Socket socket){
@@ -91,5 +100,9 @@ public class Server {
             }
         }
         return null;
+    }
+
+    public Shop getShop() {
+        return shop;
     }
 }
