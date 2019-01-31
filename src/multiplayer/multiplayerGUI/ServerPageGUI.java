@@ -70,6 +70,4 @@ public class ServerPageGUI {
         shopGUI.addToPane(pane);
         shopGUI.relocate(width * 0.5 , height * 0.6 );
     }
-
-
 }
