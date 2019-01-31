@@ -1,6 +1,8 @@
 package multiplayer.multiplayerGUI;
 
 import GUI.Hoverable;
+import GUI.MainStage;
+import controller.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -45,6 +47,8 @@ public class ChatRoomGUI {
         HBox.setMargin(textArea,new Insets(0,10,0,0));
         HBox.setMargin(send,new Insets(0,0,0,100));
         textArea.setPrefHeight(hbox.getPrefHeight());
+        textArea.setId("messageArea");
+        replyTo.setId("replyTo");
         hbox.getChildren().addAll(textArea,send);
         VBox.setMargin(messages,new Insets(10,0,0,0));
         VBox.setMargin(replyTo, new Insets(20,50,0,0));
@@ -58,11 +62,12 @@ public class ChatRoomGUI {
     public void setSendButton(Button send){
         send.setOnMouseClicked(event -> {
             if(! textArea.getText().equals("")){
+                MainStage.getInstance().getSoundUI().playTrack("click");
 //                chatRoom.sendMessage(null,text.getText());
                 addMessage(new ChatMessage(new CompactProfile("salm","s"),textArea.getText()));
                 textArea.setText("");
 
-            }
+            } else MainStage.getInstance().getSoundUI().playTrack("error");
         });
         Hoverable.setMouseHandler(send);
     }
@@ -70,8 +75,10 @@ public class ChatRoomGUI {
     public void addMessage(ChatMessage chatMessage){
 
         Label name = new Label(chatMessage.getSender().getName() + " : \n");
+        name.setId("senderName");
         name.setTextFill(Color.BLUE);
         Label text = new Label(chatMessage.getText());
+        text.setId("messageText");
         text.setOnMouseClicked(event -> {
             if(event.getClickCount() >= 2){
                 replyTo.setText(name.getText());

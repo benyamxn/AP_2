@@ -271,12 +271,14 @@ public class MainMenu {
         TextField ip = new TextField();
         ip.setAlignment(Pos.CENTER);
         ip.setText("127.0.0.1");
+        ip.setId("multiPlayerText");
         ip.setEditable(false);
 
         Text textPort = new Text("PORT : ");
         textPort.setFill(Color.GOLD);
         TextField port = new TextField();
         port.setAlignment(Pos.CENTER);
+        port.setId("multiPlayerText");
         port.setText("8050");
 
         HBox buttons = new HBox();
@@ -347,6 +349,7 @@ public class MainMenu {
         TextField ip = new TextField();
         ip.setAlignment(Pos.CENTER);
         ip.setText("192.168.1.68");
+        ip.setId("multiPlayerText");
         ip.setEditable(false);
 
 
@@ -355,6 +358,7 @@ public class MainMenu {
         textPort.setFill(Color.GOLD);
         TextField port = new TextField();
         port.setAlignment(Pos.CENTER);
+        port.setId("multiPlayerText");
         port.setText("8060");
 
 
@@ -362,20 +366,26 @@ public class MainMenu {
         textSeverIP.setFill(Color.GOLD);
         TextField severIP = new TextField();
         severIP.setAlignment(Pos.CENTER);
+        severIP.setId("multiPlayerText");
         severIP.setText("127.0.0.1");
 
         Text textSeverPort = new Text("Sever PORT : ");
         textSeverPort.setFill(Color.GOLD);
+        textSeverPort.setId("multiPlayerText");
         TextField serverPort = new TextField();
         serverPort.setAlignment(Pos.CENTER);
+        serverPort.setId("multiPlayerText");
         serverPort.setText("8050");
 
 
         Text id = new Text("ID : ");
 
         TextField idField = new TextField();
+        idField.setId("multiPlayerText");
         Text name = new Text("NAME :");
         TextField nameField = new TextField();
+        nameField.setId("multiPlayerText");
+
         HBox user = new HBox();
         HBox.setMargin(id,new Insets(5,5,10,10));
         HBox.setMargin(idField,new Insets(0,10,5,10));
@@ -442,7 +452,7 @@ public class MainMenu {
             } catch (IOException e) {
                 error.setText("Can Not connect to Sever");
             } catch (UsedIdException e) {
-                error.setText("this id already used");
+                error.setText("ID already used");
             }
         });
 
