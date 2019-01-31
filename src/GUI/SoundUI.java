@@ -84,7 +84,7 @@ public class SoundUI {
 
     public void playMainMusic() {
         mainMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        mainMusicPlayer.setVolume(0.5);
+        mainMusicPlayer.setVolume(0.75);
         mainMusicPlayer.play();
         mainMusicPlayer.setAutoPlay(true);
     }

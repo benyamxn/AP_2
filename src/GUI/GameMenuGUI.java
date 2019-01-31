@@ -127,7 +127,7 @@ public class GameMenuGUI {
     private void createSettingsMenu(){
         menuBox.getChildren().clear();
 
-        Slider musicSoundSlider = new Slider(0, 100, MainStage.getInstance().getSoundUI().getMusicSound()  * 150);
+        Slider musicSoundSlider = new Slider(0, 100, MainStage.getInstance().getSoundUI().getMusicSound()  * 100);
         musicSoundSlider.valueProperty().addListener(new ChangeListener<>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
