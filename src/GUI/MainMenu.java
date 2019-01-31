@@ -21,9 +21,11 @@ import model.Game;
 import model.Mission;
 import model.exception.MoneyNotEnoughException;
 import model.exception.UsedIdException;
+import multiplayer.ClientSenderThread;
 import multiplayer.Player;
 import multiplayer.client.Client;
 import multiplayer.multiplayerGUI.ChatRoomGUI;
+import multiplayer.multiplayerGUI.ClientPageGUI;
 import multiplayer.multiplayerModel.ChatRoom;
 import multiplayer.multiplayerGUI.ServerPageGUI;
 import multiplayer.server.Server;
@@ -447,6 +449,8 @@ public class MainMenu {
                     throw new NumberFormatException();
                 }
                 Client client = new Client(new Player(nameField.getText(), idField.getText(), 20000), ipClient, portNumber, serverPortNumber, ipSever);
+                ClientSenderThread.init(client.getSocket());
+                new ClientPageGUI(client);
             } catch (UnknownHostException e) {
                 error.setText("Invalid  ip");
             } catch (IOException e) {
