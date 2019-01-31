@@ -89,11 +89,11 @@ public class CellGUI  implements  Pausable{
         ImageView temp = new ImageView();
         temp.setImage(battleImage);
         temp.setViewport(new Rectangle2D(0, 0, size[0], size[1]));
-        temp.setFitHeight(FarmGUI.cellHeight);
-        temp.setFitWidth(FarmGUI.cellWidth);
+        temp.setFitHeight(2 * FarmGUI.cellHeight);
+        temp.setPreserveRatio(true);
         FarmGUI.anchorPane.getChildren().add(temp);
         temp.relocate(location[0],location[1]);
-        animation = new SpriteAnimation(temp, Duration.millis(DURATION), 20, 5, 0, 0, (int)size[0],(int) size[1]);
+        animation = new SpriteAnimation(temp, Duration.millis(2 * DURATION), 20, 5, 0, 0, (int)size[0],(int) size[1]);
         setRate(DurationManager.getRate());
         animation.play();
         animation.setOnFinished(event -> {
@@ -110,6 +110,8 @@ public class CellGUI  implements  Pausable{
     public void placeProduct(Product product) {
         ProductGUI productGUI = new ProductGUI(product, 2);
         productGUI.getImageView().relocate(location[0], location[1]);
+        productGUI.getImageView().setFitHeight(0.7 * FarmGUI.cellHeight);
+        productGUI.getImageView().setPreserveRatio(true);
         FarmGUI.anchorPane.getChildren().add(productGUI.getImageView());
     }
 
