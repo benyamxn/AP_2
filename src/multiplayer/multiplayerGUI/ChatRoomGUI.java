@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import multiplayer.multiplayerModel.ChatRoom;
 import multiplayer.multiplayerModel.CompactProfile;
 import multiplayer.multiplayerModel.messages.ChatMessage;
@@ -23,6 +24,8 @@ public class ChatRoomGUI {
     private ChatRoom chatRoom;
     private TextArea textArea = new TextArea();
     private ListView messages = new ListView<Node>();
+    private Label replyTo = new Label();
+    private Label replyText = new Label();
 
     public ChatRoomGUI(VBox vBox) {
         this.vBox = vBox;
@@ -37,13 +40,17 @@ public class ChatRoomGUI {
     public void init(){
         Button send = new Button("send");
         HBox hbox = new HBox();
+        Rectangle rectangle  = new Rectangle();
+
         HBox.setMargin(textArea,new Insets(0,10,0,0));
         HBox.setMargin(send,new Insets(0,0,0,100));
         textArea.setPrefHeight(hbox.getPrefHeight());
         hbox.getChildren().addAll(textArea,send);
         VBox.setMargin(messages,new Insets(10,0,0,0));
+        VBox.setMargin(replyTo, new Insets(20,50,0,0));
+        VBox.setMargin(replyText, new Insets(0,50,10,0));
         VBox.setMargin(send,new Insets(10,0,0,0));
-        vBox.getChildren().addAll(messages,hbox);
+        vBox.getChildren().addAll(messages,replyTo,replyText,hbox);
         messages.setEditable(false);
         setSendButton(send);
     }
@@ -67,8 +74,10 @@ public class ChatRoomGUI {
         Label text = new Label(chatMessage.getText());
         text.setOnMouseClicked(event -> {
             if(event.getClickCount() >= 2){
-                textArea.setText("");
-                textArea.setText("replying TO");
+                replyTo.setText(name.getText());
+                replyText.setText(text.getText());
+                replyTo.setVisible(true);
+                replyText.setVisible(true);
             }
         });
         messages.getItems().add(name);
