@@ -144,7 +144,7 @@ public class MainMenu {
     private void createSettingsMenu(VBox menuBox){
         menuBox.getChildren().clear();
 
-        Slider musicSoundSlider = new Slider(0, 100, MainStage.getInstance().getSoundUI().getMusicSound()  * 100);
+        Slider musicSoundSlider = new Slider(0, 100, MainStage.getInstance().getSoundUI().getMusicSound()  * 150);
         musicSoundSlider.valueProperty().addListener(new ChangeListener<>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -152,7 +152,7 @@ public class MainMenu {
             }
         });
 
-        Slider soundEffect = new Slider(0,100,MainStage.getInstance().getSoundUI().getVolume() * 100);
+        Slider soundEffect = new Slider(0,100,MainStage.getInstance().getSoundUI().getVolume() * 75);
         soundEffect.valueProperty().addListener(new ChangeListener<>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
