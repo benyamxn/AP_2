@@ -3,12 +3,8 @@ package GUI;
 import GUI.animation.AnimationConstants;
 import GUI.animation.SpriteAnimation;
 import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
-import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
-import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -20,7 +16,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
 public class AnimalGUI implements Pausable{
 
@@ -110,7 +105,7 @@ public class AnimalGUI implements Pausable{
         double height =  imageView.getImage().getHeight() / temp;
         imageView.setViewport(new Rectangle2D(0,0,image[imageIndex].getWidth() / constants[imageIndex][0],
                 height));
-        setImageViewScale();
+        setImageViewScales();
     }
 
     private ImageView setImageView(){
@@ -164,7 +159,7 @@ public class AnimalGUI implements Pausable{
         return imageView;
     }
 
-    private void setImageViewScale() {
+    private void setImageViewScales() {
         if (animal instanceof  Wild) {
             scale = 1.5;
         }

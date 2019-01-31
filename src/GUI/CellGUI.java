@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import model.Cell;
+import model.Farm;
 import model.Product;
 
 import java.io.FileInputStream;
@@ -108,10 +109,18 @@ public class CellGUI  implements  Pausable{
     }
 
     public void placeProduct(Product product) {
+        double offsetX = 0, offsetY = 0;
         ProductGUI productGUI = new ProductGUI(product, 2);
-        productGUI.getImageView().relocate(location[0], location[1]);
-        productGUI.getImageView().setFitHeight(0.7 * FarmGUI.cellHeight);
-        productGUI.getImageView().setPreserveRatio(true);
+        if (product.getType().toString().toLowerCase().contains("caged")) {
+            product.getProductGUI().onTheCell(true);
+            offsetX = -FarmGUI.cellWidth / 4;
+            offsetY = -FarmGUI.cellHeight / 4;
+        }
+        else {
+            productGUI.getImageView().setFitHeight(0.7 * FarmGUI.cellHeight);
+            productGUI.getImageView().setPreserveRatio(true);
+        }
+        productGUI.getImageView().relocate(offsetX + location[0], offsetY + location[1]);
         FarmGUI.anchorPane.getChildren().add(productGUI.getImageView());
     }
 
@@ -124,6 +133,7 @@ public class CellGUI  implements  Pausable{
     public void removeProduct(Product product) {
         product.getProductGUI().getImageView().setVisible(false);
         FarmGUI.anchorPane.getChildren().remove(product.getProductGUI().getImageView());
+        product.getProductGUI().onTheCell(false);
         product.setProductGUI(null);
     }
 

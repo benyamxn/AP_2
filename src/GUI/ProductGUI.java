@@ -31,7 +31,6 @@ public class ProductGUI {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        ;
         imageView = new ImageView(image);
         imageView.setFitHeight(FarmGUI.cellHeight);
         imageView.setPreserveRatio(true);
@@ -42,4 +41,30 @@ public class ProductGUI {
         return product;
     }
 
+    public ImageView cagedForCell() {
+        try {
+            Image newImage = new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","Textures"
+                    ,"Products", "CagedBear.png").toString()));
+            ImageView newImageView = new ImageView(newImage);
+            newImageView.setFitHeight(2 * FarmGUI.cellHeight);
+            newImageView.setPreserveRatio(true);
+            newImageView.setOpacity(1);
+            return newImageView;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void onTheCell(boolean onCell) {
+        if (onCell) {
+            imageView = cagedForCell();
+        }
+        else {
+            imageView = new ImageView(image);
+            imageView.setFitHeight(FarmGUI.cellHeight);
+            imageView.setPreserveRatio(true);
+            imageView.setOpacity(1);
+        }
+    }
 }

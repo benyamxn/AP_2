@@ -105,7 +105,6 @@ public class TruckMenuTable {
         for (Map.Entry<ProductType, Integer> entry : productMap.entrySet()) {
             observableList.add(new ItemRow(entry.getKey(), entry.getValue()));
         }
-//        observableList.addAll(new ItemRow(ProductType.EGG, 3), new ItemRow(ProductType.WOOL, 4));
     }
 
     private void createButtonsColumn() {
