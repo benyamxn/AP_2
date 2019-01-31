@@ -16,7 +16,7 @@ public class WorkshopTest {
         Workshop workshop3 = new Workshop(WorkshopType.SPINNERY, new Point(20, 20));
         Workshop workshop4 = new Workshop(WorkshopType.MANUFACTURING_PLANT, new Point(10, 20));
         Workshop workshop5 = new Workshop(WorkshopType.COOKIE_BAKERY, new Point(20, 10));
-        Workshop workshop6 = new Workshop(WorkshopType.GRINDING_FACTORY, new Point(20, 0));
+        Workshop workshop6 = new Workshop(WorkshopType.SOUR_CREAM, new Point(20, 0));
         try {
             workshop1.saveToJson("gameData/customWorkshops/workshop1.json");
             Workshop newWorkshop1 = Workshop.readFromJson("gameData/customWorkshops/workshop1.json");

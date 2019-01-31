@@ -20,7 +20,7 @@ public class Game {
     private EnumMap<ProductType,Integer> products = new EnumMap<>(ProductType.class);
     private Farm farm = new Farm();
     private String playerName = "Guest";
-    private ProductType[] marketProducts = {ProductType.EGG, ProductType.WOOL, ProductType.MILK};
+    private ProductType[] marketProducts = {ProductType.WOOL, ProductType.FLOUR, ProductType.CHEESE, ProductType.PLUME, ProductType.FABRIC, ProductType.MILK};
     private transient GameStatus gameStatus;
     private int turns = 0;
 
