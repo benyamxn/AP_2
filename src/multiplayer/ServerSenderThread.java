@@ -24,20 +24,28 @@ public  class ServerSenderThread extends Thread {
 
     public void addToQueue(Packet packet) {
         queue.add(packet);
+        System.out.println("added sth");
     }
 
     @Override
     public void run() {
         while(true) {
+            System.out.println("why?");
             if (queue.size() > 0) {
+                System.out.println("here!");
                 try {
+                    System.out.println("we have a packet");
                     Packet packet = queue.remove();
                     if (packet.getObjectOutputStream() != null) {
                         packet.getObjectOutputStream().writeObject(packet.getMessage());
+                        packet.getObjectOutputStream().flush();
+                        System.out.println("send packet");
                     } else {
                         Message message = packet.getMessage();
                         for (User user : users) {
                             user.getObjectOutputStream().writeObject(message);
+                            user.getObjectOutputStream().flush();
+                            System.out.println("send to all");
                         }
                     }
                 } catch (IOException e) {

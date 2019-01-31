@@ -14,12 +14,10 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class Client {
-
-
-    private  Socket socket;
-    private  ObjectOutputStream objectOutputStream;
+    private Socket socket;
+    private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
-    private  Player player;
+    private Player player;
     private InetAddress ip;
     private int localPort;
     private int serverPort;
@@ -92,5 +90,9 @@ public class Client {
 
     public ObjectInputStream getObjectInputStream() {
         return objectInputStream;
+    }
+
+    public CompactProfile getCompactProfile() {
+        return new CompactProfile(player.getName(), player.getId());
     }
 }

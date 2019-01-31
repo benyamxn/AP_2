@@ -1,4 +1,4 @@
-package multiplayer.messages;
+package multiplayer.multiplayerModel.messages;
 
 import multiplayer.multiplayerModel.messages.Message;
 

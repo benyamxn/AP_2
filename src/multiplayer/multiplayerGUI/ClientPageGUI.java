@@ -69,4 +69,15 @@ public class ClientPageGUI {
         startGameButton.relocate(width * 0.8, height * 0.9);
     }
 
+    public LeaderboardGUIClient getLeaderboardGUIClient() {
+        return leaderboardGUIClient;
+    }
+
+    public AnchorPane getPane() {
+        return pane;
+    }
+
+    public ChatRoomGUI getChatRoomGUI() {
+        return chatRoomGUI;
+    }
 }

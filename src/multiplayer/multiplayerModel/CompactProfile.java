@@ -1,6 +1,8 @@
 package multiplayer.multiplayerModel;
 
-public class CompactProfile {
+import java.io.Serializable;
+
+public class CompactProfile implements Serializable {
 
     private String name;
     private String id;

@@ -1,6 +1,7 @@
 package multiplayer;
 
 
+import multiplayer.multiplayerModel.CompactProfile;
 import multiplayer.multiplayerModel.messages.Message;
 
 import java.io.IOException;
@@ -15,10 +16,12 @@ public class ClientSenderThread extends Thread {
     private Socket socket;
     private OutputStream outputStream;
     private ObjectOutputStream objectOutputStream;
+    private CompactProfile compactProfile;
     private static ClientSenderThread instance;
 
-    private ClientSenderThread(Socket socket) {
+    private ClientSenderThread(Socket socket, CompactProfile compactProfile) {
         this.socket = socket;
+        this.compactProfile = compactProfile;
         try {
             outputStream = socket.getOutputStream();
             objectOutputStream = new ObjectOutputStream(outputStream);
@@ -38,7 +41,12 @@ public class ClientSenderThread extends Thread {
         while(true) {
             if (queue.size() > 0) {
                 try {
-                    objectOutputStream.writeObject(queue.remove());
+                    Message message = queue.remove();
+                    message.setSender(compactProfile);
+                    System.out.println(compactProfile == null);
+                    objectOutputStream.writeObject(message);
+                    objectOutputStream.flush();
+                    System.out.println("sent");
                 } catch (IOException e) {
                     e.printStackTrace();
                     // TODO: and handle this
@@ -47,8 +55,8 @@ public class ClientSenderThread extends Thread {
         }
     }
 
-    public static void init(Socket socket){
-        instance = new ClientSenderThread(socket);
+    public static void init(Socket socket, CompactProfile compactProfile){
+        instance = new ClientSenderThread(socket, compactProfile);
     }
 
     public static ClientSenderThread getInstance() {

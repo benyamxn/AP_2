@@ -1,15 +1,17 @@
 package multiplayer.server;
 
 import model.ProductType;
+import multiplayer.Packet;
 import multiplayer.Player;
 import multiplayer.RecieverThread;
-import multiplayer.client.Client;
+import multiplayer.ServerSenderThread;
 import multiplayer.multiplayerModel.ChatRoom;
 import multiplayer.multiplayerModel.CompactProfile;
 import multiplayer.multiplayerModel.Shop;
+import multiplayer.multiplayerModel.messages.LeaderboardStat;
+import multiplayer.multiplayerModel.messages.ReceiverStartedMessage;
 
 import java.io.*;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -36,7 +38,7 @@ public class Server {
                         User user = new User();
                         user.setSocket(serverSocket.accept());
                         System.out.println("salam");
-                        send(new String("ok"),user.getObjectOutputStream());
+                        send("ok",user.getObjectOutputStream());
                         Player player = getNewPlayer(user.getSocket(),user);
 //                        System.out.println("moh");
                         user.setPlayer(player);
@@ -46,7 +48,8 @@ public class Server {
                             Thread receiver = new RecieverThread(serverHandler,user.getSocket());
                             ((RecieverThread) receiver).setObjectInputStream(user.getObjectInputStream());
                             receiver.start();
-                        }else{
+                            ServerSenderThread.getInstance().addToQueue(new Packet(new ReceiverStartedMessage(), user.getObjectOutputStream()));
+                        } else {
                             send(new String("dddd"),user.getObjectOutputStream());
                             user.getSocket().close();
                         }
@@ -118,6 +121,7 @@ public class Server {
 
 
     public User getUserById(CompactProfile compactProfile){
+        System.out.println(compactProfile == null);
         for (User user : users) {
             if(user.getPlayer().getId().equals(compactProfile.getId())){
                 return user;
@@ -128,5 +132,13 @@ public class Server {
 
     public void setServerHandler(ServerHandler serverHandler) {
         this.serverHandler = serverHandler;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        ArrayList<Player> players = new ArrayList<>();
+        for (User user : users) {
+            players.add(user.getPlayer());
+        }
+        return players;
     }
 }
