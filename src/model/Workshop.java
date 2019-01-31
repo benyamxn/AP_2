@@ -8,12 +8,12 @@ import java.io.*;
 import java.util.Arrays;
 
 public class Workshop implements Upgradable {
-    private static final int INITIAL_PRODUCTION_TYPE = 1000;
+    private static final int INITIAL_PRODUCTION_TIME = 1000;
     private ProductType[] input;
     private ProductType output;
     private int numberOfInputs = 1;
     private int numberOfOutputs = 1;
-    private int productionTime = INITIAL_PRODUCTION_TYPE;
+    private int productionTime = INITIAL_PRODUCTION_TIME;
     private int timeLeftToProduction;
     private int level = 1;
     private int price;
@@ -60,7 +60,7 @@ public class Workshop implements Upgradable {
     }
 
     public void decrementTimeLeft() {
-        timeLeftToProduction--;
+        timeLeftToProduction -= INITIAL_PRODUCTION_TIME / 4;
         if (timeLeftToProduction < 0)
             timeLeftToProduction = 0;
     }
@@ -105,7 +105,7 @@ public class Workshop implements Upgradable {
             numberOfOutputs++;
         }
         if (level == 5) {
-            productionTime -= INITIAL_PRODUCTION_TYPE / 5;
+            productionTime -= INITIAL_PRODUCTION_TIME / 5;
         }
         price = getUpgradePrice();
         workshopGUI.upgrade();
