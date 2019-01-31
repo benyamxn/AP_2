@@ -66,13 +66,23 @@ public class SoundUI {
     private Media errorSound = new Media(getClass().getClassLoader().getResource("Soundtrack/error.mp3").toExternalForm());
     private MediaPlayer errorSoundPlayer = new MediaPlayer(errorSound);
 
+    private Media helicopterTravelSound = new Media(getClass().getClassLoader().getResource("Soundtrack/helicopter_travel.mp3").toExternalForm());
+    private MediaPlayer helicopterTravelSoundPlayer = new MediaPlayer(helicopterTravelSound);
+
+    private Media helicopterUpgradeSound = new Media(getClass().getClassLoader().getResource("Soundtrack/helicopter_upgrade.mp3").toExternalForm());
+    private MediaPlayer helicopterUpgradeSoundPlayer = new MediaPlayer(helicopterUpgradeSound);
+
+    private Media truckTravelSound = new Media(getClass().getClassLoader().getResource("Soundtrack/truck_travel.mp3").toExternalForm());
+    private MediaPlayer truckTravelSoundPlayer = new MediaPlayer(truckTravelSound);
+
+    private Media truckUpgradeSound = new Media(getClass().getClassLoader().getResource("Soundtrack/truck_upgrade.mp3").toExternalForm());
+    private MediaPlayer truckUpgradeSoundPlayer = new MediaPlayer(truckUpgradeSound);
+
     SoundUI() {
         initSoundPlayers();
     }
 
     public void playMainMusic() {
-
-
         mainMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mainMusicPlayer.setVolume(0.5);
         mainMusicPlayer.play();
@@ -98,6 +108,10 @@ public class SoundUI {
         dogSoundPlayer.setVolume(volume * 30);
         fightSoundPlayer.setVolume(volume);
         errorSoundPlayer.setVolume(volume * 0.5);
+        truckTravelSoundPlayer.setVolume(volume * 0.5);
+        truckUpgradeSoundPlayer.setVolume(volume * 0.5);
+        helicopterTravelSoundPlayer.setVolume(volume * 0.5);
+        helicopterUpgradeSoundPlayer.setVolume(volume * 0.3);
     }
 
     private void initSoundPlayers() {
@@ -162,50 +176,23 @@ public class SoundUI {
         errorSoundPlayer = new MediaPlayer(errorSound);
         errorSoundPlayer.setVolume(0.5);
 
-    }
+        truckTravelSoundPlayer = new MediaPlayer(truckTravelSound);
+        truckTravelSoundPlayer.setRate(rate * 1.6);
+        truckTravelSoundPlayer.setVolume(0.5);
 
-    private void seekSoundPlayers() {
-        Duration start = new Duration(0);
+        truckUpgradeSoundPlayer = new MediaPlayer(truckUpgradeSound);
+        truckUpgradeSoundPlayer.setRate(rate * 2);
+        truckUpgradeSoundPlayer.setVolume(0.5);
 
-        splashSoundPlayer.seek(start);
-        splashSoundPlayer.pause();
+        helicopterTravelSoundPlayer = new MediaPlayer(helicopterTravelSound);
+        helicopterTravelSoundPlayer.setRate(rate * 0.8);
+        helicopterTravelSoundPlayer.setVolume(0.5);
 
-        waterSoundPlayer.seek(start);
-        waterSoundPlayer.pause();
-
-        woodSoundPlayer.seek(start);
-        woodSoundPlayer.pause();
-
-        hammerSoundPlayer.seek(start);
-        hammerSoundPlayer.pause();
-
-        clickSoundPlayer.seek(start);
-        clickSoundPlayer.pause();
-
-        bearSoundPlayer.seek(start);
-        bearSoundPlayer.pause();
-
-        guineaFowlProduceSoundPlayer.seek(start);
-        guineaFowlProduceSoundPlayer.pause();
-
-        buffaloDeathSoundPlayer.seek(start);
-        buffaloDeathSoundPlayer.pause();
-
-        buffaloProduceSoundPlayer.seek(start);
-        buffaloProduceSoundPlayer.pause();
-
-        ostrichDeathSoundPlayer.seek(start);
-        ostrichDeathSoundPlayer.pause();
-
-        ostrichProduceSoundPlayer.seek(start);
-        ostrichProduceSoundPlayer.pause();
-
-        dogSoundPlayer.seek(start);
-        dogSoundPlayer.pause();
-
-        catSoundPlayer.seek(start);
-        catSoundPlayer.pause();
-
+        helicopterUpgradeSoundPlayer = new MediaPlayer(helicopterUpgradeSound);
+        helicopterUpgradeSoundPlayer.setStartTime(new Duration(5000));
+        helicopterUpgradeSoundPlayer.setStopTime(new Duration(8600));
+        helicopterUpgradeSoundPlayer.setRate(rate * 1.5);
+        helicopterUpgradeSoundPlayer.setVolume(0.3);
     }
 
     public void playTrack (String trackName) {
@@ -258,6 +245,23 @@ public class SoundUI {
                 errorSoundPlayer.seek(start);
                 errorSoundPlayer.play();
                 break;
+            case "truck upgrade":
+                truckUpgradeSoundPlayer.seek(start);
+                truckUpgradeSoundPlayer.play();
+                break;
+            case "helicopter upgrade":
+                helicopterUpgradeSoundPlayer.seek(start);
+                helicopterUpgradeSoundPlayer.play();
+                break;
+            case "truck travel":
+                truckTravelSoundPlayer.seek(start);
+                truckTravelSoundPlayer.play();
+                break;
+            case "helicopter travel":
+                helicopterTravelSoundPlayer.seek(start);
+                helicopterTravelSoundPlayer.play();
+                break;
+
         }
 
         if (trackName.contains("produce")) {
@@ -302,6 +306,11 @@ public class SoundUI {
     public void setVolume(double volumePercentage) {
         volume = volumePercentage / 100;
         changeVolumes();
+    }
+
+    public void setRate(double rate) {
+        this.rate = rate;
+        initSoundPlayers();
     }
 
     public double getVolume() {

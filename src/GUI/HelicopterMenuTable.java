@@ -104,6 +104,7 @@ public class HelicopterMenuTable {
                     private final Button addOneButton = new Button("1");
                     {
                         addOneButton.setOnMouseClicked(event -> {
+                            FarmGUI.getSoundPlayer().playTrack("click");
                             ItemRow entry = getTableView().getItems().get(getIndex());
                             try {
                                 game.addProductToVehicle(game.getFarm().getHelicopter(), entry.getProductType(), 1);
@@ -130,6 +131,7 @@ public class HelicopterMenuTable {
                     private final Button addTenButton = new Button("10");
                     {
                         addTenButton.setOnMouseClicked(event -> {
+                            FarmGUI.getSoundPlayer().playTrack("click");
                             ItemRow entry = getTableView().getItems().get(getIndex());
                             try {
                                 game.addProductToVehicle(game.getFarm().getHelicopter(), entry.getProductType(), 10);
@@ -156,6 +158,7 @@ public class HelicopterMenuTable {
                     private final Button addAllButton = new Button("all");
                     {
                         addAllButton.setOnMouseClicked(event -> {
+                            FarmGUI.getSoundPlayer().playTrack("click");
                             ItemRow entry = getTableView().getItems().get(getIndex());
                             int count = (int) (game.getFarm().getHelicopter().getCapacity() / entry.getProductType().getDepotSize());
                             if (count > 0) {
@@ -185,6 +188,7 @@ public class HelicopterMenuTable {
                     private final Button removeOneButton = new Button("1");
                     {
                         removeOneButton.setOnMouseClicked(event -> {
+                            FarmGUI.getSoundPlayer().playTrack("click");
                             ItemRow entry = getTableView().getItems().get(getIndex());
                             if (entry.getCount() > 0) {
                                 entry.setCount(entry.getCount() - 1);
@@ -201,6 +205,7 @@ public class HelicopterMenuTable {
                     private final Button removeTenButton = new Button("10");
                     {
                         removeTenButton.setOnMouseClicked(event -> {
+                            FarmGUI.getSoundPlayer().playTrack("click");
                             ItemRow entry = getTableView().getItems().get(getIndex());
                             if (entry.getCount() >= 10) {
                                 entry.setCount(entry.getCount() - 10);
@@ -217,6 +222,7 @@ public class HelicopterMenuTable {
                     private final Button removeAllButton = new Button("all");
                     {
                         removeAllButton.setOnMouseClicked(event -> {
+                            FarmGUI.getSoundPlayer().playTrack("click");
                             ItemRow entry = getTableView().getItems().get(getIndex());
                             int count = entry.getCount();
                             if (count > 0) {

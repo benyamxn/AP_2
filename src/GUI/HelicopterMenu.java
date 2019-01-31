@@ -45,6 +45,7 @@ public class HelicopterMenu {
         Hoverable.setMouseHandler(cancelButton);
         cancelButton.setOnMouseClicked(event -> {
             try {
+                FarmGUI.getSoundPlayer().playTrack("click");
                 game.clear(VehicleType.HELICOPTER);
                 farmGUI.resume();
             } catch (VehicleOnTripException | NotEnoughCapacityException e) {
@@ -54,6 +55,8 @@ public class HelicopterMenu {
         });
         Hoverable.setMouseHandler(shipButton);
         shipButton.setOnMouseClicked(event -> {
+            FarmGUI.getSoundPlayer().playTrack("click");
+            FarmGUI.getSoundPlayer().playTrack("helicopter travel");
             MainStage.getInstance().popStack();
             farmGUI.resume();
             game.getFarm().getHelicopter().startTravel();

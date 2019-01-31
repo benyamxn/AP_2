@@ -58,6 +58,7 @@ public class TruckMenu {
         Hoverable.setMouseHandler(shipButton);
         shipButton.setOnMouseClicked(event -> {
             FarmGUI.getSoundPlayer().playTrack("click");
+            FarmGUI.getSoundPlayer().playTrack("truck travel");
             farmGUI.resume();
             game.getFarm().getWarehouse().updateGraphics();
             MainStage.getInstance().popStack();

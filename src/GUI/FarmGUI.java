@@ -524,6 +524,7 @@ public class FarmGUI {
         UpgradeButton upgradeButton = new UpgradeButton(vehicleGUI.getVehicle());
         upgradeButton.setOnClick(event -> {
             try {
+                FarmGUI.getSoundPlayer().playTrack(vehicleGUI.getVehicle().toString().toLowerCase() + " upgrade");
                 controller.upgrade(vehicleGUI.getVehicle());
                 vehicleGUI.upgrade();
                 upgradeButton.render();
