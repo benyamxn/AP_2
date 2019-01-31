@@ -30,6 +30,7 @@ public class AnimalGUI implements Pausable{
     private ImageView imageView  = new ImageView();
     private ImageView cageView = new ImageView();
     private int cageWidth, cageHeight;
+    private double scale = 1;
     {
         imageView.setOnMouseClicked(event -> {
             if (animal instanceof Wild) {
@@ -60,8 +61,6 @@ public class AnimalGUI implements Pausable{
             cageWidth = (int) cageImage.getWidth() / AnimationConstants.CAGE_BUILD_2[0];
             cageHeight = (int) cageImage.getHeight() / (AnimationConstants.CAGE_BUILD_2[1] / AnimationConstants.CAGE_BUILD_2[0]);
             cageView.setViewport(new Rectangle2D(0, 0,cageWidth,cageHeight));
-            cageView.setFitHeight(FarmGUI.cellHeight * 2);
-            cageView.setPreserveRatio(true);
             cageView.setOpacity(1);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -111,9 +110,7 @@ public class AnimalGUI implements Pausable{
         double height =  imageView.getImage().getHeight() / temp;
         imageView.setViewport(new Rectangle2D(0,0,image[imageIndex].getWidth() / constants[imageIndex][0],
                 height));
-
-        imageView.setFitHeight(FarmGUI.cellHeight);
-        imageView.setPreserveRatio(true);
+        setImageViewScale();
     }
 
     private ImageView setImageView(){
@@ -158,26 +155,6 @@ public class AnimalGUI implements Pausable{
                 break;
         }
         imageView.setImage(image[imageIndex]);
-        if (animal instanceof  Wild) {
-            imageView.setFitHeight(1.5 * FarmGUI.cellHeight);
-            cageView.setFitHeight(2 * 1.5 * FarmGUI.cellHeight);
-            cageView.setPreserveRatio(true);
-        }
-        if (animal instanceof Domesticated){
-            if (((Domesticated) animal).getType().equals(DomesticatedType.OSTRICH)){
-                imageView.setFitHeight(1.2 * FarmGUI.cellHeight);
-            }
-            if (((Domesticated) animal).getType().equals(DomesticatedType.GUINEA_FOWL)){
-                imageView.setFitHeight(0.8 * FarmGUI.cellHeight);
-            }
-        }
-        if (animal instanceof Dog) {
-            imageView.setFitHeight(1.2 * FarmGUI.cellHeight);
-        }
-        if (animal instanceof Cat){
-            imageView.setFitHeight(1.05 * FarmGUI.cellHeight);
-        }
-        imageView.setPreserveRatio(true);
         if (rotate) {
             imageView.setScaleX(-1);
         }
@@ -185,6 +162,30 @@ public class AnimalGUI implements Pausable{
             imageView.setScaleX(1);
         }
         return imageView;
+    }
+
+    private void setImageViewScale() {
+        if (animal instanceof  Wild) {
+            scale = 1.5;
+        }
+        if (animal instanceof Domesticated){
+            if (((Domesticated) animal).getType().equals(DomesticatedType.OSTRICH)){
+                scale = 1.2;
+            }
+            if (((Domesticated) animal).getType().equals(DomesticatedType.GUINEA_FOWL)){
+                scale = 0.8;
+            }
+        }
+        if (animal instanceof Dog) {
+            scale = 1.2;
+        }
+        if (animal instanceof Cat){
+            scale = 1.02;
+        }
+        cageView.setFitHeight(FarmGUI.cellHeight * 2 * scale);
+        cageView.setPreserveRatio(true);
+        imageView.setFitHeight(scale * FarmGUI.cellHeight);
+        imageView.setPreserveRatio(true);
     }
 
     public void move (){
