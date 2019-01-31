@@ -33,7 +33,7 @@ public class Farm {
         int width = map.getWidth()  - 1 ;
         int height = map.getHeight() - 1;
         workshops[0] = new Workshop(WorkshopType.EGG_POWDER_PLANT, new Point(0, 0));
-        workshops[1] = new Workshop(WorkshopType.GRINDING_FACTORY, new Point(0, height / 2));
+        workshops[1] = new Workshop(WorkshopType.SOUR_CREAM, new Point(0, height / 2));
         workshops[2] = new Workshop(WorkshopType.MEGA_PIE, new Point(0, height ));
         workshops[3] = new Workshop(WorkshopType.PLUME, new Point(width, 0));
         workshops[4] = new Workshop(WorkshopType.WEAVING_FACTORY, new Point(width, height / 2));
