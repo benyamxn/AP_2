@@ -263,8 +263,8 @@ public class MainMenu {
         menu.setAlignment(Pos.CENTER);
         menu.setSpacing(10);
         menu.setId("menuBox");
-        pane.setBottomAnchor(menu, anchor);
-        pane.setTopAnchor(menu, anchor);
+        pane.setBottomAnchor(menu, anchor - 40);
+        pane.setTopAnchor(menu, anchor - 40);
         pane.setRightAnchor(menu, width / 9);
         pane.setLeftAnchor(menu, width /2);
 
@@ -342,8 +342,8 @@ public class MainMenu {
         menu.setAlignment(Pos.CENTER);
         menu.setSpacing(10);
         menu.setId("menuBox");
-        pane.setBottomAnchor(menu, anchor);
-        pane.setTopAnchor(menu, anchor);
+        pane.setBottomAnchor(menu, anchor - 60);
+        pane.setTopAnchor(menu, anchor - 60);
         pane.setRightAnchor(menu, width / 9);
         pane.setLeftAnchor(menu, width /2);
 

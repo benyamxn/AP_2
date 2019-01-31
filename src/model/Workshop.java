@@ -6,6 +6,7 @@ import com.gilecode.yagson.YaGsonBuilder;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class Workshop implements Upgradable {
     private static final int INITIAL_PRODUCTION_TIME = 1000;
@@ -85,6 +86,7 @@ public class Workshop implements Upgradable {
         }
         return productTypes;
     }
+
     @Override
     public int getUpgradePrice() {
        return price * 2 - price / 2;
@@ -177,7 +179,19 @@ public class Workshop implements Upgradable {
         return output;
     }
 
+    public ProductType[] getInputs() {
+        return input;
+    }
+
     public int getProductionTime() {
         return productionTime;
+    }
+
+    public int getNumberOfInputs() {
+        return numberOfInputs;
+    }
+
+    public int getNumberOfOutputs() {
+        return numberOfOutputs;
     }
 }

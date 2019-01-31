@@ -166,10 +166,9 @@ public class WorkshopGUI implements Hoverable,Pausable {
         input.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 30));
         input.setFill(Color.BLACK);
         infoVBox.getChildren().add(input);
-        for (ProductType inputProduct : workshop.getNeededProducts()) {
+        for (ProductType inputProduct : workshop.getInputs()) {
             ImageView inputProductImageView = new ProductGUI(new Product(inputProduct), 1).getImageView();
-
-            Text productName = new Text(inputProduct.toString());
+            Text productName = new Text(inputProduct.toString() + " (x" + workshop.getNumberOfInputs() + ")");
             productName.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 26));
             productName.setFill(Color.CHOCOLATE);
 
@@ -181,7 +180,7 @@ public class WorkshopGUI implements Hoverable,Pausable {
         output.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 30));
         output.setFill(Color.BLACK);
 
-        Text outputName = new Text(workshop.getOutput().toString());
+        Text outputName = new Text(workshop.getOutput().toString() + " (x"+ workshop.getNumberOfOutputs() + ")");
         outputName.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 28));
         outputName.setFill(Color.GOLDENROD);
 
@@ -195,6 +194,7 @@ public class WorkshopGUI implements Hoverable,Pausable {
     }
 
     public void show(AnchorPane pane) {
+        initInfo();
         pane.getChildren().addAll(infoVBox);
     }
 
