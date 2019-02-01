@@ -95,6 +95,7 @@ public class ServerPageGUI {
 
     private void createShopGUI(){
         shopGUI = new ShopGUI(server.getShop(),width * 0.4 , height * 0.25);
+        server.getShop().setShopGUI(shopGUI);
         shopGUI.addToPane(pane);
         shopGUI.relocate(width * 0.5 , height * 0.6 );
     }

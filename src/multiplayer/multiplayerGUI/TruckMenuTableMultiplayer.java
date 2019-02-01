@@ -19,7 +19,6 @@ public class TruckMenuTableMultiplayer extends TruckMenuTable {
 
     @Override
     protected void fillTableObservableList() {
-        System.out.println("this method called");
         super.fillTableObservableList();
         ClientSenderThread.getInstance().addToQueue(new TruckMenuRequest());
     }

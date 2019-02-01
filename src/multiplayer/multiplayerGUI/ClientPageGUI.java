@@ -15,6 +15,7 @@ import model.Mission;
 import multiplayer.ClientSenderThread;
 import multiplayer.Player;
 import multiplayer.client.Client;
+import multiplayer.client.ClientHandler;
 import multiplayer.multiplayerModel.ChatRoom;
 import multiplayer.multiplayerModel.CompactProfile;
 import multiplayer.multiplayerModel.messages.OnlineUserRequest;
@@ -99,7 +100,9 @@ public class ClientPageGUI {
             Controller c = new Controller();
             c.getGame().setMission(Mission.getMissions().get(0));
             try {
-                new MultiplayerFarmGUI(c).render();
+                MultiplayerFarmGUI multiplayerFarmGUI = new MultiplayerFarmGUI(c);
+                multiplayerFarmGUI.render();
+                ClientHandler.setFarmGUI(multiplayerFarmGUI);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

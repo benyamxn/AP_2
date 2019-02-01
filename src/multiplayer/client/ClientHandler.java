@@ -1,15 +1,21 @@
 package multiplayer.client;
 
+import GUI.FarmCityView;
 import GUI.FarmGUI;
+import GUI.MainStage;
 import controller.Controller;
 import javafx.application.Platform;
 import javafx.scene.layout.VBox;
+import model.VehicleType;
+import model.exception.NotEnoughCapacityException;
+import model.exception.VehicleOnTripException;
 import multiplayer.ClientSenderThread;
 import multiplayer.Handler;
 import multiplayer.Player;
 import multiplayer.RecieverThread;
 import multiplayer.multiplayerGUI.ChatRoomGUI;
 import multiplayer.multiplayerGUI.ClientPageGUI;
+import multiplayer.multiplayerGUI.HelicopterMenuTableMultiplayer;
 import multiplayer.multiplayerGUI.ProfileGUI;
 import multiplayer.multiplayerGUI.TruckMenuTableMultiplayer;
 import multiplayer.multiplayerModel.ChatRoom;
@@ -24,9 +30,10 @@ import java.util.Arrays;
 public class ClientHandler implements Handler {
 
     private Controller controller;
-    private FarmGUI farmGUI;
+    private static FarmGUI farmGUI;
     private Client client;
     private static TruckMenuTableMultiplayer truckMenuTableMultiplayer;
+    private static HelicopterMenuTableMultiplayer helicopterMenuTableMultiplayer;
 
     public ClientHandler(Client client) {
             this.client = client;
@@ -92,7 +99,37 @@ public class ClientHandler implements Handler {
             if (truckMenuTableMultiplayer != null) {
                 truckMenuTableMultiplayer.updatePrices(((TruckItemsMessage) input).getProducts());
             }
-            System.out.println("product list received.");
+            System.out.println("truck product list received.");
+        }
+        if (input instanceof HelicopterProductsMessage) {
+            if (helicopterMenuTableMultiplayer != null) {
+                helicopterMenuTableMultiplayer.updatePrices(((HelicopterProductsMessage) input).getProducts());
+            }
+            System.out.println("helicopter products received.");
+        }
+        if (input instanceof BuyingValidationMessage) {
+            if (((BuyingValidationMessage) input).isBuyingValidationMessage()) {
+                Platform.runLater(() -> {
+                    FarmGUI.getSoundPlayer().playTrack("click");
+//                    FarmGUI.getSoundPlayer().playTrack("helicopter travel");
+                    MainStage.getInstance().popStack();
+                    farmGUI.resume();
+                    farmGUI.getGame().getFarm().getHelicopter().startTravel();
+                    FarmCityView.getInstance().runHelicopter(farmGUI.getGame().getFarm().getHelicopter().canTravel());
+                    System.out.println("started the travel");
+                });
+            } else {
+                FarmGUI.getSoundPlayer().playTrack("click");
+                try {
+                    farmGUI.getGame().clear(VehicleType.HELICOPTER);
+                } catch (VehicleOnTripException e) {
+                    e.printStackTrace();
+                } catch (NotEnoughCapacityException e) {
+                    e.printStackTrace();
+                }
+                farmGUI.resume();
+                MainStage.getInstance().popStack();
+            }
         }
 
         if(input instanceof OnlineUserRequest){
@@ -103,5 +140,13 @@ public class ClientHandler implements Handler {
 
     public static void setTruckMenuTableMultiplayer(TruckMenuTableMultiplayer truckMenuTableMultiplayer1) {
         truckMenuTableMultiplayer = truckMenuTableMultiplayer1;
+    }
+
+    public static void setHelicopterMenuTableMultiplayer(HelicopterMenuTableMultiplayer helicopterMenuTableMultiplayer) {
+        ClientHandler.helicopterMenuTableMultiplayer = helicopterMenuTableMultiplayer;
+    }
+
+    public static void setFarmGUI(FarmGUI farmGUI) {
+        ClientHandler.farmGUI = farmGUI;
     }
 }

@@ -23,6 +23,7 @@ public class Game {
     private ProductType[] marketProducts = {ProductType.WOOL, ProductType.FLOUR, ProductType.CHEESE, ProductType.PLUME, ProductType.FABRIC, ProductType.MILK};
     private transient GameStatus gameStatus;
     private int turns = 0;
+    private boolean suppressItemNotForSaleException = false;
 
     public int getTurns() {
         return turns;
@@ -144,7 +145,7 @@ public class Game {
         if (vehicle.onTravel) {
             throw new VehicleOnTripException();
         }
-        if (vehicle instanceof Helicopter && !Arrays.asList(marketProducts).contains(productType)) {
+        if (!suppressItemNotForSaleException && vehicle instanceof Helicopter && !Arrays.asList(marketProducts).contains(productType)) {
             throw new ItemNotForSaleException();
         }
         double capacity = number * productType.getDepotSize();
@@ -274,7 +275,8 @@ public class Game {
         gameStatus.setMoney(money);
     }
 
-
-
+    public void setSuppressItemNotForSaleException(boolean suppressItemNotForSaleException) {
+        this.suppressItemNotForSaleException = suppressItemNotForSaleException;
+    }
 }
 

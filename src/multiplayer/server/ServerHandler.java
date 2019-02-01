@@ -1,5 +1,6 @@
 package multiplayer.server;
 
+import model.ProductType;
 import multiplayer.*;
 import multiplayer.multiplayerModel.messages.*;
 
@@ -108,6 +109,35 @@ public class ServerHandler implements Handler {
             ((OnlineUserRequest) input).setPlayers(List.copyOf(server.getPlayers()));
             try {
                 ServerSenderThread.getInstance().addToQueue(new Packet(input,server.getUserById(input.getSender()).getObjectOutputStream()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (input instanceof HelicopterMenuRequest) {
+            try {
+                ServerSenderThread.getInstance().addToQueue(new Packet(server.getShop().createHelicopterProductsMessage(), server.getUserById(input.getSender().getId()).getObjectOutputStream()));
+                System.out.println("helicopter items sent.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (input instanceof HelicopterItems) {
+            boolean valid = true;
+            for (Map.Entry<ProductType, Integer> entry : ((HelicopterItems) input).getProducts().entrySet()) {
+                if (entry.getValue() > server.getShop().getProducts().get(entry.getKey()))
+                    valid = false;
+            }
+            if (valid) {
+                for (Map.Entry<ProductType, Integer> entry : ((HelicopterItems) input).getProducts().entrySet()) {
+                    server.getShop().getProducts().put(entry.getKey(), server.getShop().getProducts().get(entry.getKey()) - entry.getValue());
+                }
+                server.getShop().getShopGUI().getTable().refresh();
+                ServerSenderThread.getInstance().addToQueue(new Packet(server.getShop().createHelicopterProductsMessage(), null));
+//                server.getServerPageGUI().getShopGUI().getTable().refresh();
+            }
+            try {
+                ServerSenderThread.getInstance().addToQueue(new Packet(new BuyingValidationMessage(valid), server.getUserById(input.getSender().getId()).getObjectOutputStream()));
+                System.out.println("validation sent.");
             } catch (IOException e) {
                 e.printStackTrace();
             }

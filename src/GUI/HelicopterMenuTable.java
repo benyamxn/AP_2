@@ -21,15 +21,15 @@ import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 
 public class HelicopterMenuTable {
-    private Game game;
-    private double width;
-    private double height;
-    private final TableView<ItemRow> table = new TableView<>();
-    private final ObservableList<ItemRow> observableList = FXCollections.observableArrayList();
-    private Label moneyLabel = new Label("0");
-    private Label totalCapacityLabel;
-    private Label remainedCapacityLabel;
-    private VBox statusBox;
+    protected Game game;
+    protected double width;
+    protected double height;
+    protected final TableView<ItemRow> table = new TableView<>();
+    protected final ObservableList<ItemRow> observableList = FXCollections.observableArrayList();
+    protected Label moneyLabel = new Label("0");
+    protected Label totalCapacityLabel;
+    protected Label remainedCapacityLabel;
+    protected VBox statusBox;
 
     public HelicopterMenuTable(Game game, double width, double height) {
         table.setId("smallText");
@@ -53,9 +53,10 @@ public class HelicopterMenuTable {
         table.setEditable(false);
         MainStage.getInstance().getScene().getStylesheets().add(getClass().
                 getResource("CSS/truckTable.css").toExternalForm());
+        fillTableObservableList();
     }
 
-    private void createProductColumn() {
+    protected void createProductColumn() {
         TableColumn<ItemRow, HBox> columnProduct = new TableColumn<>("Product");
         columnProduct.setCellValueFactory(new PropertyValueFactory<>("descriptionBox"));
         columnProduct.setResizable(false);
@@ -65,8 +66,8 @@ public class HelicopterMenuTable {
         table.getColumns().add(columnProduct);
     }
 
-    private void createDepotSizeColumn() {
-        TableColumn<ItemRow, Double> depotSizeColumn = new TableColumn<>("Depot\nSize");
+    protected void createDepotSizeColumn() {
+        TableColumn<ItemRow, Double> depotSizeColumn = new TableColumn<>("Depot Size");
         depotSizeColumn.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getProductType().getDepotSize()).asObject());
         depotSizeColumn.setResizable(false);
         depotSizeColumn.setReorderable(false);
@@ -74,7 +75,7 @@ public class HelicopterMenuTable {
         table.getColumns().add(depotSizeColumn);
     }
 
-    private void createPriceColumn() {
+    protected void createPriceColumn() {
         TableColumn<ItemRow, Integer> priceColumn = new TableColumn<>("Price");
         priceColumn.setCellValueFactory(param -> new SimpleIntegerProperty(param.getValue().getProductType().getBuyCost()).asObject());
         priceColumn.setResizable(false);
@@ -83,26 +84,26 @@ public class HelicopterMenuTable {
         table.getColumns().add(priceColumn);
     }
 
-    private void setTableAppearance() {
+    protected void setTableAppearance() {
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.setPrefWidth(width);
         table.setPrefHeight(height);
     }
 
-    private void fillTableObservableList() {
+    protected void fillTableObservableList() {
         for (ProductType marketProduct : game.getMarketProducts()) {
             observableList.add(new ItemRow(marketProduct));
         }
     }
 
-    private void createButtonsColumn() {
+    protected void createButtonsColumn() {
         TableColumn<ItemRow, Void> buttonColumn = new TableColumn("Button Column");
 
         Callback<TableColumn<ItemRow, Void>, TableCell<ItemRow, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<ItemRow, Void> call(final TableColumn<ItemRow, Void> param) {
                 final TableCell<ItemRow, Void> cell = new TableCell<>() {
-                    private final Button addOneButton = new Button("1");
+                    protected final Button addOneButton = new Button("1");
                     {
                         addOneButton.setOnMouseClicked(event -> {
                             FarmGUI.getSoundPlayer().playTrack("click");
@@ -129,7 +130,7 @@ public class HelicopterMenuTable {
                         addOneButton.setPrefWidth(width * 0.05);
                     }
 
-                    private final Button addTenButton = new Button("10");
+                    protected final Button addTenButton = new Button("10");
                     {
                         addTenButton.setOnMouseClicked(event -> {
                             FarmGUI.getSoundPlayer().playTrack("click");
@@ -156,7 +157,7 @@ public class HelicopterMenuTable {
                         addTenButton.setPrefWidth(width * 0.05);
                     }
 
-                    private final Button addAllButton = new Button("all");
+                    protected final Button addAllButton = new Button("all");
                     {
                         addAllButton.setOnMouseClicked(event -> {
                             FarmGUI.getSoundPlayer().playTrack("click");
@@ -186,7 +187,7 @@ public class HelicopterMenuTable {
                         addAllButton.setPrefWidth(width * 0.05);
                     }
 
-                    private final Button removeOneButton = new Button("1");
+                    protected final Button removeOneButton = new Button("1");
                     {
                         removeOneButton.setOnMouseClicked(event -> {
                             FarmGUI.getSoundPlayer().playTrack("click");
@@ -203,7 +204,7 @@ public class HelicopterMenuTable {
                         removeOneButton.setPrefWidth(width * 0.05);
                     }
 
-                    private final Button removeTenButton = new Button("10");
+                    protected final Button removeTenButton = new Button("10");
                     {
                         removeTenButton.setOnMouseClicked(event -> {
                             FarmGUI.getSoundPlayer().playTrack("click");
@@ -220,7 +221,7 @@ public class HelicopterMenuTable {
                         removeTenButton.setPrefWidth(width * 0.05);
                     }
 
-                    private final Button removeAllButton = new Button("all");
+                    protected final Button removeAllButton = new Button("all");
                     {
                         removeAllButton.setOnMouseClicked(event -> {
                             FarmGUI.getSoundPlayer().playTrack("click");
@@ -239,7 +240,7 @@ public class HelicopterMenuTable {
                     }
 
 
-                    private final HBox hBox = new HBox();
+                    protected final HBox hBox = new HBox();
                     {
                         hBox.setSpacing(10);
                         hBox.getChildren().addAll(addOneButton, addTenButton, addAllButton, removeOneButton, removeTenButton, removeAllButton);
@@ -269,7 +270,7 @@ public class HelicopterMenuTable {
 
     }
 
-    private void createHelicopterCount() {
+    protected void createHelicopterCount() {
         TableColumn<ItemRow, Label> columnCount = new TableColumn<>("Count");
         columnCount.setCellValueFactory(new PropertyValueFactory<>("count"));
         columnCount.setResizable(false);
@@ -279,12 +280,13 @@ public class HelicopterMenuTable {
     }
 
     public class ItemRow {
-        private ProductType productType;
-        private Label productTypeName;
-        private Image image;
-        private ImageView imageView;
-        private HBox descriptionBox;
-        private int count = 0;
+        protected ProductType productType;
+        protected Label productTypeName;
+        protected Image image;
+        protected ImageView imageView;
+        protected HBox descriptionBox;
+        protected int count = 0;
+        protected int quantity;
 
         public int getCount() {
             return count;
@@ -349,6 +351,19 @@ public class HelicopterMenuTable {
         public void setDescriptionBox(HBox descriptionBox) {
             this.descriptionBox = descriptionBox;
         }
+
+        public void setQuantity(int quantity) {
+            this.quantity = quantity;
+        }
+
+        public int getQuantity() {
+            return quantity;
+        }
+
+        public ItemRow(ProductType productType, int quantity) {
+            this(productType);
+            this.quantity = quantity;
+        }
     }
 
     public void relocate(double x, double y) {
@@ -359,14 +374,14 @@ public class HelicopterMenuTable {
         pane.getChildren().add(table);
     }
 
-    private void createStatusBox() {
+    protected void createStatusBox() {
         statusBox = new VBox();
         statusBox.setSpacing(10);
         statusBox.getChildren().addAll(createMoneyLabel(), createTotalCapacityLabel(), createRemainedCapacityLabel());
         statusBox.setAlignment(Pos.CENTER);
     }
 
-    private HBox createMoneyLabel() {
+    protected HBox createMoneyLabel() {
         HBox moneyBox = new HBox();
         moneyBox.setSpacing(10);
         Label desc = new Label("Total Money:");
@@ -387,7 +402,7 @@ public class HelicopterMenuTable {
         }
     }
 
-    private HBox createTotalCapacityLabel() {
+    protected HBox createTotalCapacityLabel() {
         HBox box = new HBox();
         box.setSpacing(10);
         Label desc = new Label("Total Capacity:");
@@ -398,7 +413,7 @@ public class HelicopterMenuTable {
         return box;
     }
 
-    private HBox createRemainedCapacityLabel() {
+    protected HBox createRemainedCapacityLabel() {
         HBox box = new HBox();
         box.setSpacing(10);
         Label desc = new Label("Remained Capacity:");
@@ -413,13 +428,13 @@ public class HelicopterMenuTable {
         return statusBox;
     }
 
-    private void increaseMoney(int value) {
+    protected void increaseMoney(int value) {
         Integer prevValue = Integer.valueOf(moneyLabel.getText());
         prevValue = prevValue + value;
         moneyLabel.setText(prevValue.toString());
     }
 
-    private void decreaseRemainedCapacity(double value) {
+    protected void decreaseRemainedCapacity(double value) {
         Double prevValue = Double.valueOf(remainedCapacityLabel.getText());
         prevValue = prevValue - value;
         remainedCapacityLabel.setText(prevValue.toString());

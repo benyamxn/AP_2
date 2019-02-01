@@ -105,6 +105,7 @@ public class ShopGUI {
                 try{
                     event.getTableView().getItems().get(
                             event.getTablePosition().getRow()).setBuyCost(Integer.parseInt(event.getNewValue()));
+                    ServerSenderThread.getInstance().addToQueue(new Packet(shop.createHelicopterProductsMessage(), null));
                 } catch (Exception e){
                     e.printStackTrace();
                     System.out.println(e.getMessage());
@@ -133,5 +134,9 @@ public class ShopGUI {
 
     public void updateProduct(){
         table.refresh();
+    }
+
+    public TableView<ProductType> getTable() {
+        return table;
     }
 }

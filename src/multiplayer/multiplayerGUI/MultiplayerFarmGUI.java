@@ -24,4 +24,19 @@ public class MultiplayerFarmGUI extends FarmGUI {
         upgradeButton.relocate(MainStage.getInstance().getWidth() / 5 - 60, MainStage.getInstance().getHeight()* 0.90);
         truckGUI.addToRoot(anchorPane);
     }
+
+    @Override
+    protected void createHelicopterGUI() {
+        VehicleGUI helicopterGUI = new VehicleGUI(farm.getHelicopter(), (int) (MainStage.getInstance().getWidth() / 10));
+        helicopterGUI.relocate(MainStage.getInstance().getWidth() * 0.7, MainStage.getInstance().getHeight() * 0.85);
+        UpgradeButton upgradeButton = createVehicleUpgradeButton(helicopterGUI);
+        helicopterGUI.setOnClick(event -> {
+            FarmGUI.getSoundPlayer().playTrack("click");
+            pauseFarm();
+            new HelicopterMenuMultiplayer(game,this);
+
+        });
+        upgradeButton.relocate(MainStage.getInstance().getWidth() * 0.7 - 60, MainStage.getInstance().getHeight()* 0.90);
+        helicopterGUI.addToRoot(anchorPane);
+    }
 }

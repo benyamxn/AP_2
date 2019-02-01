@@ -138,4 +138,8 @@ public abstract class Vehicle implements Upgradable {
     public int getLevel() {
         return level;
     }
+
+    public HashMap<ProductType, Integer> getContents() {
+        return contents;
+    }
 }

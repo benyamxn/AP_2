@@ -1,6 +1,8 @@
 package multiplayer.multiplayerModel;
 
 import model.ProductType;
+import multiplayer.multiplayerGUI.ShopGUI;
+import multiplayer.multiplayerModel.messages.HelicopterProductsMessage;
 import multiplayer.multiplayerModel.messages.Message;
 import multiplayer.multiplayerModel.messages.TruckItemsMessage;
 
@@ -10,7 +12,7 @@ import java.util.Map;
 public class Shop {
 
     private EnumMap<ProductType,Integer> products = new EnumMap<>(ProductType.class);
-
+    private ShopGUI shopGUI;
     public Shop() {
     }
 
@@ -58,4 +60,19 @@ public class Shop {
         return message;
     }
 
+    public Message createHelicopterProductsMessage() {
+        HelicopterProductsMessage message = new HelicopterProductsMessage();
+        for (Map.Entry<ProductType, Integer> entry : products.entrySet()) {
+            message.addToList(new HelicopterProduct(entry.getKey(), entry.getKey().getBuyCost(), entry.getValue()));
+        }
+        return message;
+    }
+
+    public ShopGUI getShopGUI() {
+        return shopGUI;
+    }
+
+    public void setShopGUI(ShopGUI shopGUI) {
+        this.shopGUI = shopGUI;
+    }
 }
