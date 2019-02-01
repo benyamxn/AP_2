@@ -1,5 +1,6 @@
 package multiplayer.multiplayerGUI;
 
+import GUI.MainStage;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,6 +42,10 @@ public class LeaderboardTable {
                         profileGUI.init(new VBox());
                         profileGUI.addToRoot(server.getServerPageGUI().getPane());
                         profileGUI.relocate(100, 100);
+                        profileGUI.getOkButton().setOnMouseClicked(e -> {
+                            MainStage.getInstance().getSoundUI().playTrack("click");
+                            profileGUI.removeFromRoot(server.getServerPageGUI().getPane());
+                        });
                     }
                 }
             });

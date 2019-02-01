@@ -27,6 +27,12 @@
     -fx-text-fill: DARKGREY;
 }
 
+#idText {
+    -fx-font-size: 18px;
+    -fx-font-family: 'Spicy Rice';
+    -fx-text-fill: RED;
+}
+
 #messageText {
     -fx-font-size: 16px;
     -fx-font-family: 'Spicy Rice';
