@@ -38,7 +38,7 @@ public class ServerHandler implements Handler {
         }
         if (input instanceof LeaderboardRequestMessage) {
             try {
-                ServerSenderThread.getInstance().addToQueue(new Packet(new LeaderboardStat(server.getPlayers()), server.getUserById(((LeaderboardRequestMessage) input).getSender()).getObjectOutputStream()));
+                ServerSenderThread.getInstance().addToQueue(new Packet(new LeaderboardStat(server.getPlayers()), server.getUserById(((Message) input).getSender()).getObjectOutputStream()));
                 System.out.println("leaderboard added to queue");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -77,6 +77,15 @@ public class ServerHandler implements Handler {
                 e.printStackTrace();
             }
 
+        }
+
+        if (input instanceof ProfileRequestMessage) {
+            try {
+                ServerSenderThread.getInstance().addToQueue(new Packet(new ProfileReady(server.getUserById(((ProfileRequestMessage) input).getId()).getPlayer()), server.getUserById(((Message) input).getSender()).getObjectOutputStream()));
+                System.out.println("profile sent.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -14,6 +14,7 @@ public class RecieverThread  extends Thread  {
     private InputStream inputStream;
 
     public RecieverThread(Handler handler,Socket socket) {
+        setDaemon(true);
         this.handler = handler;
         this.socket = socket;
         try {

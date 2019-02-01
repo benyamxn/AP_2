@@ -32,7 +32,7 @@ public class ClientSenderThread extends Thread {
             e.printStackTrace();
             // TODO: handle here
         }
-
+        setDaemon(true);
     }
 
     public void addToQueue(Message message) {

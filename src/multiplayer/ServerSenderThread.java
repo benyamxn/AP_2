@@ -21,6 +21,7 @@ public  class ServerSenderThread extends Thread {
     private static ServerSenderThread instance;
 
     private ServerSenderThread(ArrayList<User> users) {
+        setDaemon(true);
         this.users = users;
     }
 

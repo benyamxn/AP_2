@@ -37,7 +37,7 @@ public class Server {
         this.serverSocket = new ServerSocket(port);
         this.chatRooms = new ArrayList<>();
         chatRooms.add(new ChatRoom(false,null));
-        new Thread(new Runnable() {
+        Thread newUsersThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 while(true){
@@ -67,7 +67,9 @@ public class Server {
                     }
                 }
             }
-        }).start();
+        });
+        newUsersThread.setDaemon(true);
+        newUsersThread.start();
         createShop();
     }
 

@@ -2,10 +2,13 @@ package multiplayer.client;
 
 import GUI.FarmGUI;
 import controller.Controller;
+import javafx.application.Platform;
+import javafx.scene.layout.VBox;
 import multiplayer.ClientSenderThread;
 import multiplayer.Handler;
 import multiplayer.RecieverThread;
 import multiplayer.multiplayerGUI.ClientPageGUI;
+import multiplayer.multiplayerGUI.ProfileGUI;
 import multiplayer.multiplayerModel.CompactProfile;
 import multiplayer.multiplayerModel.messages.*;
 
@@ -60,6 +63,15 @@ public class ClientHandler implements Handler {
             for (ChatMessage message : ((SendPreviousMessagesRequest) input).getMessages()) {
                 client.getChatRoomByReceiver(null).addMessage(message);
             }
+        }
+        if (input instanceof ProfileReady) {
+            ProfileGUI profileGUI = new ProfileGUI(((ProfileReady) input).getPlayer());
+            Platform.runLater(() -> {
+                profileGUI.init(new VBox());
+                profileGUI.addToRoot(client.getClientPageGUI().getPane());
+                profileGUI.relocate(100, 100);
+            });
+            System.out.println("showing the profile");
         }
     }
 
