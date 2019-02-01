@@ -1,11 +1,14 @@
 package multiplayer.multiplayerGUI;
 
+import GUI.FarmGUI;
 import GUI.MainStage;
+import controller.Controller;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import model.Mission;
 import multiplayer.client.Client;
 import multiplayer.multiplayerModel.ChatRoom;
 
@@ -75,6 +78,15 @@ public class ClientPageGUI {
         Button startGameButton = new Button("Start the game");
         pane.getChildren().add(startGameButton);
         startGameButton.relocate(width * 0.8, height * 0.9);
+        startGameButton.setOnMouseClicked(event -> {
+            Controller c = new Controller();
+            c.getGame().setMission(Mission.getMissions().get(0));
+            try {
+                new MultiplayerFarmGUI(c).render();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public LeaderboardGUIClient getLeaderboardGUIClient() {

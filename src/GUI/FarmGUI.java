@@ -31,29 +31,29 @@ import java.util.LinkedList;
 public class FarmGUI {
     public static double cellWidth;
     public static double cellHeight;
-    private static final double startX = 185.0 / 800;
-    private static final double startY = 200.0 / 600;
-    private static final double endX = 605.0 / 800;
-    private static final double endY = 480.0 / 600;
-    private boolean pause = false;
-    private Image image;
+    protected static final double startX = 185.0 / 800;
+    protected static final double startY = 200.0 / 600;
+    protected static final double endX = 605.0 / 800;
+    protected static final double endY = 480.0 / 600;
+    protected boolean pause = false;
+    protected Image image;
     public static AnchorPane anchorPane = new AnchorPane();
-    private CellGUI[][] cellGUIs = new CellGUI[WIDTH][HEIGHT];
-    private WorkshopGUI[] workshopGUIS = new WorkshopGUI[6];
-    private Controller controller;
-    private Farm farm;
-    private Game game;
-    private Timeline gameUpdater;
-    private FarmCityView farmCityView;
-    private Rectangle pauseRectangle;
-    private GameMenuGUI gameMenuGUI;
-    private static SoundUI soundPlayer;
-    private static double[] size;
+    protected CellGUI[][] cellGUIs = new CellGUI[WIDTH][HEIGHT];
+    protected WorkshopGUI[] workshopGUIS = new WorkshopGUI[6];
+    protected Controller controller;
+    protected Farm farm;
+    protected Game game;
+    protected Timeline gameUpdater;
+    protected FarmCityView farmCityView;
+    protected Rectangle pauseRectangle;
+    protected GameMenuGUI gameMenuGUI;
+    protected static SoundUI soundPlayer;
+    protected static double[] size;
     public static Label debugLabel = new Label("");
     public static int WIDTH = 10;
     public static int HEIGHT = 10;
-    private DurationManager durationManager;
-    private MissionGUI missionGUI;
+    protected DurationManager durationManager;
+    protected MissionGUI missionGUI;
 
     public FarmGUI(Controller controller) throws FileNotFoundException {
         size = new double[]{MainStage.getInstance().getWidth(), MainStage.getInstance().getHeight()};
@@ -109,12 +109,12 @@ public class FarmGUI {
         gameMenuGUI = new GameMenuGUI(this);
     }
 
-    private void createMissionGUI() {
+    protected void createMissionGUI() {
         missionGUI = new MissionGUI(game);
         missionGUI.addToRoot(anchorPane);
     }
 
-    private void createMenu(){
+    protected void createMenu(){
         Button button = new Button("Pause");
         Hoverable.setMouseHandler(button);
         button.relocate(button.getWidth(),MainStage.getInstance().getHeight() * 0.95);
@@ -141,7 +141,7 @@ public class FarmGUI {
     }
 
 
-    private void createPausePage() {
+    protected void createPausePage() {
         double width, height;
         width = MainStage.getInstance().getWidth() + 100;
         height = MainStage.getInstance().getHeight() + 100;
@@ -151,7 +151,7 @@ public class FarmGUI {
     }
 
 
-    private void createCamera(){
+    protected void createCamera(){
         ZoomAnimation zoomAnimation = new ZoomAnimation();
         anchorPane.setOnScroll(event -> {
             zoomAnimation.zoom(anchorPane,Math.pow(1.01,event.getDeltaY()),event.getSceneX(),event.getSceneY(), Screen.getPrimary().getBounds());
@@ -171,7 +171,7 @@ public class FarmGUI {
         });
     }
 
-    private void createAnimalsGUI(){
+    protected void createAnimalsGUI(){
         Cell[][] cells = farm.getMap().getCells();
         for (int i = 0; i < farm.getMap().getWidth() ; i++) {
             for (int j = 0; j < farm.getMap().getHeight(); j++) {
@@ -184,7 +184,7 @@ public class FarmGUI {
         }
     }
 
-    private void createGameUpdater() {
+    protected void createGameUpdater() {
         DurationManager durationManager = new DurationManager(this);
         gameUpdater = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
             game.updateGame();
@@ -219,19 +219,19 @@ public class FarmGUI {
         anchorPane.getChildren().addAll(gameSpeedSlider, text);
     }
 
-    private void loadBackground() throws FileNotFoundException {
+    protected void loadBackground() throws FileNotFoundException {
         java.nio.file.Path cur = Paths.get(System.getProperty("user.dir"));
         java.nio.file.Path filePath = Paths.get(cur.toString(), "res", "backgrounds", "back.png");
         image = new Image(new FileInputStream(filePath.toString()));
     }
 
-    private void createGameStatus() {
+    protected void createGameStatus() {
         game.getGameStatus().addToRoot(anchorPane);
         game.getGameStatus().relocate(2 * MainStage.getInstance().getWidth() / 3, 10);
 
     }
 
-    private void createCellsGUI() {
+    protected void createCellsGUI() {
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++){
                 Cell cell = farm.getCell(new Point(i,j));
@@ -245,7 +245,7 @@ public class FarmGUI {
         }
     }
 
-    private void createWellGUI() {
+    protected void createWellGUI() {
         WellGUI wellGUI = new WellGUI(game.getFarm().getWell(), (int) (MainStage.getInstance().getWidth() / 8));
         game.getFarm().getWell().setWellGUI(wellGUI);
         wellGUI.addToRoot(anchorPane);
@@ -311,12 +311,16 @@ public class FarmGUI {
                 }
             }
         });
-        MainStage.getInstance().getScene().getStylesheets().add(getClass().
-                getResource("CSS/farm.css").toExternalForm());
+        try {
+            MainStage.getInstance().getScene().getStylesheets().add(getClass().getResource("CSS/farm.css").toExternalForm());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
-    private CellGUI getCellByEvent(double x, double y) {
+    protected CellGUI getCellByEvent(double x, double y) {
         double width = size[0];
         double height = size[1];
         if( x >= startX * width  &&  x <= endX * width && y >= startY * height && y <= endY * height ){
@@ -340,7 +344,7 @@ public class FarmGUI {
         return new double[]{cellWidth, cellHeight};
     }
 
-    private void placeProduct(Product product, int x, int y) throws FileNotFoundException {
+    protected void placeProduct(Product product, int x, int y) throws FileNotFoundException {
         ProductGUI productGUI = new ProductGUI(product, 1);
         productGUI.getImageView().relocate(getPointForCell(x, y)[0], getPointForCell(x, y)[1]);
         anchorPane.getChildren().add(productGUI.getImageView());
@@ -353,7 +357,7 @@ public class FarmGUI {
         animalGUI.addToRoot(anchorPane);
     }
 
-    private void renderAnimalBuyingButtons() {
+    protected void renderAnimalBuyingButtons() {
         double startX = 10;
         double startY = 10;
         int radius = 50;
@@ -405,7 +409,7 @@ public class FarmGUI {
         }
     }
 
-    private void createTruckGUI() {
+    protected void createTruckGUI() {
         VehicleGUI truckGUI = new VehicleGUI(farm.getTruck(), (int) (MainStage.getInstance().getWidth() / 10));
         truckGUI.setOnClick(event -> {
             FarmGUI.getSoundPlayer().playTrack("click");
@@ -418,7 +422,7 @@ public class FarmGUI {
         truckGUI.addToRoot(anchorPane);
     }
 
-    private void createHelicopterGUI() {
+    protected void createHelicopterGUI() {
         VehicleGUI helicopterGUI = new VehicleGUI(farm.getHelicopter(), (int) (MainStage.getInstance().getWidth() / 10));
         helicopterGUI.relocate(MainStage.getInstance().getWidth() * 0.7, MainStage.getInstance().getHeight() * 0.85);
         UpgradeButton upgradeButton = createVehicleUpgradeButton(helicopterGUI);
@@ -432,7 +436,7 @@ public class FarmGUI {
         helicopterGUI.addToRoot(anchorPane);
     }
 
-    private void createWarehouseGUI() {
+    protected void createWarehouseGUI() {
         WarehouseGUI warehouseGUI = farm.getWarehouse().getWarehouseGUI();
         warehouseGUI.setOnClick(event -> {
             pauseFarm();
@@ -456,13 +460,13 @@ public class FarmGUI {
         upgradeButton.relocate(2 * MainStage.getInstance().getWidth() / 5 - 50, MainStage.getInstance().getHeight() * 0.9);
     }
 
-    private void createFarmCityView() {
+    protected void createFarmCityView() {
         farmCityView = FarmCityView.getInstance(game, MainStage.getInstance().getWidth() * 0.2);
         farmCityView.relocate(MainStage.getInstance().getWidth() * 0.8, 0);
         farmCityView.addToRoot(anchorPane);
     }
 
-    private void createWorkshopAction(){
+    protected void createWorkshopAction(){
         for (WorkshopGUI workshopGUI : workshopGUIS) {
             workshopGUI.setOnClick(event -> {
                 try {
@@ -488,7 +492,7 @@ public class FarmGUI {
         }
     }
 
-    private void createSoundPlayer() {
+    protected void createSoundPlayer() {
         soundPlayer = MainStage.getInstance().getSoundUI();
     }
 
@@ -520,7 +524,7 @@ public class FarmGUI {
         return soundPlayer;
     }
 
-    private UpgradeButton createVehicleUpgradeButton(VehicleGUI vehicleGUI) {
+    protected UpgradeButton createVehicleUpgradeButton(VehicleGUI vehicleGUI) {
         UpgradeButton upgradeButton = new UpgradeButton(vehicleGUI.getVehicle());
         upgradeButton.setOnClick(event -> {
             try {

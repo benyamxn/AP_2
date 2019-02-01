@@ -23,15 +23,15 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class TruckMenuTable {
-    private Game game;
-    private double width;
-    private double height;
-    private final TableView<ItemRow> table = new TableView<>();
-    private final ObservableList<ItemRow> observableList = FXCollections.observableArrayList();
-    private Label moneyLabel = new Label("0");
-    private Label totalCapacityLabel;
-    private Label remainedCapacityLabel;
-    private VBox statusBox;
+    protected Game game;
+    protected double width;
+    protected double height;
+    protected final TableView<ItemRow> table = new TableView<>();
+    protected final ObservableList<ItemRow> observableList = FXCollections.observableArrayList();
+    protected Label moneyLabel = new Label("0");
+    protected Label totalCapacityLabel;
+    protected Label remainedCapacityLabel;
+    protected VBox statusBox;
 
     public TruckMenuTable(Game game, double width, double height) {
         this.game = game;
@@ -57,7 +57,7 @@ public class TruckMenuTable {
                 getResource("CSS/truckTable.css").toExternalForm());
     }
 
-    private void createProductColumn() {
+    protected void createProductColumn() {
         TableColumn<ItemRow, HBox> columnProduct = new TableColumn<>("Product");
         columnProduct.setCellValueFactory(new PropertyValueFactory<>("descriptionBox"));
         columnProduct.setResizable(false);
@@ -67,7 +67,7 @@ public class TruckMenuTable {
         table.getColumns().add(columnProduct);
     }
 
-    private void createCountColumn() {
+    protected void createCountColumn() {
         TableColumn<ItemRow, Label> columnCount = new TableColumn<>("Count");
         columnCount.setCellValueFactory(new PropertyValueFactory<>("count"));
         columnCount.setResizable(false);
@@ -76,7 +76,7 @@ public class TruckMenuTable {
         table.getColumns().add(columnCount);
     }
 
-    private void createDepotSizeColumn() {
+    protected void createDepotSizeColumn() {
         TableColumn<ItemRow, Double> depotSizeColumn = new TableColumn<>("Depot Size");
         depotSizeColumn.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getProductType().getDepotSize()).asObject());
         depotSizeColumn.setResizable(false);
@@ -85,7 +85,7 @@ public class TruckMenuTable {
         table.getColumns().add(depotSizeColumn);
     }
 
-    private void createPriceColumn() {
+    protected void createPriceColumn() {
         TableColumn<ItemRow, Integer> priceColumn = new TableColumn<>("Price");
         priceColumn.setCellValueFactory(param -> new SimpleIntegerProperty(param.getValue().getProductType().getSaleCost()).asObject());
         priceColumn.setResizable(false);
@@ -94,27 +94,27 @@ public class TruckMenuTable {
         table.getColumns().add(priceColumn);
     }
 
-    private void setTableAppearance() {
+    protected void setTableAppearance() {
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.setPrefWidth(width);
         table.setPrefHeight(height);
     }
 
-    private void fillTableObservableList() {
+    protected void fillTableObservableList() {
         EnumMap<ProductType, Integer> productMap = game.getFarm().getWarehouse().getProductMap();
         for (Map.Entry<ProductType, Integer> entry : productMap.entrySet()) {
             observableList.add(new ItemRow(entry.getKey(), entry.getValue()));
         }
     }
 
-    private void createButtonsColumn() {
+    protected void createButtonsColumn() {
         TableColumn<ItemRow, Void> buttonColumn = new TableColumn("Button Column");
 
         Callback<TableColumn<ItemRow, Void>, TableCell<ItemRow, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<ItemRow, Void> call(final TableColumn<ItemRow, Void> param) {
                 final TableCell<ItemRow, Void> cell = new TableCell<>() {
-                    private final Button addOneButton = new Button("1");
+                    protected final Button addOneButton = new Button("1");
                     {
                         addOneButton.setOnAction((ActionEvent event) -> {
                             ItemRow entry = getTableView().getItems().get(getIndex());
@@ -143,7 +143,7 @@ public class TruckMenuTable {
                         addOneButton.setPrefWidth(width * 0.07);
                     }
 
-                    private final Button addAllButton = new Button("all");
+                    protected final Button addAllButton = new Button("all");
                     {
                         addAllButton.setOnAction((ActionEvent event) -> {
                             ItemRow entry = getTableView().getItems().get(getIndex());
@@ -174,7 +174,7 @@ public class TruckMenuTable {
                         addAllButton.setPrefWidth(width * 0.07);
                     }
 
-                    private final Button removeOneButton = new Button("1");
+                    protected final Button removeOneButton = new Button("1");
                     {
                         removeOneButton.setOnAction((ActionEvent event) -> {
                             ItemRow entry = getTableView().getItems().get(getIndex());
@@ -192,7 +192,7 @@ public class TruckMenuTable {
                         removeOneButton.setPrefWidth(width * 0.07);
                     }
 
-                    private final Button removeAllButton = new Button("all");
+                    protected final Button removeAllButton = new Button("all");
                     {
                         removeAllButton.setOnAction((ActionEvent event) -> {
                             ItemRow entry = getTableView().getItems().get(getIndex());
@@ -212,7 +212,7 @@ public class TruckMenuTable {
                     }
 
 
-                    private final HBox hBox = new HBox();
+                    protected final HBox hBox = new HBox();
                     {
                         hBox.setSpacing(10);
                         hBox.getChildren().addAll(addOneButton, addAllButton, removeOneButton, removeAllButton);
@@ -242,7 +242,7 @@ public class TruckMenuTable {
 
     }
 
-    private void createTruckCount() {
+    protected void createTruckCount() {
         TableColumn<ItemRow, Label> columnCount = new TableColumn<>("Truck\nCount");
         columnCount.setCellValueFactory(new PropertyValueFactory<>("truckCount"));
         columnCount.setResizable(false);
@@ -252,13 +252,13 @@ public class TruckMenuTable {
     }
 
     public class ItemRow {
-        private ProductType productType;
-        private Label productTypeName;
-        private int count;
-        private Image image;
-        private ImageView imageView;
-        private HBox descriptionBox;
-        private int truckCount = 0;
+        protected ProductType productType;
+        protected Label productTypeName;
+        protected int count;
+        protected Image image;
+        protected ImageView imageView;
+        protected HBox descriptionBox;
+        protected int truckCount = 0;
 
         public int getTruckCount() {
             return truckCount;
@@ -342,14 +342,14 @@ public class TruckMenuTable {
         pane.getChildren().add(table);
     }
 
-    private void createStatusBox() {
+    protected void createStatusBox() {
         statusBox = new VBox();
         statusBox.setSpacing(10);
         statusBox.getChildren().addAll(createMoneyLabel(), createTotalCapacityLabel(), createRemainedCapacityLabel());
         statusBox.setAlignment(Pos.CENTER);
     }
 
-    private HBox createMoneyLabel() {
+    protected HBox createMoneyLabel() {
         HBox moneyBox = new HBox();
         moneyBox.setSpacing(10);
         Label desc = new Label("Total Money:");
@@ -370,7 +370,7 @@ public class TruckMenuTable {
         }
     }
 
-    private HBox createTotalCapacityLabel() {
+    protected HBox createTotalCapacityLabel() {
         HBox box = new HBox();
         box.setSpacing(10);
         Label desc = new Label("Total Capacity:");
@@ -381,7 +381,7 @@ public class TruckMenuTable {
         return box;
     }
 
-    private HBox createRemainedCapacityLabel() {
+    protected HBox createRemainedCapacityLabel() {
         HBox box = new HBox();
         box.setSpacing(10);
         Label desc = new Label("Remained Capacity:");
@@ -396,13 +396,13 @@ public class TruckMenuTable {
         return statusBox;
     }
 
-    private void increaseMoney(int value) {
+    protected void increaseMoney(int value) {
         Integer prevValue = Integer.valueOf(moneyLabel.getText());
         prevValue = prevValue + value;
         moneyLabel.setText(prevValue.toString());
     }
 
-    private void decreaseRemainedCapacity(double value) {
+    protected void decreaseRemainedCapacity(double value) {
         Double prevValue = Double.valueOf(remainedCapacityLabel.getText());
         prevValue = prevValue - value;
         remainedCapacityLabel.setText(prevValue.toString());

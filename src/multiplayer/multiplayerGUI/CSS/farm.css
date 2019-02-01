@@ -1,0 +1,49 @@
+#menuBox {
+    -fx-background-image: url("../../backgrounds/menuWood.jpg");
+    -fx-background-size: 100%;
+    -fx-border-radius: 3 3 0 0;
+    -fx-border-color: #a99006;
+    -fx-border-style: solid outside;
+    -fx-border-width: 3;
+
+}
+
+#farmPane {
+    -fx-background-image: url("../../backgrounds/back.png");
+    -fx-background-size: 100% 100%;
+}
+
+#titleLabel {
+    -fx-font-size: 80px;
+    -fx-font-family: 'Spicy Rice';
+    -fx-font-weight: bold;
+}
+
+.button {
+    -fx-background-color: #d8be52;
+    -fx-background: linear-gradient(to bottom, #d8be52, #a77d33 9%, #5f3f1d 93%, #1c140d);
+    -fx-pref-width: 150px;
+    -fx-pref-height: 30px;
+    -fx-font-size: 20px;
+    -fx-font-family: 'Spicy Rice';
+}
+
+
+.upgradeBtn {
+    -fx-background-color: linear-gradient(to bottom, #0f10ff, #192fcc 9%, #1309db 93%, #000264);
+    -fx-pref-width: 60px;
+    -fx-pref-height: 10px;
+    -fx-font-size: 14px;
+    -fx-font-family: 'Spicy Rice';
+    -fx-text-fill: Ivory;
+}
+
+.buyBtn {
+    -fx-background-color: #d8be52;
+    -fx-background: linear-gradient(to bottom, #d8be52, #a77d33 9%, #5f3f1d 93%, #1c140d);
+    -fx-pref-width: 80px;
+    -fx-pref-height: 16px;
+    -fx-font-size: 16px;
+    -fx-font-family: 'Spicy Rice';
+}
+

@@ -9,6 +9,7 @@ import multiplayer.Handler;
 import multiplayer.RecieverThread;
 import multiplayer.multiplayerGUI.ClientPageGUI;
 import multiplayer.multiplayerGUI.ProfileGUI;
+import multiplayer.multiplayerGUI.TruckMenuTableMultiplayer;
 import multiplayer.multiplayerModel.CompactProfile;
 import multiplayer.multiplayerModel.messages.*;
 
@@ -20,6 +21,7 @@ public class ClientHandler implements Handler {
     private Controller controller;
     private FarmGUI farmGUI;
     private Client client;
+    private static TruckMenuTableMultiplayer truckMenuTableMultiplayer;
 
     public ClientHandler(Client client) {
             this.client = client;
@@ -73,6 +75,15 @@ public class ClientHandler implements Handler {
             });
             System.out.println("showing the profile");
         }
+        if (input instanceof TruckItemsMessage) {
+            if (truckMenuTableMultiplayer != null) {
+                truckMenuTableMultiplayer.updatePrices(((TruckItemsMessage) input).getProducts());
+            }
+            System.out.println("product list received.");
+        }
     }
 
+    public static void setTruckMenuTableMultiplayer(TruckMenuTableMultiplayer truckMenuTableMultiplayer1) {
+        truckMenuTableMultiplayer = truckMenuTableMultiplayer1;
+    }
 }

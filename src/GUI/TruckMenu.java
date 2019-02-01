@@ -10,32 +10,37 @@ import model.exception.NotEnoughCapacityException;
 import model.exception.VehicleOnTripException;
 
 public class TruckMenu {
-    private Game game;
-    private double totalWidth = MainStage.getInstance().getWidth();
-    private double totalHeight = MainStage.getInstance().getHeight();
-    private AnchorPane pane = new AnchorPane();
-    private TruckMenuTable table;
-    private FarmGUI farmGUI;
+    protected Game game;
+    protected double totalWidth = MainStage.getInstance().getWidth();
+    protected double totalHeight = MainStage.getInstance().getHeight();
+    protected AnchorPane pane = new AnchorPane();
+    protected TruckMenuTable table;
+    protected FarmGUI farmGUI;
 
     public TruckMenu(Game game ,FarmGUI farmGUI) {
         this.farmGUI = farmGUI;
+        this.game = game;
         pane.getStyleClass().add("vehicleMenu");
         System.out.println(totalWidth);
-        this.game = game;
         pane.setId("truckMenu");
-        table = new TruckMenuTable(game, totalWidth * 0.4, totalHeight * 0.7);
-        table.relocate(20, 20);
-        table.addToRoot(pane);
+        createTable();
         createButtons();
         renderStatus();
         MainStage.getInstance().pushStack(pane);
     }
-    private void renderStatus() {
+
+    protected void createTable() {
+        table = new TruckMenuTable(game, totalWidth * 0.4, totalHeight * 0.7);
+        table.relocate(20, 20);
+        table.addToRoot(pane);
+    }
+
+    protected void renderStatus() {
         pane.getChildren().add(table.getStatusBox());
         table.getStatusBox().relocate(totalWidth * 0.6, totalHeight * 0.4);
     }
 
-    private void createButtons() {
+    protected void createButtons() {
         HBox hbox = new HBox();
         hbox.setAlignment(Pos.CENTER);
         hbox.setSpacing(10);

@@ -1,0 +1,93 @@
+#menuBox {
+    -fx-background-image: url("../../backgrounds/menuWood.jpg");
+    -fx-background-size: 100%;
+    -fx-border-radius: 3 3 0 0;
+    -fx-border-color: #a99006;
+    -fx-border-style: solid outside;
+    -fx-border-width: 3;
+
+}
+
+#mainMenuPane {
+    -fx-background-image: url("../../backgrounds/landscape.jpeg");
+    -fx-background-size: 100% 100%;
+}
+
+#multiPlayerText {
+    -fx-font-size: 16px;
+    -fx-font-family: 'Spicy Rice';
+    -fx-border-color: #a99006;
+    -fx-text-fill: BLACK;
+}
+
+#senderName {
+    -fx-font-size: 18px;
+    -fx-font-family: 'Spicy Rice';
+    -fx-font-weight: bold;
+    -fx-text-fill: DARKGREY;
+}
+
+#idText {
+    -fx-font-size: 18px;
+    -fx-font-family: 'Spicy Rice';
+    -fx-text-fill: RED;
+}
+
+#messageText {
+    -fx-font-size: 16px;
+    -fx-font-family: 'Spicy Rice';
+    -fx-text-fill: BLUE;
+}
+
+#messageArea {
+    -fx-font-size: 18px;
+    -fx-font-family: 'Spicy Rice';
+    -fx-text-fill: BLUE;
+    -fx-border-radius: 3 3 0 0;
+    -fx-border-color: #a99006;
+    -fx-border-style: solid outside;
+    -fx-border-width: 3;
+}
+
+#replyTo {
+    -fx-font-size: 18px;
+    -fx-font-family: 'Spicy Rice';
+    -fx-text-fill: BLUE;
+    -fx-border-radius: 3 3 0 0;
+    -fx-background-color: #d8be52;
+    -fx-background: linear-gradient(to bottom, #d8be52, #a77d33 9%, #5f3f1d 93%, #1c140d);
+    -fx-border-color: #a99006;
+    -fx-border-style: solid outside;
+    -fx-border-width: 3;
+}
+
+#infoBox {
+    -fx-background-image: url("../../Textures/Workshops/info.png");
+    -fx-background-size: 100% 100%;
+}
+
+#infoPane {
+    -fx-background-image: url("../../Textures/Workshops/info.png");
+    -fx-background-size: 100% 100%;
+}
+
+#titleLabel {
+    -fx-font-size: 80px;
+    -fx-font-family: 'Spicy Rice';
+    -fx-font-weight: bold;
+}
+
+.button {
+    -fx-background-color: #d8be52;
+    -fx-background: linear-gradient(to bottom, #d8be52, #a77d33 9%, #5f3f1d 93%, #1c140d);
+    -fx-pref-width: 150px;
+    -fx-pref-height: 30px;
+    -fx-font-size: 20px;
+    -fx-font-family: 'Spicy Rice';
+}
+
+#idText {
+    -fx-font-size: 18px;
+    -fx-font-family: 'Spicy Rice';
+    -fx-text-fill: RED;
+}

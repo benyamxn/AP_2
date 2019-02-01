@@ -1,6 +1,8 @@
 package multiplayer.multiplayerModel;
 
 import model.ProductType;
+import multiplayer.multiplayerModel.messages.Message;
+import multiplayer.multiplayerModel.messages.TruckItemsMessage;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -46,6 +48,14 @@ public class Shop {
 
     public EnumMap<ProductType, Integer> getProducts() {
         return products;
+    }
+
+    public Message createProductsMessage() {
+        TruckItemsMessage message = new TruckItemsMessage();
+        for (ProductType productType : products.keySet()) {
+            message.addToProducts(productType, productType.getSaleCost());
+        }
+        return message;
     }
 
 }

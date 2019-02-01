@@ -87,6 +87,14 @@ public class ServerHandler implements Handler {
                 e.printStackTrace();
             }
         }
+        if (input instanceof TruckMenuRequest) {
+            try {
+                ServerSenderThread.getInstance().addToQueue(new Packet(server.getShop().createProductsMessage(), server.getUserById(input.getSender().getId()).getObjectOutputStream()));
+                System.out.println("truck items sent.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void sendChatMessage(ChatMessage message) {
