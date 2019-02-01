@@ -28,6 +28,7 @@ import multiplayer.client.Client;
 import multiplayer.client.ClientHandler;
 import multiplayer.multiplayerGUI.ChatRoomGUI;
 import multiplayer.multiplayerGUI.ClientPageGUI;
+import multiplayer.multiplayerGUI.ProfileGUI;
 import multiplayer.multiplayerModel.ChatRoom;
 import multiplayer.multiplayerGUI.ServerPageGUI;
 import multiplayer.server.Server;
@@ -476,7 +477,6 @@ public class MainMenu {
                 ((Text) child).setFill(Color.GOLD);
             }
         }
-
     }
 
 }

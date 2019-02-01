@@ -2,6 +2,7 @@ package multiplayer;
 
 import GUI.SoundUI;
 import javafx.scene.media.Media;
+import multiplayer.multiplayerModel.CompactProfile;
 import multiplayer.multiplayerModel.messages.Message;
 import multiplayer.server.User;
 import java.io.IOException;
@@ -37,6 +38,9 @@ public  class ServerSenderThread extends Thread {
                             packet.getObjectOutputStream().writeObject(packet.getMessage());
                         } else {
                             Message message = packet.getMessage();
+                            if(message.getSender() == null){
+                                message.setSender(new CompactProfile("HOST","HOST"));
+                            }
                             for (User user : users) {
                                 if(!user.getSocket().isClosed()) {
                                     user.getObjectOutputStream().writeObject(message);

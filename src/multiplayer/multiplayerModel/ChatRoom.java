@@ -50,6 +50,8 @@ public class ChatRoom {
             }
 
         } else {
+            message.setSender(new CompactProfile("HOST","HOST"));
+            addMessage(message);
             ServerSenderThread.getInstance().addToQueue(new Packet(message,null));
         }
     }

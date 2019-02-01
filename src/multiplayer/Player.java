@@ -10,6 +10,7 @@ public class Player implements Serializable {
     private String id;
     private int level = 1;
     private int money;
+    private int numberOfExchanges = 0;
 
     public Player(String name, String id,int money) {
         this.name = name;
@@ -48,5 +49,13 @@ public class Player implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public void increaseExchange(){
+        numberOfExchanges++;
+    }
+
+    public int getNumberOfExchanges() {
+        return numberOfExchanges;
     }
 }

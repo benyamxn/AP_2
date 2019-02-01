@@ -127,4 +127,12 @@ public class Server {
     public void setServerHandler(ServerHandler serverHandler) {
         this.serverHandler = serverHandler;
     }
+
+    public ArrayList<Player> getPlayers() {
+        ArrayList<Player> players = new ArrayList<>();
+        for (User user : users) {
+            players.add(user.getPlayer());
+        }
+        return players;
+    }
 }

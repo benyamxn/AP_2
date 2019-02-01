@@ -3,6 +3,7 @@ package multiplayer.multiplayerGUI;
 import GUI.Hoverable;
 import GUI.MainStage;
 import controller.Main;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -34,6 +35,9 @@ public class ChatRoomGUI {
     private ListView messages = new ListView<Node>();
     private Label replyTo = new Label();
     private Label replyText = new Label();
+
+    private String lastId  = new String();
+
 
     private ImageView close;
 
@@ -92,7 +96,9 @@ public class ChatRoomGUI {
                 MainStage.getInstance().getSoundUI().playTrack("click");
                 if(close.isVisible()){
                     chatRoom.sendMessage(replyTo.getText() + "\n" + replyText.getText(),textArea.getText());
-
+                    close.setVisible(false);
+                    replyTo.setText("");
+                    replyText.setText("");
                 }else {
                     chatRoom.sendMessage(null,textArea.getText());
 
@@ -107,11 +113,17 @@ public class ChatRoomGUI {
     public void addMessage(ChatMessage chatMessage){
 
         Label reply = new Label(chatMessage.getReplyingTO());
-        Label name = new Label(chatMessage.getSender().getName().concat(" :   " + reply.getText()));
+        Label name ;
+        if(! lastId.equals(chatMessage.getSender().getId())) {
+           name = new Label(chatMessage.getSender().getName().concat(" :   " + (reply.getText() == null ? "" : reply.getText())));
+        } else {
+            name = new Label(reply.getText() == null ? "" : reply.getText());
+        }
         name.setId("senderName");
         name.setTextFill(Color.BLUE);
         Label text = new Label(chatMessage.getText());
         text.setId("messageText");
+        lastId = chatMessage.getSender().getId();
         text.setOnMouseClicked(event -> {
             if(event.getClickCount() >= 2){
                 replyTo.setText(chatMessage.getSender().getName());
@@ -119,8 +131,11 @@ public class ChatRoomGUI {
                 close.setVisible(true);
             }
         });
-        messages.getItems().add(name);
-        messages.getItems().add(text);
+        Platform.runLater(() -> {
+            if(!name.getText().equals(""))
+                 messages.getItems().add(name);
+            messages.getItems().add(text);
+        });
     }
 
 }
