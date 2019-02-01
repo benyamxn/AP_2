@@ -315,6 +315,8 @@ public class FarmGUI {
             MainStage.getInstance().getScene().getStylesheets().add(getClass().getResource("CSS/farm.css").toExternalForm());
         } catch (NullPointerException e) {
             e.printStackTrace();
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
         }
 
 

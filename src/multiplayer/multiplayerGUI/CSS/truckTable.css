@@ -228,7 +228,7 @@
 }
 
 .vehicleMenu {
-    -fx-background-image: url("../../backgrounds/menuTexture.png");
+    -fx-background-image: url("../../../backgrounds/menuTexture.png");
     -fx-background-repeat: repeat;
 }
 

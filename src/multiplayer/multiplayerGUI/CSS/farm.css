@@ -1,5 +1,5 @@
 #menuBox {
-    -fx-background-image: url("../../backgrounds/menuWood.jpg");
+    -fx-background-image: url("../../../backgrounds/menuWood.jpg");
     -fx-background-size: 100%;
     -fx-border-radius: 3 3 0 0;
     -fx-border-color: #a99006;
@@ -9,7 +9,7 @@
 }
 
 #farmPane {
-    -fx-background-image: url("../../backgrounds/back.png");
+    -fx-background-image: url("../../../backgrounds/back.png");
     -fx-background-size: 100% 100%;
 }
 

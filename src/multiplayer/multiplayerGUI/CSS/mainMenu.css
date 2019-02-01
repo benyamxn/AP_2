@@ -1,5 +1,5 @@
 #menuBox {
-    -fx-background-image: url("../../backgrounds/menuWood.jpg");
+    -fx-background-image: url("../../../backgrounds/menuWood.jpg");
     -fx-background-size: 100%;
     -fx-border-radius: 3 3 0 0;
     -fx-border-color: #a99006;
@@ -9,7 +9,7 @@
 }
 
 #mainMenuPane {
-    -fx-background-image: url("../../backgrounds/landscape.jpeg");
+    -fx-background-image: url("../../../backgrounds/landscape.jpeg");
     -fx-background-size: 100% 100%;
 }
 
@@ -62,12 +62,12 @@
 }
 
 #infoBox {
-    -fx-background-image: url("../../Textures/Workshops/info.png");
+    -fx-background-image: url("../../../Textures/Workshops/info.png");
     -fx-background-size: 100% 100%;
 }
 
 #infoPane {
-    -fx-background-image: url("../../Textures/Workshops/info.png");
+    -fx-background-image: url("../../../Textures/Workshops/info.png");
     -fx-background-size: 100% 100%;
 }
 
