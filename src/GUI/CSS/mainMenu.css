@@ -28,15 +28,47 @@
 }
 
 #idText {
-    -fx-font-size: 18px;
+    -fx-font-size: 22px;
     -fx-font-family: 'Spicy Rice';
     -fx-text-fill: RED;
+    -fx-text-alignment: CENTER;
+    -fx-fill: RED;
+}
+
+#profileInfo {
+    -fx-font-size: 28px;
+    -fx-font-family: 'Spicy Rice';
+    -fx-fill: BLUE;
+    -fx-text-alignment: CENTER;
+}
+
+#profileInfo2 {
+    -fx-font-size: 18px;
+    -fx-font-family: 'Spicy Rice';
+    -fx-fill: DARKBLUE;
+    -fx-text-alignment: CENTER;
 }
 
 #messageText {
     -fx-font-size: 16px;
     -fx-font-family: 'Spicy Rice';
     -fx-text-fill: BLUE;
+}
+
+#profileTitle {
+    -fx-font-size: 36px;
+    -fx-font-family: 'Spicy Rice';
+    -fx-text-fill: BLACK;
+    -fx-alignment: CENTER;
+    -fx-text-alignment: CENTER;
+    -fx-font-weight: bold;
+}
+
+#text {
+    -fx-font-size: 20px;
+    -fx-font-family: 'Spicy Rice';
+    -fx-fill: BLACK;
+    -fx-text-alignment: CENTER;
 }
 
 #messageArea {
