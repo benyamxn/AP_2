@@ -71,7 +71,12 @@ public class FarmCityView implements Pausable {
         pane.getChildren().add(root);
     }
 
-    public void runTruck(int money) {
+    public void runTruck(int money, boolean canTravel) {
+        if (!canTravel) {
+            FarmGUI.getSoundPlayer().playTrack("error");
+            return;
+        }
+        FarmGUI.getSoundPlayer().playTrack("truck travel");
         Image vehicleImage;
         double vehicleHeight, imageHeight;
         imageHeight = image.getHeight() * (width / image.getWidth());
