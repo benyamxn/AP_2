@@ -10,11 +10,12 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public  class ServerSenderThread extends Thread {
     private Queue<Packet> queue = new LinkedList<>();
-    private ArrayList<User> users;
+    private List<User> users;
     private OutputStream outputStream;
     private ObjectOutputStream objectOutputStream;
     private static ServerSenderThread instance;
@@ -24,7 +25,9 @@ public  class ServerSenderThread extends Thread {
     }
 
     public void addToQueue(Packet packet) {
-        queue.add(packet);
+        synchronized (queue) {
+            queue.add(packet);
+        }
     }
 
     @Override
@@ -67,7 +70,7 @@ public  class ServerSenderThread extends Thread {
         return instance;
     }
 
-    public void setUsers(ArrayList<User> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
 }

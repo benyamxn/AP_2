@@ -36,7 +36,9 @@ public class ClientSenderThread extends Thread {
     }
 
     public void addToQueue(Message message) {
-        queue.add(message);
+        synchronized (queue) {
+            queue.add(message);
+        }
     }
 
     @Override

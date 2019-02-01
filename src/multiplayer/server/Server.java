@@ -19,11 +19,13 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
+import java.util.List;
 
 public class Server {
 
-    private ArrayList<User> users = new ArrayList<>();
+    private List<User> users =   Collections.synchronizedList(new ArrayList<>());
     private ServerSocket serverSocket ;
     private ArrayList<ChatRoom> chatRooms;
     private Shop shop;
@@ -44,8 +46,6 @@ public class Server {
                         send(new String("ok"),user.getObjectOutputStream());
                         Player player = getNewPlayer(user.getSocket(),user);
                         user.setPlayer(player);
-//                        ServerSenderThread.getInstance().addToQueue(new Packet(new LeaderboardStat(getPlayers()), null));
-                        // TODO: check the line above
                         if(checkNewUser(user)){
                             users.add(user);
                             serverPageGUI.getLeaderboardGUIServer().getLeaderboardTable().addPlayer(user.getPlayer());
@@ -55,6 +55,8 @@ public class Server {
                             ((RecieverThread) receiver).setObjectInputStream(user.getObjectInputStream());
                             receiver.start();
                             send(new ReceiverStartedMessage(), user.getObjectOutputStream());
+                            ServerSenderThread.getInstance().addToQueue(new Packet(new LeaderboardStat(getPlayers()), null));
+                            // TODO: check the line above
                         } else {
                             send(new String("dddd"),user.getObjectOutputStream());
                             user.getSocket().close();
@@ -108,7 +110,7 @@ public class Server {
         }
     }
 
-    public ArrayList<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
