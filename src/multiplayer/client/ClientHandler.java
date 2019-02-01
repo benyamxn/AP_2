@@ -43,9 +43,13 @@ public class ClientHandler implements Handler {
             System.out.println("sender thread activated!");
         }
         if (input instanceof LeaderboardStat) {
-            client.getClientPageGUI().getLeaderboardGUIClient().getLeaderboardTable().fillTableObservableList(((LeaderboardStat) input).getPlayersStatus());
-            client.getClientPageGUI().getLeaderboardGUIClient().getLeaderboardTable().update();
-            System.out.println("leaderboard updated.");
+            try {
+                client.getClientPageGUI().getLeaderboardGUIClient().getLeaderboardTable().fillTableObservableList(((LeaderboardStat) input).getPlayersStatus());
+                client.getClientPageGUI().getLeaderboardGUIClient().getLeaderboardTable().update();
+                System.out.println("leaderboard updated.");
+            } catch (NullPointerException e) {
+                System.out.println("caught null pointer in updating leaderboard");
+            }
         }
     }
 
