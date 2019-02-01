@@ -1,13 +1,11 @@
 package multiplayer.server;
 
-import multiplayer.Handler;
-import multiplayer.Packet;
-import multiplayer.RecieverThread;
-import multiplayer.ServerSenderThread;
+import multiplayer.*;
 import multiplayer.multiplayerModel.messages.*;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.*;
 
 public class ServerHandler implements Handler {
 
@@ -24,7 +22,7 @@ public class ServerHandler implements Handler {
 
 
     @Override
-    public void handle(Serializable input) {
+    public void handle(Message input) {
         if (input instanceof ChatMessage){
             System.out.println("send chat");
             sendChatMessage((ChatMessage) input);
@@ -45,6 +43,40 @@ public class ServerHandler implements Handler {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        if(input instanceof FriendRequest){
+            try {
+                ServerSenderThread.getInstance().addToQueue(new Packet(input,server.getUserById(((FriendRequest)input).getReceiver()).getObjectOutputStream()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(input instanceof FriendAcceptRequest){
+            Player receiver = server.getUserById(input.getReceiver()).getPlayer();
+            Player sender = server.getUserById(input.getSender()).getPlayer();
+            sender.addFriend(receiver);
+            receiver.addFriend(sender);
+            try {
+                ((FriendAcceptRequest) input).setNewfriend(sender);
+                ServerSenderThread.getInstance().addToQueue(new Packet(input,server.getUserById(((FriendRequest)input).getReceiver()).getObjectOutputStream()));
+                ((FriendAcceptRequest) input).setNewfriend(receiver);
+                ServerSenderThread.getInstance().addToQueue(new Packet(input,server.getUserById(((FriendRequest)input).getSender()).getObjectOutputStream()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(input instanceof SendPreviousMessagesRequest){
+
+            List<ChatMessage> messages  = server.getChatRoomByReceiver(null).getChatMessages();
+            List<ChatMessage> copy = List.copyOf(messages);
+            ((SendPreviousMessagesRequest) input).setMessages(copy);
+            try {
+                ServerSenderThread.getInstance().addToQueue(new Packet(input,server.getUserById((input).getSender()).getObjectOutputStream()));
+                server.getChatRoomByReceiver(null).sendMessage(null,input.getSender().getId() + "joined.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 

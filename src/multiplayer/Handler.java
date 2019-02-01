@@ -1,8 +1,10 @@
 package multiplayer;
 
+import multiplayer.multiplayerModel.messages.Message;
+
 import java.io.Serializable;
 
 public interface Handler {
 
-     void handle(Serializable serializable);
+     void handle(Message serializable);
 }

@@ -12,7 +12,7 @@ public class ProductExchangeList extends Message{
         super(sender, receiver);
         this.products = products;
     }
-
+    
     public EnumMap<ProductType, Integer> getProducts() {
         return products;
     }

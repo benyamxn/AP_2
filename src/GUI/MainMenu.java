@@ -32,6 +32,7 @@ import multiplayer.multiplayerGUI.ProfileGUI;
 import multiplayer.multiplayerModel.ChatRoom;
 import multiplayer.multiplayerGUI.ServerPageGUI;
 import multiplayer.multiplayerModel.messages.LeaderboardRequestMessage;
+import multiplayer.multiplayerModel.messages.SendPreviousMessagesRequest;
 import multiplayer.server.Server;
 import multiplayer.server.ServerHandler;
 
@@ -356,7 +357,7 @@ public class MainMenu {
         textIP.setFill(Color.GOLD);
         TextField ip = new TextField();
         ip.setAlignment(Pos.CENTER);
-        ip.setText("192.168.1.68");
+        ip.setText("127.0.0.1");
         ip.setId("multiPlayerText");
         ip.setEditable(false);
 
@@ -457,6 +458,7 @@ public class MainMenu {
                 Client client = new Client(new Player(nameField.getText(), idField.getText(), 20000), ipClient, portNumber, serverPortNumber, ipSever);
                 new ClientHandler(client);
                 new ClientPageGUI(client);
+                ClientSenderThread.getInstance().addToQueue(new SendPreviousMessagesRequest());
                 ClientSenderThread.getInstance().addToQueue(new LeaderboardRequestMessage());
             } catch (UnknownHostException e) {
                 error.setText("Invalid  ip");

@@ -7,9 +7,7 @@ import multiplayer.Handler;
 import multiplayer.RecieverThread;
 import multiplayer.multiplayerGUI.ClientPageGUI;
 import multiplayer.multiplayerModel.CompactProfile;
-import multiplayer.multiplayerModel.messages.ChatMessage;
-import multiplayer.multiplayerModel.messages.LeaderboardStat;
-import multiplayer.multiplayerModel.messages.ReceiverStartedMessage;
+import multiplayer.multiplayerModel.messages.*;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -31,7 +29,7 @@ public class ClientHandler implements Handler {
     }
 
     @Override
-    public void handle(Serializable input) {
+    public void handle(Message input) {
         if (input instanceof ChatMessage){
             if(((ChatMessage)input).isGlobal()){
                 client.getChatRoomByReceiver(null).addMessage((ChatMessage)input);
@@ -49,6 +47,18 @@ public class ClientHandler implements Handler {
                 System.out.println("leaderboard updated.");
             } catch (NullPointerException e) {
                 System.out.println("caught null pointer in updating leaderboard");
+            }
+        }
+        if(input instanceof FriendRequest){
+            //TODO friendRequest...
+        }
+        if(input instanceof FriendAcceptRequest){
+            client.getPlayer().addFriend(((FriendAcceptRequest) input).getNewfriend());
+        }
+
+        if(input instanceof SendPreviousMessagesRequest){
+            for (ChatMessage message : ((SendPreviousMessagesRequest) input).getMessages()) {
+                client.getChatRoomByReceiver(null).addMessage(message);
             }
         }
     }

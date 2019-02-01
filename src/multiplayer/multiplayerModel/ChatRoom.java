@@ -7,13 +7,15 @@ import multiplayer.multiplayerGUI.ChatRoomGUI;
 import multiplayer.multiplayerModel.messages.ChatMessage;
 import multiplayer.server.Server;
 
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 public class ChatRoom {
 
     private boolean isClient;
     private ChatRoomGUI chatRoomGUI;
-    private LinkedList<ChatMessage> chatMessages = new LinkedList<>();
+    private List<ChatMessage> chatMessages = Collections.synchronizedList(new LinkedList<ChatMessage>());
     private CompactProfile receiver;
 
     public ChatRoom(boolean isClient) {
@@ -29,7 +31,7 @@ public class ChatRoom {
         this.chatRoomGUI = chatRoomGUI;
     }
 
-    public LinkedList<ChatMessage> getChatMessages() {
+    public List<ChatMessage> getChatMessages() {
         return chatMessages;
     }
 
@@ -45,10 +47,7 @@ public class ChatRoom {
         message.setGlobal(receiver == null);
         message.setReceiver(receiver);
         if(isClient) {
-            synchronized (ClientSenderThread.getInstance().getQueue()) {
                 ClientSenderThread.getInstance().addToQueue(message);
-            }
-
         } else {
             message.setSender(new CompactProfile("HOST","HOST"));
             addMessage(message);

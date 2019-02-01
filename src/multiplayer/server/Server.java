@@ -10,6 +10,7 @@ import multiplayer.multiplayerGUI.ServerPageGUI;
 import multiplayer.multiplayerModel.ChatRoom;
 import multiplayer.multiplayerModel.CompactProfile;
 import multiplayer.multiplayerModel.Shop;
+import multiplayer.multiplayerModel.messages.ChatMessage;
 import multiplayer.multiplayerModel.messages.LeaderboardStat;
 import multiplayer.multiplayerModel.messages.ReceiverStartedMessage;
 

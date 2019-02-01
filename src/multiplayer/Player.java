@@ -1,13 +1,18 @@
 package multiplayer;
 
 import model.Game;
+import multiplayer.server.User;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Player implements Serializable {
 
     private String name;
     private String id;
+    private List<Player> friends =   Collections.synchronizedList(new ArrayList<>());
     private int level = 1;
     private int money;
     private int numberOfExchanges = 0;
@@ -58,4 +63,13 @@ public class Player implements Serializable {
     public int getNumberOfExchanges() {
         return numberOfExchanges;
     }
+
+    public void addFriend(Player player){
+        friends.add(player);
+    }
+
+    public int numberOfFriends(){
+        return friends.size();
+    }
+
 }

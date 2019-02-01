@@ -39,7 +39,8 @@ public class Client {
         this.serverPort = serverPort;
         this.serverIp = serverIp;
         chatRooms.add(new ChatRoom(true,null));
-        socket = new Socket(serverIp, serverPort);
+        socket = new Socket(serverIp, serverPort,ip,localPort);
+
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectInputStream = new ObjectInputStream(socket.getInputStream());
         try {
