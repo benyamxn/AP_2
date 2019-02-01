@@ -83,4 +83,8 @@ public class ServerPageGUI {
     public ShopGUI getShopGUI() {
         return shopGUI;
     }
+
+    public AnchorPane getPane() {
+        return pane;
+    }
 }

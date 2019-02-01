@@ -24,7 +24,7 @@ public class LeaderboardGUIClient {
     }
 
     public void initTable(ArrayList<Player> players) {
-        leaderboardTable = new LeaderboardTable(players, width, height);
+        leaderboardTable = new LeaderboardTable(players, width, height, false);
         leaderboardTable.addToRoot(pane);
         leaderboardTable.relocate(0,0);
     }

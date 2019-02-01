@@ -6,7 +6,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import model.Product;
+import multiplayer.ClientSenderThread;
 import multiplayer.Player;
+import multiplayer.ServerSenderThread;
+import multiplayer.multiplayerModel.messages.ProfileRequestMessage;
+import multiplayer.server.Server;
+
 import java.util.ArrayList;
 
 public class LeaderboardTable {
@@ -14,11 +21,31 @@ public class LeaderboardTable {
     private double height;
     private final TableView<PlayerRow> table = new TableView<>();
     private final ObservableList<PlayerRow> observableList = FXCollections.observableArrayList();
+    private boolean isServer = false;
+    private Server server;
 
-    public LeaderboardTable(ArrayList<Player> players, double width, double height) {
+    public LeaderboardTable(ArrayList<Player> players, double width, double height, boolean isServer) {
+        this.isServer = isServer;
         this.width = width;
         this.height = height;
         setTableAppearance();
+        table.setRowFactory(tv -> {
+            TableRow<PlayerRow> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty()) ) {
+                    if (!isServer) {
+                        PlayerRow rowData = row.getItem();
+                        ClientSenderThread.getInstance().addToQueue(new ProfileRequestMessage(rowData.getId()));
+                    } else {
+                        ProfileGUI profileGUI = new ProfileGUI(server.getUserById(row.getItem().getId()).getPlayer());
+                        profileGUI.init(new VBox());
+                        profileGUI.addToRoot(server.getServerPageGUI().getPane());
+                        profileGUI.relocate(100, 100);
+                    }
+                }
+            });
+            return row ;
+        });
         fillTableObservableList(players);
         table.setItems(observableList);
         createIdColumn();
@@ -148,5 +175,9 @@ public class LeaderboardTable {
                 return;
             }
         }
+    }
+
+    public void setServer(Server server) {
+        this.server = server;
     }
 }
