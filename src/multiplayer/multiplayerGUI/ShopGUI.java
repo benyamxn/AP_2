@@ -14,8 +14,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import model.Product;
 import model.ProductType;
+import multiplayer.Packet;
 import multiplayer.Player;
+import multiplayer.ServerSenderThread;
 import multiplayer.multiplayerModel.Shop;
+import multiplayer.server.Server;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -76,6 +79,8 @@ public class ShopGUI {
                 try{
                     event.getTableView().getItems().get(
                             event.getTablePosition().getRow()).setSaleCost(Integer.parseInt(event.getNewValue()));
+                    ServerSenderThread.getInstance().addToQueue(new Packet(shop.createProductsMessage(), null));
+                    System.out.println("sent to all");
                 } catch (Exception e){
 
                 }
@@ -100,7 +105,8 @@ public class ShopGUI {
                     event.getTableView().getItems().get(
                             event.getTablePosition().getRow()).setBuyCost(Integer.parseInt(event.getNewValue()));
                 } catch (Exception e){
-
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                 }
             }
         });
