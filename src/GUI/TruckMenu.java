@@ -63,12 +63,12 @@ public class TruckMenu {
         Hoverable.setMouseHandler(shipButton);
         shipButton.setOnMouseClicked(event -> {
             FarmGUI.getSoundPlayer().playTrack("click");
-            FarmGUI.getSoundPlayer().playTrack("truck travel");
+//            FarmGUI.getSoundPlayer().playTrack("truck travel");
             farmGUI.resume();
             game.getFarm().getWarehouse().updateGraphics();
             MainStage.getInstance().popStack();
+            FarmCityView.getInstance().runTruck(table.getMoney(), game.getFarm().getTruck().canTravel());
             game.getFarm().getTruck().startTravel();
-            FarmCityView.getInstance().runTruck(table.getMoney());
         });
         hbox.getChildren().addAll(shipButton, cancelButton);
         AnchorPane.setLeftAnchor(hbox, 0.5 * totalWidth - 180);

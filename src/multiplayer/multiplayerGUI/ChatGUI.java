@@ -1,5 +1,6 @@
 package multiplayer.multiplayerGUI;
 
+import GUI.MainStage;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -21,7 +22,7 @@ public class ChatGUI {
     private Button newMessage = new Button("New");
     private VBox vBox;
     public ChatGUI() {
-
+        messages.setId("text");
     }
 
     public void init(VBox vbox){
@@ -44,9 +45,11 @@ public class ChatGUI {
             label.setText("Global Chat");
         label.setOnMouseClicked(event -> {
             if(event.getClickCount() >= 2){
+                MainStage.getInstance().getSoundUI().playTrack("click");
                 vBox.getChildren().clear();
                 chatRoom.getChatRoomGUI().init(vBox);
                 chatRoom.getChatRoomGUI().setOnMouseBack(event1 -> {
+                    MainStage.getInstance().getSoundUI().playTrack("click");
                     vBox.getChildren().clear();
                     init(vBox);
                 });

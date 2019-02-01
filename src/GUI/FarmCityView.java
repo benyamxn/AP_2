@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import model.Farm;
 import model.Game;
 
 import java.io.FileInputStream;
@@ -71,7 +72,12 @@ public class FarmCityView implements Pausable {
         pane.getChildren().add(root);
     }
 
-    public void runTruck(int money) {
+    public void runTruck(int money, boolean canTravel) {
+        if (!canTravel) {
+            FarmGUI.getSoundPlayer().playTrack("error");
+            return;
+        }
+        FarmGUI.getSoundPlayer().playTrack("truck travel");
         Image vehicleImage;
         double vehicleHeight, imageHeight;
         imageHeight = image.getHeight() * (width / image.getWidth());
@@ -135,7 +141,12 @@ public class FarmCityView implements Pausable {
         }
     }
 
-    public void runHelicopter() {
+    public void runHelicopter(boolean canTravel) {
+        if (!canTravel) {
+            FarmGUI.getSoundPlayer().playTrack("error");
+            return;
+        }
+        FarmGUI.getSoundPlayer().playTrack("helicopter travel");
         Image vehicleImage;
         double duration = game.getFarm().getHelicopter().getArrivalTime() * factor;
         try {

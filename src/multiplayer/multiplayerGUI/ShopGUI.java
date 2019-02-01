@@ -40,6 +40,7 @@ public class ShopGUI {
         this.height = height;
         fillTableObservableList(shop.getProducts());
         table.setItems(observableList);
+        table.setId("smallText");
         table.setEditable(true);
         createName();
         createSale();

@@ -43,7 +43,7 @@ public abstract class Vehicle implements Upgradable {
 
 
     public void startTravel() {
-        if(!onTravel) {
+        if(canTravel()) {
             setEstimatedTimeOfArrival(getArrivalTime());
             onTravel = true;
         }
@@ -74,6 +74,10 @@ public abstract class Vehicle implements Upgradable {
     public void finishTravel(){
         contents = new HashMap<>();
         onTravel = false;
+    }
+
+    public boolean canTravel() {
+        return (!onTravel && !contents.isEmpty());
     }
 
     public boolean isOnTravel() {

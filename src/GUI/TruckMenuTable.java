@@ -34,6 +34,7 @@ public class TruckMenuTable {
     protected VBox statusBox;
 
     public TruckMenuTable(Game game, double width, double height) {
+        table.setId("smallText");
         this.game = game;
         this.width = width;
         this.height = height;
@@ -77,7 +78,7 @@ public class TruckMenuTable {
     }
 
     protected void createDepotSizeColumn() {
-        TableColumn<ItemRow, Double> depotSizeColumn = new TableColumn<>("Depot Size");
+        TableColumn<ItemRow, Double> depotSizeColumn = new TableColumn<>("Depot\nSize");
         depotSizeColumn.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getProductType().getDepotSize()).asObject());
         depotSizeColumn.setResizable(false);
         depotSizeColumn.setReorderable(false);

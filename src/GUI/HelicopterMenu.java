@@ -56,11 +56,11 @@ public class HelicopterMenu {
         Hoverable.setMouseHandler(shipButton);
         shipButton.setOnMouseClicked(event -> {
             FarmGUI.getSoundPlayer().playTrack("click");
-            FarmGUI.getSoundPlayer().playTrack("helicopter travel");
+//            FarmGUI.getSoundPlayer().playTrack("helicopter travel");
             MainStage.getInstance().popStack();
             farmGUI.resume();
+            FarmCityView.getInstance().runHelicopter(game.getFarm().getHelicopter().canTravel());
             game.getFarm().getHelicopter().startTravel();
-            FarmCityView.getInstance().runHelicopter();
         });
         hbox.getChildren().addAll(shipButton, cancelButton);
         AnchorPane.setLeftAnchor(hbox, 0.5 * totalWidth - 180);
