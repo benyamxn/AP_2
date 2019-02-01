@@ -49,6 +49,13 @@
     -fx-text-alignment: CENTER;
 }
 
+#smallText {
+    -fx-font-size: 16px;
+    -fx-font-family: 'Spicy Rice';
+    -fx-fill: BLACK;
+    -fx-text-alignment: CENTER;
+}
+
 #messageText {
     -fx-font-size: 16px;
     -fx-font-family: 'Spicy Rice';

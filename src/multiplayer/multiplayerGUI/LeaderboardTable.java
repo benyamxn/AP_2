@@ -30,10 +30,12 @@ public class LeaderboardTable {
         this.width = width;
         this.height = height;
         setTableAppearance();
+        table.setId("smallText");
         table.setRowFactory(tv -> {
             TableRow<PlayerRow> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 /*&& (!row.isEmpty())*/ ) {
+                    MainStage.getInstance().getSoundUI().playTrack("click");
                     if (!isServer) {
                         PlayerRow rowData = row.getItem();
                         ClientSenderThread.getInstance().addToQueue(new ProfileRequestMessage(rowData.getId()));

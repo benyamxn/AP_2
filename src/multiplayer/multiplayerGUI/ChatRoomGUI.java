@@ -45,6 +45,7 @@ public class ChatRoomGUI {
     private ImageView close;
 
     public ChatRoomGUI() {
+        Hoverable.setMouseHandler(back);
         try {
             close = new ImageView(new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","close.png").toString())));
             close.setVisible(false);
@@ -69,6 +70,7 @@ public class ChatRoomGUI {
         textArea.setId("messageArea");
         replyTo.setId("replyTo");
         close.setOnMouseClicked(event -> {
+            MainStage.getInstance().getSoundUI().playTrack("click");
             replyText.setText("");
             replyTo.setText("");
             close.setVisible(false);
@@ -130,6 +132,7 @@ public class ChatRoomGUI {
         lastId = chatMessage.getSender().getId();
         text.setOnMouseClicked(event -> {
             if(event.getClickCount() >= 2){
+                MainStage.getInstance().getSoundUI().playTrack("click");
                 replyTo.setText(chatMessage.getSender().getName());
                 replyText.setText(text.getText());
                 close.setVisible(true);
