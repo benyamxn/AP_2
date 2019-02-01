@@ -29,20 +29,25 @@ public  class ServerSenderThread extends Thread {
     @Override
     public void run() {
         while(true) {
-            if (queue.size() > 0) {
-                try {
-                    Packet packet = queue.remove();
-                    if (packet.getObjectOutputStream() != null) {
-                        packet.getObjectOutputStream().writeObject(packet.getMessage());
-                    } else {
-                        Message message = packet.getMessage();
-                        for (User user : users) {
-                            user.getObjectOutputStream().writeObject(message);
+            synchronized (queue) {
+                if (queue.size() > 0) {
+                    try {
+                        Packet packet = queue.remove();
+                        if (packet.getObjectOutputStream() != null) {
+                            packet.getObjectOutputStream().writeObject(packet.getMessage());
+                        } else {
+                            Message message = packet.getMessage();
+                            for (User user : users) {
+                                if(!user.getSocket().isClosed()) {
+                                    user.getObjectOutputStream().writeObject(message);
+                                    user.getObjectOutputStream().flush();
+                                }
+                            }
                         }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        // TODO: and handle this
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    // TODO: and handle this
                 }
             }
         }

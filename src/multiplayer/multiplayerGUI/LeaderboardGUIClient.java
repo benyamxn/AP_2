@@ -18,7 +18,7 @@ public class LeaderboardGUIClient {
 
     public LeaderboardGUIClient(double width, double height) {
         pane = new AnchorPane();
-        senderThread.addToQueue(new LeaderboardRequestMessage());
+//        senderThread.addToQueue(new LeaderboardRequestMessage());
         this.width = width;
         this.height = height;
         initTable(new ArrayList<>());

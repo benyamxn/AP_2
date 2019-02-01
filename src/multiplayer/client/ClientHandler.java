@@ -5,6 +5,7 @@ import controller.Controller;
 import multiplayer.ClientSenderThread;
 import multiplayer.Handler;
 import multiplayer.RecieverThread;
+import multiplayer.multiplayerModel.CompactProfile;
 import multiplayer.multiplayerModel.messages.ChatMessage;
 
 import java.io.IOException;
@@ -17,8 +18,8 @@ public class ClientHandler implements Handler {
     private Client client;
 
     public ClientHandler(Client client) {
-
-            ClientSenderThread.init(client.getSocket());
+            this.client = client;
+            ClientSenderThread.init(client.getSocket(),new CompactProfile(client.getPlayer().getName(),client.getPlayer().getId()));
             ClientSenderThread.getInstance().start();
              Thread receiver = new RecieverThread(this,client.getSocket());
              ((RecieverThread) receiver).setObjectInputStream(client.getObjectInputStream());

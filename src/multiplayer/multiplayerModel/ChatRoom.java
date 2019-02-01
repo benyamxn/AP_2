@@ -39,11 +39,16 @@ public class ChatRoom {
     }
 
     public void sendMessage(String replyTo,String text){
+
         ChatMessage message = new ChatMessage(text);
         message.setReplyingTO(replyTo);
         message.setGlobal(receiver == null);
+        message.setReceiver(receiver);
         if(isClient) {
-            ClientSenderThread.getInstance().addToQueue(message);
+            synchronized (ClientSenderThread.getInstance().getQueue()) {
+                ClientSenderThread.getInstance().addToQueue(message);
+            }
+
         } else {
             ServerSenderThread.getInstance().addToQueue(new Packet(message,null));
         }

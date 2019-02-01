@@ -51,7 +51,7 @@ public class Client {
         objectOutputStream.flush();
         String str = (String) getObject();
         if (str.equals("ok")) {
-            System.out.println("s");
+            System.out.println("connected to Server");
         } else {
             throw new UsedIdException();
         }
@@ -83,7 +83,7 @@ public class Client {
 
     public ChatRoom getChatRoomByReceiver(CompactProfile compactProfile){
         for (ChatRoom chatRoom : chatRooms) {
-            if((chatRoom.getReceiver() == null && compactProfile == null)  || chatRoom.getReceiver().equals(compactProfile)){
+            if((chatRoom.getReceiver() == null && compactProfile == null)  || ((chatRoom.getReceiver() != null) && chatRoom.getReceiver().equals(compactProfile))){
                 return chatRoom;
             }
         }

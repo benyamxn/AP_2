@@ -37,6 +37,7 @@ public class ServerHandler implements Handler {
     public void sendChatMessage(ChatMessage message) {
         if(message.getReceiver() == null){
             ServerSenderThread.getInstance().addToQueue(new Packet(message,null));
+            System.out.println("message in send chat message");
         }else{
             try {
                 ServerSenderThread.getInstance().addToQueue(new Packet(message,server.getUserById(message.getReceiver()).getObjectOutputStream()));

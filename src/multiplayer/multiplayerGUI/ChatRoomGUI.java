@@ -23,6 +23,7 @@ import multiplayer.multiplayerModel.messages.ChatMessage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.StringReader;
 import java.nio.file.Paths;
 
 public class ChatRoomGUI {
@@ -91,8 +92,10 @@ public class ChatRoomGUI {
                 MainStage.getInstance().getSoundUI().playTrack("click");
                 if(close.isVisible()){
                     chatRoom.sendMessage(replyTo.getText() + "\n" + replyText.getText(),textArea.getText());
+
                 }else {
                     chatRoom.sendMessage(null,textArea.getText());
+
                 }
                 textArea.setText("");
 
@@ -104,7 +107,7 @@ public class ChatRoomGUI {
     public void addMessage(ChatMessage chatMessage){
 
         Label reply = new Label(chatMessage.getReplyingTO());
-        Label name = new Label(chatMessage.getSender().getName()+ " :    " + reply.getText());
+        Label name = new Label(chatMessage.getSender().getName().concat(" :   " + reply.getText()));
         name.setId("senderName");
         name.setTextFill(Color.BLUE);
         Label text = new Label(chatMessage.getText());

@@ -1,6 +1,8 @@
 package multiplayer;
 
 
+import multiplayer.multiplayerModel.CompactProfile;
+import multiplayer.multiplayerModel.messages.ChatMessage;
 import multiplayer.multiplayerModel.messages.Message;
 
 import java.io.IOException;
@@ -16,9 +18,11 @@ public class ClientSenderThread extends Thread {
     private OutputStream outputStream;
     private ObjectOutputStream objectOutputStream;
     private static ClientSenderThread instance;
+    private CompactProfile compactProfile;
 
-    private ClientSenderThread(Socket socket) {
+    private ClientSenderThread(Socket socket,CompactProfile compactProfile) {
         this.socket = socket;
+        this.compactProfile = compactProfile;
         try {
             outputStream = socket.getOutputStream();
             objectOutputStream = new ObjectOutputStream(outputStream);
@@ -36,22 +40,31 @@ public class ClientSenderThread extends Thread {
     @Override
     public void run() {
         while(true) {
-            if (queue.size() > 0) {
-                try {
-                    objectOutputStream.writeObject(queue.remove());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    // TODO: and handle this
+            synchronized (queue) {
+                if (queue.size() > 0) {
+                    try {
+                        Message message = queue.remove();
+                        message.setSender(compactProfile);
+                        objectOutputStream.writeObject(message);
+                        objectOutputStream.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        // TODO: and handle this
+                    }
                 }
             }
         }
     }
 
-    public static void init(Socket socket){
-        instance = new ClientSenderThread(socket);
+    public static void init(Socket socket,CompactProfile compactProfile){
+        instance = new ClientSenderThread(socket,compactProfile);
     }
 
     public static ClientSenderThread getInstance() {
         return instance;
+    }
+
+    public Queue<Message> getQueue() {
+        return queue;
     }
 }

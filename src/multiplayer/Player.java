@@ -45,4 +45,8 @@ public class Player implements Serializable {
     public int getLevel() {
         return level;
     }
+
+    public String getName() {
+        return name;
+    }
 }

@@ -35,10 +35,8 @@ public class Server {
                     try {
                         User user = new User();
                         user.setSocket(serverSocket.accept());
-                        System.out.println("salam");
                         send(new String("ok"),user.getObjectOutputStream());
                         Player player = getNewPlayer(user.getSocket(),user);
-//                        System.out.println("moh");
                         user.setPlayer(player);
                         if(checkNewUser(user)){
                             users.add(user);
