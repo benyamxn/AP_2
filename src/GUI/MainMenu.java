@@ -323,7 +323,7 @@ public class MainMenu {
               }
               Server server = new Server(portNumber , InetAddress.getByName(ip.getText()));
               new ServerHandler(server);
-              new ServerPageGUI(server);
+              new ServerPageGUI(server).getLeaderboardGUIServer().getLeaderboardTable().setServer(server);
           } catch (Exception NumberFormatException) {
               error.setText("Invalid Port");
           }

@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -57,6 +58,11 @@ public class ProfileGUI {
 
     }
 
+    public void relocate(double x, double y) {
+        vBox.relocate(x, y);
+    }
 
-
+    public void addToRoot(Pane pane) {
+        pane.getChildren().add(vBox);
+    }
 }

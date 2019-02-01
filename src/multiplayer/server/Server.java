@@ -138,6 +138,16 @@ public class Server {
         return  null;
     }
 
+    public User getUserById(String id){
+        for (User user : users) {
+            if(user.getPlayer().getId().equals(id)){
+                return user;
+            }
+        }
+        return  null;
+    }
+
+
     public void setServerHandler(ServerHandler serverHandler) {
         this.serverHandler = serverHandler;
     }
@@ -157,4 +167,5 @@ public class Server {
     public void setServerPageGUI(ServerPageGUI serverPageGUI) {
         this.serverPageGUI = serverPageGUI;
     }
+
 }

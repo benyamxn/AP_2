@@ -20,7 +20,7 @@ public class LeaderboardGUIServer {
     }
 
     public void initTable(ArrayList<Player> players) {
-        leaderboardTable = new LeaderboardTable(players, width, height);
+        leaderboardTable = new LeaderboardTable(players, width, height, true);
         leaderboardTable.addToRoot(pane);
         leaderboardTable.relocate(0,0);
     }
