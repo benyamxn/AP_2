@@ -117,7 +117,7 @@ public class Server {
 
     public ChatRoom getChatRoomByReceiver(CompactProfile compactProfile){
         for (ChatRoom chatRoom : chatRooms) {
-            if((chatRoom.getReceiver() == null && compactProfile == null)  || chatRoom.getReceiver().equals(compactProfile)){
+            if((chatRoom.getReceiver() == null && compactProfile == null)  || (chatRoom.getReceiver() != null && chatRoom.getReceiver().equals(compactProfile))){
                 return chatRoom;
             }
         }

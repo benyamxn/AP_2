@@ -3,6 +3,7 @@ package multiplayer.multiplayerGUI;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -17,7 +18,7 @@ public class ChatGUI {
 
     private ListView messages = new ListView<Node>();
     private LinkedList<ChatRoomGUI>  chatRoomGUIS;
-    private OnlineUserPage onlineUserPage;
+    private Button newMessage = new Button("New");
     private VBox vBox;
     public ChatGUI() {
 
@@ -25,9 +26,14 @@ public class ChatGUI {
 
     public void init(VBox vbox){
         this.vBox = vbox;
-        vbox.getChildren().add(messages);
+        vbox.getChildren().addAll(newMessage,messages);
+
     }
 
+
+    public void setNewMessage(EventHandler<? super MouseEvent> event){
+        newMessage.setOnMouseClicked(event);
+    }
 
     public void addChat(ChatRoom chatRoom){
 
@@ -51,4 +57,7 @@ public class ChatGUI {
         });
     }
 
+    public VBox getvBox() {
+        return vBox;
+    }
 }

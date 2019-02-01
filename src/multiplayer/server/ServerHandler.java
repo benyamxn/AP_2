@@ -25,9 +25,17 @@ public class ServerHandler implements Handler {
     public void handle(Message input) {
         if (input instanceof ChatMessage){
             System.out.println("send chat");
-            sendChatMessage((ChatMessage) input);
-//        } else if(){
-
+            if(((ChatMessage) input).isGlobal())
+                    sendChatMessage((ChatMessage) input);
+            else{
+                try {
+                    ServerSenderThread.getInstance().addToQueue(new Packet(input,server.getUserById(input.getSender()).getObjectOutputStream()));
+                    if(!input.getReceiver().equals(input.getSender()))
+                          ServerSenderThread.getInstance().addToQueue(new Packet(input,server.getUserById(input.getReceiver()).getObjectOutputStream()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         if (input instanceof ReceiverStartedMessage) {
             try {
@@ -91,6 +99,15 @@ public class ServerHandler implements Handler {
             try {
                 ServerSenderThread.getInstance().addToQueue(new Packet(server.getShop().createProductsMessage(), server.getUserById(input.getSender().getId()).getObjectOutputStream()));
                 System.out.println("truck items sent.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(input instanceof OnlineUserRequest){
+            input.setReceiver(input.getSender());
+            ((OnlineUserRequest) input).setPlayers(List.copyOf(server.getPlayers()));
+            try {
+                ServerSenderThread.getInstance().addToQueue(new Packet(input,server.getUserById(input.getSender()).getObjectOutputStream()));
             } catch (IOException e) {
                 e.printStackTrace();
             }

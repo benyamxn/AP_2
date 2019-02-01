@@ -6,15 +6,20 @@ import javafx.application.Platform;
 import javafx.scene.layout.VBox;
 import multiplayer.ClientSenderThread;
 import multiplayer.Handler;
+import multiplayer.Player;
 import multiplayer.RecieverThread;
+import multiplayer.multiplayerGUI.ChatRoomGUI;
 import multiplayer.multiplayerGUI.ClientPageGUI;
 import multiplayer.multiplayerGUI.ProfileGUI;
 import multiplayer.multiplayerGUI.TruckMenuTableMultiplayer;
+import multiplayer.multiplayerModel.ChatRoom;
 import multiplayer.multiplayerModel.CompactProfile;
 import multiplayer.multiplayerModel.messages.*;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ClientHandler implements Handler {
 
@@ -38,8 +43,16 @@ public class ClientHandler implements Handler {
         if (input instanceof ChatMessage){
             if(((ChatMessage)input).isGlobal()){
                 client.getChatRoomByReceiver(null).addMessage((ChatMessage)input);
-            } else
-                client.getChatRoomByReceiver(((ChatMessage) input).getSender()).addMessage((ChatMessage)input);
+            } else {
+                ChatRoom chatRoom ;
+                if((chatRoom = client.getChatRoomByReceiver(((ChatMessage) input).getSender())) == null){
+                   chatRoom = new ChatRoom(true,input.getSender());
+                   new ChatRoomGUI(chatRoom);
+                   client.getChatRooms().add(chatRoom);
+                   client.getClientPageGUI().getChatGUI().addChat(chatRoom);
+                }
+                chatRoom.addMessage((ChatMessage) input);
+            }
         }
         if (input instanceof ReceiverStartedMessage) {
             ClientSenderThread.getInstance().setReceiverStarted(true);
@@ -80,6 +93,11 @@ public class ClientHandler implements Handler {
                 truckMenuTableMultiplayer.updatePrices(((TruckItemsMessage) input).getProducts());
             }
             System.out.println("product list received.");
+        }
+
+        if(input instanceof OnlineUserRequest){
+            System.out.println("get onlineuser");
+            client.getClientPageGUI().update(new ArrayList<Player>(((OnlineUserRequest) input).getPlayers()));
         }
     }
 

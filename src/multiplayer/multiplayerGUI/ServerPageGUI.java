@@ -1,12 +1,20 @@
 package multiplayer.multiplayerGUI;
 
 import GUI.MainStage;
+import javafx.application.Platform;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import multiplayer.Packet;
+import multiplayer.Player;
+import multiplayer.ServerSenderThread;
 import multiplayer.multiplayerModel.ChatRoom;
+import multiplayer.multiplayerModel.CompactProfile;
 import multiplayer.multiplayerModel.Shop;
+import multiplayer.multiplayerModel.messages.OnlineUserRequest;
 import multiplayer.server.Server;
 
 import java.io.FileInputStream;
@@ -71,10 +79,17 @@ public class ServerPageGUI {
             chatGUI.addChat(chatRoom);
         }
 
-        onlineUserPage.setEvent(event -> {
-            vBox.getChildren().clear();
-            chatGUI.init(vBox);
+        onlineUserPage.setOnMouse(event -> {
+            onlineUserPage.getvBox().getChildren().clear();
+            chatGUI.init(onlineUserPage.getvBox());
         });
+        chatGUI.setNewMessage(event -> {
+            chatGUI.getvBox().getChildren().clear();
+            update(server.getPlayers());
+            onlineUserPage.init(chatGUI.getvBox());
+        });
+
+
     }
 
 
@@ -96,5 +111,36 @@ public class ServerPageGUI {
 
     public AnchorPane getPane() {
         return pane;
+    }
+
+
+    public void update(ArrayList<Player> players){
+        ListView list = onlineUserPage.getList();
+        list.getItems().clear();
+        for (Player player : players) {
+            Label label = new Label(player.getId());
+            label.setOnMouseClicked(event -> {
+                if(event.getClickCount() >= 2) {
+                    ChatRoom chatRoom;
+                    if ((chatRoom = server.getChatRoomByReceiver(new CompactProfile(player.getName(), player.getId()))) == null) {
+                        chatRoom = new ChatRoom(false, new CompactProfile(player.getName(), player.getId()));
+                        server.getChatRooms().add(chatRoom);
+                        ChatRoomGUI chatRoomGUI = new ChatRoomGUI(chatRoom);
+                        chatGUI.addChat(chatRoom);
+                        chatRoomGUI.setOnMouseBack(event1 -> {
+                            chatRoomGUI.getvBox().getChildren().clear();
+                            chatGUI.init(chatRoomGUI.getvBox());
+                        });
+                    }
+                    chatGUI.addChat(chatRoom);
+                    onlineUserPage.getvBox().getChildren().clear();
+                    chatRoom.getChatRoomGUI().init(onlineUserPage.getvBox());
+                }
+            });
+
+            Platform.runLater(() -> {
+                onlineUserPage.getList().getItems().add(label);
+            });
+        }
     }
 }

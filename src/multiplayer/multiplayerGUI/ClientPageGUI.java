@@ -3,14 +3,21 @@ package multiplayer.multiplayerGUI;
 import GUI.FarmGUI;
 import GUI.MainStage;
 import controller.Controller;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import model.Mission;
+import multiplayer.ClientSenderThread;
+import multiplayer.Player;
 import multiplayer.client.Client;
 import multiplayer.multiplayerModel.ChatRoom;
+import multiplayer.multiplayerModel.CompactProfile;
+import multiplayer.multiplayerModel.messages.OnlineUserRequest;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -23,7 +30,8 @@ public class ClientPageGUI {
     private double height = MainStage.getInstance().getHeight();
     private LeaderboardGUIClient leaderboardGUIClient;
     private AnchorPane pane = new AnchorPane();
-    private ChatGUI chatGUI;
+    private ChatGUI chatGUI = new ChatGUI();
+    private OnlineUserPage onlineUserPage = new OnlineUserPage();
     public ClientPageGUI(Client client) {
         this.client = client;
         client.setClientPageGUI(this);
@@ -72,6 +80,15 @@ public class ClientPageGUI {
             new ChatRoomGUI(chatRoom);
             chatGUI.addChat(chatRoom);
         }
+        onlineUserPage.setOnMouse(event -> {
+            onlineUserPage.getvBox().getChildren().clear();
+            chatGUI.init(onlineUserPage.getvBox());
+        });
+        chatGUI.setNewMessage(event -> {
+            chatGUI.getvBox().getChildren().clear();
+            ClientSenderThread.getInstance().addToQueue(new OnlineUserRequest());
+            onlineUserPage.init(chatGUI.getvBox());
+        });
     }
 
     private void createButtons() {
@@ -97,4 +114,40 @@ public class ClientPageGUI {
         return pane;
     }
 
+
+    public void update(ArrayList<Player> players){
+        System.out.println(players.size());
+        ListView list = onlineUserPage.getList();
+        Platform.runLater(() -> {
+            list.getItems().clear();
+        });
+        for (Player player : players) {
+            Label label = new Label(player.getId());
+            label.setOnMouseClicked(event -> {
+                if(event.getClickCount() >= 2) {
+                    ChatRoom chatRoom;
+                    if ((chatRoom = client.getChatRoomByReceiver(new CompactProfile(player.getName(), player.getId()))) == null) {
+                        chatRoom = new ChatRoom(true, new CompactProfile(player.getName(), player.getId()));
+                        client.getChatRooms().add(chatRoom);
+                        ChatRoomGUI chatRoomGUI = new ChatRoomGUI(chatRoom);
+                        chatGUI.addChat(chatRoom);
+                        chatRoomGUI.setOnMouseBack(event1 -> {
+                            chatRoomGUI.getvBox().getChildren().clear();
+                            chatGUI.init(chatRoomGUI.getvBox());
+                        });
+
+                    }
+                    onlineUserPage.getvBox().getChildren().clear();
+                    chatRoom.getChatRoomGUI().init(onlineUserPage.getvBox());
+                }
+            });
+            Platform.runLater(() -> {
+                onlineUserPage.getList().getItems().add(label);
+            });
+        }
+    }
+
+    public ChatGUI getChatGUI() {
+        return chatGUI;
+    }
 }

@@ -15,32 +15,28 @@ public class OnlineUserPage {
 
     private ListView list = new ListView<Node>();
     private Button back = new Button("Back");
-    private EventHandler<? super MouseEvent> event;
 
+    private VBox vBox;
 
     public OnlineUserPage() {
 
     }
 
-    public void setEvent(EventHandler<? super MouseEvent> event) {
-        this.event = event;
+    public void setOnMouse(EventHandler<? super MouseEvent> event){
+        back.setOnMouseClicked(event);
     }
 
     public void init(VBox vBox){
-
+        this.vBox = vBox;
         vBox.getChildren().addAll(back,list);
     }
 
 
-
-    public void update(ArrayList<Player> players){
-
-        list.getItems().clear();
-        for (Player player : players) {
-            Label label = new Label(player.getId());
-            label.setOnMouseClicked(event);
-        }
+    public ListView getList() {
+        return list;
     }
 
-
+    public VBox getvBox() {
+        return vBox;
+    }
 }

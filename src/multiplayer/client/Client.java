@@ -110,4 +110,7 @@ public class Client {
     public ArrayList<ChatRoom> getChatRooms() {
         return chatRooms;
     }
+
+
+
 }
