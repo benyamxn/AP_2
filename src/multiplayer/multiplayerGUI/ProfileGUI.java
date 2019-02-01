@@ -56,7 +56,6 @@ public class ProfileGUI {
         Hoverable.setMouseHandler(okButton);
         okButton.setFont(Font.loadFont(getClass().getResourceAsStream("../fonts/spicyRice.ttf"), 20));
         VBox.setMargin(okButton, new Insets(20, 0, 0, 0));
-
         VBox.setMargin(start1 , new Insets(10,0,15,0));
         VBox.setMargin(playerName , new Insets(10,10,10,10));
         VBox.setMargin(id , new Insets(10,10,10,10));

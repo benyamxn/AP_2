@@ -20,7 +20,8 @@ public class ServerPageGUI {
     private double height = MainStage.getInstance().getHeight();
     private LeaderboardGUIServer leaderboardGUIServer;
     private AnchorPane pane = new AnchorPane();
-    private ChatGUI chatGUI;
+    public   ChatGUI chatGUI;
+    private OnlineUserPage onlineUserPage = new OnlineUserPage();
     private ShopGUI shopGUI;
     public ServerPageGUI(Server server) {
         this.server = server;
@@ -69,6 +70,11 @@ public class ServerPageGUI {
             new ChatRoomGUI(chatRoom);
             chatGUI.addChat(chatRoom);
         }
+
+        onlineUserPage.setEvent(event -> {
+            vBox.getChildren().clear();
+            chatGUI.init(vBox);
+        });
     }
 
 
