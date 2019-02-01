@@ -4,7 +4,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import multiplayer.ClientSenderThread;
 import multiplayer.Player;
-import multiplayer.messages.LeaderboardRequestMessage;
+import multiplayer.multiplayerModel.messages.LeaderboardRequestMessage;
 
 import java.util.ArrayList;
 

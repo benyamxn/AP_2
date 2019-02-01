@@ -25,11 +25,12 @@ public class RecieverThread  extends Thread  {
 
     @Override
     public void run() {
-        System.out.println("salam");
+        System.out.println("started receiver thread");
         while(true) {
             try {
                 Object o;
                 if((o = objectInputStream.readObject()) instanceof Message){
+                    System.out.println("got message");
                     handler.handle((Message) o);
                 }
             } catch (IOException e) {

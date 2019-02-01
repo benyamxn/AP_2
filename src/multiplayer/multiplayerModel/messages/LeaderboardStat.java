@@ -13,6 +13,10 @@ public class LeaderboardStat extends Message {
         this.playersStatus = playersStatus;
     }
 
+    public LeaderboardStat(ArrayList<Player> playersStatus) {
+        this.playersStatus = playersStatus;
+    }
+
     public ArrayList<Player> getPlayersStatus() {
         return playersStatus;
     }
