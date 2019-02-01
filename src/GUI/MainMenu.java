@@ -31,6 +31,7 @@ import multiplayer.multiplayerGUI.ClientPageGUI;
 import multiplayer.multiplayerGUI.ProfileGUI;
 import multiplayer.multiplayerModel.ChatRoom;
 import multiplayer.multiplayerGUI.ServerPageGUI;
+import multiplayer.multiplayerModel.messages.LeaderboardRequestMessage;
 import multiplayer.server.Server;
 import multiplayer.server.ServerHandler;
 
@@ -456,6 +457,7 @@ public class MainMenu {
                 Client client = new Client(new Player(nameField.getText(), idField.getText(), 20000), ipClient, portNumber, serverPortNumber, ipSever);
                 new ClientHandler(client);
                 new ClientPageGUI(client);
+                ClientSenderThread.getInstance().addToQueue(new LeaderboardRequestMessage());
             } catch (UnknownHostException e) {
                 error.setText("Invalid  ip");
             } catch (IOException e) {

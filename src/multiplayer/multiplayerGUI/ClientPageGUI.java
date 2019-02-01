@@ -21,6 +21,7 @@ public class ClientPageGUI {
     private ChatRoomGUI chatRoomGUI;
     public ClientPageGUI(Client client) {
         this.client = client;
+        client.setClientPageGUI(this);
         loadBackground();
         createLeaderboard();
         createChatGUI();

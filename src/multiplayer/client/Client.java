@@ -2,6 +2,7 @@ package multiplayer.client;
 
 import model.exception.UsedIdException;
 import multiplayer.Player;
+import multiplayer.multiplayerGUI.ClientPageGUI;
 import multiplayer.multiplayerModel.ChatRoom;
 import multiplayer.multiplayerModel.CompactProfile;
 
@@ -23,6 +24,7 @@ public class Client {
     private int serverPort;
     private InetAddress serverIp;
     private ArrayList<ChatRoom> chatRooms = new ArrayList<>();
+    private ClientPageGUI clientPageGUI;
 
     public void setSocket(Socket socket) {
         this.socket = socket;
@@ -94,5 +96,13 @@ public class Client {
 
     public CompactProfile getCompactProfile() {
         return new CompactProfile(player.getName(), player.getId());
+    }
+
+    public ClientPageGUI getClientPageGUI() {
+        return clientPageGUI;
+    }
+
+    public void setClientPageGUI(ClientPageGUI clientPageGUI) {
+        this.clientPageGUI = clientPageGUI;
     }
 }

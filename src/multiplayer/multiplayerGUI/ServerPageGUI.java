@@ -23,6 +23,7 @@ public class ServerPageGUI {
     private ShopGUI shopGUI;
     public ServerPageGUI(Server server) {
         this.server = server;
+        server.setServerPageGUI(this);
         loadBackground();
         createLeaderboard();
         createChatGUI();
@@ -69,5 +70,17 @@ public class ServerPageGUI {
         shopGUI = new ShopGUI(server.getShop(),width * 0.4 , height * 0.25);
         shopGUI.addToPane(pane);
         shopGUI.relocate(width * 0.5 , height * 0.6 );
+    }
+
+    public LeaderboardGUIServer getLeaderboardGUIServer() {
+        return leaderboardGUIServer;
+    }
+
+    public ChatRoomGUI getChatRoomGUI() {
+        return chatRoomGUI;
+    }
+
+    public ShopGUI getShopGUI() {
+        return shopGUI;
     }
 }

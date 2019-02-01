@@ -4,6 +4,7 @@ package multiplayer;
 import multiplayer.multiplayerModel.CompactProfile;
 import multiplayer.multiplayerModel.messages.ChatMessage;
 import multiplayer.multiplayerModel.messages.Message;
+import multiplayer.multiplayerModel.messages.ReceiverStartedMessage;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -19,6 +20,7 @@ public class ClientSenderThread extends Thread {
     private ObjectOutputStream objectOutputStream;
     private static ClientSenderThread instance;
     private CompactProfile compactProfile;
+    private boolean receiverStarted = false;
 
     private ClientSenderThread(Socket socket,CompactProfile compactProfile) {
         this.socket = socket;
@@ -41,7 +43,7 @@ public class ClientSenderThread extends Thread {
     public void run() {
         while(true) {
             synchronized (queue) {
-                if (queue.size() > 0) {
+                if (receiverStarted && queue.size() > 0) {
                     try {
                         Message message = queue.remove();
                         message.setSender(compactProfile);
@@ -66,5 +68,18 @@ public class ClientSenderThread extends Thread {
 
     public Queue<Message> getQueue() {
         return queue;
+    }
+
+    public void setReceiverStarted(boolean receiverStarted) {
+        this.receiverStarted = receiverStarted;
+    }
+
+    public void sendReceiverStartedMessage() {
+        try {
+            objectOutputStream.writeObject(new ReceiverStartedMessage(compactProfile));
+            objectOutputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

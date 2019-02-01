@@ -4,10 +4,7 @@ import multiplayer.Handler;
 import multiplayer.Packet;
 import multiplayer.RecieverThread;
 import multiplayer.ServerSenderThread;
-import multiplayer.multiplayerModel.messages.ChatMessage;
-import multiplayer.multiplayerModel.messages.LeaderboardStat;
-import multiplayer.multiplayerModel.messages.Message;
-import multiplayer.multiplayerModel.messages.ReceiverStartedMessage;
+import multiplayer.multiplayerModel.messages.*;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -36,8 +33,15 @@ public class ServerHandler implements Handler {
         }
         if (input instanceof ReceiverStartedMessage) {
             try {
-                ServerSenderThread.getInstance().addToQueue(new Packet(new LeaderboardStat(server.getPlayers()), server.getUserById(((ReceiverStartedMessage) input).getSender()).getObjectOutputStream()));
-                System.out.println("send leaderboard");
+                ServerSenderThread.getInstance().addToQueue(new Packet(new ReceiverStartedMessage(), server.getUserById(((ReceiverStartedMessage) input).getSender()).getObjectOutputStream()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (input instanceof LeaderboardRequestMessage) {
+            try {
+                ServerSenderThread.getInstance().addToQueue(new Packet(new LeaderboardStat(server.getPlayers()), server.getUserById(((LeaderboardRequestMessage) input).getSender()).getObjectOutputStream()));
+                System.out.println("leaderboard added to queue");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -56,4 +60,7 @@ public class ServerHandler implements Handler {
             }
         }
     }
+
+
+
 }

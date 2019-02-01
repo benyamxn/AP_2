@@ -64,6 +64,7 @@ public class LeaderboardTable {
     }
 
     public void fillTableObservableList(ArrayList<Player> players) {
+        observableList.clear();
         for (Player player : players) {
             observableList.add(new PlayerRow(player));
         }

@@ -1,12 +1,17 @@
 package multiplayer.server;
 
 import model.ProductType;
+import multiplayer.Packet;
 import multiplayer.Player;
 import multiplayer.RecieverThread;
+import multiplayer.ServerSenderThread;
 import multiplayer.client.Client;
+import multiplayer.multiplayerGUI.ServerPageGUI;
 import multiplayer.multiplayerModel.ChatRoom;
 import multiplayer.multiplayerModel.CompactProfile;
 import multiplayer.multiplayerModel.Shop;
+import multiplayer.multiplayerModel.messages.LeaderboardStat;
+import multiplayer.multiplayerModel.messages.ReceiverStartedMessage;
 
 import java.io.*;
 import java.net.Inet4Address;
@@ -23,6 +28,7 @@ public class Server {
     private ArrayList<ChatRoom> chatRooms;
     private Shop shop;
     private ServerHandler serverHandler;
+    private ServerPageGUI serverPageGUI;
     public Server(int port,InetAddress inetAddress) throws IOException {
 
         this.serverSocket = new ServerSocket(port);
@@ -38,13 +44,18 @@ public class Server {
                         send(new String("ok"),user.getObjectOutputStream());
                         Player player = getNewPlayer(user.getSocket(),user);
                         user.setPlayer(player);
+//                        ServerSenderThread.getInstance().addToQueue(new Packet(new LeaderboardStat(getPlayers()), null));
+                        // TODO: check the line above
                         if(checkNewUser(user)){
                             users.add(user);
+                            serverPageGUI.getLeaderboardGUIServer().getLeaderboardTable().addPlayer(user.getPlayer());
+                            serverPageGUI.getLeaderboardGUIServer().getLeaderboardTable().update();
                             send(new String("ok"),user.getObjectOutputStream());
                             Thread receiver = new RecieverThread(serverHandler,user.getSocket());
                             ((RecieverThread) receiver).setObjectInputStream(user.getObjectInputStream());
                             receiver.start();
-                        }else{
+                            send(new ReceiverStartedMessage(), user.getObjectOutputStream());
+                        } else {
                             send(new String("dddd"),user.getObjectOutputStream());
                             user.getSocket().close();
                         }
@@ -134,5 +145,13 @@ public class Server {
             players.add(user.getPlayer());
         }
         return players;
+    }
+
+    public ServerPageGUI getServerPageGUI() {
+        return serverPageGUI;
+    }
+
+    public void setServerPageGUI(ServerPageGUI serverPageGUI) {
+        this.serverPageGUI = serverPageGUI;
     }
 }

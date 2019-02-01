@@ -1,5 +1,12 @@
 package multiplayer.multiplayerModel.messages;
 
-public class ReceiverStartedMessage extends Message {
+import multiplayer.multiplayerModel.CompactProfile;
 
+public class ReceiverStartedMessage extends Message {
+    public ReceiverStartedMessage() {
+    }
+
+    public ReceiverStartedMessage(CompactProfile sender) {
+        super(sender);
+    }
 }

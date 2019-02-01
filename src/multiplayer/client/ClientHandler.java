@@ -5,8 +5,11 @@ import controller.Controller;
 import multiplayer.ClientSenderThread;
 import multiplayer.Handler;
 import multiplayer.RecieverThread;
+import multiplayer.multiplayerGUI.ClientPageGUI;
 import multiplayer.multiplayerModel.CompactProfile;
 import multiplayer.multiplayerModel.messages.ChatMessage;
+import multiplayer.multiplayerModel.messages.LeaderboardStat;
+import multiplayer.multiplayerModel.messages.ReceiverStartedMessage;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -21,9 +24,10 @@ public class ClientHandler implements Handler {
             this.client = client;
             ClientSenderThread.init(client.getSocket(),new CompactProfile(client.getPlayer().getName(),client.getPlayer().getId()));
             ClientSenderThread.getInstance().start();
-             Thread receiver = new RecieverThread(this,client.getSocket());
-             ((RecieverThread) receiver).setObjectInputStream(client.getObjectInputStream());
-             receiver.start();
+            Thread receiver = new RecieverThread(this,client.getSocket());
+            ((RecieverThread) receiver).setObjectInputStream(client.getObjectInputStream());
+            receiver.start();
+            ClientSenderThread.getInstance().sendReceiverStartedMessage();
     }
 
     @Override
@@ -34,7 +38,15 @@ public class ClientHandler implements Handler {
             } else
                 client.getChatRoomByReceiver(((ChatMessage) input).getSender()).addMessage((ChatMessage)input);
         }
+        if (input instanceof ReceiverStartedMessage) {
+            ClientSenderThread.getInstance().setReceiverStarted(true);
+            System.out.println("sender thread activated!");
+        }
+        if (input instanceof LeaderboardStat) {
+            client.getClientPageGUI().getLeaderboardGUIClient().getLeaderboardTable().fillTableObservableList(((LeaderboardStat) input).getPlayersStatus());
+            client.getClientPageGUI().getLeaderboardGUIClient().getLeaderboardTable().update();
+            System.out.println("leaderboard updated.");
+        }
     }
-
 
 }
