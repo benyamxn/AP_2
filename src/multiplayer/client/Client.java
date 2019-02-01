@@ -106,4 +106,8 @@ public class Client {
     public void setClientPageGUI(ClientPageGUI clientPageGUI) {
         this.clientPageGUI = clientPageGUI;
     }
+
+    public ArrayList<ChatRoom> getChatRooms() {
+        return chatRooms;
+    }
 }

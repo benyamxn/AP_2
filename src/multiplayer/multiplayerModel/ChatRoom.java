@@ -59,4 +59,7 @@ public class ChatRoom {
         return receiver;
     }
 
+    public ChatRoomGUI getChatRoomGUI() {
+        return chatRoomGUI;
+    }
 }

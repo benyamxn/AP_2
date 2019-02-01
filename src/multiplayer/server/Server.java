@@ -170,4 +170,7 @@ public class Server {
         this.serverPageGUI = serverPageGUI;
     }
 
+    public ArrayList<ChatRoom> getChatRooms() {
+        return chatRooms;
+    }
 }

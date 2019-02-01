@@ -4,6 +4,7 @@ import GUI.Hoverable;
 import GUI.MainStage;
 import controller.Main;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -31,6 +33,7 @@ public class ChatRoomGUI {
 
     private VBox vBox;
     private ChatRoom chatRoom;
+    private Button back = new Button("Back");
     private TextArea textArea = new TextArea();
     private ListView messages = new ListView<Node>();
     private Label replyTo = new Label();
@@ -41,9 +44,7 @@ public class ChatRoomGUI {
 
     private ImageView close;
 
-    public ChatRoomGUI(VBox vBox) {
-        this.vBox = vBox;
-
+    public ChatRoomGUI() {
         try {
             close = new ImageView(new Image(new FileInputStream(Paths.get(System.getProperty("user.dir"),"res","close.png").toString())));
             close.setVisible(false);
@@ -52,16 +53,18 @@ public class ChatRoomGUI {
         }
     }
 
-    public ChatRoomGUI(VBox vbox, ChatRoom chatRoom) {
-        this(vbox);
+    public ChatRoomGUI(ChatRoom chatRoom) {
+        this();
         this.chatRoom = chatRoom;
         chatRoom.setChatRoomGUI(this);
     }
 
-    public void init(){
+    public void init(VBox vBox){
+        this.vBox = vBox;
         Button send = new Button("send");
         HBox hbox = new HBox();
         replyTo.setId("mainMenu");
+        back.setId("mainMenu");
         textArea.setPrefHeight(hbox.getPrefHeight());
         textArea.setId("messageArea");
         replyTo.setId("replyTo");
@@ -70,6 +73,7 @@ public class ChatRoomGUI {
             replyTo.setText("");
             close.setVisible(false);
         });
+        VBox.setMargin(back,new Insets(0,0,0,0));
         VBox.setMargin(messages,new Insets(10,0,0,0));
         VBox.setMargin(close,new Insets(5,5,0,0));
         VBox.setMargin(replyTo, new Insets(0,20,0,0));
@@ -85,7 +89,7 @@ public class ChatRoomGUI {
 
         hbox.getChildren().addAll(messageFormat,textArea,send);
 
-        vBox.getChildren().addAll(messages,hbox);
+        vBox.getChildren().addAll(back,messages,hbox);
         messages.setEditable(false);
         setSendButton(send);
     }
@@ -133,9 +137,16 @@ public class ChatRoomGUI {
         });
         Platform.runLater(() -> {
             if(!name.getText().equals(""))
-                 messages.getItems().add(name);
+                messages.getItems().add(name);
             messages.getItems().add(text);
         });
     }
 
+    public VBox getvBox() {
+        return vBox;
+    }
+
+    public void setOnMouseBack(EventHandler<? super MouseEvent> eventHandler) {
+        back.setOnMouseClicked(eventHandler);
+    }
 }

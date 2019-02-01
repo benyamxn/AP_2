@@ -7,6 +7,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import multiplayer.client.Client;
+import multiplayer.multiplayerModel.ChatRoom;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
@@ -18,7 +20,7 @@ public class ClientPageGUI {
     private double height = MainStage.getInstance().getHeight();
     private LeaderboardGUIClient leaderboardGUIClient;
     private AnchorPane pane = new AnchorPane();
-    private ChatRoomGUI chatRoomGUI;
+    private ChatGUI chatGUI;
     public ClientPageGUI(Client client) {
         this.client = client;
         client.setClientPageGUI(this);
@@ -52,16 +54,21 @@ public class ClientPageGUI {
 
     private void createChatGUI() {
         VBox vBox = new VBox();
-        chatRoomGUI = new ChatRoomGUI(vBox,client.getChatRoomByReceiver(null));
+        ChatGUI chatGUI  = new ChatGUI();
         AnchorPane chatPane = new AnchorPane();
         chatPane.setBottomAnchor(vBox,0.0);
         chatPane.setTopAnchor(vBox, 0.0);
         chatPane.setRightAnchor(vBox, 0.0);
         chatPane.setLeftAnchor(vBox, 0.0);
         chatPane.getChildren().add(vBox);
-        chatRoomGUI.init();
+        chatGUI.init(vBox);
         chatPane.relocate(width / 2 , height * 0.1);
         pane.getChildren().add(chatPane);
+
+        for (ChatRoom chatRoom : client.getChatRooms()) {
+            new ChatRoomGUI(chatRoom);
+            chatGUI.addChat(chatRoom);
+        }
     }
 
     private void createButtons() {
@@ -78,7 +85,4 @@ public class ClientPageGUI {
         return pane;
     }
 
-    public ChatRoomGUI getChatRoomGUI() {
-        return chatRoomGUI;
-    }
 }

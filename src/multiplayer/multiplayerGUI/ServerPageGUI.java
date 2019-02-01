@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import multiplayer.multiplayerModel.ChatRoom;
 import multiplayer.multiplayerModel.Shop;
 import multiplayer.server.Server;
 
@@ -19,7 +20,7 @@ public class ServerPageGUI {
     private double height = MainStage.getInstance().getHeight();
     private LeaderboardGUIServer leaderboardGUIServer;
     private AnchorPane pane = new AnchorPane();
-    private ChatRoomGUI chatRoomGUI;
+    private ChatGUI chatGUI;
     private ShopGUI shopGUI;
     public ServerPageGUI(Server server) {
         this.server = server;
@@ -54,17 +55,22 @@ public class ServerPageGUI {
 
     private void createChatGUI() {
         VBox vBox = new VBox();
-        chatRoomGUI = new ChatRoomGUI(vBox,server.getChatRoomByReceiver(null));
+        chatGUI = new ChatGUI();
         AnchorPane chatPane = new AnchorPane();
         chatPane.setBottomAnchor(vBox,100.0);
         chatPane.setTopAnchor(vBox, 0.0);
         chatPane.setRightAnchor(vBox, 100.0);
         chatPane.setLeftAnchor(vBox, 0.0);
         chatPane.getChildren().add(vBox);
-        chatRoomGUI.init();
+        chatGUI.init(vBox);
         chatPane.relocate(width /2 , height * 0.1);
         pane.getChildren().add(chatPane);
+        for (ChatRoom chatRoom : server.getChatRooms()) {
+            new ChatRoomGUI(chatRoom);
+            chatGUI.addChat(chatRoom);
+        }
     }
+
 
     private void createShopGUI(){
         shopGUI = new ShopGUI(server.getShop(),width * 0.4 , height * 0.25);
@@ -76,9 +82,7 @@ public class ServerPageGUI {
         return leaderboardGUIServer;
     }
 
-    public ChatRoomGUI getChatRoomGUI() {
-        return chatRoomGUI;
-    }
+
 
     public ShopGUI getShopGUI() {
         return shopGUI;

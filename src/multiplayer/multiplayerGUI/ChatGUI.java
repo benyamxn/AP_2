@@ -1,0 +1,47 @@
+package multiplayer.multiplayerGUI;
+
+import javafx.application.Platform;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.VBox;
+import multiplayer.multiplayerModel.ChatRoom;
+
+public class ChatGUI {
+
+
+    private ListView messages = new ListView<Node>();
+    private VBox vBox;
+
+    public ChatGUI() {
+
+    }
+
+    public void init(VBox vbox){
+        this.vBox = vbox;
+        vbox.getChildren().add(messages);
+    }
+
+
+    public void addChat(ChatRoom chatRoom){
+        Label label  = new Label();
+        if(chatRoom.getReceiver() != null)
+            label.setText(chatRoom.getReceiver().getName());
+        else
+            label.setText("Global Chat");
+        label.setOnMouseClicked(event -> {
+            if(event.getClickCount() >= 2){
+                vBox.getChildren().clear();
+                chatRoom.getChatRoomGUI().init(vBox);
+                chatRoom.getChatRoomGUI().setOnMouseBack(event1 -> {
+                    vBox.getChildren().clear();
+                    init(vBox);
+                });
+            }
+        });
+        Platform.runLater(() -> {
+            messages.getItems().add(label);
+        });
+    }
+
+}

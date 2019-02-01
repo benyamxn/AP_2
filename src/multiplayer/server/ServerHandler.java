@@ -72,7 +72,7 @@ public class ServerHandler implements Handler {
             ((SendPreviousMessagesRequest) input).setMessages(copy);
             try {
                 ServerSenderThread.getInstance().addToQueue(new Packet(input,server.getUserById((input).getSender()).getObjectOutputStream()));
-                server.getChatRoomByReceiver(null).sendMessage(null,input.getSender().getId() + "joined.");
+                server.getChatRoomByReceiver(null).sendMessage(null,input.getSender().getId() + "  joined.");
             } catch (IOException e) {
                 e.printStackTrace();
             }
