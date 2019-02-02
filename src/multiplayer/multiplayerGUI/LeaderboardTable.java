@@ -25,6 +25,9 @@ public class LeaderboardTable {
     private final ObservableList<PlayerRow> observableList = FXCollections.observableArrayList();
     private boolean isServer = false;
     private Server server;
+    private TableColumn<PlayerRow, String> idColumn = new TableColumn<>("ID");
+    private TableColumn<PlayerRow, Integer> moneyColumn = new TableColumn<>("Money");
+    TableColumn<PlayerRow, Integer> columnLevel = new TableColumn<>("Level");
 
     public LeaderboardTable(ArrayList<Player> players, double width, double height, boolean isServer) {
         this.isServer = isServer;
@@ -56,17 +59,17 @@ public class LeaderboardTable {
         });
         fillTableObservableList(players);
         table.setItems(observableList);
+        table.setEditable(false);
         createIdColumn();
         createLevelColumn();
         createMoneyColumn();
-        table.setEditable(false);
 //        MainStage.getInstance().getScene().getStylesheets().add(getClass().
 //                getResource("CSS/truckTable.css").toExternalForm());
         // TODO: create appropriate CSS file.
     }
 
     private void createIdColumn() {
-        TableColumn<PlayerRow, String> idColumn = new TableColumn<>("ID");
+
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         idColumn.setResizable(false);
         idColumn.setReorderable(false);
@@ -75,16 +78,16 @@ public class LeaderboardTable {
     }
 
     private void createMoneyColumn() {
-        TableColumn<PlayerRow, Integer> moneyColumn = new TableColumn<>("Money");
+
         moneyColumn.setCellValueFactory(param -> new SimpleIntegerProperty(param.getValue().getMoney()).asObject());
-        moneyColumn.setResizable(false);
+        moneyColumn.setResizable(false );
         moneyColumn.setReorderable(false);
         moneyColumn.setPrefWidth(0.2 * width);
         table.getColumns().add(moneyColumn);
     }
 
     private void createLevelColumn() {
-        TableColumn<PlayerRow, Integer> columnLevel = new TableColumn<>("Level");
+
         columnLevel.setCellValueFactory(new PropertyValueFactory<>("level"));
         columnLevel.setResizable(false);
         columnLevel.setReorderable(false);
@@ -92,10 +95,14 @@ public class LeaderboardTable {
         table.getColumns().add(columnLevel);
     }
 
-    private void setTableAppearance() {
+    public void setTableAppearance() {
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.setPrefWidth(width);
         table.setPrefHeight(height);
+        idColumn.setPrefWidth(0.6 * width);
+        moneyColumn.setPrefWidth(0.2 * width);
+        columnLevel.setPrefWidth(0.2 * width);
+        table.refresh();
     }
 
     public void fillTableObservableList(List<Player> players) {
@@ -202,5 +209,17 @@ public class LeaderboardTable {
 
     public void setServer(Server server) {
         this.server = server;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public TableView<PlayerRow> getTable() {
+        return table;
     }
 }

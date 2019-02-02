@@ -53,9 +53,23 @@ public class LeaderboardGUIClient {
     }
 
     public void useVBox(VBox vBox) {
-        vBox.getChildren().add(pane);
-        vBox.setSpacing(10);
-        vBox.setMargin(pane, new Insets(10, 10, 10, 10));
+
+        pane.setMaxSize(vBox.getMaxWidth(),vBox.getMaxHeight());
+
+        leaderboardTable.setHeight(vBox.getHeight());
+        leaderboardTable.setWidth(vBox.getWidth());
+        leaderboardTable.setTableAppearance();
+        vBox.getChildren().add(leaderboardTable.getTable());
+        vBox.setMargin(pane,new Insets(0,0,0,0));
+
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
     }
 
     public Pane getPossibleVBox() {

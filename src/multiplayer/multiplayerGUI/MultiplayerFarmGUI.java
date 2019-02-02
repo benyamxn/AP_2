@@ -89,8 +89,8 @@ public class MultiplayerFarmGUI extends FarmGUI {
 
         Button multiPlayer = new Button("Menu");
         Hoverable.setMouseHandler(multiPlayer);
-        menuBox.setPrefHeight(height - 2 * anchor);
-        menuBox.setPrefWidth(vBox.getPrefWidth());
+        menuBox.setPrefWidth(width / 9);
+        menuBox.setPrefWidth(height - 2 * anchor);
         menuBox.setMaxHeight(height - 2 * anchor);
         menuBox.setMaxWidth(width / 9);
         buttons.getChildren().addAll(multiPlayer,back);
