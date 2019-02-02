@@ -69,14 +69,18 @@ public class ClientHandler implements Handler {
         }
         if (input instanceof LeaderboardStat) {
             try {
-                for (Player playersStatus : ((LeaderboardStat) input).getPlayersStatus()) {
-                    System.out.println(playersStatus.getMoney());
-                }
                 client.getClientPageGUI().getLeaderboardGUIClient().getLeaderboardTable().fillTableObservableList(((LeaderboardStat) input).getPlayersStatus());
                 client.getClientPageGUI().getLeaderboardGUIClient().getLeaderboardTable().update();
                 System.out.println("leaderboard updated.");
             } catch (NullPointerException e) {
                 System.out.println("caught null pointer in updating leaderboard");
+            }
+        }
+        if (input instanceof StatusUpdateMessage) {
+            if (!((StatusUpdateMessage) input).whoose.equals(client.getPlayer().getId())) {
+                client.getClientPageGUI().getLeaderboardGUIClient().getLeaderboardTable().updatePlayer(((StatusUpdateMessage) input).whoose, ((StatusUpdateMessage) input).getMoney(), ((StatusUpdateMessage) input).getLevel());
+            } else {
+                client.getClientPageGUI().getLeaderboardGUIClient().getLeaderboardTable().updatePlayer(((StatusUpdateMessage) input).whoose, farmGUI.getGame().getMoney(), ((StatusUpdateMessage) input).getLevel());
             }
         }
         if(input instanceof FriendRequest){

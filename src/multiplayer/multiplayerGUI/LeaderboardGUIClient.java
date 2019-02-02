@@ -1,7 +1,9 @@
 package multiplayer.multiplayerGUI;
 
+import javafx.geometry.Insets;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import multiplayer.ClientSenderThread;
 import multiplayer.Player;
 import multiplayer.multiplayerModel.messages.LeaderboardRequestMessage;
@@ -47,5 +49,11 @@ public class LeaderboardGUIClient {
 
     public static void setVisible(boolean visible) {
         LeaderboardGUIClient.visible = visible;
+    }
+
+    public void useVBox(VBox vBox) {
+        vBox.getChildren().add(pane);
+        vBox.setSpacing(10);
+        vBox.setMargin(pane, new Insets(10, 10, 10, 10));
     }
 }

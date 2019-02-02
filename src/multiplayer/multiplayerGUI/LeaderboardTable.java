@@ -16,6 +16,7 @@ import multiplayer.multiplayerModel.messages.ProfileRequestMessage;
 import multiplayer.server.Server;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LeaderboardTable {
     private double width;
@@ -97,7 +98,7 @@ public class LeaderboardTable {
         table.setPrefHeight(height);
     }
 
-    public void fillTableObservableList(ArrayList<Player> players) {
+    public void fillTableObservableList(List<Player> players) {
         observableList.clear();
         for (Player player : players) {
             observableList.add(new PlayerRow(player));
@@ -178,6 +179,21 @@ public class LeaderboardTable {
             if (playerRow.getId().equals(player.getId())) {
                 playerRow.setLevel(player.getLevel());
                 playerRow.setMoney(player.getMoney());
+                update();
+                return;
+            }
+        }
+    }
+
+    public void updatePlayer(String id, int money, int level) {
+        for (PlayerRow playerRow : observableList) {
+            if (playerRow.getId().equals(id)) {
+                if (level != -1) {
+                    playerRow.setLevel(level);
+                }
+                if (money != -1) {
+                    playerRow.setMoney(money);
+                }
                 update();
                 return;
             }

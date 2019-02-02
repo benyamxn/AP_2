@@ -69,6 +69,6 @@ public class HelicopterMenuMultiplayer extends HelicopterMenu {
         MainStage.getInstance().popStack();
         farmGUI.resume();
         game.getFarm().getHelicopter().startTravel();
-        FarmCityView.getInstance().runHelicopter(game.getFarm().getHelicopter().canTravel());
+        FarmCityView.getInstance().runHelicopter(true);
     }
 }

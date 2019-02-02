@@ -7,6 +7,7 @@ import multiplayer.multiplayerModel.messages.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ServerHandler implements Handler {
 
@@ -145,11 +146,8 @@ public class ServerHandler implements Handler {
         if (input instanceof StatusUpdateMessage) {
             server.getUserById(input.getSender()).getPlayer().setStat((((StatusUpdateMessage) input).getMoney()), ((StatusUpdateMessage) input).getLevel());
             server.getServerPageGUI().getLeaderboardGUIServer().getLeaderboardTable().updatePlayer(server.getUserById(input.getSender()).getPlayer());
-            LeaderboardStat leaderboardStat = new LeaderboardStat(server.getPlayers());
-            ServerSenderThread.getInstance().addToQueue(new Packet(leaderboardStat, null));
-            for (Player playersStatus : leaderboardStat.getPlayersStatus()) {
-                System.out.println(playersStatus.getMoney());
-            }
+            ((StatusUpdateMessage) input).whoose = input.getSender().getId();
+            ServerSenderThread.getInstance().addToQueue(new Packet(input, null));
         }
     }
 

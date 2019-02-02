@@ -3,6 +3,7 @@ package multiplayer.multiplayerModel.messages;
 public class StatusUpdateMessage extends Message {
     int level = -1;
     int money;
+    public String whoose;
 
     public int getLevel() {
         return level;

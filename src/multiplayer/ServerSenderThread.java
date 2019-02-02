@@ -40,6 +40,7 @@ public  class ServerSenderThread extends Thread {
                         Packet packet = queue.remove();
                         if (packet.getObjectOutputStream() != null) {
                             packet.getObjectOutputStream().writeObject(packet.getMessage());
+                            packet.getObjectOutputStream().flush();
                         } else {
                             Message message = packet.getMessage();
                             if(message.getSender() == null){

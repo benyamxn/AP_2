@@ -4,15 +4,16 @@ import multiplayer.Player;
 import multiplayer.multiplayerModel.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LeaderboardStat extends Message {
-    private ArrayList<Player> playersStatus;
+    private List<Player> playersStatus;
 
-    public LeaderboardStat(ArrayList<Player> playersStatus) {
+    public LeaderboardStat(List<Player> playersStatus) {
         this.playersStatus = playersStatus;
     }
 
-    public ArrayList<Player> getPlayersStatus() {
+    public List<Player> getPlayersStatus() {
         return playersStatus;
     }
 }
