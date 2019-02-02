@@ -195,7 +195,7 @@ public class FarmGUI {
                 createPausePage();
                 pauseFarm();
                 anchorPane.getChildren().add(pauseRectangle);
-                gameMenuGUI.showExit();
+                gameMenuGUI.showExit(false,null,null);
             }
 
         }));

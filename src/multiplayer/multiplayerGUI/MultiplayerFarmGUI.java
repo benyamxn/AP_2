@@ -180,7 +180,7 @@ public class MultiplayerFarmGUI extends FarmGUI {
                 System.out.println("level finished");
                 pauseFarm();
                 anchorPane.getChildren().add(pauseRectangle);
-                gameMenuGUI.showExit();
+                gameMenuGUI.showExit(true,menuBox,clientPageGUI);
             }
         }));
         gameUpdater.setRate(durationManager.getRate());

@@ -18,6 +18,8 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import model.Farm;
 import model.Mission;
+import multiplayer.multiplayerGUI.ClientPageGUI;
+import multiplayer.multiplayerGUI.MultiplayerFarmGUI;
 
 import java.awt.*;
 import java.io.File;
@@ -166,7 +168,7 @@ public class GameMenuGUI {
         });
     }
 
-    public  void showExit(){
+    public  void showExit(boolean isMultiplayer , VBox vBox , ClientPageGUI clientPageGUI){
 
 
         Button nextButton = new Button("Next Level");
@@ -188,7 +190,10 @@ public class GameMenuGUI {
             try {
                 Controller controller = new Controller();
                 controller.getGame().setMission(Mission.getMissions().get(Math.min(farmGUI.getGame().getMission().getLevel() ,3)));
-                new FarmGUI(controller).render();
+                if(isMultiplayer)
+                    new MultiplayerFarmGUI(controller,vBox,clientPageGUI).render();
+                else
+                    new FarmGUI(controller).render();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
