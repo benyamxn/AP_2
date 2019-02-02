@@ -92,7 +92,7 @@ public class Player implements Serializable {
     public static Player copyPlayer(Player player) {
         Player clone = new Player(player.name, player.id, player.money);
         clone.friends = List.copyOf(player.friends);
-        clone.level = player.money;
+        clone.level = player.level;
         clone.numberOfExchanges = player.numberOfExchanges;
         return clone;
     }
