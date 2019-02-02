@@ -67,10 +67,11 @@ public class ServerHandler implements Handler {
             sender.addFriend(receiver);
             receiver.addFriend(sender);
             try {
+                FriendAcceptRequest temp = new FriendAcceptRequest();
                 ((FriendAcceptRequest) input).setNewfriend(sender);
                 ServerSenderThread.getInstance().addToQueue(new Packet(input,server.getUserById(((FriendAcceptRequest)input).getReceiver()).getObjectOutputStream()));
-                ((FriendAcceptRequest) input).setNewfriend(receiver);
-                ServerSenderThread.getInstance().addToQueue(new Packet(input,server.getUserById(((FriendAcceptRequest)input).getSender()).getObjectOutputStream()));
+                temp.setNewfriend(receiver);
+                ServerSenderThread.getInstance().addToQueue(new Packet(temp,server.getUserById(((FriendAcceptRequest)input).getSender()).getObjectOutputStream()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
