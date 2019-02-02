@@ -56,7 +56,7 @@ public class Player implements Serializable {
         return name;
     }
 
-    public void increaseExchange(){
+    public synchronized void increaseExchange(){
         numberOfExchanges++;
     }
 
@@ -64,27 +64,27 @@ public class Player implements Serializable {
         return numberOfExchanges;
     }
 
-    public void addFriend(Player player){
+    public synchronized void addFriend(Player player){
         friends.add(player);
     }
 
-    public int numberOfFriends(){
+    public synchronized int numberOfFriends(){
         return friends.size();
     }
 
-    public void setMoney(int money) {
+    public synchronized void setMoney(int money) {
         if (money != -1) {
             this.money = money;
         }
     }
 
-    public void setLevel(int level) {
+    public synchronized void setLevel(int level) {
         if (level != -1) {
             this.level = level;
         }
     }
 
-    public void setStat(int money, int level) {
+    public synchronized void setStat(int money, int level) {
         setMoney(money);
         setLevel(level);
     }
