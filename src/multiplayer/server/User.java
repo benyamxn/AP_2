@@ -15,7 +15,7 @@ public class User {
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
 
-    public Player getPlayer() {
+    public synchronized Player getPlayer() {
         return player;
     }
 

@@ -92,7 +92,8 @@ public class ServerHandler implements Handler {
 
         if (input instanceof ProfileRequestMessage) {
             try {
-                ServerSenderThread.getInstance().addToQueue(new Packet(new ProfileReady(server.getUserById(((ProfileRequestMessage) input).getId()).getPlayer()), server.getUserById(((Message) input).getSender()).getObjectOutputStream()));
+                ServerSenderThread.getInstance().addToQueue(new Packet(new ProfileReady(server.getUserById(input.getSender()).getPlayer()), server.getUserById(((Message) input).getSender()).getObjectOutputStream()));
+                System.out.println(server.getUserById(input.getSender()).getPlayer().getMoney());
                 System.out.println("profile sent.");
             } catch (IOException e) {
                 e.printStackTrace();
