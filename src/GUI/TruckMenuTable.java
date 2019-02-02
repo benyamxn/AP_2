@@ -409,7 +409,7 @@ public class TruckMenuTable {
         remainedCapacityLabel.setText(prevValue.toString());
     }
 
-    int getMoney() {
+    public int getMoney() {
         return Integer.parseInt(moneyLabel.getText());
     }
 }

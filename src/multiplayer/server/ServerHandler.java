@@ -134,6 +134,7 @@ public class ServerHandler implements Handler {
                 }
                 server.getShop().getShopGUI().getTable().refresh();
                 ServerSenderThread.getInstance().addToQueue(new Packet(server.getShop().createHelicopterProductsMessage(), null));
+                server.getUserById(input.getSender()).getPlayer().increaseExchange();
 //                server.getServerPageGUI().getShopGUI().getTable().refresh();
             }
             try {
@@ -148,6 +149,14 @@ public class ServerHandler implements Handler {
             server.getServerPageGUI().getLeaderboardGUIServer().getLeaderboardTable().updatePlayer(server.getUserById(input.getSender()).getPlayer());
             ((StatusUpdateMessage) input).whoose = input.getSender().getId();
             ServerSenderThread.getInstance().addToQueue(new Packet(input, null));
+        }
+        if (input instanceof TruckContentsMessage) {
+            for (Map.Entry<ProductType, Integer> entry : ((TruckContentsMessage) input).getContents().entrySet()) {
+                server.getShop().getProducts().put(entry.getKey(), server.getShop().getProducts().get(entry.getKey()) + entry.getValue());
+            }
+            server.getShop().getShopGUI().getTable().refresh();
+            ServerSenderThread.getInstance().addToQueue(new Packet(server.getShop().createHelicopterProductsMessage(), null));
+            server.getUserById(input.getSender()).getPlayer().increaseExchange();
         }
     }
 

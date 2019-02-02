@@ -1,5 +1,6 @@
 package model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Truck extends Vehicle {
@@ -35,5 +36,10 @@ public class Truck extends Vehicle {
     @Override
     public String toString() {
         return "Truck";
+    }
+
+    @Override
+    public HashMap<ProductType, Integer> getContents() {
+        return super.getContents();
     }
 }
