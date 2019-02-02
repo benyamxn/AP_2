@@ -34,13 +34,13 @@ public class LeaderboardTable {
         table.setRowFactory(tv -> {
             TableRow<PlayerRow> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 /*&& (!row.isEmpty())*/ ) {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     MainStage.getInstance().getSoundUI().playTrack("click");
                     if (!isServer) {
                         PlayerRow rowData = row.getItem();
                         ClientSenderThread.getInstance().addToQueue(new ProfileRequestMessage(rowData.getId()));
                     } else {
-                        ProfileGUI profileGUI = new ProfileGUI(/*server.getUserById(row.getItem().getId()).getPlayer()*/new Player("benyamin", "ben", 10000));
+                        ProfileGUI profileGUI = new ProfileGUI(server.getUserById(row.getItem().getId()).getPlayer());
                         profileGUI.init(new VBox());
                         profileGUI.addToRoot(server.getServerPageGUI().getPane());
                         profileGUI.relocate(100, 100);
@@ -102,7 +102,6 @@ public class LeaderboardTable {
         for (Player player : players) {
             observableList.add(new PlayerRow(player));
         }
-        observableList.add(new PlayerRow(new Player("ben", "benyamin", 10000)));
     }
 
     public class PlayerRow {

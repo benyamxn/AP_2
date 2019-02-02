@@ -22,8 +22,6 @@ import multiplayer.multiplayerModel.ChatRoom;
 import multiplayer.multiplayerModel.CompactProfile;
 import multiplayer.multiplayerModel.messages.*;
 
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -96,6 +94,10 @@ public class ClientHandler implements Handler {
                 profileGUI.init(new VBox());
                 profileGUI.addToRoot(client.getClientPageGUI().getPane());
                 profileGUI.relocate(100, 100);
+                profileGUI.getOkButton().setOnMouseClicked(e -> {
+                    MainStage.getInstance().getSoundUI().playTrack("click");
+                    profileGUI.removeFromRoot(client.getClientPageGUI().getPane());
+                });
             });
             System.out.println("showing the profile");
         }
@@ -119,7 +121,7 @@ public class ClientHandler implements Handler {
                     MainStage.getInstance().popStack();
                     farmGUI.resume();
                     farmGUI.getGame().getFarm().getHelicopter().startTravel();
-                    FarmCityView.getInstance().runHelicopter(farmGUI.getGame().getFarm().getHelicopter().canTravel());
+                    FarmCityView.getInstance().runHelicopter(true);
                     System.out.println("started the travel");
                 });
             } else {
