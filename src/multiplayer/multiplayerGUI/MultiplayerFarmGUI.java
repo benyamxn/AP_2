@@ -148,6 +148,7 @@ public class MultiplayerFarmGUI extends FarmGUI {
         leaderBoard.setOnMouseClicked(event -> {
             menuBox.getChildren().clear();
             clientPageGUI.getLeaderboardGUIClient().useVBox(menuBox);
+            clientPageGUI.getLeaderboardGUIClient().setPossiblePane(anchorPane);
             back.setVisible(true);
             back.setOnMouseClicked(event1 -> {
                 initMenu();
@@ -174,7 +175,7 @@ public class MultiplayerFarmGUI extends FarmGUI {
             game.updateGame();
             missionGUI.updateMoney();
             missionGUI.updateProducts();
-            ClientSenderThread.getInstance().addToQueue(new StatusUpdateMessage(game.getMoney()));
+            ClientSenderThread.getInstance().addToQueue(new StatusUpdateMessage(game.getMoney(), game.getMission().getLevel()));
             if(game.isFinished()){
                 createPausePage();
                 System.out.println("level finished");

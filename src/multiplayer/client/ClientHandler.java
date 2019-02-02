@@ -99,6 +99,7 @@ public class ClientHandler implements Handler {
             Platform.runLater(() -> {
                 profileGUI.init(new VBox(),true);
                 profileGUI.addToRoot(client.getClientPageGUI().getPane());
+                profileGUI.addToRoot(client.getClientPageGUI().getLeaderboardGUIClient().getPossibleVBox());
                 profileGUI.getOkButton().setOnMouseClicked(e -> {
                     MainStage.getInstance().getSoundUI().playTrack("click");
                     profileGUI.removeFromRoot(client.getClientPageGUI().getPane());
@@ -108,6 +109,7 @@ public class ClientHandler implements Handler {
                 profileGUI.getOkButton().setOnMouseClicked(e -> {
                     MainStage.getInstance().getSoundUI().playTrack("click");
                     profileGUI.removeFromRoot(client.getClientPageGUI().getPane());
+                    profileGUI.removeFromRoot(client.getClientPageGUI().getLeaderboardGUIClient().getPossibleVBox());
                 });
             });
             System.out.println("showing the profile");

@@ -17,6 +17,7 @@ public class LeaderboardGUIClient {
     private LeaderboardTable leaderboardTable;
     // TODO: toggle visible on click.
     private ClientSenderThread senderThread = ClientSenderThread.getInstance();
+    private Pane possiblePane = new AnchorPane();
 
     public LeaderboardGUIClient(double width, double height) {
         pane = new AnchorPane();
@@ -55,5 +56,13 @@ public class LeaderboardGUIClient {
         vBox.getChildren().add(pane);
         vBox.setSpacing(10);
         vBox.setMargin(pane, new Insets(10, 10, 10, 10));
+    }
+
+    public Pane getPossibleVBox() {
+        return possiblePane;
+    }
+
+    public void setPossiblePane(Pane possiblePane) {
+        this.possiblePane = possiblePane;
     }
 }
