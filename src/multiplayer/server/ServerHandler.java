@@ -93,7 +93,7 @@ public class ServerHandler implements Handler {
         if (input instanceof ProfileRequestMessage) {
             try {
 
-                Player p  = Player.copyPlayer(server.getUserById(input.getSender()).getPlayer());
+                Player p  = Player.copyPlayer(server.getUserById(((ProfileRequestMessage) input).getId()).getPlayer());
                 ServerSenderThread.getInstance().addToQueue(new Packet(new ProfileReady(p), server.getUserById(((Message) input).getSender()).getObjectOutputStream()));
                 System.out.println(server.getUserById(input.getSender()).getPlayer().getMoney());
                 System.out.println("profile sent.");
