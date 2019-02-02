@@ -18,17 +18,16 @@ public class ChatGUI {
 
 
     private ListView messages = new ListView<Node>();
-    private LinkedList<ChatRoomGUI>  chatRoomGUIS;
     private Button newMessage = new Button("New");
     private VBox vBox;
     public ChatGUI() {
-        messages.setId("text");
+        messages.setEditable(false);
+//        messages.setId("text");
     }
 
     public void init(VBox vbox){
         this.vBox = vbox;
         vbox.getChildren().addAll(newMessage,messages);
-
     }
 
 
@@ -40,24 +39,27 @@ public class ChatGUI {
 
         Label label  = new Label();
         if(chatRoom.getReceiver() != null)
-            label.setText(chatRoom.getReceiver().getName());
+            label.setText(chatRoom.getReceiver().getId());
         else
             label.setText("Global Chat");
         label.setOnMouseClicked(event -> {
-            if(event.getClickCount() >= 2){
+            if (event.getClickCount() >= 2) {
                 MainStage.getInstance().getSoundUI().playTrack("click");
                 vBox.getChildren().clear();
                 chatRoom.getChatRoomGUI().init(vBox);
-                chatRoom.getChatRoomGUI().setOnMouseBack(event1 -> {
-                    MainStage.getInstance().getSoundUI().playTrack("click");
-                    vBox.getChildren().clear();
-                    init(vBox);
-                });
             }
         });
+        chatRoom.getChatRoomGUI().setOnMouseBack(event1 -> {
+            MainStage.getInstance().getSoundUI().playTrack("click");
+            chatRoom.getChatRoomGUI().getvBox().getChildren().clear();
+            init(chatRoom.getChatRoomGUI().getvBox());
+        });
+
         Platform.runLater(() -> {
+            System.out.println("added ....."+ label.getText() + "size " + String.valueOf(messages.getItems().size()));
             messages.getItems().add(label);
         });
+
     }
 
     public VBox getvBox() {

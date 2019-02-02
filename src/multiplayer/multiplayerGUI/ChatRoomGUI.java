@@ -107,7 +107,6 @@ public class ChatRoomGUI {
                     replyText.setText("");
                 }else {
                     chatRoom.sendMessage(null,textArea.getText());
-
                 }
                 textArea.setText("");
 

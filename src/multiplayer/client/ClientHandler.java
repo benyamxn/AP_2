@@ -49,10 +49,14 @@ public class ClientHandler implements Handler {
     public void handle(Message input) {
         if (input instanceof ChatMessage){
             if(((ChatMessage)input).isGlobal()){
+                System.out.println("isGlobal");
                 client.getChatRoomByReceiver(null).addMessage((ChatMessage)input);
             } else {
                 ChatRoom chatRoom ;
-                if((chatRoom = client.getChatRoomByReceiver(((ChatMessage) input).getSender())) == null){
+                if (input.getSender().getName().equals(client.getPlayer().getId())) {
+                    chatRoom = client.getChatRoomByReceiver(((ChatMessage) input).getReceiver());
+                }
+                else if((chatRoom = client.getChatRoomByReceiver(((ChatMessage) input).getSender())) == null){
                    chatRoom = new ChatRoom(true,input.getSender());
                    new ChatRoomGUI(chatRoom);
                    client.getChatRooms().add(chatRoom);

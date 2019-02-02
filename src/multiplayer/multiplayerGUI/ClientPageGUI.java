@@ -76,7 +76,6 @@ public class ClientPageGUI {
         chatGUI.init(vBox);
         chatPane.relocate(width / 2 , height * 0.1);
         pane.getChildren().add(chatPane);
-
         for (ChatRoom chatRoom : client.getChatRooms()) {
             new ChatRoomGUI(chatRoom);
             chatGUI.addChat(chatRoom);
@@ -134,11 +133,6 @@ public class ClientPageGUI {
                         client.getChatRooms().add(chatRoom);
                         ChatRoomGUI chatRoomGUI = new ChatRoomGUI(chatRoom);
                         chatGUI.addChat(chatRoom);
-                        chatRoomGUI.setOnMouseBack(event1 -> {
-                            chatRoomGUI.getvBox().getChildren().clear();
-                            chatGUI.init(chatRoomGUI.getvBox());
-                        });
-
                     }
                     onlineUserPage.getvBox().getChildren().clear();
                     chatRoom.getChatRoomGUI().init(onlineUserPage.getvBox());
