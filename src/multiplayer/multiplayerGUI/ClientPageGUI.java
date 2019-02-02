@@ -1,6 +1,6 @@
 package multiplayer.multiplayerGUI;
 
-import GUI.FarmGUI;
+import GUI.Hoverable;
 import GUI.MainStage;
 import controller.Controller;
 import javafx.application.Platform;
@@ -32,7 +32,10 @@ public class ClientPageGUI {
     private LeaderboardGUIClient leaderboardGUIClient;
     private AnchorPane pane = new AnchorPane();
     private ChatGUI chatGUI = new ChatGUI();
+    private FriendPageGUI friendPageGUI = new FriendPageGUI();
+    private FriendRequestPage friendRequestPage ;
     private OnlineUserPage onlineUserPage = new OnlineUserPage();
+    private VBox vBox = new VBox();
     public ClientPageGUI(Client client) {
         this.client = client;
         client.setClientPageGUI(this);
@@ -41,6 +44,7 @@ public class ClientPageGUI {
         createChatGUI();
         createButtons();
         MainStage.getInstance().pushStack(pane);
+        friendRequestPage = new FriendRequestPage(client.getCompactProfile());
     }
 
     @SuppressWarnings("Duplicates")
@@ -65,7 +69,6 @@ public class ClientPageGUI {
     }
 
     private void createChatGUI() {
-        VBox vBox = new VBox();
         AnchorPane chatPane = new AnchorPane();
         chatPane.setBottomAnchor(vBox,0.0);
         chatPane.setTopAnchor(vBox, 0.0);
@@ -92,13 +95,14 @@ public class ClientPageGUI {
 
     private void createButtons() {
         Button startGameButton = new Button("Start the game");
+        Hoverable.setMouseHandler(startGameButton);
         pane.getChildren().add(startGameButton);
         startGameButton.relocate(width * 0.8, height * 0.9);
         startGameButton.setOnMouseClicked(event -> {
             Controller c = new Controller();
             c.getGame().setMission(Mission.getMissions().get(0));
             try {
-                MultiplayerFarmGUI multiplayerFarmGUI = new MultiplayerFarmGUI(c);
+                MultiplayerFarmGUI multiplayerFarmGUI = new MultiplayerFarmGUI(c,vBox,this);
                 multiplayerFarmGUI.render();
                 ClientHandler.setFarmGUI(multiplayerFarmGUI);
             } catch (FileNotFoundException e) {
@@ -139,11 +143,33 @@ public class ClientPageGUI {
             });
             Platform.runLater(() -> {
                 onlineUserPage.getList().getItems().add(label);
+                Hoverable.setMouseHandler(label);
             });
         }
     }
 
+    public void addFriend(Player player){
+        client.getPlayer().addFriend(player);
+        Label label = new Label(player.getId());
+        label.setOnMouseClicked(event -> {
+            //TODO
+        });
+        friendPageGUI.addItem(label);
+    }
+
     public ChatGUI getChatGUI() {
         return chatGUI;
+    }
+
+    public FriendRequestPage getFriendRequestPage() {
+        return friendRequestPage;
+    }
+
+    public FriendPageGUI getFriendPageGUI() {
+        return friendPageGUI;
+    }
+
+    public OnlineUserPage getOnlineUserPage() {
+        return onlineUserPage;
     }
 }

@@ -14,7 +14,6 @@ import multiplayer.Handler;
 import multiplayer.Player;
 import multiplayer.RecieverThread;
 import multiplayer.multiplayerGUI.ChatRoomGUI;
-import multiplayer.multiplayerGUI.ClientPageGUI;
 import multiplayer.multiplayerGUI.HelicopterMenuTableMultiplayer;
 import multiplayer.multiplayerGUI.ProfileGUI;
 import multiplayer.multiplayerGUI.TruckMenuTableMultiplayer;
@@ -84,10 +83,10 @@ public class ClientHandler implements Handler {
             }
         }
         if(input instanceof FriendRequest){
-            //TODO friendRequest...
+            client.getClientPageGUI().getFriendRequestPage().addRequest(input.getSender());
         }
         if(input instanceof FriendAcceptRequest){
-            client.getPlayer().addFriend(((FriendAcceptRequest) input).getNewfriend());
+            client.getClientPageGUI().addFriend(((FriendAcceptRequest) input).getNewfriend());
         }
 
         if(input instanceof SendPreviousMessagesRequest){
@@ -98,8 +97,13 @@ public class ClientHandler implements Handler {
         if (input instanceof ProfileReady) {
             ProfileGUI profileGUI = new ProfileGUI(((ProfileReady) input).getPlayer());
             Platform.runLater(() -> {
-                profileGUI.init(new VBox());
+                profileGUI.init(new VBox(),true);
                 profileGUI.addToRoot(client.getClientPageGUI().getPane());
+                profileGUI.getOkButton().setOnMouseClicked(e -> {
+                    MainStage.getInstance().getSoundUI().playTrack("click");
+                    profileGUI.removeFromRoot(client.getClientPageGUI().getPane());
+                });
+
                 profileGUI.relocate(100, 100);
                 profileGUI.getOkButton().setOnMouseClicked(e -> {
                     MainStage.getInstance().getSoundUI().playTrack("click");

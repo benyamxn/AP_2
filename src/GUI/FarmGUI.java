@@ -197,6 +197,7 @@ public class FarmGUI {
                 anchorPane.getChildren().add(pauseRectangle);
                 gameMenuGUI.showExit();
             }
+
         }));
         gameUpdater.setRate(durationManager.getRate());
         gameUpdater.setCycleCount(Animation.INDEFINITE);

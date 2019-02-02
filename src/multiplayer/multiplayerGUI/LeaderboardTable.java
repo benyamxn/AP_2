@@ -42,7 +42,7 @@ public class LeaderboardTable {
                         ClientSenderThread.getInstance().addToQueue(new ProfileRequestMessage(rowData.getId()));
                     } else {
                         ProfileGUI profileGUI = new ProfileGUI(server.getUserById(row.getItem().getId()).getPlayer());
-                        profileGUI.init(new VBox());
+                        profileGUI.init(new VBox(),isServer);
                         profileGUI.addToRoot(server.getServerPageGUI().getPane());
                         profileGUI.relocate(100, 100);
                         profileGUI.getOkButton().setOnMouseClicked(e -> {

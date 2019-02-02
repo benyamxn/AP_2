@@ -32,7 +32,6 @@ public class Client {
 
     public Client(Player player, InetAddress ip, int localPort, int serverPort, InetAddress serverIp) throws IOException, UsedIdException {
 
-
         this.player = player;
         this.ip = ip;
         this.localPort = localPort;

@@ -1,5 +1,6 @@
 package multiplayer.multiplayerGUI;
 
+import GUI.Hoverable;
 import GUI.MainStage;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -22,7 +23,8 @@ public class ChatGUI {
     private VBox vBox;
     public ChatGUI() {
         messages.setEditable(false);
-//        messages.setId("text");
+        messages.setId("text");
+        Hoverable.setMouseHandler(newMessage);
     }
 
     public void init(VBox vbox){
@@ -54,6 +56,8 @@ public class ChatGUI {
             chatRoom.getChatRoomGUI().getvBox().getChildren().clear();
             init(chatRoom.getChatRoomGUI().getvBox());
         });
+
+        Hoverable.setMouseHandler(label);
 
         Platform.runLater(() -> {
             System.out.println("added ....."+ label.getText() + "size " + String.valueOf(messages.getItems().size()));

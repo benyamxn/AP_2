@@ -1,5 +1,6 @@
 package multiplayer.multiplayerGUI;
 
+import GUI.Hoverable;
 import GUI.MainStage;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
@@ -137,6 +138,7 @@ public class ServerPageGUI {
             });
 
             Platform.runLater(() -> {
+                Hoverable.setMouseHandler(label);
                 onlineUserPage.getList().getItems().add(label);
             });
         }
