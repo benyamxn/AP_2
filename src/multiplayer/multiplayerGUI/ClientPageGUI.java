@@ -36,6 +36,7 @@ public class ClientPageGUI {
     private FriendRequestPage friendRequestPage ;
     private OnlineUserPage onlineUserPage = new OnlineUserPage();
     private VBox vBox = new VBox();
+    private MultiplayerFarmGUI multiplayerFarmGUI ;
     public ClientPageGUI(Client client) {
         this.client = client;
         client.setClientPageGUI(this);
@@ -102,7 +103,7 @@ public class ClientPageGUI {
             Controller c = new Controller();
             c.getGame().setMission(Mission.getMissions().get(0));
             try {
-                MultiplayerFarmGUI multiplayerFarmGUI = new MultiplayerFarmGUI(c,vBox,this);
+                 multiplayerFarmGUI = new MultiplayerFarmGUI(c,vBox,this);
                 multiplayerFarmGUI.render();
                 ClientHandler.setFarmGUI(multiplayerFarmGUI);
             } catch (FileNotFoundException e) {
@@ -171,5 +172,9 @@ public class ClientPageGUI {
 
     public OnlineUserPage getOnlineUserPage() {
         return onlineUserPage;
+    }
+
+    public MultiplayerFarmGUI getMultiplayerFarmGUI() {
+        return multiplayerFarmGUI;
     }
 }

@@ -99,7 +99,9 @@ public class ClientHandler implements Handler {
             Platform.runLater(() -> {
                 profileGUI.init(new VBox(),true);
                 profileGUI.addToRoot(client.getClientPageGUI().getPane());
-                profileGUI.addToRoot(client.getClientPageGUI().getLeaderboardGUIClient().getPossibleVBox());
+                if(client.getClientPageGUI().getMultiplayerFarmGUI() != null ){
+                    profileGUI.addToRoot(client.getClientPageGUI().getLeaderboardGUIClient().getPossibleVBox());
+                }
                 profileGUI.getOkButton().setOnMouseClicked(e -> {
                     MainStage.getInstance().getSoundUI().playTrack("click");
                     profileGUI.removeFromRoot(client.getClientPageGUI().getPane());
