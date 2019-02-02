@@ -102,17 +102,19 @@ public class ClientHandler implements Handler {
                 if(client.getClientPageGUI().getMultiplayerFarmGUI() != null ){
                     profileGUI.addToRoot(client.getClientPageGUI().getLeaderboardGUIClient().getPossibleVBox());
                 }
-                profileGUI.getOkButton().setOnMouseClicked(e -> {
-                    MainStage.getInstance().getSoundUI().playTrack("click");
-                    profileGUI.removeFromRoot(client.getClientPageGUI().getPane());
-                });
 
-                profileGUI.relocate(100, 100);
+
                 profileGUI.getOkButton().setOnMouseClicked(e -> {
                     MainStage.getInstance().getSoundUI().playTrack("click");
                     profileGUI.removeFromRoot(client.getClientPageGUI().getPane());
-                    profileGUI.removeFromRoot(client.getClientPageGUI().getLeaderboardGUIClient().getPossibleVBox());
                 });
+                profileGUI.relocate(100, 100);
+                if(client.getClientPageGUI().getMultiplayerFarmGUI() != null ) {
+                    profileGUI.getOkButton().setOnMouseClicked(e -> {
+                        MainStage.getInstance().getSoundUI().playTrack("click");
+                        profileGUI.removeFromRoot(client.getClientPageGUI().getLeaderboardGUIClient().getPossibleVBox());
+                    });
+                }
             });
             System.out.println("showing the profile");
         }
