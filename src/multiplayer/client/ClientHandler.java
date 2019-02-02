@@ -69,6 +69,9 @@ public class ClientHandler implements Handler {
         }
         if (input instanceof LeaderboardStat) {
             try {
+                for (Player playersStatus : ((LeaderboardStat) input).getPlayersStatus()) {
+                    System.out.println(playersStatus.getMoney());
+                }
                 client.getClientPageGUI().getLeaderboardGUIClient().getLeaderboardTable().fillTableObservableList(((LeaderboardStat) input).getPlayersStatus());
                 client.getClientPageGUI().getLeaderboardGUIClient().getLeaderboardTable().update();
                 System.out.println("leaderboard updated.");

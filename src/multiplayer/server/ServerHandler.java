@@ -142,6 +142,15 @@ public class ServerHandler implements Handler {
                 e.printStackTrace();
             }
         }
+        if (input instanceof StatusUpdateMessage) {
+            server.getUserById(input.getSender()).getPlayer().setStat((((StatusUpdateMessage) input).getMoney()), ((StatusUpdateMessage) input).getLevel());
+            server.getServerPageGUI().getLeaderboardGUIServer().getLeaderboardTable().updatePlayer(server.getUserById(input.getSender()).getPlayer());
+            LeaderboardStat leaderboardStat = new LeaderboardStat(server.getPlayers());
+            ServerSenderThread.getInstance().addToQueue(new Packet(leaderboardStat, null));
+            for (Player playersStatus : leaderboardStat.getPlayersStatus()) {
+                System.out.println(playersStatus.getMoney());
+            }
+        }
     }
 
     public void sendChatMessage(ChatMessage message) {

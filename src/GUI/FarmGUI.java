@@ -191,7 +191,7 @@ public class FarmGUI {
             missionGUI.updateMoney();
             missionGUI.updateProducts();
             if(game.isFinished()){
-                System.out.println("salam");
+                System.out.println("level finished");
                 createPausePage();
                 pauseFarm();
                 anchorPane.getChildren().add(pauseRectangle);
@@ -202,8 +202,12 @@ public class FarmGUI {
         gameUpdater.setCycleCount(Animation.INDEFINITE);
         gameUpdater.play();
 
+        createGameSpeedSlider(durationManager);
+    }
+
+    protected void createGameSpeedSlider(DurationManager durationManager) {
         Slider gameSpeedSlider = new Slider(0.2, 10, gameUpdater.getRate());
-        gameSpeedSlider.valueProperty().addListener(new ChangeListener<> () {
+        gameSpeedSlider.valueProperty().addListener(new ChangeListener<>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 durationManager.setRate(newValue.doubleValue());

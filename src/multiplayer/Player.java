@@ -12,7 +12,7 @@ public class Player implements Serializable {
 
     private String name;
     private String id;
-    private List<Player> friends =   Collections.synchronizedList(new ArrayList<>());
+    private List<Player> friends = Collections.synchronizedList(new ArrayList<>());
     private int level = 1;
     private int money;
     private int numberOfExchanges = 0;
@@ -72,4 +72,20 @@ public class Player implements Serializable {
         return friends.size();
     }
 
+    public void setMoney(int money) {
+        if (money != -1) {
+            this.money = money;
+        }
+    }
+
+    public void setLevel(int level) {
+        if (level != -1) {
+            this.level = level;
+        }
+    }
+
+    public void setStat(int money, int level) {
+        setMoney(money);
+        setLevel(level);
+    }
 }
