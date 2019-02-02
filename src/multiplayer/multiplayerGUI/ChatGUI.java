@@ -65,4 +65,8 @@ public class ChatGUI {
     public VBox getvBox() {
         return vBox;
     }
+
+    public ListView getMessages() {
+        return messages;
+    }
 }

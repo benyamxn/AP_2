@@ -66,7 +66,6 @@ public class ClientPageGUI {
 
     private void createChatGUI() {
         VBox vBox = new VBox();
-        ChatGUI chatGUI  = new ChatGUI();
         AnchorPane chatPane = new AnchorPane();
         chatPane.setBottomAnchor(vBox,0.0);
         chatPane.setTopAnchor(vBox, 0.0);
