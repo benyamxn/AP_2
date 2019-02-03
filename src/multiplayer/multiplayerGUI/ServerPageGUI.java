@@ -29,7 +29,7 @@ public class ServerPageGUI {
     private double height = MainStage.getInstance().getHeight();
     private LeaderboardGUIServer leaderboardGUIServer;
     private AnchorPane pane = new AnchorPane();
-    public   ChatGUI chatGUI;
+    public  ChatGUI chatGUI;
     private OnlineUserPage onlineUserPage = new OnlineUserPage();
     private ShopGUI shopGUI;
     public ServerPageGUI(Server server) {
@@ -89,8 +89,6 @@ public class ServerPageGUI {
             update(server.getPlayers());
             onlineUserPage.init(chatGUI.getvBox());
         });
-
-
     }
 
 
