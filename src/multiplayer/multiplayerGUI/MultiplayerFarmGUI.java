@@ -114,7 +114,7 @@ public class MultiplayerFarmGUI extends FarmGUI {
 
     public void initMenu(){
         menuBox.getChildren().clear();
-        Button myFriend = new Button ("myFriend");
+        Button myFriend = new Button ("My Friends");
         Button chats = new Button("Chats");
         Button leaderBoard = new Button("LeaderBoard");
         Button request = new Button ("Request Page");

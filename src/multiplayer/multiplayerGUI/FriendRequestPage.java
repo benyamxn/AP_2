@@ -2,6 +2,7 @@ package multiplayer.multiplayerGUI;
 
 import GUI.Hoverable;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,6 +31,7 @@ public class FriendRequestPage {
 
     public void init(VBox vBox) {
         this.vBox = vBox;
+
         vBox.getChildren().add(list);
     }
 
@@ -50,6 +52,10 @@ public class FriendRequestPage {
             list.refresh();
         });
         Label name  = new Label(compactProfile.getId());
+
+        HBox.setMargin(name,new Insets(0,0,0,0));
+        HBox.setMargin(accept,new Insets(0,0,0,10));
+        HBox.setMargin(decline,new Insets(0,0,0,10));
         hBox.getChildren().addAll(name,accept,decline);
         Platform.runLater(()->{
             list.getItems().add(hBox);
@@ -57,5 +63,7 @@ public class FriendRequestPage {
         Hoverable.setMouseHandler(accept);
         Hoverable.setMouseHandler(decline);
     }
+
+
 
 }

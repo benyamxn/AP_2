@@ -95,7 +95,7 @@ public class ClientPageGUI {
     }
 
     private void createButtons() {
-        Button startGameButton = new Button("Start the game");
+        Button startGameButton = new Button("Start");
         Hoverable.setMouseHandler(startGameButton);
         pane.getChildren().add(startGameButton);
         startGameButton.relocate(width * 0.8, height * 0.9);

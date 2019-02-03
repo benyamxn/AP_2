@@ -50,7 +50,7 @@ public class ClientHandler implements Handler {
                 client.getChatRoomByReceiver(null).addMessage((ChatMessage)input);
             } else {
                 ChatRoom chatRoom ;
-                if (input.getSender().getName().equals(client.getPlayer().getId())) {
+                if (input.getSender().getId().equals(client.getPlayer().getId())) {
                     chatRoom = client.getChatRoomByReceiver(((ChatMessage) input).getReceiver());
                 }
                 else if((chatRoom = client.getChatRoomByReceiver(((ChatMessage) input).getSender())) == null){
