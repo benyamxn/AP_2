@@ -34,6 +34,7 @@ public class MultiplayerFarmGUI extends FarmGUI {
         this.menuBox = vBox;
         this.clientPageGUI = clientPageGUI;
         createMultiPlayerMenu();
+        Hoverable.setMouseHandler(back);
     }
 
     @Override
@@ -96,6 +97,7 @@ public class MultiplayerFarmGUI extends FarmGUI {
         buttons.getChildren().addAll(multiPlayer,back);
 
         multiPlayer.setOnMouseClicked(event -> {
+            MainStage.getInstance().getSoundUI().playTrack("click");
             if (!menuBox.isVisible()) {
                 menuBox.setVisible(true);
                 initMenu();
@@ -120,37 +122,45 @@ public class MultiplayerFarmGUI extends FarmGUI {
         Hoverable.setMouseHandler(leaderBoard);
         Hoverable.setMouseHandler(chats);
         myFriend.setOnMouseClicked(event -> {
+            FarmGUI.getSoundPlayer().playTrack("click");
             menuBox.getChildren().clear();
             clientPageGUI.getFriendPageGUI().init(menuBox);
             back.setVisible(true);
             back.setOnMouseClicked(event1 -> {
+                FarmGUI.getSoundPlayer().playTrack("click");
                 initMenu();
             });
         });
         chats.setOnMouseClicked(event -> {
+            FarmGUI.getSoundPlayer().playTrack("click");
             menuBox.getChildren().clear();
             clientPageGUI.getChatGUI().init(menuBox);
             back.setVisible(true);
             back.setOnMouseClicked(event1 -> {
+                FarmGUI.getSoundPlayer().playTrack("click");
                 initMenu();
             });
         });
         request.setOnMouseClicked(event -> {
+            FarmGUI.getSoundPlayer().playTrack("click");
             menuBox.getChildren().clear();
             clientPageGUI.getFriendRequestPage().init(menuBox);
             back.setVisible(true);
             back.setOnMouseClicked(event1 -> {
+                FarmGUI.getSoundPlayer().playTrack("click");
                 initMenu();
             });
         });
         Hoverable.setMouseHandler(request);
 
         leaderBoard.setOnMouseClicked(event -> {
+            FarmGUI.getSoundPlayer().playTrack("click");
             menuBox.getChildren().clear();
             clientPageGUI.getLeaderboardGUIClient().useVBox(menuBox);
             clientPageGUI.getLeaderboardGUIClient().setPossiblePane(anchorPane);
             back.setVisible(true);
             back.setOnMouseClicked(event1 -> {
+                FarmGUI.getSoundPlayer().playTrack("click");
                 initMenu();
             });
         });
